@@ -60,6 +60,13 @@ class _BasicDragDropDemoState extends State<BasicDragDropDemo> {
     _addEvent('Dropped ${placement.widgetName} at (${placement.column}, ${placement.row})');
   }
 
+  void _onWidgetMoved(String widgetId, WidgetPlacement newPlacement) {
+    setState(() {
+      _layoutState = _layoutState.updateWidget(widgetId, newPlacement);
+    });
+    _addEvent('Moved $widgetId to (${newPlacement.column}, ${newPlacement.row})');
+  }
+
   void _onWidgetTap(String widgetId) {
     setState(() {
       _selectedWidgetId = _selectedWidgetId == widgetId ? null : widgetId;
@@ -242,6 +249,7 @@ class _BasicDragDropDemoState extends State<BasicDragDropDemo> {
                         selectedWidgetId: _selectedWidgetId,
                         onWidgetTap: _onWidgetTap,
                         onWidgetDropped: _onWidgetDropped,
+                        onWidgetMoved: _onWidgetMoved,
                       ),
                     ),
                   ),
@@ -274,6 +282,7 @@ class _BasicDragDropDemoState extends State<BasicDragDropDemo> {
                           const Text('4. Red highlights = invalid placement'),
                           const Text('5. Release to drop the widget'),
                           const Text('6. Tap widgets to select them'),
+                          const Text('7. Drag existing widgets to move them'),
                           const SizedBox(height: 8),
                           Text(
                             'Widgets: ${_layoutState.widgets.length}',
@@ -485,6 +494,11 @@ class _ComplexLayoutDemoState extends State<ComplexLayoutDemo> {
                             });
                           }
                         },
+                        onWidgetMoved: (widgetId, newPlacement) {
+                          setState(() {
+                            _layoutState = _layoutState.updateWidget(widgetId, newPlacement);
+                          });
+                        },
                       ),
                     ),
                   ),
@@ -632,6 +646,11 @@ class _ValidationDemoState extends State<ValidationDemo> {
                               _layoutState = _layoutState.addWidget(placement);
                             });
                           }
+                        },
+                        onWidgetMoved: (widgetId, newPlacement) {
+                          setState(() {
+                            _layoutState = _layoutState.updateWidget(widgetId, newPlacement);
+                          });
                         },
                       ),
                     ),

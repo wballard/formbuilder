@@ -31,6 +31,18 @@ class GridContainer extends StatelessWidget {
   
   /// Callback when a widget is tapped
   final void Function(String widgetId)? onWidgetTap;
+  
+  /// Whether widgets can be dragged
+  final bool canDragWidgets;
+  
+  /// Callback when a widget drag starts
+  final void Function(WidgetPlacement)? onWidgetDragStarted;
+  
+  /// Callback when a widget drag ends
+  final VoidCallback? onWidgetDragEnd;
+  
+  /// Callback when a widget drag is completed
+  final void Function(DraggableDetails)? onWidgetDragCompleted;
 
   const GridContainer({
     super.key,
@@ -42,6 +54,10 @@ class GridContainer extends StatelessWidget {
     this.highlightColor,
     this.isCellValid,
     this.onWidgetTap,
+    this.canDragWidgets = true,
+    this.onWidgetDragStarted,
+    this.onWidgetDragEnd,
+    this.onWidgetDragCompleted,
   });
 
   @override
@@ -101,7 +117,11 @@ class GridContainer extends StatelessWidget {
         placement: placement,
         isSelected: selectedWidgetId == placement.id,
         isDragging: draggingWidgetIds.contains(placement.id),
+        canDrag: canDragWidgets,
         onTap: onWidgetTap != null ? () => onWidgetTap!(placement.id) : null,
+        onDragStarted: onWidgetDragStarted,
+        onDragEnd: onWidgetDragEnd,
+        onDragCompleted: onWidgetDragCompleted,
         child: child,
       ).inGridArea(_getAreaName(placement));
     }).toList();
