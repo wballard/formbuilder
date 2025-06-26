@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
 import 'package:formbuilder/form_layout/widgets/resize_handle.dart';
+import 'package:formbuilder/form_layout/intents/form_layout_intents.dart';
 
 /// A widget that renders a placed widget on the grid with interaction states
 class PlacedWidget extends StatefulWidget {
@@ -302,7 +303,12 @@ class _PlacedWidgetState extends State<PlacedWidget>
         child: Tooltip(
           message: 'Delete widget',
           child: InkWell(
-            onTap: widget.onDelete,
+            onTap: () {
+              Actions.maybeInvoke<RemoveWidgetIntent>(
+                context, 
+                RemoveWidgetIntent(widgetId: widget.placement.id),
+              );
+            },
             borderRadius: BorderRadius.circular(12),
             child: Container(
               width: 24,

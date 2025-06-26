@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:formbuilder/form_layout/hooks/use_form_layout.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
+import 'package:formbuilder/form_layout/intents/form_layout_intents.dart';
+import 'dart:math';
 
 /// Widget that handles keyboard navigation and shortcuts for the form builder
 class KeyboardHandler extends StatefulWidget {
@@ -112,10 +114,16 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
       case LogicalKeyboardKey.escape:
         // If in preview mode, exit preview mode
         if (widget.controller.isPreviewMode) {
-          widget.controller.setPreviewMode(false);
+          Actions.maybeInvoke<TogglePreviewModeIntent>(
+            context,
+            const TogglePreviewModeIntent(),
+          );
         } else {
           // Otherwise, deselect widget
-          widget.controller.selectWidget(null);
+          Actions.maybeInvoke<SelectWidgetIntent>(
+            context,
+            const SelectWidgetIntent(widgetId: null),
+          );
         }
         return true;
 
@@ -141,7 +149,10 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
         event.logicalKey == LogicalKeyboardKey.backspace) {
       final selectedId = widget.controller.selectedWidgetId;
       if (selectedId != null) {
-        widget.controller.removeWidget(selectedId);
+        Actions.maybeInvoke<RemoveWidgetIntent>(
+          context,
+          RemoveWidgetIntent(widgetId: selectedId),
+        );
       }
       return true;
     }
@@ -152,34 +163,46 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
       case LogicalKeyboardKey.keyZ:
         if (isShiftPressed) {
           // Ctrl/Cmd+Shift+Z = Redo
-          widget.controller.redo();
+          Actions.maybeInvoke<RedoIntent>(context, const RedoIntent());
         } else {
           // Ctrl/Cmd+Z = Undo
-          widget.controller.undo();
+          Actions.maybeInvoke<UndoIntent>(context, const UndoIntent());
         }
         return true;
 
       case LogicalKeyboardKey.keyY:
         // Ctrl/Cmd+Y = Redo (Windows/Linux convention)
-        widget.controller.redo();
+        Actions.maybeInvoke<RedoIntent>(context, const RedoIntent());
         return true;
 
       case LogicalKeyboardKey.keyD:
         // Ctrl/Cmd+D = Duplicate
-        _duplicateSelectedWidget();
+        final selectedId = widget.controller.selectedWidgetId;
+        if (selectedId != null) {
+          Actions.maybeInvoke<DuplicateWidgetIntent>(
+            context,
+            DuplicateWidgetIntent(widgetId: selectedId),
+          );
+        }
         return true;
 
       case LogicalKeyboardKey.keyA:
         // Ctrl/Cmd+A = Select all (future feature)
         // For now, just select the first widget
         if (widget.controller.state.widgets.isNotEmpty) {
-          widget.controller.selectWidget(widget.controller.state.widgets.first.id);
+          Actions.maybeInvoke<SelectWidgetIntent>(
+            context,
+            SelectWidgetIntent(widgetId: widget.controller.state.widgets.first.id),
+          );
         }
         return true;
 
       case LogicalKeyboardKey.keyP:
         // Ctrl/Cmd+P = Toggle preview mode
-        widget.controller.togglePreviewMode();
+        Actions.maybeInvoke<TogglePreviewModeIntent>(
+          context,
+          const TogglePreviewModeIntent(),
+        );
         return true;
 
       default:
@@ -238,18 +261,27 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
 
     final currentId = widget.controller.selectedWidgetId;
     if (currentId == null) {
-      widget.controller.selectWidget(widgets.first.id);
+      Actions.maybeInvoke<SelectWidgetIntent>(
+        context,
+        SelectWidgetIntent(widgetId: widgets.first.id),
+      );
       return;
     }
 
     final currentIndex = widgets.indexWhere((w) => w.id == currentId);
     if (currentIndex == -1) {
-      widget.controller.selectWidget(widgets.first.id);
+      Actions.maybeInvoke<SelectWidgetIntent>(
+        context,
+        SelectWidgetIntent(widgetId: widgets.first.id),
+      );
       return;
     }
 
     final nextIndex = (currentIndex + 1) % widgets.length;
-    widget.controller.selectWidget(widgets[nextIndex].id);
+    Actions.maybeInvoke<SelectWidgetIntent>(
+      context,
+      SelectWidgetIntent(widgetId: widgets[nextIndex].id),
+    );
   }
 
   void _selectPreviousWidget() {
@@ -258,18 +290,27 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
 
     final currentId = widget.controller.selectedWidgetId;
     if (currentId == null) {
-      widget.controller.selectWidget(widgets.last.id);
+      Actions.maybeInvoke<SelectWidgetIntent>(
+        context,
+        SelectWidgetIntent(widgetId: widgets.last.id),
+      );
       return;
     }
 
     final currentIndex = widgets.indexWhere((w) => w.id == currentId);
     if (currentIndex == -1) {
-      widget.controller.selectWidget(widgets.last.id);
+      Actions.maybeInvoke<SelectWidgetIntent>(
+        context,
+        SelectWidgetIntent(widgetId: widgets.last.id),
+      );
       return;
     }
 
     final previousIndex = currentIndex == 0 ? widgets.length - 1 : currentIndex - 1;
-    widget.controller.selectWidget(widgets[previousIndex].id);
+    Actions.maybeInvoke<SelectWidgetIntent>(
+      context,
+      SelectWidgetIntent(widgetId: widgets[previousIndex].id),
+    );
   }
 
   void _navigateWithArrows(LogicalKeyboardKey key) {
@@ -277,7 +318,10 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
     if (currentId == null) {
       // No selection, select first widget
       if (widget.controller.state.widgets.isNotEmpty) {
-        widget.controller.selectWidget(widget.controller.state.widgets.first.id);
+        Actions.maybeInvoke<SelectWidgetIntent>(
+          context,
+          SelectWidgetIntent(widgetId: widget.controller.state.widgets.first.id),
+        );
       }
       return;
     }
@@ -319,7 +363,10 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
     }
 
     if (targetWidget != null) {
-      widget.controller.selectWidget(targetWidget.id);
+      Actions.maybeInvoke<SelectWidgetIntent>(
+        context,
+        SelectWidgetIntent(widgetId: targetWidget.id),
+      );
     }
   }
 
@@ -330,12 +377,13 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
         widget.controller.state.dimensions.rows - placement.height).toInt();
 
     if (newColumn != placement.column || newRow != placement.row) {
-      try {
-        widget.controller.moveWidget(placement.id, newColumn, newRow);
-      } catch (e) {
-        // Move failed (likely overlap), ignore
-        debugPrint('Move failed: $e');
-      }
+      Actions.maybeInvoke<MoveWidgetIntent>(
+        context,
+        MoveWidgetIntent(
+          widgetId: placement.id,
+          newPosition: Point(newColumn, newRow),
+        ),
+      );
     }
   }
 
@@ -356,64 +404,13 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
     }
 
     if (newWidth != placement.width || newHeight != placement.height) {
-      try {
-        widget.controller.resizeWidget(placement.id, newWidth, newHeight);
-      } catch (e) {
-        // Resize failed (likely overlap), ignore
-        debugPrint('Resize failed: $e');
-      }
+      Actions.maybeInvoke<ResizeWidgetIntent>(
+        context,
+        ResizeWidgetIntent(
+          widgetId: placement.id,
+          newSize: Size(newWidth.toDouble(), newHeight.toDouble()),
+        ),
+      );
     }
-  }
-
-  void _duplicateSelectedWidget() {
-    final selectedId = widget.controller.selectedWidgetId;
-    if (selectedId == null) return;
-
-    final selectedWidget = widget.controller.state.getWidget(selectedId);
-    if (selectedWidget == null) return;
-
-    // Try to place the duplicate next to the original
-    final gridDimensions = widget.controller.state.dimensions;
-    
-    // Try different positions around the original widget
-    final positions = [
-      // Right of original
-      (selectedWidget.column + selectedWidget.width, selectedWidget.row),
-      // Below original
-      (selectedWidget.column, selectedWidget.row + selectedWidget.height),
-      // Left of original
-      (selectedWidget.column - selectedWidget.width, selectedWidget.row),
-      // Above original
-      (selectedWidget.column, selectedWidget.row - selectedWidget.height),
-    ];
-
-    for (final (newColumn, newRow) in positions) {
-      if (newColumn >= 0 && 
-          newRow >= 0 && 
-          newColumn + selectedWidget.width <= gridDimensions.columns &&
-          newRow + selectedWidget.height <= gridDimensions.rows) {
-        
-        final duplicateWidget = WidgetPlacement(
-          id: '${selectedWidget.id}_copy_${DateTime.now().millisecondsSinceEpoch}',
-          widgetName: selectedWidget.widgetName,
-          column: newColumn,
-          row: newRow,
-          width: selectedWidget.width,
-          height: selectedWidget.height,
-        );
-
-        try {
-          widget.controller.addWidget(duplicateWidget);
-          widget.controller.selectWidget(duplicateWidget.id);
-          return;
-        } catch (e) {
-          // This position didn't work, try the next one
-          continue;
-        }
-      }
-    }
-
-    // If no position worked, just show a debug message
-    debugPrint('Could not find a valid position to duplicate widget');
   }
 }

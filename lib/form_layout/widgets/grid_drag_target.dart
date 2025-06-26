@@ -7,6 +7,7 @@ import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
 import 'package:formbuilder/form_layout/models/toolbox_item.dart';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
+import 'package:formbuilder/form_layout/intents/form_layout_intents.dart';
 import 'dart:math';
 
 /// A widget that wraps GridContainer with drag and drop functionality
@@ -365,13 +366,15 @@ class _GridDragTargetState extends State<GridDragTarget> {
   /// Handle keyboard events for widget deletion
   KeyEventResult _handleKeyEvent(FocusNode node, KeyEvent event) {
     if (event is KeyDownEvent && 
-        widget.selectedWidgetId != null && 
-        widget.onWidgetDelete != null) {
+        widget.selectedWidgetId != null) {
       final isDeleteKey = event.logicalKey == LogicalKeyboardKey.delete ||
                          event.logicalKey == LogicalKeyboardKey.backspace;
       
       if (isDeleteKey) {
-        widget.onWidgetDelete!(widget.selectedWidgetId!);
+        Actions.maybeInvoke<RemoveWidgetIntent>(
+          context,
+          RemoveWidgetIntent(widgetId: widget.selectedWidgetId!),
+        );
         return KeyEventResult.handled;
       }
     }
@@ -419,14 +422,16 @@ class _GridDragTargetState extends State<GridDragTarget> {
             return _isValidDrop;
           },
           onAcceptWithDetails: (details) {
-            if (widget.onWidgetMoved != null && _currentDragPosition != null) {
+            if (_currentDragPosition != null) {
               final gridCoords = _getGridCoordinates(_currentDragPosition!);
               if (gridCoords != null) {
-                final newPlacement = details.data.copyWith(
-                  column: gridCoords.x,
-                  row: gridCoords.y,
+                Actions.maybeInvoke<MoveWidgetIntent>(
+                  context,
+                  MoveWidgetIntent(
+                    widgetId: details.data.id,
+                    newPosition: Point(gridCoords.x, gridCoords.y),
+                  ),
                 );
-                widget.onWidgetMoved!(details.data.id, newPlacement);
               }
             }
             
@@ -460,8 +465,17 @@ class _GridDragTargetState extends State<GridDragTarget> {
             return _isValidDrop;
           },
           onAcceptWithDetails: (details) {
-            if (widget.onWidgetResize != null && _resizePreview != null) {
-              widget.onWidgetResize!(details.data.widgetId, _resizePreview!);
+            if (_resizePreview != null) {
+              Actions.maybeInvoke<ResizeWidgetIntent>(
+                context,
+                ResizeWidgetIntent(
+                  widgetId: details.data.widgetId,
+                  newSize: Size(
+                    _resizePreview!.width.toDouble(),
+                    _resizePreview!.height.toDouble(),
+                  ),
+                ),
+              );
             }
             
             // Clear highlights after drop
@@ -498,18 +512,16 @@ class _GridDragTargetState extends State<GridDragTarget> {
             return _isValidDrop;
           },
           onAcceptWithDetails: (details) {
-            if (widget.onWidgetDropped != null && _currentDragPosition != null) {
+            if (_currentDragPosition != null) {
               final gridCoords = _getGridCoordinates(_currentDragPosition!);
               if (gridCoords != null) {
-                final placement = WidgetPlacement(
-                  id: 'dropped_${DateTime.now().millisecondsSinceEpoch}',
-                  widgetName: details.data.name,
-                  column: gridCoords.x,
-                  row: gridCoords.y,
-                  width: details.data.defaultWidth,
-                  height: details.data.defaultHeight,
+                Actions.maybeInvoke<AddWidgetIntent>(
+                  context,
+                  AddWidgetIntent(
+                    item: details.data,
+                    position: Point(gridCoords.x, gridCoords.y),
+                  ),
                 );
-                widget.onWidgetDropped!(placement);
               }
             }
             
