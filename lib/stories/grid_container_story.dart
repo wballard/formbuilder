@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 import 'package:formbuilder/form_layout/widgets/grid_container.dart';
+import 'package:formbuilder/form_layout/widgets/grid_widget.dart';
 import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
@@ -124,7 +125,7 @@ class InteractiveGridContainerDemo extends StatefulWidget {
 
 class _InteractiveGridContainerDemoState extends State<InteractiveGridContainerDemo> {
   String? _selectedWidgetId;
-  Set<String> _draggingWidgetIds = {};
+  final Set<String> _draggingWidgetIds = {};
   Set<Point<int>>? _highlightedCells;
   
   late LayoutState _layoutState;
@@ -296,7 +297,7 @@ class _InteractiveGridContainerDemoState extends State<InteractiveGridContainerD
                             });
                           },
                         );
-                      }).toList(),
+                      }),
                       
                       const SizedBox(height: 16),
                       ElevatedButton(
@@ -411,16 +412,16 @@ class GridContainerSizesDemo extends StatelessWidget {
           widgetName: 'Widget',
           column: 0,
           row: 0,
-          width: math.min(2, columns),
+          width: min(2, columns),
           height: 1,
         ),
         if (columns > 2)
           WidgetPlacement(
             id: 'widget2',
             widgetName: 'Widget',
-            column: math.min(2, columns - 2),
-            row: math.min(1, rows - 1),
-            width: math.min(2, columns - 2),
+            column: min(2, columns - 2),
+            row: min(1, rows - 1),
+            width: min(2, columns - 2),
             height: 1,
           ),
       ],

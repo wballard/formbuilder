@@ -214,7 +214,6 @@ void main() {
       expect(find.byType(PlacedWidget), findsNWidgets(2));
       
       // Update with new layout state
-      const newDimensions = GridDimensions(columns: 4, rows: 4);
       final newPlacement = WidgetPlacement(
         id: 'widget3',
         widgetName: 'TextInput',
@@ -263,6 +262,11 @@ void main() {
       // Find the GridWidget and check validation function was passed
       final gridWidget = tester.widget<GridWidget>(find.byType(GridWidget));
       expect(gridWidget.isCellValid, equals(isCellValid));
+      
+      // Verify the validation function can be called
+      expect(isCellValid(const Point(0, 0)), isFalse);
+      expect(isCellValid(const Point(1, 0)), isTrue);
+      expect(validationCalled, isTrue);
     });
 
     testWidgets('handles multiple selected and dragging widgets', (WidgetTester tester) async {

@@ -812,7 +812,7 @@ class ToolboxItemDemo extends StatelessWidget {
                             ],
                           ),
                         );
-                      }).toList(),
+                      }),
                     ],
                   ),
                 ),

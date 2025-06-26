@@ -75,7 +75,6 @@ class InteractiveGridDemo extends StatelessWidget {
       initial: 4,
       min: 1,
       max: 12,
-      divisions: 11,
     ).toInt();
     
     final rows = context.knobs.slider(
@@ -83,7 +82,6 @@ class InteractiveGridDemo extends StatelessWidget {
       initial: 4,
       min: 1,
       max: 10,
-      divisions: 9,
     ).toInt();
     
     final gridLineWidth = context.knobs.slider(
@@ -91,7 +89,6 @@ class InteractiveGridDemo extends StatelessWidget {
       initial: 1.0,
       min: 0.5,
       max: 5.0,
-      divisions: 9,
     );
     
     final useCustomColors = context.knobs.boolean(

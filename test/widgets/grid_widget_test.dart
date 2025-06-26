@@ -254,14 +254,12 @@ void main() {
 
     group('getCellsInRectangle', () {
       test('calculates cells for single cell', () {
-        const dimensions = GridDimensions(columns: 5, rows: 5);
         final cells = GridWidget.getCellsInRectangle(2, 2, 1, 1);
         
         expect(cells, equals({const Point(2, 2)}));
       });
 
       test('calculates cells for 2x2 rectangle', () {
-        const dimensions = GridDimensions(columns: 5, rows: 5);
         final cells = GridWidget.getCellsInRectangle(1, 1, 2, 2);
         
         expect(cells, equals({
@@ -273,7 +271,6 @@ void main() {
       });
 
       test('calculates cells for wide rectangle', () {
-        const dimensions = GridDimensions(columns: 5, rows: 5);
         final cells = GridWidget.getCellsInRectangle(0, 2, 4, 1);
         
         expect(cells, equals({
@@ -285,7 +282,6 @@ void main() {
       });
 
       test('calculates cells for tall rectangle', () {
-        const dimensions = GridDimensions(columns: 5, rows: 5);
         final cells = GridWidget.getCellsInRectangle(2, 0, 1, 3);
         
         expect(cells, equals({
@@ -296,7 +292,6 @@ void main() {
       });
 
       test('calculates cells starting at origin', () {
-        const dimensions = GridDimensions(columns: 3, rows: 3);
         final cells = GridWidget.getCellsInRectangle(0, 0, 2, 2);
         
         expect(cells, equals({
