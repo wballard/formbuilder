@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
+import 'package:formbuilder/form_layout/models/animation_settings.dart';
 import 'package:formbuilder/form_layout/widgets/resize_handle.dart';
+import 'package:formbuilder/form_layout/widgets/animated_drag_feedback.dart';
 import 'package:formbuilder/form_layout/intents/form_layout_intents.dart';
 
 /// A widget that renders a placed widget on the grid with interaction states
@@ -343,12 +345,16 @@ class DraggingPlacedWidget extends StatelessWidget {
   
   /// Padding around the content
   final EdgeInsets contentPadding;
+  
+  /// Animation settings
+  final AnimationSettings animationSettings;
 
   const DraggingPlacedWidget({
     super.key,
     required this.placement,
     required this.child,
     this.contentPadding = const EdgeInsets.all(8),
+    this.animationSettings = const AnimationSettings(),
   });
 
   @override
@@ -373,12 +379,11 @@ class DraggingPlacedWidget extends StatelessWidget {
       ),
     );
     
-    // Apply semi-transparent effect
-    content = Opacity(
+    // Wrap with animated drag feedback
+    return AnimatedDragFeedback(
+      animationSettings: animationSettings,
       opacity: 0.7,
       child: content,
     );
-    
-    return content;
   }
 }

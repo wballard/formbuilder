@@ -3,10 +3,12 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/toolbox.dart';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
+import 'package:formbuilder/form_layout/models/animation_settings.dart';
 import 'package:formbuilder/form_layout/widgets/categorized_toolbox_widget.dart';
 import 'package:formbuilder/form_layout/widgets/grid_drag_target.dart';
 import 'package:formbuilder/form_layout/widgets/keyboard_handler.dart';
 import 'package:formbuilder/form_layout/widgets/form_layout_action_dispatcher.dart';
+import 'package:formbuilder/form_layout/widgets/animated_mode_switcher.dart';
 import 'package:formbuilder/form_layout/hooks/use_form_layout.dart';
 
 /// The main FormLayout widget that provides a complete form building interface
@@ -40,6 +42,9 @@ class FormLayout extends HookWidget {
   
   /// Custom theme for the form layout
   final ThemeData? theme;
+  
+  /// Animation settings for the form layout
+  final AnimationSettings? animationSettings;
 
   const FormLayout({
     super.key,
@@ -53,10 +58,15 @@ class FormLayout extends HookWidget {
     this.enableUndo = true,
     this.undoLimit = 50,
     this.theme,
+    this.animationSettings,
   });
 
   @override
   Widget build(BuildContext context) {
+    // Get animation settings, respecting accessibility preferences
+    final effectiveAnimationSettings = animationSettings ?? 
+        AnimationSettings.fromMediaQuery(context);
+    
     // Initialize the form layout controller
     final controller = useFormLayout(
       initialLayout ?? LayoutState(
@@ -95,6 +105,7 @@ class FormLayout extends HookWidget {
           context,
           controller,
           effectivePosition,
+          effectiveAnimationSettings,
         ),
       ),
     );
@@ -114,25 +125,45 @@ class FormLayout extends HookWidget {
     BuildContext context,
     FormLayoutController controller,
     Axis position,
+    AnimationSettings animationSettings,
   ) {
     final toolboxWidget = showToolbox
         ? CategorizedToolboxWidget(
             toolbox: toolbox,
             scrollDirection: position,
+            animationSettings: animationSettings,
           )
         : null;
 
     final gridWidget = Expanded(
       child: Column(
         children: [
-          _buildToolbar(context, controller),
+          AnimatedToolbar(
+            isVisible: !controller.isPreviewMode,
+            animationSettings: animationSettings,
+            slideFrom: AxisDirection.up,
+            child: _buildToolbar(context, controller),
+          ),
           Expanded(
-            child: GridDragTarget(
-              layoutState: controller.state,
-              widgetBuilders: _getWidgetBuilders(toolbox),
-              toolbox: CategorizedToolbox(categories: toolbox.categories).toSimpleToolbox(),
-              selectedWidgetId: controller.selectedWidgetId,
-              onWidgetTap: (id) => controller.selectWidget(id),
+            child: AnimatedModeSwitcher(
+              isPreviewMode: controller.isPreviewMode,
+              animationSettings: animationSettings,
+              editChild: GridDragTarget(
+                layoutState: controller.state,
+                widgetBuilders: _getWidgetBuilders(toolbox),
+                toolbox: CategorizedToolbox(categories: toolbox.categories).toSimpleToolbox(),
+                selectedWidgetId: controller.selectedWidgetId,
+                onWidgetTap: (id) => controller.selectWidget(id),
+                animationSettings: animationSettings,
+              ),
+              previewChild: GridDragTarget(
+                layoutState: controller.state,
+                widgetBuilders: _getWidgetBuilders(toolbox),
+                toolbox: CategorizedToolbox(categories: toolbox.categories).toSimpleToolbox(),
+                selectedWidgetId: null,
+                onWidgetTap: null,
+                animationSettings: animationSettings,
+              ),
             ),
           ),
         ],

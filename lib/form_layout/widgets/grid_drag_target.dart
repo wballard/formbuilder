@@ -3,10 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:formbuilder/form_layout/widgets/grid_container.dart';
 import 'package:formbuilder/form_layout/widgets/grid_resize_controls.dart';
 import 'package:formbuilder/form_layout/widgets/resize_handle.dart';
+import 'package:formbuilder/form_layout/widgets/animated_drag_feedback.dart';
 import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
 import 'package:formbuilder/form_layout/models/toolbox_item.dart';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
+import 'package:formbuilder/form_layout/models/animation_settings.dart';
 import 'package:formbuilder/form_layout/intents/form_layout_intents.dart';
 import 'dart:math';
 
@@ -41,6 +43,9 @@ class GridDragTarget extends StatefulWidget {
   
   /// Callback when a widget is tapped
   final void Function(String)? onWidgetTap;
+  
+  /// Animation settings for visual feedback
+  final AnimationSettings animationSettings;
 
   const GridDragTarget({
     super.key,
@@ -54,6 +59,7 @@ class GridDragTarget extends StatefulWidget {
     this.onGridResize,
     this.selectedWidgetId,
     this.onWidgetTap,
+    this.animationSettings = const AnimationSettings(),
   });
 
   @override
@@ -414,7 +420,12 @@ class _GridDragTargetState extends State<GridDragTarget> {
       key: const Key('grid_drag_target_focus'),
       autofocus: true,
       onKeyEvent: _handleKeyEvent,
-      child: Stack(
+      child: AnimatedDropTarget(
+        isActive: _highlightedCells != null,
+        animationSettings: widget.animationSettings,
+        activeScale: 1.01,
+        activeColor: null,
+        child: Stack(
       children: [
         // DragTarget for WidgetPlacement (moving existing widgets)
         DragTarget<WidgetPlacement>(
@@ -549,6 +560,7 @@ class _GridDragTargetState extends State<GridDragTarget> {
           },
         ),
       ],
+      ),
       ),
     );
     

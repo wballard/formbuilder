@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
-import 'package:formbuilder/form_layout/widgets/grid_widget.dart';
-import 'package:formbuilder/form_layout/widgets/placed_widget.dart';
+import 'package:formbuilder/form_layout/widgets/animated_grid_widget.dart';
+import 'package:formbuilder/form_layout/widgets/animated_placed_widget.dart';
 import 'package:formbuilder/form_layout/widgets/resize_handle.dart';
 import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
+import 'package:formbuilder/form_layout/models/animation_settings.dart';
 import 'dart:math';
 
 /// Container that combines GridWidget with PlacedWidgets
@@ -65,6 +66,9 @@ class GridContainer extends StatelessWidget {
 
   /// Whether the form is in preview mode (hides editing UI)
   final bool isPreviewMode;
+  
+  /// Animation settings
+  final AnimationSettings animationSettings;
 
   const GridContainer({
     super.key,
@@ -87,20 +91,22 @@ class GridContainer extends StatelessWidget {
     this.onWidgetResize,
     this.onWidgetDelete,
     this.isPreviewMode = false,
+    this.animationSettings = const AnimationSettings(),
   });
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // Grid background (only show in edit mode)
-        if (!isPreviewMode)
-          GridWidget(
-            dimensions: layoutState.dimensions,
-            highlightedCells: highlightedCells,
-            highlightColor: highlightColor,
-            isCellValid: isCellValid,
-          ),
+        // Grid background
+        AnimatedGridWidget(
+          dimensions: layoutState.dimensions,
+          highlightedCells: highlightedCells,
+          highlightColor: highlightColor,
+          isCellValid: isCellValid,
+          animationSettings: animationSettings,
+          showGridLines: !isPreviewMode,
+        ),
         // Placed widgets overlay
         LayoutGrid(
           areas: _generateAreas(),
@@ -153,20 +159,15 @@ class GridContainer extends StatelessWidget {
           child: child,
         ).inGridArea(_getAreaName(placement));
       } else {
-        return PlacedWidget(
+        return AnimatedPlacedWidget(
           placement: placement,
           isSelected: isSelected,
           isDragging: isDragging,
           canDrag: canDragWidgets,
           showResizeHandles: isSelected && !isDragging && !isResizing,
           showDeleteButton: isSelected && !isDragging && !isResizing,
+          animationSettings: animationSettings,
           onTap: onWidgetTap != null ? () => onWidgetTap!(placement.id) : null,
-          onDragStarted: onWidgetDragStarted,
-          onDragEnd: onWidgetDragEnd,
-          onDragCompleted: onWidgetDragCompleted,
-          onResizeStart: onWidgetResizeStart,
-          onResizeUpdate: onWidgetResizeUpdate,
-          onResizeEnd: onWidgetResizeEnd,
           onDelete: onWidgetDelete != null ? () => onWidgetDelete!(placement.id) : null,
           child: child,
         ).inGridArea(_getAreaName(placement));

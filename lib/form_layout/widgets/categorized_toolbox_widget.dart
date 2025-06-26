@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:formbuilder/form_layout/models/toolbox.dart';
 import 'package:formbuilder/form_layout/models/toolbox_item.dart';
+import 'package:formbuilder/form_layout/models/animation_settings.dart';
+import 'package:formbuilder/form_layout/widgets/animated_drag_feedback.dart';
 
 /// A widget that displays a categorized toolbox with expandable sections
 class CategorizedToolboxWidget extends StatefulWidget {
@@ -18,6 +20,9 @@ class CategorizedToolboxWidget extends StatefulWidget {
   
   /// Spacing between items
   final double itemSpacing;
+  
+  /// Animation settings
+  final AnimationSettings animationSettings;
 
   const CategorizedToolboxWidget({
     super.key,
@@ -26,6 +31,7 @@ class CategorizedToolboxWidget extends StatefulWidget {
     this.padding = const EdgeInsets.all(8),
     this.categorySpacing = 8.0,
     this.itemSpacing = 8.0,
+    this.animationSettings = const AnimationSettings(),
   });
 
   @override
@@ -167,20 +173,23 @@ class _CategorizedToolboxWidgetState extends State<CategorizedToolboxWidget> {
       height: 80,
       child: Draggable<ToolboxItem>(
         data: item,
-        feedback: Material(
-          elevation: 8,
-          child: Container(
-            width: 80,
-            height: 80,
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface,
-              border: Border.all(
-                color: Theme.of(context).colorScheme.primary,
-                width: 2,
+        feedback: AnimatedDragFeedback(
+          animationSettings: widget.animationSettings,
+          child: Material(
+            elevation: 8,
+            child: Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.primary,
+                  width: 2,
+                ),
+                borderRadius: BorderRadius.circular(4),
               ),
-              borderRadius: BorderRadius.circular(4),
+              child: item.toolboxBuilder(context),
             ),
-            child: item.toolboxBuilder(context),
           ),
         ),
         child: Card(
