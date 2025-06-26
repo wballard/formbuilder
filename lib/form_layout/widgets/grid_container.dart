@@ -63,6 +63,9 @@ class GridContainer extends StatelessWidget {
   /// Callback when a widget should be deleted
   final void Function(String widgetId)? onWidgetDelete;
 
+  /// Whether the form is in preview mode (hides editing UI)
+  final bool isPreviewMode;
+
   const GridContainer({
     super.key,
     required this.layoutState,
@@ -83,19 +86,21 @@ class GridContainer extends StatelessWidget {
     this.onWidgetResizeEnd,
     this.onWidgetResize,
     this.onWidgetDelete,
+    this.isPreviewMode = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // Grid background
-        GridWidget(
-          dimensions: layoutState.dimensions,
-          highlightedCells: highlightedCells,
-          highlightColor: highlightColor,
-          isCellValid: isCellValid,
-        ),
+        // Grid background (only show in edit mode)
+        if (!isPreviewMode)
+          GridWidget(
+            dimensions: layoutState.dimensions,
+            highlightedCells: highlightedCells,
+            highlightColor: highlightColor,
+            isCellValid: isCellValid,
+          ),
         // Placed widgets overlay
         LayoutGrid(
           areas: _generateAreas(),
@@ -107,8 +112,8 @@ class GridContainer extends StatelessWidget {
             layoutState.dimensions.rows,
             (_) => 1.fr,
           ),
-          columnGap: 0,
-          rowGap: 0,
+          columnGap: isPreviewMode ? 8 : 0,
+          rowGap: isPreviewMode ? 8 : 0,
           children: _buildPlacedWidgets(context),
         ),
       ],
@@ -141,24 +146,31 @@ class GridContainer extends StatelessWidget {
       final isDragging = draggingWidgetIds.contains(placement.id);
       final isResizing = resizingWidgetIds.contains(placement.id);
       
-      // Wrap in PlacedWidget
-      return PlacedWidget(
-        placement: placement,
-        isSelected: isSelected,
-        isDragging: isDragging,
-        canDrag: canDragWidgets,
-        showResizeHandles: isSelected && !isDragging && !isResizing,
-        showDeleteButton: isSelected && !isDragging && !isResizing,
-        onTap: onWidgetTap != null ? () => onWidgetTap!(placement.id) : null,
-        onDragStarted: onWidgetDragStarted,
-        onDragEnd: onWidgetDragEnd,
-        onDragCompleted: onWidgetDragCompleted,
-        onResizeStart: onWidgetResizeStart,
-        onResizeUpdate: onWidgetResizeUpdate,
-        onResizeEnd: onWidgetResizeEnd,
-        onDelete: onWidgetDelete != null ? () => onWidgetDelete!(placement.id) : null,
-        child: child,
-      ).inGridArea(_getAreaName(placement));
+      // Wrap in PlacedWidget (or simple container in preview mode)
+      if (isPreviewMode) {
+        return Container(
+          padding: const EdgeInsets.all(4),
+          child: child,
+        ).inGridArea(_getAreaName(placement));
+      } else {
+        return PlacedWidget(
+          placement: placement,
+          isSelected: isSelected,
+          isDragging: isDragging,
+          canDrag: canDragWidgets,
+          showResizeHandles: isSelected && !isDragging && !isResizing,
+          showDeleteButton: isSelected && !isDragging && !isResizing,
+          onTap: onWidgetTap != null ? () => onWidgetTap!(placement.id) : null,
+          onDragStarted: onWidgetDragStarted,
+          onDragEnd: onWidgetDragEnd,
+          onDragCompleted: onWidgetDragCompleted,
+          onResizeStart: onWidgetResizeStart,
+          onResizeUpdate: onWidgetResizeUpdate,
+          onResizeEnd: onWidgetResizeEnd,
+          onDelete: onWidgetDelete != null ? () => onWidgetDelete!(placement.id) : null,
+          child: child,
+        ).inGridArea(_getAreaName(placement));
+      }
     }).toList();
   }
 

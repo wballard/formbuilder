@@ -110,7 +110,13 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
         return true;
 
       case LogicalKeyboardKey.escape:
-        widget.controller.selectWidget(null);
+        // If in preview mode, exit preview mode
+        if (widget.controller.isPreviewMode) {
+          widget.controller.setPreviewMode(false);
+        } else {
+          // Otherwise, deselect widget
+          widget.controller.selectWidget(null);
+        }
         return true;
 
       case LogicalKeyboardKey.arrowUp:
@@ -169,6 +175,11 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
         if (widget.controller.state.widgets.isNotEmpty) {
           widget.controller.selectWidget(widget.controller.state.widgets.first.id);
         }
+        return true;
+
+      case LogicalKeyboardKey.keyP:
+        // Ctrl/Cmd+P = Toggle preview mode
+        widget.controller.togglePreviewMode();
         return true;
 
       default:

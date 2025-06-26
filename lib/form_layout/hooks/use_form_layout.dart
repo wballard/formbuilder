@@ -11,6 +11,7 @@ class FormLayoutController extends ChangeNotifier {
   String? _selectedWidgetId;
   final Set<String> _draggingWidgetIds = <String>{};
   final Set<String> _resizingWidgetIds = <String>{};
+  bool _isPreviewMode = false;
   
   // Manual undo/redo implementation
   final List<LayoutState> _undoStack = [];
@@ -37,6 +38,9 @@ class FormLayoutController extends ChangeNotifier {
 
   /// Whether redo is possible
   bool get canRedo => _redoStack.isNotEmpty;
+
+  /// Whether the form is in preview mode
+  bool get isPreviewMode => _isPreviewMode;
 
   /// Execute a command and add it to the undo stack
   void _executeCommand(FormLayoutCommand command) {
@@ -203,6 +207,23 @@ class FormLayoutController extends ChangeNotifier {
 
   /// Check if a widget is currently selected
   bool isSelected(String widgetId) => _selectedWidgetId == widgetId;
+
+  /// Set preview mode state
+  void setPreviewMode(bool preview) {
+    if (_isPreviewMode != preview) {
+      _isPreviewMode = preview;
+      // Clear selection when entering preview mode
+      if (preview) {
+        _selectedWidgetId = null;
+      }
+      notifyListeners();
+    }
+  }
+
+  /// Toggle preview mode on/off
+  void togglePreviewMode() {
+    setPreviewMode(!_isPreviewMode);
+  }
 }
 
 /// Custom hook for managing form layout state

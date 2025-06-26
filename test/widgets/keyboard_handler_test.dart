@@ -490,6 +490,121 @@ void main() {
       });
     });
 
+    group('Preview Mode Shortcuts', () {
+      testWidgets('Ctrl+P toggles preview mode', (WidgetTester tester) async {
+        final controller = FormLayoutController(testLayoutState);
+
+        await tester.pumpWidget(buildTestWidget(controller));
+
+        // Focus the keyboard handler
+        await tester.tap(find.byKey(const ValueKey('test-container')));
+        await tester.pump();
+
+        expect(controller.isPreviewMode, isFalse);
+
+        // Press Ctrl+P
+        await tester.sendKeyDownEvent(LogicalKeyboardKey.control);
+        await tester.sendKeyEvent(LogicalKeyboardKey.keyP);
+        await tester.sendKeyUpEvent(LogicalKeyboardKey.control);
+        await tester.pump();
+
+        expect(controller.isPreviewMode, isTrue);
+
+        // Press Ctrl+P again
+        await tester.sendKeyDownEvent(LogicalKeyboardKey.control);
+        await tester.sendKeyEvent(LogicalKeyboardKey.keyP);
+        await tester.sendKeyUpEvent(LogicalKeyboardKey.control);
+        await tester.pump();
+
+        expect(controller.isPreviewMode, isFalse);
+      });
+
+      testWidgets('Cmd+P toggles preview mode on macOS', (WidgetTester tester) async {
+        final controller = FormLayoutController(testLayoutState);
+
+        await tester.pumpWidget(buildTestWidget(controller));
+
+        // Focus the keyboard handler
+        await tester.tap(find.byKey(const ValueKey('test-container')));
+        await tester.pump();
+
+        expect(controller.isPreviewMode, isFalse);
+
+        // Press Cmd+P (using Ctrl+P since test runs on non-macOS platform)
+        await tester.sendKeyDownEvent(LogicalKeyboardKey.control);
+        await tester.sendKeyEvent(LogicalKeyboardKey.keyP);
+        await tester.sendKeyUpEvent(LogicalKeyboardKey.control);
+        await tester.pump();
+
+        expect(controller.isPreviewMode, isTrue);
+      });
+
+      testWidgets('Escape exits preview mode', (WidgetTester tester) async {
+        final controller = FormLayoutController(testLayoutState);
+
+        await tester.pumpWidget(buildTestWidget(controller));
+
+        // Focus the keyboard handler
+        await tester.tap(find.byKey(const ValueKey('test-container')));
+        await tester.pump();
+
+        // Enter preview mode
+        controller.setPreviewMode(true);
+        await tester.pump();
+
+        expect(controller.isPreviewMode, isTrue);
+
+        // Press Escape
+        await tester.sendKeyEvent(LogicalKeyboardKey.escape);
+        await tester.pump();
+
+        expect(controller.isPreviewMode, isFalse);
+      });
+
+      testWidgets('Escape deselects widget when not in preview mode', (WidgetTester tester) async {
+        final controller = FormLayoutController(testLayoutState);
+        controller.selectWidget('widget1');
+
+        await tester.pumpWidget(buildTestWidget(controller));
+
+        // Focus the keyboard handler
+        await tester.tap(find.byKey(const ValueKey('test-container')));
+        await tester.pump();
+
+        expect(controller.selectedWidgetId, equals('widget1'));
+        expect(controller.isPreviewMode, isFalse);
+
+        // Press Escape
+        await tester.sendKeyEvent(LogicalKeyboardKey.escape);
+        await tester.pump();
+
+        expect(controller.selectedWidgetId, isNull);
+        expect(controller.isPreviewMode, isFalse);
+      });
+
+      testWidgets('preview mode clears selection', (WidgetTester tester) async {
+        final controller = FormLayoutController(testLayoutState);
+        controller.selectWidget('widget1');
+
+        await tester.pumpWidget(buildTestWidget(controller));
+
+        // Focus the keyboard handler
+        await tester.tap(find.byKey(const ValueKey('test-container')));
+        await tester.pump();
+
+        expect(controller.selectedWidgetId, equals('widget1'));
+
+        // Press Ctrl+P to enter preview mode
+        await tester.sendKeyDownEvent(LogicalKeyboardKey.control);
+        await tester.sendKeyEvent(LogicalKeyboardKey.keyP);
+        await tester.sendKeyUpEvent(LogicalKeyboardKey.control);
+        await tester.pump();
+
+        expect(controller.isPreviewMode, isTrue);
+        expect(controller.selectedWidgetId, isNull);
+      });
+    });
+
     group('Edge cases', () {
       testWidgets('handles no widget selected gracefully', (WidgetTester tester) async {
         final controller = FormLayoutController(testLayoutState);
