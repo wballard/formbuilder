@@ -16,6 +16,10 @@ List<Story> get placedWidgetStories => [
         name: 'Widgets/PlacedWidget/Interactive',
         builder: (context) => const InteractivePlacedWidgetDemo(),
       ),
+      Story(
+        name: 'Widgets/PlacedWidget/Resize Handles',
+        builder: (context) => const PlacedWidgetResizeDemo(),
+      ),
     ];
 
 class PlacedWidgetStatesDemo extends StatelessWidget {
@@ -504,4 +508,260 @@ class _InteractivePlacedWidgetDemoState extends State<InteractivePlacedWidgetDem
       ),
     );
   }
+}
+
+class PlacedWidgetResizeDemo extends StatefulWidget {
+  const PlacedWidgetResizeDemo({super.key});
+
+  @override
+  State<PlacedWidgetResizeDemo> createState() => _PlacedWidgetResizeDemoState();
+}
+
+class _PlacedWidgetResizeDemoState extends State<PlacedWidgetResizeDemo> {
+  bool _showResizeHandles = true;
+  WidgetPlacement _placement = WidgetPlacement(
+    id: 'resize-demo-widget',
+    widgetName: 'ResizableWidget',
+    column: 1,
+    row: 1,
+    width: 3,
+    height: 2,
+  );
+  String _lastAction = 'None';
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'PlacedWidget Resize Handles',
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            const SizedBox(height: 24),
+            Row(
+              children: [
+                Expanded(
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Controls',
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          const SizedBox(height: 16),
+                          SwitchListTile(
+                            title: const Text('Show Resize Handles'),
+                            value: _showResizeHandles,
+                            onChanged: (value) {
+                              setState(() => _showResizeHandles = value);
+                            },
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            'Widget Dimensions',
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ),
+                          const SizedBox(height: 8),
+                          Text('Width: ${_placement.width} cells'),
+                          Text('Height: ${_placement.height} cells'),
+                          Text('Position: (${_placement.column}, ${_placement.row})'),
+                          const SizedBox(height: 16),
+                          Text(
+                            'Last Action: $_lastAction',
+                            style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                _placement = WidgetPlacement(
+                                  id: 'resize-demo-widget',
+                                  widgetName: 'ResizableWidget',
+                                  column: 1,
+                                  row: 1,
+                                  width: 3,
+                                  height: 2,
+                                );
+                                _lastAction = 'Reset to default size';
+                              });
+                            },
+                            child: const Text('Reset Size'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 24),
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Resize Demo',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 16),
+                      Container(
+                        height: 400,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey.shade300),
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.grey.shade50,
+                        ),
+                        child: Stack(
+                          children: [
+                            // Grid background
+                            _GridBackground(),
+                            // Positioned widget
+                            Positioned(
+                              left: _placement.column * 50.0,
+                              top: _placement.row * 50.0,
+                              width: _placement.width * 50.0,
+                              height: _placement.height * 50.0,
+                              child: PlacedWidget(
+                                placement: _placement,
+                                isSelected: _showResizeHandles,
+                                showResizeHandles: _showResizeHandles,
+                                onResizeStart: (data) {
+                                  setState(() {
+                                    _lastAction = 'Resize started: ${data.handleType.name}';
+                                  });
+                                },
+                                onResizeUpdate: (data, delta) {
+                                  setState(() {
+                                    _lastAction = 'Resizing: ${data.handleType.name} (${delta.dx.toStringAsFixed(1)}, ${delta.dy.toStringAsFixed(1)})';
+                                  });
+                                },
+                                onResizeEnd: () {
+                                  setState(() {
+                                    _lastAction = 'Resize ended';
+                                  });
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [Colors.purple.shade200, Colors.blue.shade200],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.open_with,
+                                        size: 32,
+                                        color: Colors.purple.shade700,
+                                      ),
+                                      const SizedBox(height: 8),
+                                      const Text(
+                                        'Resizable Widget',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      Text(
+                                        '${_placement.width}×${_placement.height}',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.white.withValues(alpha: 0.8),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Instructions',
+                                style: Theme.of(context).textTheme.titleSmall,
+                              ),
+                              const SizedBox(height: 8),
+                              const Text('• Toggle "Show Resize Handles" to see the resize handles'),
+                              const Text('• Hover over resize handles to see cursor changes'),
+                              const Text('• Drag handles to resize the widget'),
+                              const Text('• 8 resize handles: 4 corners + 4 edges'),
+                              const Text('• Watch the dimensions and actions update'),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _GridBackground extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      size: const Size(double.infinity, double.infinity),
+      painter: _GridPainter(),
+    );
+  }
+}
+
+class _GridPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.grey.shade300
+      ..strokeWidth = 1;
+
+    const cellSize = 50.0;
+    
+    // Draw vertical lines
+    for (double x = 0; x <= size.width; x += cellSize) {
+      canvas.drawLine(
+        Offset(x, 0),
+        Offset(x, size.height),
+        paint,
+      );
+    }
+    
+    // Draw horizontal lines
+    for (double y = 0; y <= size.height; y += cellSize) {
+      canvas.drawLine(
+        Offset(0, y),
+        Offset(size.width, y),
+        paint,
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

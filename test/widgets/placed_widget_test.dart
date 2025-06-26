@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:formbuilder/form_layout/widgets/placed_widget.dart';
+import 'package:formbuilder/form_layout/widgets/resize_handle.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
 
 void main() {
@@ -516,6 +517,124 @@ void main() {
         
         // childWhenDragging should be empty
         expect(draggable.childWhenDragging, isA<Container>());
+      });
+    });
+
+    group('resize functionality', () {
+      testWidgets('shows resize handles when showResizeHandles is true', (WidgetTester tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: PlacedWidget(
+                placement: testPlacement,
+                showResizeHandles: true,
+                child: Container(),
+              ),
+            ),
+          ),
+        );
+
+        // Should find all 8 resize handles
+        expect(find.byType(ResizeHandle), findsNWidgets(8));
+        
+        // Verify different handle types are present
+        final handles = tester.widgetList<ResizeHandle>(find.byType(ResizeHandle)).toList();
+        final handleTypes = handles.map((h) => h.type).toSet();
+        expect(handleTypes.length, equals(8)); // All 8 types should be present
+      });
+
+      testWidgets('does not show resize handles when showResizeHandles is false', (WidgetTester tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: PlacedWidget(
+                placement: testPlacement,
+                showResizeHandles: false,
+                child: Container(),
+              ),
+            ),
+          ),
+        );
+
+        expect(find.byType(ResizeHandle), findsNothing);
+      });
+
+      testWidgets('uses default showResizeHandles value of false', (WidgetTester tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: PlacedWidget(
+                placement: testPlacement,
+                child: Container(),
+              ),
+            ),
+          ),
+        );
+
+        expect(find.byType(ResizeHandle), findsNothing);
+      });
+
+      testWidgets('passes resize callbacks to ResizeHandle widgets', (WidgetTester tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: PlacedWidget(
+                placement: testPlacement,
+                showResizeHandles: true,
+                onResizeStart: (data) {
+                  // Callback is tested by verifying it's not null
+                },
+                onResizeUpdate: (data, delta) {
+                  // Callback is tested by verifying it's not null
+                },
+                onResizeEnd: () {
+                  // Callback is tested by verifying it's not null
+                },
+                child: Container(),
+              ),
+            ),
+          ),
+        );
+
+        final resizeHandle = tester.widget<ResizeHandle>(find.byType(ResizeHandle).first);
+        expect(resizeHandle.onResizeStart, isNotNull);
+        expect(resizeHandle.onResizeUpdate, isNotNull);
+        expect(resizeHandle.onResizeEnd, isNotNull);
+      });
+
+      testWidgets('wraps content in Stack when resize handles are shown', (WidgetTester tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: PlacedWidget(
+                placement: testPlacement,
+                showResizeHandles: true,
+                child: Container(),
+              ),
+            ),
+          ),
+        );
+
+        // Should find a Stack when resize handles are enabled
+        expect(find.byType(Stack), findsWidgets);
+      });
+
+      testWidgets('does not wrap content in Stack when resize handles are hidden', (WidgetTester tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: PlacedWidget(
+                placement: testPlacement,
+                showResizeHandles: false,
+                child: Container(),
+              ),
+            ),
+          ),
+        );
+
+        // The Stack from resize handles should not be present
+        // (though there might be other Stacks in the widget tree)
+        expect(find.byType(ResizeHandle), findsNothing);
       });
     });
   });

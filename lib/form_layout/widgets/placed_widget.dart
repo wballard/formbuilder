@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
+import 'package:formbuilder/form_layout/widgets/resize_handle.dart';
 
 /// A widget that renders a placed widget on the grid with interaction states
 class PlacedWidget extends StatefulWidget {
@@ -33,6 +34,18 @@ class PlacedWidget extends StatefulWidget {
   
   /// Callback when drag is completed
   final void Function(DraggableDetails)? onDragCompleted;
+  
+  /// Whether to show resize handles
+  final bool showResizeHandles;
+  
+  /// Callback when resize starts
+  final void Function(ResizeData)? onResizeStart;
+  
+  /// Callback when resize updates
+  final void Function(ResizeData, Offset delta)? onResizeUpdate;
+  
+  /// Callback when resize ends
+  final VoidCallback? onResizeEnd;
 
   const PlacedWidget({
     super.key,
@@ -46,6 +59,10 @@ class PlacedWidget extends StatefulWidget {
     this.onDragStarted,
     this.onDragEnd,
     this.onDragCompleted,
+    this.showResizeHandles = false,
+    this.onResizeStart,
+    this.onResizeUpdate,
+    this.onResizeEnd,
   });
 
   @override
@@ -182,7 +199,80 @@ class _PlacedWidgetState extends State<PlacedWidget>
       );
     }
     
+    // Add resize handles if enabled
+    if (widget.showResizeHandles) {
+      content = Stack(
+        clipBehavior: Clip.none,
+        children: [
+          content,
+          ..._buildResizeHandles(),
+        ],
+      );
+    }
+    
     return content;
+  }
+
+  /// Build all resize handles
+  List<Widget> _buildResizeHandles() {
+    return [
+      ResizeHandle(
+        type: ResizeHandleType.topLeft,
+        placement: widget.placement,
+        onResizeStart: widget.onResizeStart,
+        onResizeUpdate: widget.onResizeUpdate,
+        onResizeEnd: widget.onResizeEnd,
+      ),
+      ResizeHandle(
+        type: ResizeHandleType.top,
+        placement: widget.placement,
+        onResizeStart: widget.onResizeStart,
+        onResizeUpdate: widget.onResizeUpdate,
+        onResizeEnd: widget.onResizeEnd,
+      ),
+      ResizeHandle(
+        type: ResizeHandleType.topRight,
+        placement: widget.placement,
+        onResizeStart: widget.onResizeStart,
+        onResizeUpdate: widget.onResizeUpdate,
+        onResizeEnd: widget.onResizeEnd,
+      ),
+      ResizeHandle(
+        type: ResizeHandleType.left,
+        placement: widget.placement,
+        onResizeStart: widget.onResizeStart,
+        onResizeUpdate: widget.onResizeUpdate,
+        onResizeEnd: widget.onResizeEnd,
+      ),
+      ResizeHandle(
+        type: ResizeHandleType.right,
+        placement: widget.placement,
+        onResizeStart: widget.onResizeStart,
+        onResizeUpdate: widget.onResizeUpdate,
+        onResizeEnd: widget.onResizeEnd,
+      ),
+      ResizeHandle(
+        type: ResizeHandleType.bottomLeft,
+        placement: widget.placement,
+        onResizeStart: widget.onResizeStart,
+        onResizeUpdate: widget.onResizeUpdate,
+        onResizeEnd: widget.onResizeEnd,
+      ),
+      ResizeHandle(
+        type: ResizeHandleType.bottom,
+        placement: widget.placement,
+        onResizeStart: widget.onResizeStart,
+        onResizeUpdate: widget.onResizeUpdate,
+        onResizeEnd: widget.onResizeEnd,
+      ),
+      ResizeHandle(
+        type: ResizeHandleType.bottomRight,
+        placement: widget.placement,
+        onResizeStart: widget.onResizeStart,
+        onResizeUpdate: widget.onResizeUpdate,
+        onResizeEnd: widget.onResizeEnd,
+      ),
+    ];
   }
 }
 
