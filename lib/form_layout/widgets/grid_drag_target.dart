@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:formbuilder/form_layout/widgets/grid_container.dart';
+import 'package:formbuilder/form_layout/widgets/grid_resize_controls.dart';
 import 'package:formbuilder/form_layout/widgets/resize_handle.dart';
 import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
 import 'package:formbuilder/form_layout/models/toolbox_item.dart';
+import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
 import 'dart:math';
 
 /// A widget that wraps GridContainer with drag and drop functionality
@@ -30,6 +32,9 @@ class GridDragTarget extends StatefulWidget {
   /// Callback when a widget should be deleted
   final void Function(String widgetId)? onWidgetDelete;
   
+  /// Callback when the grid is resized
+  final void Function(GridDimensions)? onGridResize;
+  
   /// ID of the currently selected widget
   final String? selectedWidgetId;
   
@@ -45,6 +50,7 @@ class GridDragTarget extends StatefulWidget {
     this.onWidgetMoved,
     this.onWidgetResize,
     this.onWidgetDelete,
+    this.onGridResize,
     this.selectedWidgetId,
     this.onWidgetTap,
   });
@@ -401,7 +407,7 @@ class _GridDragTargetState extends State<GridDragTarget> {
     );
 
     // Stack all drag targets and wrap with Focus for keyboard handling
-    return Focus(
+    final focusedStack = Focus(
       onKeyEvent: _handleKeyEvent,
       child: Stack(
       children: [
@@ -530,6 +536,13 @@ class _GridDragTargetState extends State<GridDragTarget> {
         ),
       ],
       ),
+    );
+    
+    // Wrap with grid resize controls
+    return GridResizeControls(
+      dimensions: widget.layoutState.dimensions,
+      onGridResize: widget.onGridResize,
+      child: focusedStack,
     );
   }
 }
