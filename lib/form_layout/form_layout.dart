@@ -4,11 +4,14 @@ import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/toolbox.dart';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
 import 'package:formbuilder/form_layout/models/animation_settings.dart';
-import 'package:formbuilder/form_layout/widgets/categorized_toolbox_widget.dart';
+import 'package:formbuilder/form_layout/widgets/accessible_categorized_toolbox.dart';
+import 'dart:math';
 import 'package:formbuilder/form_layout/widgets/grid_drag_target.dart';
 import 'package:formbuilder/form_layout/widgets/keyboard_handler.dart';
 import 'package:formbuilder/form_layout/widgets/form_layout_action_dispatcher.dart';
 import 'package:formbuilder/form_layout/widgets/animated_mode_switcher.dart';
+import 'package:formbuilder/form_layout/widgets/accessible_toolbar.dart';
+import 'package:formbuilder/form_layout/intents/form_layout_intents.dart';
 import 'package:formbuilder/form_layout/hooks/use_form_layout.dart';
 
 /// The main FormLayout widget that provides a complete form building interface
@@ -128,10 +131,20 @@ class FormLayout extends HookWidget {
     AnimationSettings animationSettings,
   ) {
     final toolboxWidget = showToolbox
-        ? CategorizedToolboxWidget(
+        ? AccessibleCategorizedToolbox(
             toolbox: toolbox,
             scrollDirection: position,
             animationSettings: animationSettings,
+            onItemActivated: (item, position) {
+              // Handle keyboard activation of toolbox items
+              Actions.maybeInvoke<AddWidgetIntent>(
+                context,
+                AddWidgetIntent(
+                  item: item,
+                  position: position,
+                ),
+              );
+            },
           )
         : null;
 
@@ -142,7 +155,10 @@ class FormLayout extends HookWidget {
             isVisible: !controller.isPreviewMode,
             animationSettings: animationSettings,
             slideFrom: AxisDirection.up,
-            child: _buildToolbar(context, controller),
+            child: AccessibleToolbar(
+              controller: controller,
+              enableUndo: enableUndo,
+            ),
           ),
           Expanded(
             child: AnimatedModeSwitcher(
@@ -200,80 +216,6 @@ class FormLayout extends HookWidget {
     }
   }
 
-  Widget _buildToolbar(BuildContext context, FormLayoutController controller) {
-    final theme = Theme.of(context);
-    
-    return Container(
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
-        border: Border(
-          bottom: BorderSide(
-            color: theme.dividerColor,
-          ),
-        ),
-      ),
-      child: Row(
-        children: [
-          // Undo/Redo buttons
-          if (enableUndo) ...[
-            IconButton(
-              icon: const Icon(Icons.undo),
-              onPressed: controller.canUndo ? controller.undo : null,
-              tooltip: 'Undo (Ctrl+Z)',
-            ),
-            IconButton(
-              icon: const Icon(Icons.redo),
-              onPressed: controller.canRedo ? controller.redo : null,
-              tooltip: 'Redo (Ctrl+Shift+Z)',
-            ),
-            const SizedBox(width: 8),
-            const VerticalDivider(),
-            const SizedBox(width: 8),
-          ],
-          
-          // Preview mode toggle
-          IconButton(
-            icon: Icon(
-              controller.isPreviewMode 
-                  ? Icons.visibility_off 
-                  : Icons.visibility,
-            ),
-            onPressed: controller.togglePreviewMode,
-            tooltip: 'Toggle Preview Mode (Ctrl+P)',
-          ),
-          
-          const Spacer(),
-          
-          // Grid size indicator
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceContainerHighest,
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  Icons.grid_on,
-                  size: 16,
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  '${controller.state.dimensions.columns} × ${controller.state.dimensions.rows}',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   Map<String, Widget> _getWidgetBuilders(CategorizedToolbox toolbox) {
     final builders = <String, Widget>{};

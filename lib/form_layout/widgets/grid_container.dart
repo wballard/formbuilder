@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
-import 'package:formbuilder/form_layout/widgets/animated_grid_widget.dart';
-import 'package:formbuilder/form_layout/widgets/animated_placed_widget.dart';
+import 'package:formbuilder/form_layout/widgets/accessible_grid_widget.dart';
+import 'package:formbuilder/form_layout/widgets/accessible_placed_widget.dart';
 import 'package:formbuilder/form_layout/widgets/resize_handle.dart';
 import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
@@ -96,17 +96,21 @@ class GridContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        // Grid background
-        AnimatedGridWidget(
-          dimensions: layoutState.dimensions,
-          highlightedCells: highlightedCells,
-          highlightColor: highlightColor,
-          isCellValid: isCellValid,
-          animationSettings: animationSettings,
-          showGridLines: !isPreviewMode,
-        ),
+    return AccessibleGridSemantics(
+      dimensions: layoutState.dimensions,
+      placedWidgetCount: layoutState.widgets.length,
+      isPreviewMode: isPreviewMode,
+      child: Stack(
+        children: [
+          // Grid background
+          AccessibleGridWidget(
+            dimensions: layoutState.dimensions,
+            highlightedCells: highlightedCells,
+            highlightColor: highlightColor,
+            isCellValid: isCellValid,
+            animationSettings: animationSettings,
+            showGridLines: !isPreviewMode,
+          ),
         // Placed widgets overlay
         LayoutGrid(
           areas: _generateAreas(),
@@ -123,6 +127,7 @@ class GridContainer extends StatelessWidget {
           children: _buildPlacedWidgets(context),
         ),
       ],
+      ),
     );
   }
 
@@ -159,7 +164,7 @@ class GridContainer extends StatelessWidget {
           child: child,
         ).inGridArea(_getAreaName(placement));
       } else {
-        return AnimatedPlacedWidget(
+        return AccessiblePlacedWidget(
           placement: placement,
           isSelected: isSelected,
           isDragging: isDragging,
