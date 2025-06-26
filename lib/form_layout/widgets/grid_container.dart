@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:formbuilder/form_layout/widgets/grid_widget.dart';
 import 'package:formbuilder/form_layout/widgets/placed_widget.dart';
+import 'package:formbuilder/form_layout/widgets/resize_handle.dart';
 import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
 import 'dart:math';
@@ -19,6 +20,9 @@ class GridContainer extends StatelessWidget {
   
   /// IDs of widgets being dragged
   final Set<String> draggingWidgetIds;
+  
+  /// IDs of widgets being resized
+  final Set<String> resizingWidgetIds;
   
   /// Cells to highlight on the grid
   final Set<Point<int>>? highlightedCells;
@@ -43,6 +47,18 @@ class GridContainer extends StatelessWidget {
   
   /// Callback when a widget drag is completed
   final void Function(DraggableDetails)? onWidgetDragCompleted;
+  
+  /// Callback when a widget resize starts
+  final void Function(ResizeData)? onWidgetResizeStart;
+  
+  /// Callback when a widget resize updates
+  final void Function(ResizeData, Offset delta)? onWidgetResizeUpdate;
+  
+  /// Callback when a widget resize ends
+  final VoidCallback? onWidgetResizeEnd;
+  
+  /// Callback when a widget is resized
+  final void Function(String widgetId, WidgetPlacement newPlacement)? onWidgetResize;
 
   const GridContainer({
     super.key,
@@ -50,6 +66,7 @@ class GridContainer extends StatelessWidget {
     required this.widgetBuilders,
     this.selectedWidgetId,
     this.draggingWidgetIds = const {},
+    this.resizingWidgetIds = const {},
     this.highlightedCells,
     this.highlightColor,
     this.isCellValid,
@@ -58,6 +75,10 @@ class GridContainer extends StatelessWidget {
     this.onWidgetDragStarted,
     this.onWidgetDragEnd,
     this.onWidgetDragCompleted,
+    this.onWidgetResizeStart,
+    this.onWidgetResizeUpdate,
+    this.onWidgetResizeEnd,
+    this.onWidgetResize,
   });
 
   @override
@@ -112,16 +133,24 @@ class GridContainer extends StatelessWidget {
       // Create child widget or error widget
       final child = widgetBuilder ?? _buildErrorWidget(placement.widgetName);
       
+      final isSelected = selectedWidgetId == placement.id;
+      final isDragging = draggingWidgetIds.contains(placement.id);
+      final isResizing = resizingWidgetIds.contains(placement.id);
+      
       // Wrap in PlacedWidget
       return PlacedWidget(
         placement: placement,
-        isSelected: selectedWidgetId == placement.id,
-        isDragging: draggingWidgetIds.contains(placement.id),
+        isSelected: isSelected,
+        isDragging: isDragging,
         canDrag: canDragWidgets,
+        showResizeHandles: isSelected && !isDragging && !isResizing,
         onTap: onWidgetTap != null ? () => onWidgetTap!(placement.id) : null,
         onDragStarted: onWidgetDragStarted,
         onDragEnd: onWidgetDragEnd,
         onDragCompleted: onWidgetDragCompleted,
+        onResizeStart: onWidgetResizeStart,
+        onResizeUpdate: onWidgetResizeUpdate,
+        onResizeEnd: onWidgetResizeEnd,
         child: child,
       ).inGridArea(_getAreaName(placement));
     }).toList();

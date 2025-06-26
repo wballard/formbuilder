@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:formbuilder/form_layout/widgets/grid_container.dart';
+import 'package:formbuilder/form_layout/widgets/resize_handle.dart';
 import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
 import 'package:formbuilder/form_layout/models/toolbox_item.dart';
@@ -22,6 +23,9 @@ class GridDragTarget extends StatefulWidget {
   /// Callback when a widget is moved to a new position
   final void Function(String widgetId, WidgetPlacement newPlacement)? onWidgetMoved;
   
+  /// Callback when a widget is resized
+  final void Function(String widgetId, WidgetPlacement newPlacement)? onWidgetResize;
+  
   /// ID of the currently selected widget
   final String? selectedWidgetId;
   
@@ -35,6 +39,7 @@ class GridDragTarget extends StatefulWidget {
     required this.toolbox,
     this.onWidgetDropped,
     this.onWidgetMoved,
+    this.onWidgetResize,
     this.selectedWidgetId,
     this.onWidgetTap,
   });
@@ -55,6 +60,15 @@ class _GridDragTargetState extends State<GridDragTarget> {
   
   /// The widget currently being moved (if any)
   WidgetPlacement? _movingWidget;
+  
+  /// The widget currently being resized (if any)
+  ResizeData? _resizingWidget;
+  
+  /// The new dimensions during resize
+  WidgetPlacement? _resizePreview;
+  
+  /// The initial position when resize drag started
+  Offset? _resizeDragStartPosition;
   
   /// Convert screen position to grid coordinates
   Point<int>? _getGridCoordinates(Offset globalPosition) {
@@ -215,6 +229,127 @@ class _GridDragTargetState extends State<GridDragTarget> {
       _movingWidget = widget;
     });
   }
+  
+  /// Calculate new dimensions based on resize handle and drag delta
+  WidgetPlacement _calculateResizeDimensions(ResizeData resizeData, Offset delta) {
+    final startPlacement = resizeData.startPlacement;
+    final handleType = resizeData.handleType;
+    
+    // Convert delta to grid cell units
+    final RenderBox? renderBox = context.findRenderObject() as RenderBox?;
+    if (renderBox == null) return startPlacement;
+    
+    final size = renderBox.size;
+    final cellWidth = size.width / widget.layoutState.dimensions.columns;
+    final cellHeight = size.height / widget.layoutState.dimensions.rows;
+    
+    final deltaCellsX = (delta.dx / cellWidth).round();
+    final deltaCellsY = (delta.dy / cellHeight).round();
+    
+    // Calculate new dimensions based on handle type
+    int newColumn = startPlacement.column;
+    int newRow = startPlacement.row;
+    int newWidth = startPlacement.width;
+    int newHeight = startPlacement.height;
+    
+    switch (handleType) {
+      case ResizeHandleType.topLeft:
+        newColumn = startPlacement.column + deltaCellsX;
+        newRow = startPlacement.row + deltaCellsY;
+        newWidth = startPlacement.width - deltaCellsX;
+        newHeight = startPlacement.height - deltaCellsY;
+        break;
+      case ResizeHandleType.top:
+        newRow = startPlacement.row + deltaCellsY;
+        newHeight = startPlacement.height - deltaCellsY;
+        break;
+      case ResizeHandleType.topRight:
+        newRow = startPlacement.row + deltaCellsY;
+        newWidth = startPlacement.width + deltaCellsX;
+        newHeight = startPlacement.height - deltaCellsY;
+        break;
+      case ResizeHandleType.left:
+        newColumn = startPlacement.column + deltaCellsX;
+        newWidth = startPlacement.width - deltaCellsX;
+        break;
+      case ResizeHandleType.right:
+        newWidth = startPlacement.width + deltaCellsX;
+        break;
+      case ResizeHandleType.bottomLeft:
+        newColumn = startPlacement.column + deltaCellsX;
+        newWidth = startPlacement.width - deltaCellsX;
+        newHeight = startPlacement.height + deltaCellsY;
+        break;
+      case ResizeHandleType.bottom:
+        newHeight = startPlacement.height + deltaCellsY;
+        break;
+      case ResizeHandleType.bottomRight:
+        newWidth = startPlacement.width + deltaCellsX;
+        newHeight = startPlacement.height + deltaCellsY;
+        break;
+    }
+    
+    // Enforce minimum size (1x1)
+    newWidth = newWidth.clamp(1, widget.layoutState.dimensions.columns);
+    newHeight = newHeight.clamp(1, widget.layoutState.dimensions.rows);
+    
+    // Ensure widget stays within grid bounds
+    newColumn = newColumn.clamp(0, widget.layoutState.dimensions.columns - newWidth);
+    newRow = newRow.clamp(0, widget.layoutState.dimensions.rows - newHeight);
+    
+    return startPlacement.copyWith(
+      column: newColumn,
+      row: newRow,
+      width: newWidth,
+      height: newHeight,
+    );
+  }
+  
+  /// Update highlighted cells for resize operation
+  void _updateHighlightedCellsForResize(ResizeData resizeData, Offset? dragPosition) {
+    if (dragPosition == null) {
+      setState(() {
+        _highlightedCells = null;
+        _isValidDrop = false;
+        _currentDragPosition = null;
+        _resizingWidget = null;
+        _resizePreview = null;
+        _resizeDragStartPosition = null;
+      });
+      return;
+    }
+    
+    // Initialize start position on first drag update
+    _resizeDragStartPosition ??= dragPosition;
+    
+    // Calculate delta from start position
+    final delta = dragPosition - _resizeDragStartPosition!;
+    final newPlacement = _calculateResizeDimensions(resizeData, delta);
+    
+    final cells = _getOccupiedCells(
+      newPlacement.column,
+      newPlacement.row,
+      newPlacement.width,
+      newPlacement.height,
+    );
+    
+    final isValid = _isValidPlacement(
+      newPlacement.column,
+      newPlacement.row,
+      newPlacement.width,
+      newPlacement.height,
+      excludeWidgetId: resizeData.widgetId,
+    );
+    
+    setState(() {
+      _highlightedCells = cells;
+      _isValidDrop = isValid;
+      _currentDragPosition = dragPosition;
+      _resizingWidget = resizeData;
+      _resizePreview = newPlacement;
+      _movingWidget = null; // Clear moving widget for resize operations
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -229,6 +364,7 @@ class _GridDragTargetState extends State<GridDragTarget> {
           ? (_isValidDrop ? Colors.green.withValues(alpha: 0.3) : Colors.red.withValues(alpha: 0.3))
           : null,
       draggingWidgetIds: _movingWidget != null ? {_movingWidget!.id} : {},
+      resizingWidgetIds: _resizingWidget != null ? {_resizingWidget!.widgetId} : {},
       canDragWidgets: true,
       onWidgetDragStarted: (placement) {
         // Widget drag started - no need to track in GridDragTarget state
@@ -239,9 +375,10 @@ class _GridDragTargetState extends State<GridDragTarget> {
       onWidgetDragCompleted: (details) {
         // Widget drag completed - no need to track in GridDragTarget state
       },
+      onWidgetResize: widget.onWidgetResize,
     );
 
-    // Stack both drag targets
+    // Stack all drag targets
     return Stack(
       children: [
         // DragTarget for WidgetPlacement (moving existing widgets)
@@ -282,6 +419,44 @@ class _GridDragTargetState extends State<GridDragTarget> {
           },
           builder: (context, candidateData, rejectedData) {
             return gridContainer;
+          },
+        ),
+        
+        // DragTarget for ResizeData (resizing existing widgets)
+        DragTarget<ResizeData>(
+          onWillAcceptWithDetails: (details) {
+            return _isValidDrop;
+          },
+          onAcceptWithDetails: (details) {
+            if (widget.onWidgetResize != null && _resizePreview != null) {
+              widget.onWidgetResize!(details.data.widgetId, _resizePreview!);
+            }
+            
+            // Clear highlights after drop
+            setState(() {
+              _highlightedCells = null;
+              _isValidDrop = false;
+              _currentDragPosition = null;
+              _resizingWidget = null;
+              _resizePreview = null;
+              _resizeDragStartPosition = null;
+            });
+          },
+          onMove: (details) {
+            _updateHighlightedCellsForResize(details.data, details.offset);
+          },
+          onLeave: (data) {
+            setState(() {
+              _highlightedCells = null;
+              _isValidDrop = false;
+              _currentDragPosition = null;
+              _resizingWidget = null;
+              _resizePreview = null;
+              _resizeDragStartPosition = null;
+            });
+          },
+          builder: (context, candidateData, rejectedData) {
+            return Container(); // Transparent container to allow base container to show through
           },
         ),
         
@@ -326,7 +501,7 @@ class _GridDragTargetState extends State<GridDragTarget> {
             });
           },
           builder: (context, candidateData, rejectedData) {
-            return Container(); // Transparent container to allow WidgetPlacement DragTarget to show through
+            return Container(); // Transparent container to allow other DragTargets to show through
           },
         ),
       ],
