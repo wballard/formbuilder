@@ -4,6 +4,7 @@ import 'stories/models_story.dart';
 import 'stories/grid_widget_story.dart';
 import 'stories/placed_widget_story.dart';
 import 'stories/grid_container_story.dart';
+import 'stories/toolbox_widget_story.dart';
 
 void main() {
   runApp(const StorybookApp());
@@ -48,6 +49,7 @@ class StorybookApp extends StatelessWidget {
         ...gridWidgetStories,
         ...placedWidgetStories,
         ...gridContainerStories,
+        ...toolboxWidgetStories,
       ],
     );
   }
