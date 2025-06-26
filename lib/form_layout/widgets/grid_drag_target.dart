@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:formbuilder/form_layout/widgets/grid_container.dart';
 import 'package:formbuilder/form_layout/widgets/resize_handle.dart';
 import 'package:formbuilder/form_layout/models/layout_state.dart';
@@ -26,6 +27,9 @@ class GridDragTarget extends StatefulWidget {
   /// Callback when a widget is resized
   final void Function(String widgetId, WidgetPlacement newPlacement)? onWidgetResize;
   
+  /// Callback when a widget should be deleted
+  final void Function(String widgetId)? onWidgetDelete;
+  
   /// ID of the currently selected widget
   final String? selectedWidgetId;
   
@@ -40,6 +44,7 @@ class GridDragTarget extends StatefulWidget {
     this.onWidgetDropped,
     this.onWidgetMoved,
     this.onWidgetResize,
+    this.onWidgetDelete,
     this.selectedWidgetId,
     this.onWidgetTap,
   });
@@ -350,6 +355,22 @@ class _GridDragTargetState extends State<GridDragTarget> {
       _movingWidget = null; // Clear moving widget for resize operations
     });
   }
+  
+  /// Handle keyboard events for widget deletion
+  KeyEventResult _handleKeyEvent(FocusNode node, KeyEvent event) {
+    if (event is KeyDownEvent && 
+        widget.selectedWidgetId != null && 
+        widget.onWidgetDelete != null) {
+      final isDeleteKey = event.logicalKey == LogicalKeyboardKey.delete ||
+                         event.logicalKey == LogicalKeyboardKey.backspace;
+      
+      if (isDeleteKey) {
+        widget.onWidgetDelete!(widget.selectedWidgetId!);
+        return KeyEventResult.handled;
+      }
+    }
+    return KeyEventResult.ignored;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -376,10 +397,13 @@ class _GridDragTargetState extends State<GridDragTarget> {
         // Widget drag completed - no need to track in GridDragTarget state
       },
       onWidgetResize: widget.onWidgetResize,
+      onWidgetDelete: widget.onWidgetDelete,
     );
 
-    // Stack all drag targets
-    return Stack(
+    // Stack all drag targets and wrap with Focus for keyboard handling
+    return Focus(
+      onKeyEvent: _handleKeyEvent,
+      child: Stack(
       children: [
         // DragTarget for WidgetPlacement (moving existing widgets)
         DragTarget<WidgetPlacement>(
@@ -505,6 +529,7 @@ class _GridDragTargetState extends State<GridDragTarget> {
           },
         ),
       ],
+      ),
     );
   }
 }

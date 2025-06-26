@@ -59,6 +59,9 @@ class GridContainer extends StatelessWidget {
   
   /// Callback when a widget is resized
   final void Function(String widgetId, WidgetPlacement newPlacement)? onWidgetResize;
+  
+  /// Callback when a widget should be deleted
+  final void Function(String widgetId)? onWidgetDelete;
 
   const GridContainer({
     super.key,
@@ -79,6 +82,7 @@ class GridContainer extends StatelessWidget {
     this.onWidgetResizeUpdate,
     this.onWidgetResizeEnd,
     this.onWidgetResize,
+    this.onWidgetDelete,
   });
 
   @override
@@ -144,6 +148,7 @@ class GridContainer extends StatelessWidget {
         isDragging: isDragging,
         canDrag: canDragWidgets,
         showResizeHandles: isSelected && !isDragging && !isResizing,
+        showDeleteButton: isSelected && !isDragging && !isResizing,
         onTap: onWidgetTap != null ? () => onWidgetTap!(placement.id) : null,
         onDragStarted: onWidgetDragStarted,
         onDragEnd: onWidgetDragEnd,
@@ -151,6 +156,7 @@ class GridContainer extends StatelessWidget {
         onResizeStart: onWidgetResizeStart,
         onResizeUpdate: onWidgetResizeUpdate,
         onResizeEnd: onWidgetResizeEnd,
+        onDelete: onWidgetDelete != null ? () => onWidgetDelete!(placement.id) : null,
         child: child,
       ).inGridArea(_getAreaName(placement));
     }).toList();

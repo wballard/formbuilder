@@ -46,6 +46,12 @@ class PlacedWidget extends StatefulWidget {
   
   /// Callback when resize ends
   final VoidCallback? onResizeEnd;
+  
+  /// Callback when the widget should be deleted
+  final VoidCallback? onDelete;
+  
+  /// Whether to show the delete button
+  final bool showDeleteButton;
 
   const PlacedWidget({
     super.key,
@@ -63,6 +69,8 @@ class PlacedWidget extends StatefulWidget {
     this.onResizeStart,
     this.onResizeUpdate,
     this.onResizeEnd,
+    this.onDelete,
+    this.showDeleteButton = false,
   });
 
   @override
@@ -199,14 +207,21 @@ class _PlacedWidgetState extends State<PlacedWidget>
       );
     }
     
-    // Add resize handles if enabled
-    if (widget.showResizeHandles) {
+    // Add resize handles and/or delete button if enabled
+    if (widget.showResizeHandles || widget.showDeleteButton) {
+      final overlayChildren = <Widget>[content];
+      
+      if (widget.showResizeHandles) {
+        overlayChildren.addAll(_buildResizeHandles());
+      }
+      
+      if (widget.showDeleteButton) {
+        overlayChildren.add(_buildDeleteButton());
+      }
+      
       content = Stack(
         clipBehavior: Clip.none,
-        children: [
-          content,
-          ..._buildResizeHandles(),
-        ],
+        children: overlayChildren,
       );
     }
     
@@ -273,6 +288,42 @@ class _PlacedWidgetState extends State<PlacedWidget>
         onResizeEnd: widget.onResizeEnd,
       ),
     ];
+  }
+  
+  /// Build the delete button
+  Widget _buildDeleteButton() {
+    return Positioned(
+      top: -8,
+      right: -8,
+      child: Material(
+        type: MaterialType.circle,
+        color: Colors.red.withValues(alpha: 0.9),
+        elevation: 2,
+        child: Tooltip(
+          message: 'Delete widget',
+          child: InkWell(
+            onTap: widget.onDelete,
+            borderRadius: BorderRadius.circular(12),
+            child: Container(
+              width: 24,
+              height: 24,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Colors.white,
+                  width: 1.5,
+                ),
+              ),
+              child: const Icon(
+                Icons.close,
+                size: 16,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
