@@ -3,6 +3,7 @@ import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:formbuilder/form_layout/widgets/grid_widget.dart';
 import 'package:formbuilder/form_layout/widgets/placed_widget.dart';
 import 'package:formbuilder/form_layout/models/layout_state.dart';
+import 'package:formbuilder/form_layout/models/widget_placement.dart';
 import 'dart:math';
 
 /// Container that combines GridWidget with PlacedWidgets

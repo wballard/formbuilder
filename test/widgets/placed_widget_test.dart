@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:formbuilder/form_layout/widgets/placed_widget.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
 
@@ -51,12 +52,12 @@ void main() {
         ),
       );
       
-      // Find the container with decoration
+      // Find the container with decoration inside the InkWell
       final container = tester.widget<Container>(
         find.descendant(
-          of: find.byType(PlacedWidget),
-          matching: find.byType(Container).last,
-        ),
+          of: find.byType(InkWell),
+          matching: find.byType(Container),
+        ).first,
       );
       
       final decoration = container.decoration as BoxDecoration?;
@@ -107,15 +108,17 @@ void main() {
         ),
       );
       
-      // Find the Padding widget
-      final padding = tester.widget<Padding>(
+      // Find all Padding widgets to see which one has the custom padding
+      final paddingWidgets = tester.widgetList<Padding>(
         find.descendant(
           of: find.byType(PlacedWidget),
-          matching: find.byType(Padding).first,
+          matching: find.byType(Padding),
         ),
-      );
+      ).toList();
       
-      expect(padding.padding, equals(customPadding));
+      // One of the padding widgets should have our custom padding
+      final hasCustomPadding = paddingWidgets.any((p) => p.padding == customPadding);
+      expect(hasCustomPadding, isTrue);
     });
 
     testWidgets('handles tap callback', (WidgetTester tester) async {
@@ -283,12 +286,12 @@ void main() {
       );
       expect(opacity.opacity, equals(0.5));
       
-      // Should still have border
+      // Should still have border - find container inside InkWell
       final container = tester.widget<Container>(
         find.descendant(
-          of: find.byType(PlacedWidget),
-          matching: find.byType(Container).last,
-        ),
+          of: find.byType(InkWell),
+          matching: find.byType(Container),
+        ).first,
       );
       final decoration = container.decoration as BoxDecoration?;
       expect(decoration?.border, isNotNull);

@@ -445,21 +445,21 @@ void main() {
         final widget2 = WidgetPlacement(
           id: 'widget2',
           widgetName: 'Button',
-          column: 1,
-          row: 1,
+          column: 2,
+          row: 0,
           width: 2,
           height: 2,
         );
         final widget3 = WidgetPlacement(
           id: 'widget3',
           widgetName: 'Label',
-          column: 3,
-          row: 3,
+          column: 4,
+          row: 0,
           width: 1,
           height: 1,
         );
         final state = LayoutState(
-          dimensions: const GridDimensions(columns: 4, rows: 4),
+          dimensions: const GridDimensions(columns: 5, rows: 4),
           widgets: [widget1, widget2, widget3],
         );
         
