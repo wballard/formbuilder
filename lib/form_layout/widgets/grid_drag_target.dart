@@ -408,6 +408,8 @@ class _GridDragTargetState extends State<GridDragTarget> {
 
     // Stack all drag targets and wrap with Focus for keyboard handling
     final focusedStack = Focus(
+      key: const Key('grid_drag_target_focus'),
+      autofocus: true,
       onKeyEvent: _handleKeyEvent,
       child: Stack(
       children: [

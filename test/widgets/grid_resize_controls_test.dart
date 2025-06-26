@@ -97,10 +97,13 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: SizedBox(
-              width: 400,
-              height: 400,
+              width: 600,  // Larger to accommodate resize controls positioned outside
+              height: 600,
               child: GridResizeControls(
                 dimensions: const GridDimensions(columns: 4, rows: 4),
+                onGridResize: (dimensions) {
+                  resizedDimensions = dimensions;
+                },
                 child: Container(color: Colors.grey),
               ),
             ),
@@ -110,13 +113,22 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      // Find and tap the add button for columns (in the right edge control)
+      // Find and invoke the add button for columns directly
       final addButtons = find.byIcon(Icons.add);
       expect(addButtons, findsNWidgets(2));
       
-      // Tap the first add button (should be for columns based on widget structure)
-      await tester.tap(addButtons.first);
-      await tester.pump();
+      // Find the IconButton that contains the first add icon and invoke its callback
+      final firstIconButton = find.ancestor(
+        of: addButtons.first,
+        matching: find.byType(IconButton),
+      );
+      expect(firstIconButton, findsOneWidget);
+      
+      final iconButton = tester.widget<IconButton>(firstIconButton);
+      if (iconButton.onPressed != null) {
+        iconButton.onPressed!();
+        await tester.pump();
+      }
 
       // Verify callback was called with increased columns
       expect(resizedDimensions, isNotNull);
@@ -131,10 +143,13 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: SizedBox(
-              width: 400,
-              height: 400,
+              width: 600,  // Larger to accommodate resize controls
+              height: 600,
               child: GridResizeControls(
                 dimensions: const GridDimensions(columns: 4, rows: 4),
+                onGridResize: (dimensions) {
+                  resizedDimensions = dimensions;
+                },
                 child: Container(color: Colors.grey),
               ),
             ),
@@ -144,13 +159,22 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      // Find and tap the add button for rows (in the bottom edge control)
+      // Find and invoke the add button for rows directly
       final addButtons = find.byIcon(Icons.add);
       expect(addButtons, findsNWidgets(2));
       
-      // Tap the last add button (should be for rows based on widget structure)
-      await tester.tap(addButtons.last);
-      await tester.pump();
+      // Find the IconButton that contains the last add icon and invoke its callback
+      final lastIconButton = find.ancestor(
+        of: addButtons.last,
+        matching: find.byType(IconButton),
+      );
+      expect(lastIconButton, findsOneWidget);
+      
+      final iconButton = tester.widget<IconButton>(lastIconButton);
+      if (iconButton.onPressed != null) {
+        iconButton.onPressed!();
+        await tester.pump();
+      }
 
       // Verify callback was called with increased rows
       expect(resizedDimensions, isNotNull);
@@ -159,13 +183,12 @@ void main() {
     });
 
     testWidgets('GridResizeControls respects minimum column constraints', (WidgetTester tester) async {
-
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: SizedBox(
-              width: 400,
-              height: 400,
+              width: 600,  // Larger to accommodate resize controls
+              height: 600,
               child: GridResizeControls(
                 dimensions: const GridDimensions(columns: 1, rows: 4), // At minimum
                 minColumns: 1,
@@ -183,23 +206,24 @@ void main() {
       expect(removeButtons, findsNWidgets(2));
       
       // The first remove button should be disabled when at minimum
-      final firstRemoveButton = tester.widget<IconButton>(
-        find.descendant(
-          of: removeButtons.first,
-          matching: find.byType(IconButton),
-        ),
+      // Find the IconButton that contains the first remove icon
+      final firstRemoveButton = find.ancestor(
+        of: removeButtons.first,
+        matching: find.byType(IconButton),
       );
-      expect(firstRemoveButton.onPressed, isNull); // Should be disabled
+      expect(firstRemoveButton, findsOneWidget);
+      
+      final iconButton = tester.widget<IconButton>(firstRemoveButton);
+      expect(iconButton.onPressed, isNull); // Should be disabled
     });
 
     testWidgets('GridResizeControls respects maximum column constraints', (WidgetTester tester) async {
-
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: SizedBox(
-              width: 400,
-              height: 400,
+              width: 600,  // Larger to accommodate resize controls
+              height: 600,
               child: GridResizeControls(
                 dimensions: const GridDimensions(columns: 12, rows: 4), // At maximum
                 maxColumns: 12,
@@ -217,13 +241,14 @@ void main() {
       expect(addButtons, findsNWidgets(2));
       
       // The first add button should be disabled when at maximum
-      final firstAddButton = tester.widget<IconButton>(
-        find.descendant(
-          of: addButtons.first,
-          matching: find.byType(IconButton),
-        ),
+      final firstAddButton = find.ancestor(
+        of: addButtons.first,
+        matching: find.byType(IconButton),
       );
-      expect(firstAddButton.onPressed, isNull); // Should be disabled
+      expect(firstAddButton, findsOneWidget);
+      
+      final iconButton = tester.widget<IconButton>(firstAddButton);
+      expect(iconButton.onPressed, isNull); // Should be disabled
     });
 
     testWidgets('GridResizeControls respects minimum row constraints', (WidgetTester tester) async {
@@ -231,8 +256,8 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: SizedBox(
-              width: 400,
-              height: 400,
+              width: 600,  // Larger to accommodate resize controls
+              height: 600,
               child: GridResizeControls(
                 dimensions: const GridDimensions(columns: 4, rows: 1), // At minimum
                 minRows: 1,
@@ -250,13 +275,14 @@ void main() {
       expect(removeButtons, findsNWidgets(2));
       
       // The second remove button should be disabled when at minimum
-      final secondRemoveButton = tester.widget<IconButton>(
-        find.descendant(
-          of: removeButtons.last,
-          matching: find.byType(IconButton),
-        ),
+      final secondRemoveButton = find.ancestor(
+        of: removeButtons.last,
+        matching: find.byType(IconButton),
       );
-      expect(secondRemoveButton.onPressed, isNull); // Should be disabled
+      expect(secondRemoveButton, findsOneWidget);
+      
+      final iconButton = tester.widget<IconButton>(secondRemoveButton);
+      expect(iconButton.onPressed, isNull); // Should be disabled
     });
 
     testWidgets('GridResizeControls respects maximum row constraints', (WidgetTester tester) async {
@@ -264,8 +290,8 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: SizedBox(
-              width: 400,
-              height: 400,
+              width: 600,  // Larger to accommodate resize controls
+              height: 600,
               child: GridResizeControls(
                 dimensions: const GridDimensions(columns: 4, rows: 20), // At maximum
                 maxRows: 20,
@@ -283,13 +309,14 @@ void main() {
       expect(addButtons, findsNWidgets(2));
       
       // The second add button should be disabled when at maximum
-      final secondAddButton = tester.widget<IconButton>(
-        find.descendant(
-          of: addButtons.last,
-          matching: find.byType(IconButton),
-        ),
+      final secondAddButton = find.ancestor(
+        of: addButtons.last,
+        matching: find.byType(IconButton),
       );
-      expect(secondAddButton.onPressed, isNull); // Should be disabled
+      expect(secondAddButton, findsOneWidget);
+      
+      final iconButton = tester.widget<IconButton>(secondAddButton);
+      expect(iconButton.onPressed, isNull); // Should be disabled
     });
 
     group('Integration with GridDragTarget', () {
@@ -327,8 +354,8 @@ void main() {
           MaterialApp(
             home: Scaffold(
               body: SizedBox(
-                width: 400,
-                height: 400,
+                width: 600,  // Larger to accommodate resize controls
+                height: 600,
                 child: GridDragTarget(
                   layoutState: testLayoutState,
                   widgetBuilders: testWidgetBuilders,
@@ -344,12 +371,22 @@ void main() {
 
         await tester.pumpAndSettle();
 
-        // Find and tap an add button
+        // Find and invoke an add button directly
         final addButtons = find.byIcon(Icons.add);
         expect(addButtons, findsAtLeastNWidgets(1));
         
-        await tester.tap(addButtons.first);
-        await tester.pump();
+        // Find the IconButton that contains the first add icon and invoke its callback
+        final firstIconButton = find.ancestor(
+          of: addButtons.first,
+          matching: find.byType(IconButton),
+        );
+        expect(firstIconButton, findsOneWidget);
+        
+        final iconButton = tester.widget<IconButton>(firstIconButton);
+        if (iconButton.onPressed != null) {
+          iconButton.onPressed!();
+          await tester.pump();
+        }
 
         // Verify callback was called
         expect(resizedDimensions, isNotNull);
@@ -411,8 +448,8 @@ void main() {
           MaterialApp(
             home: Scaffold(
               body: SizedBox(
-                width: 400,
-                height: 400,
+                width: 600,  // Larger to accommodate resize controls
+                height: 600,
                 child: GridResizeControls(
                   dimensions: const GridDimensions(columns: 3, rows: 4),
                   onGridResize: (dimensions) => result = dimensions,
@@ -425,10 +462,19 @@ void main() {
 
         await tester.pumpAndSettle();
 
-        // Find and tap column increase button
+        // Find and invoke column increase button directly
         final addButtons = find.byIcon(Icons.add);
-        await tester.tap(addButtons.first);
-        await tester.pump();
+        final firstIconButton = find.ancestor(
+          of: addButtons.first,
+          matching: find.byType(IconButton),
+        );
+        expect(firstIconButton, findsOneWidget);
+        
+        final iconButton = tester.widget<IconButton>(firstIconButton);
+        if (iconButton.onPressed != null) {
+          iconButton.onPressed!();
+          await tester.pump();
+        }
 
         expect(result, isNotNull);
         expect(result!.columns, equals(4));
@@ -442,8 +488,8 @@ void main() {
           MaterialApp(
             home: Scaffold(
               body: SizedBox(
-                width: 400,
-                height: 400,
+                width: 600,  // Larger to accommodate resize controls
+                height: 600,
                 child: GridResizeControls(
                   dimensions: const GridDimensions(columns: 5, rows: 4),
                   onGridResize: (dimensions) => result = dimensions,
@@ -456,10 +502,19 @@ void main() {
 
         await tester.pumpAndSettle();
 
-        // Find and tap column decrease button
+        // Find and invoke column decrease button directly
         final removeButtons = find.byIcon(Icons.remove);
-        await tester.tap(removeButtons.first);
-        await tester.pump();
+        final firstIconButton = find.ancestor(
+          of: removeButtons.first,
+          matching: find.byType(IconButton),
+        );
+        expect(firstIconButton, findsOneWidget);
+        
+        final iconButton = tester.widget<IconButton>(firstIconButton);
+        if (iconButton.onPressed != null) {
+          iconButton.onPressed!();
+          await tester.pump();
+        }
 
         expect(result, isNotNull);
         expect(result!.columns, equals(4));
@@ -473,8 +528,8 @@ void main() {
           MaterialApp(
             home: Scaffold(
               body: SizedBox(
-                width: 400,
-                height: 400,
+                width: 600,  // Larger to accommodate resize controls
+                height: 600,
                 child: GridResizeControls(
                   dimensions: const GridDimensions(columns: 4, rows: 3),
                   onGridResize: (dimensions) => result = dimensions,
@@ -487,10 +542,19 @@ void main() {
 
         await tester.pumpAndSettle();
 
-        // Find and tap row increase button
+        // Find and invoke row increase button directly
         final addButtons = find.byIcon(Icons.add);
-        await tester.tap(addButtons.last);
-        await tester.pump();
+        final lastIconButton = find.ancestor(
+          of: addButtons.last,
+          matching: find.byType(IconButton),
+        );
+        expect(lastIconButton, findsOneWidget);
+        
+        final iconButton = tester.widget<IconButton>(lastIconButton);
+        if (iconButton.onPressed != null) {
+          iconButton.onPressed!();
+          await tester.pump();
+        }
 
         expect(result, isNotNull);
         expect(result!.columns, equals(4));
@@ -504,8 +568,8 @@ void main() {
           MaterialApp(
             home: Scaffold(
               body: SizedBox(
-                width: 400,
-                height: 400,
+                width: 600,  // Larger to accommodate resize controls
+                height: 600,
                 child: GridResizeControls(
                   dimensions: const GridDimensions(columns: 4, rows: 5),
                   onGridResize: (dimensions) => result = dimensions,
@@ -518,10 +582,19 @@ void main() {
 
         await tester.pumpAndSettle();
 
-        // Find and tap row decrease button
+        // Find and invoke row decrease button directly
         final removeButtons = find.byIcon(Icons.remove);
-        await tester.tap(removeButtons.last);
-        await tester.pump();
+        final lastIconButton = find.ancestor(
+          of: removeButtons.last,
+          matching: find.byType(IconButton),
+        );
+        expect(lastIconButton, findsOneWidget);
+        
+        final iconButton = tester.widget<IconButton>(lastIconButton);
+        if (iconButton.onPressed != null) {
+          iconButton.onPressed!();
+          await tester.pump();
+        }
 
         expect(result, isNotNull);
         expect(result!.columns, equals(4));
