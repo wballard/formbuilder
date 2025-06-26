@@ -3,6 +3,7 @@ import 'package:storybook_flutter/storybook_flutter.dart';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
 import 'package:formbuilder/form_layout/models/layout_state.dart';
+import 'package:formbuilder/form_layout/models/toolbox_item.dart';
 
 List<Story> get modelStories => [
       Story(
@@ -16,6 +17,10 @@ List<Story> get modelStories => [
       Story(
         name: 'Models/LayoutState',
         builder: (context) => const LayoutStateDemo(),
+      ),
+      Story(
+        name: 'Models/ToolboxItem',
+        builder: (context) => const ToolboxItemDemo(),
       ),
     ];
 
@@ -641,5 +646,219 @@ class LayoutStateDemo extends StatelessWidget {
     buffer.writeln('  ]');
     buffer.write('}');
     return buffer.toString();
+  }
+}
+
+class ToolboxItemDemo extends StatelessWidget {
+  const ToolboxItemDemo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final toolbox = Toolbox.withDefaults();
+    
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'ToolboxItem Model',
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'ToolboxItem represents widgets that can be dragged from the toolbox onto the form grid.',
+                style: TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 24),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Key Components',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 8),
+                      const Text('• ToolboxWidgetBuilder: Creates toolbox representation'),
+                      const Text('• GridWidgetBuilder: Creates widget on the grid'),
+                      const Text('• Default dimensions for initial placement'),
+                      const Text('• Unique name and display name'),
+                      const SizedBox(height: 12),
+                      const Text('The Toolbox class manages a collection of items and ensures unique names.'),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Builder Typedefs',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 8),
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade100,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: const Text(
+                          'typedef ToolboxWidgetBuilder = \n'
+                          '  Widget Function(BuildContext context);\n\n'
+                          'typedef GridWidgetBuilder = \n'
+                          '  Widget Function(BuildContext context,\n'
+                          '                  WidgetPlacement placement);',
+                          style: TextStyle(fontFamily: 'monospace', fontSize: 12),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Default Toolbox Items',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 16),
+                      Text('Total items: ${toolbox.items.length}'),
+                      const SizedBox(height: 16),
+                      Wrap(
+                        spacing: 12,
+                        runSpacing: 12,
+                        children: toolbox.items.map((item) {
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(4),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey.shade300),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: item.toolboxBuilder(context),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                '${item.defaultWidth}x${item.defaultHeight}',
+                                style: const TextStyle(fontSize: 11, color: Colors.grey),
+                              ),
+                            ],
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Grid Representations',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 16),
+                      ...toolbox.items.map((item) {
+                        final placement = WidgetPlacement(
+                          id: 'demo_${item.name}',
+                          widgetName: item.displayName,
+                          column: 0,
+                          row: 0,
+                          width: item.defaultWidth,
+                          height: item.defaultHeight,
+                        );
+                        
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 12.0),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 120,
+                                child: Text(item.displayName),
+                              ),
+                              Container(
+                                width: item.defaultWidth * 60.0,
+                                height: item.defaultHeight * 40.0,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey.shade400),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(4),
+                                  child: item.gridBuilder(context, placement),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Usage Example',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 8),
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade100,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: const Text(
+                          '// Create a custom toolbox item\n'
+                          'final customItem = ToolboxItem(\n'
+                          '  name: "custom_widget",\n'
+                          '  displayName: "Custom Widget",\n'
+                          '  toolboxBuilder: (context) => Icon(Icons.star),\n'
+                          '  gridBuilder: (context, placement) => \n'
+                          '    Container(color: Colors.yellow),\n'
+                          '  defaultWidth: 2,\n'
+                          '  defaultHeight: 2,\n'
+                          ');\n\n'
+                          '// Get item from toolbox\n'
+                          'final item = toolbox.getItem("text_input");',
+                          style: TextStyle(fontFamily: 'monospace', fontSize: 12),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
