@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 import 'package:formbuilder/form_layout/widgets/grid_widget.dart';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
+import 'dart:math';
 
 List<Story> get gridWidgetStories => [
       Story(
@@ -19,6 +20,14 @@ List<Story> get gridWidgetStories => [
       Story(
         name: 'Widgets/GridWidget/Different Sizes',
         builder: (context) => const GridSizesDemo(),
+      ),
+      Story(
+        name: 'Widgets/GridWidget/Cell Highlighting',
+        builder: (context) => const CellHighlightingDemo(),
+      ),
+      Story(
+        name: 'Widgets/GridWidget/Interactive Highlighting',
+        builder: (context) => const InteractiveHighlightingDemo(),
       ),
     ];
 
@@ -330,6 +339,196 @@ class GridSizesDemo extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class CellHighlightingDemo extends StatelessWidget {
+  const CellHighlightingDemo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Cell Highlighting',
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            const SizedBox(height: 24),
+            Expanded(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Basic Highlighting',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8),
+                        Expanded(
+                          child: GridWidget(
+                            dimensions: const GridDimensions(columns: 4, rows: 4),
+                            highlightedCells: {
+                              const Point(0, 0),
+                              const Point(1, 0),
+                              const Point(0, 1),
+                              const Point(1, 1),
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 24),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Custom Colors',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8),
+                        Expanded(
+                          child: GridWidget(
+                            dimensions: const GridDimensions(columns: 4, rows: 4),
+                            highlightedCells: {
+                              const Point(2, 1),
+                              const Point(3, 1),
+                              const Point(2, 2),
+                              const Point(3, 2),
+                            },
+                            highlightColor: Colors.green.withValues(alpha: 0.3),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 24),
+            const Text(
+              'Invalid Cell Highlighting',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            SizedBox(
+              height: 300,
+              child: GridWidget(
+                dimensions: const GridDimensions(columns: 6, rows: 4),
+                highlightedCells: GridWidget.getCellsInRectangle(1, 1, 4, 2),
+                isCellValid: (cell) {
+                  // Make cells at (2,1) and (3,2) invalid
+                  return !(cell == const Point(2, 1) || cell == const Point(3, 2));
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class InteractiveHighlightingDemo extends StatefulWidget {
+  const InteractiveHighlightingDemo({super.key});
+
+  @override
+  State<InteractiveHighlightingDemo> createState() => _InteractiveHighlightingDemoState();
+}
+
+class _InteractiveHighlightingDemoState extends State<InteractiveHighlightingDemo> {
+  final Set<Point<int>> _highlightedCells = {};
+  final int _columns = 6;
+  final int _rows = 6;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Interactive Cell Highlighting',
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              'Click/tap cells to toggle highlighting. You can also drag to highlight multiple cells.',
+              style: TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 24),
+            Row(
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      _highlightedCells.clear();
+                    });
+                  },
+                  child: const Text('Clear All'),
+                ),
+                const SizedBox(width: 16),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      // Add a 2x2 block at random position
+                      final random = Random();
+                      final col = random.nextInt(_columns - 1);
+                      final row = random.nextInt(_rows - 1);
+                      _highlightedCells.addAll(
+                        GridWidget.getCellsInRectangle(col, row, 2, 2),
+                      );
+                    });
+                  },
+                  child: const Text('Add Random 2x2'),
+                ),
+                const SizedBox(width: 16),
+                Text('Highlighted: ${_highlightedCells.length} cells'),
+              ],
+            ),
+            const SizedBox(height: 24),
+            Expanded(
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final cellWidth = constraints.maxWidth / _columns;
+                  final cellHeight = constraints.maxHeight / _rows;
+                  
+                  return GestureDetector(
+                    onTapDown: (details) {
+                      final col = (details.localPosition.dx / cellWidth).floor();
+                      final row = (details.localPosition.dy / cellHeight).floor();
+                      if (col >= 0 && col < _columns && row >= 0 && row < _rows) {
+                        setState(() {
+                          final cell = Point(col, row);
+                          if (_highlightedCells.contains(cell)) {
+                            _highlightedCells.remove(cell);
+                          } else {
+                            _highlightedCells.add(cell);
+                          }
+                        });
+                      }
+                    },
+                    child: GridWidget(
+                      dimensions: GridDimensions(columns: _columns, rows: _rows),
+                      highlightedCells: _highlightedCells,
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
