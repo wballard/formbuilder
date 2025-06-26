@@ -3,6 +3,7 @@ import 'package:storybook_flutter/storybook_flutter.dart';
 import 'stories/models_story.dart';
 import 'stories/grid_widget_story.dart';
 import 'stories/placed_widget_story.dart';
+import 'stories/grid_container_story.dart';
 
 void main() {
   runApp(const StorybookApp());
@@ -46,6 +47,7 @@ class StorybookApp extends StatelessWidget {
         ...modelStories,
         ...gridWidgetStories,
         ...placedWidgetStories,
+        ...gridContainerStories,
       ],
     );
   }
