@@ -15,12 +15,24 @@ class ToolboxWidget extends StatelessWidget {
   /// Padding around the widget
   final EdgeInsets padding;
 
+  /// Callback when drag starts with the item being dragged
+  final void Function(ToolboxItem)? onDragStarted;
+
+  /// Callback when drag ends
+  final void Function()? onDragEnd;
+
+  /// Callback when drag is completed
+  final void Function()? onDragCompleted;
+
   const ToolboxWidget({
     super.key,
     required this.toolbox,
     this.direction = Axis.vertical,
     this.spacing = 8.0,
     this.padding = const EdgeInsets.all(8),
+    this.onDragStarted,
+    this.onDragEnd,
+    this.onDragCompleted,
   });
 
   @override
@@ -38,7 +50,7 @@ class ToolboxWidget extends StatelessWidget {
 
   /// Builds a single toolbox item with Material Design styling
   Widget _buildToolboxItem(BuildContext context, ToolboxItem item) {
-    return _HoverableCard(
+    final widget = _HoverableCard(
       child: Tooltip(
         message: item.displayName,
         child: SizedBox(
@@ -79,6 +91,31 @@ class ToolboxWidget extends StatelessWidget {
           ),
         ),
       ),
+    );
+
+    return LongPressDraggable<ToolboxItem>(
+      data: item,
+      feedback: Material(
+        elevation: 8,
+        borderRadius: BorderRadius.circular(8.0),
+        color: Colors.transparent,
+        child: Opacity(
+          opacity: 0.8,
+          child: SizedBox(
+            width: 100,
+            height: 140, // Approximate height including text
+            child: widget,
+          ),
+        ),
+      ),
+      childWhenDragging: Opacity(
+        opacity: 0.3,
+        child: widget,
+      ),
+      onDragStarted: () => onDragStarted?.call(item),
+      onDragEnd: (_) => onDragEnd?.call(),
+      onDragCompleted: onDragCompleted,
+      child: widget,
     );
   }
 }

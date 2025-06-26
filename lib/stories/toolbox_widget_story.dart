@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 import 'package:formbuilder/form_layout/widgets/toolbox_widget.dart';
 import 'package:formbuilder/form_layout/models/toolbox_item.dart';
+import 'package:formbuilder/stories/toolbox_widget_story_drag.dart';
 
 List<Story> get toolboxWidgetStories => [
       Story(
@@ -23,6 +24,10 @@ List<Story> get toolboxWidgetStories => [
       Story(
         name: 'Widgets/ToolboxWidget/Single Item',
         builder: (context) => const SingleItemToolboxDemo(),
+      ),
+      Story(
+        name: 'Widgets/ToolboxWidget/Drag and Drop',
+        builder: (context) => const DragAndDropToolboxDemo(),
       ),
     ];
 
