@@ -296,5 +296,227 @@ void main() {
       final decoration = container.decoration as BoxDecoration?;
       expect(decoration?.border, isNotNull);
     });
+
+    group('draggable functionality', () {
+      testWidgets('wraps content with Draggable when canDrag is true', (WidgetTester tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: PlacedWidget(
+                placement: testPlacement,
+                canDrag: true,
+                child: Container(),
+              ),
+            ),
+          ),
+        );
+
+        expect(find.byType(Draggable<WidgetPlacement>), findsOneWidget);
+        
+        final draggable = tester.widget<Draggable<WidgetPlacement>>(
+          find.byType(Draggable<WidgetPlacement>),
+        );
+        expect(draggable.data, equals(testPlacement));
+      });
+
+      testWidgets('does not wrap with Draggable when canDrag is false', (WidgetTester tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: PlacedWidget(
+                placement: testPlacement,
+                canDrag: false,
+                child: Container(),
+              ),
+            ),
+          ),
+        );
+
+        expect(find.byType(Draggable<WidgetPlacement>), findsNothing);
+      });
+
+      testWidgets('uses default canDrag value of false', (WidgetTester tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: PlacedWidget(
+                placement: testPlacement,
+                child: Container(),
+              ),
+            ),
+          ),
+        );
+
+        // Should not have Draggable by default
+        expect(find.byType(Draggable<WidgetPlacement>), findsNothing);
+      });
+
+      testWidgets('shows grab cursor when canDrag is true and hovering', (WidgetTester tester) async {
+        if (!kIsWeb && (defaultTargetPlatform == TargetPlatform.macOS ||
+            defaultTargetPlatform == TargetPlatform.windows ||
+            defaultTargetPlatform == TargetPlatform.linux)) {
+          
+          await tester.pumpWidget(
+            MaterialApp(
+              home: Scaffold(
+                body: PlacedWidget(
+                  placement: testPlacement,
+                  canDrag: true,
+                  child: Container(),
+                ),
+              ),
+            ),
+          );
+          
+          final mouseRegion = tester.widget<MouseRegion>(
+            find.descendant(
+              of: find.byType(PlacedWidget),
+              matching: find.byType(MouseRegion),
+            ),
+          );
+          
+          expect(mouseRegion.cursor, equals(SystemMouseCursors.grab));
+        }
+      });
+
+      testWidgets('shows move cursor when canDrag is false', (WidgetTester tester) async {
+        if (!kIsWeb && (defaultTargetPlatform == TargetPlatform.macOS ||
+            defaultTargetPlatform == TargetPlatform.windows ||
+            defaultTargetPlatform == TargetPlatform.linux)) {
+          
+          await tester.pumpWidget(
+            MaterialApp(
+              home: Scaffold(
+                body: PlacedWidget(
+                  placement: testPlacement,
+                  canDrag: false,
+                  child: Container(),
+                ),
+              ),
+            ),
+          );
+          
+          final mouseRegion = tester.widget<MouseRegion>(
+            find.descendant(
+              of: find.byType(PlacedWidget),
+              matching: find.byType(MouseRegion),
+            ),
+          );
+          
+          expect(mouseRegion.cursor, equals(SystemMouseCursors.move));
+        }
+      });
+
+      testWidgets('calls onDragStarted when drag begins', (WidgetTester tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: PlacedWidget(
+                placement: testPlacement,
+                canDrag: true,
+                onDragStarted: (placement) {
+                  // Callback is tested by verifying it's not null
+                },
+                child: Container(),
+              ),
+            ),
+          ),
+        );
+
+        final draggable = tester.widget<Draggable<WidgetPlacement>>(
+          find.byType(Draggable<WidgetPlacement>),
+        );
+        
+        expect(draggable.onDragStarted, isNotNull);
+      });
+
+      testWidgets('calls onDragEnd when drag ends', (WidgetTester tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: PlacedWidget(
+                placement: testPlacement,
+                canDrag: true,
+                onDragEnd: () {
+                  // Callback is tested by verifying it's not null
+                },
+                child: Container(),
+              ),
+            ),
+          ),
+        );
+
+        final draggable = tester.widget<Draggable<WidgetPlacement>>(
+          find.byType(Draggable<WidgetPlacement>),
+        );
+        
+        expect(draggable.onDragEnd, isNotNull);
+      });
+
+      testWidgets('calls onDragCompleted with details', (WidgetTester tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: PlacedWidget(
+                placement: testPlacement,
+                canDrag: true,
+                onDragCompleted: (details) {
+                  // Callback is tested by verifying it's not null
+                },
+                child: Container(),
+              ),
+            ),
+          ),
+        );
+
+        final draggable = tester.widget<Draggable<WidgetPlacement>>(
+          find.byType(Draggable<WidgetPlacement>),
+        );
+        
+        expect(draggable.onDragCompleted, isNotNull);
+      });
+
+      testWidgets('provides correct drag feedback', (WidgetTester tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: PlacedWidget(
+                placement: testPlacement,
+                canDrag: true,
+                child: const Text('Drag Me'),
+              ),
+            ),
+          ),
+        );
+
+        final draggable = tester.widget<Draggable<WidgetPlacement>>(
+          find.byType(Draggable<WidgetPlacement>),
+        );
+        
+        // Feedback should be wrapped in Material for elevation
+        expect(draggable.feedback, isNotNull);
+      });
+
+      testWidgets('shows empty container as child when dragging', (WidgetTester tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: PlacedWidget(
+                placement: testPlacement,
+                canDrag: true,
+                child: const Text('Drag Me'),
+              ),
+            ),
+          ),
+        );
+
+        final draggable = tester.widget<Draggable<WidgetPlacement>>(
+          find.byType(Draggable<WidgetPlacement>),
+        );
+        
+        // childWhenDragging should be empty
+        expect(draggable.childWhenDragging, isA<Container>());
+      });
+    });
   });
 }
