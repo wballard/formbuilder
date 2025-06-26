@@ -1,0 +1,260 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:formbuilder/form_layout/models/layout_state.dart';
+import 'package:formbuilder/form_layout/models/toolbox.dart';
+import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
+import 'package:formbuilder/form_layout/widgets/categorized_toolbox_widget.dart';
+import 'package:formbuilder/form_layout/widgets/grid_drag_target.dart';
+import 'package:formbuilder/form_layout/widgets/keyboard_handler.dart';
+import 'package:formbuilder/form_layout/widgets/form_layout_action_dispatcher.dart';
+import 'package:formbuilder/form_layout/hooks/use_form_layout.dart';
+
+/// The main FormLayout widget that provides a complete form building interface
+class FormLayout extends HookWidget {
+  /// The toolbox containing available widgets
+  final CategorizedToolbox toolbox;
+  
+  /// Initial layout state, if any
+  final LayoutState? initialLayout;
+  
+  /// Callback when layout changes
+  final void Function(LayoutState)? onLayoutChanged;
+  
+  /// Whether to show the toolbox
+  final bool showToolbox;
+  
+  /// Position of the toolbox (horizontal = left, vertical = top)
+  final Axis toolboxPosition;
+  
+  /// Width of the toolbox when in horizontal layout
+  final double? toolboxWidth;
+  
+  /// Height of the toolbox when in vertical layout
+  final double? toolboxHeight;
+  
+  /// Whether undo/redo is enabled
+  final bool enableUndo;
+  
+  /// Maximum number of undo states to keep
+  final int undoLimit;
+  
+  /// Custom theme for the form layout
+  final ThemeData? theme;
+
+  const FormLayout({
+    super.key,
+    required this.toolbox,
+    this.initialLayout,
+    this.onLayoutChanged,
+    this.showToolbox = true,
+    this.toolboxPosition = Axis.horizontal,
+    this.toolboxWidth,
+    this.toolboxHeight,
+    this.enableUndo = true,
+    this.undoLimit = 50,
+    this.theme,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // Initialize the form layout controller
+    final controller = useFormLayout(
+      initialLayout ?? LayoutState(
+        dimensions: const GridDimensions(columns: 4, rows: 5),
+        widgets: const [],
+      ),
+      undoLimit: undoLimit,
+    );
+
+    // Listen to layout changes and notify callback
+    useEffect(() {
+      if (onLayoutChanged != null) {
+        // Debounce to avoid excessive callbacks
+        final debounceTimer = Stream.periodic(
+          const Duration(milliseconds: 100),
+          (_) => controller.state,
+        ).distinct().listen((state) {
+          onLayoutChanged!(state);
+        });
+        
+        return debounceTimer.cancel;
+      }
+      return null;
+    }, [controller.state]);
+
+    // Determine responsive layout
+    final isSmallScreen = MediaQuery.of(context).size.width < 600;
+    final effectivePosition = isSmallScreen ? Axis.vertical : toolboxPosition;
+    
+    // Build the main content
+    Widget content = FormLayoutActionDispatcher(
+      controller: controller,
+      child: KeyboardHandler(
+        controller: controller,
+        child: _buildLayout(
+          context,
+          controller,
+          effectivePosition,
+        ),
+      ),
+    );
+
+    // Apply theme if provided
+    if (theme != null) {
+      content = Theme(
+        data: theme!,
+        child: content,
+      );
+    }
+
+    return content;
+  }
+
+  Widget _buildLayout(
+    BuildContext context,
+    FormLayoutController controller,
+    Axis position,
+  ) {
+    final toolboxWidget = showToolbox
+        ? CategorizedToolboxWidget(
+            toolbox: toolbox,
+            scrollDirection: position,
+          )
+        : null;
+
+    final gridWidget = Expanded(
+      child: Column(
+        children: [
+          _buildToolbar(context, controller),
+          Expanded(
+            child: GridDragTarget(
+              layoutState: controller.state,
+              widgetBuilders: _getWidgetBuilders(toolbox),
+              toolbox: CategorizedToolbox(categories: toolbox.categories).toSimpleToolbox(),
+              selectedWidgetId: controller.selectedWidgetId,
+              onWidgetTap: (id) => controller.selectWidget(id),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    if (position == Axis.horizontal) {
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (toolboxWidget != null) ...[
+            SizedBox(
+              width: toolboxWidth ?? 250,
+              child: toolboxWidget,
+            ),
+            const VerticalDivider(width: 1),
+          ],
+          gridWidget,
+        ],
+      );
+    } else {
+      return Column(
+        children: [
+          if (toolboxWidget != null) ...[
+            SizedBox(
+              height: toolboxHeight ?? 150,
+              child: toolboxWidget,
+            ),
+            const Divider(height: 1),
+          ],
+          gridWidget,
+        ],
+      );
+    }
+  }
+
+  Widget _buildToolbar(BuildContext context, FormLayoutController controller) {
+    final theme = Theme.of(context);
+    
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        border: Border(
+          bottom: BorderSide(
+            color: theme.dividerColor,
+          ),
+        ),
+      ),
+      child: Row(
+        children: [
+          // Undo/Redo buttons
+          if (enableUndo) ...[
+            IconButton(
+              icon: const Icon(Icons.undo),
+              onPressed: controller.canUndo ? controller.undo : null,
+              tooltip: 'Undo (Ctrl+Z)',
+            ),
+            IconButton(
+              icon: const Icon(Icons.redo),
+              onPressed: controller.canRedo ? controller.redo : null,
+              tooltip: 'Redo (Ctrl+Shift+Z)',
+            ),
+            const SizedBox(width: 8),
+            const VerticalDivider(),
+            const SizedBox(width: 8),
+          ],
+          
+          // Preview mode toggle
+          IconButton(
+            icon: Icon(
+              controller.isPreviewMode 
+                  ? Icons.visibility_off 
+                  : Icons.visibility,
+            ),
+            onPressed: controller.togglePreviewMode,
+            tooltip: 'Toggle Preview Mode (Ctrl+P)',
+          ),
+          
+          const Spacer(),
+          
+          // Grid size indicator
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surfaceContainerHighest,
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.grid_on,
+                  size: 16,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  '${controller.state.dimensions.columns} × ${controller.state.dimensions.rows}',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Map<String, Widget> _getWidgetBuilders(CategorizedToolbox toolbox) {
+    final builders = <String, Widget>{};
+    for (final category in toolbox.categories) {
+      for (final item in category.items) {
+        // Create a placeholder widget for each item type
+        // The actual builder will be called by GridDragTarget with the placement
+        builders[item.name] = Builder(
+          builder: (context) => item.toolboxBuilder(context),
+        );
+      }
+    }
+    return builders;
+  }
+}
