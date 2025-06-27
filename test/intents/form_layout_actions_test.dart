@@ -431,5 +431,221 @@ void main() {
       expect(controller.state.dimensions.columns, 6);
       expect(controller.state.dimensions.rows, 8);
     });
+
+    testWidgets('ExportLayoutAction calls export callback with JSON string', (tester) async {
+      String? exportedData;
+      
+      await tester.pumpWidget(
+        MaterialApp(
+          home: HookBuilder(
+            builder: (context) {
+              controller = useFormLayout(_createInitialState());
+              
+              return ElevatedButton(
+                onPressed: () {
+                  final action = ExportLayoutAction(controller, (jsonString) {
+                    exportedData = jsonString;
+                  });
+                  final intent = const ExportLayoutIntent();
+                  action.invoke(intent);
+                },
+                child: const Text('Export Layout'),
+              );
+            },
+          ),
+        ),
+      );
+
+      // Add a widget to the layout first
+      controller.addWidget(WidgetPlacement(
+        id: 'test_widget',
+        widgetName: 'button',
+        column: 0,
+        row: 0,
+        width: 2,
+        height: 1,
+        properties: {'text': 'Test Button'},
+      ));
+      await tester.pump();
+      
+      await tester.tap(find.byType(ElevatedButton));
+      await tester.pump();
+      
+      expect(exportedData, isNotNull);
+      expect(exportedData!, contains('"version"'));
+      expect(exportedData!, contains('"widgets"'));
+      expect(exportedData!, contains('"dimensions"'));
+      expect(exportedData!, contains('test_widget'));
+    });
+
+    testWidgets('ExportLayoutAction returns false when no callback provided', (tester) async {
+      bool actionResult = true;
+      
+      await tester.pumpWidget(
+        MaterialApp(
+          home: HookBuilder(
+            builder: (context) {
+              controller = useFormLayout(_createInitialState());
+              
+              return ElevatedButton(
+                onPressed: () {
+                  final action = ExportLayoutAction(controller, null);
+                  final intent = const ExportLayoutIntent();
+                  actionResult = action.invoke(intent);
+                },
+                child: const Text('Export Layout'),
+              );
+            },
+          ),
+        ),
+      );
+      
+      await tester.tap(find.byType(ElevatedButton));
+      await tester.pump();
+      
+      expect(actionResult, false);
+    });
+
+    testWidgets('ImportLayoutAction imports valid layout and calls callback', (tester) async {
+      LayoutState? importedLayout;
+      String? importError;
+      
+      await tester.pumpWidget(
+        MaterialApp(
+          home: HookBuilder(
+            builder: (context) {
+              controller = useFormLayout(_createInitialState());
+              
+              return ElevatedButton(
+                onPressed: () {
+                  final action = ImportLayoutAction(controller, (LayoutState? layout, String? error) {
+                    importedLayout = layout;
+                    importError = error;
+                  });
+                  
+                  // Create valid JSON for import
+                  const validJson = '''
+                  {
+                    "version": "1.0.0",
+                    "timestamp": "2023-01-01T00:00:00.000Z",
+                    "dimensions": {
+                      "columns": 3,
+                      "rows": 2
+                    },
+                    "widgets": [
+                      {
+                        "id": "imported_widget",
+                        "widgetName": "textfield",
+                        "column": 1,
+                        "row": 0,
+                        "width": 1,
+                        "height": 1,
+                        "properties": {"placeholder": "Imported text"}
+                      }
+                    ]
+                  }
+                  ''';
+                  
+                  final intent = ImportLayoutIntent(jsonString: validJson);
+                  action.invoke(intent);
+                },
+                child: const Text('Import Layout'),
+              );
+            },
+          ),
+        ),
+      );
+      
+      await tester.tap(find.byType(ElevatedButton));
+      await tester.pump();
+      
+      expect(importedLayout, isNotNull);
+      expect(importError, isNull);
+      expect(importedLayout!.dimensions.columns, 3);
+      expect(importedLayout!.dimensions.rows, 2);
+      expect(importedLayout!.widgets.length, 1);
+      expect(importedLayout!.widgets.first.id, 'imported_widget');
+      expect(importedLayout!.widgets.first.properties['placeholder'], 'Imported text');
+      
+      // Verify the controller state was updated
+      expect(controller.state.dimensions.columns, 3);
+      expect(controller.state.dimensions.rows, 2);
+      expect(controller.state.widgets.length, 1);
+    });
+
+    testWidgets('ImportLayoutAction handles invalid JSON and calls error callback', (tester) async {
+      LayoutState? importedLayout;
+      String? importError;
+      
+      await tester.pumpWidget(
+        MaterialApp(
+          home: HookBuilder(
+            builder: (context) {
+              controller = useFormLayout(_createInitialState());
+              
+              return ElevatedButton(
+                onPressed: () {
+                  final action = ImportLayoutAction(controller, (LayoutState? layout, String? error) {
+                    importedLayout = layout;
+                    importError = error;
+                  });
+                  
+                  const invalidJson = '{"invalid": "json format"}';
+                  final intent = ImportLayoutIntent(jsonString: invalidJson);
+                  action.invoke(intent);
+                },
+                child: const Text('Import Layout'),
+              );
+            },
+          ),
+        ),
+      );
+      
+      await tester.tap(find.byType(ElevatedButton));
+      await tester.pump();
+      
+      expect(importedLayout, isNull);
+      expect(importError, isNotNull);
+      expect(importError!, contains('Invalid layout data'));
+    });
+
+    testWidgets('ImportLayoutAction works without callback', (tester) async {
+      bool actionResult = false;
+      
+      await tester.pumpWidget(
+        MaterialApp(
+          home: HookBuilder(
+            builder: (context) {
+              controller = useFormLayout(_createInitialState());
+              
+              return ElevatedButton(
+                onPressed: () {
+                  final action = ImportLayoutAction(controller, null);
+                  
+                  const validJson = '''
+                  {
+                    "version": "1.0.0",
+                    "dimensions": {"columns": 2, "rows": 2},
+                    "widgets": []
+                  }
+                  ''';
+                  
+                  final intent = ImportLayoutIntent(jsonString: validJson);
+                  actionResult = action.invoke(intent);
+                },
+                child: const Text('Import Layout'),
+              );
+            },
+          ),
+        ),
+      );
+      
+      await tester.tap(find.byType(ElevatedButton));
+      await tester.pump();
+      
+      expect(actionResult, true);
+      expect(controller.state.dimensions.columns, 2);
+      expect(controller.state.dimensions.rows, 2);
+    });
   });
 }

@@ -48,6 +48,12 @@ class FormLayout extends HookWidget {
   
   /// Animation settings for the form layout
   final AnimationSettings? animationSettings;
+  
+  /// Callback when layout export is requested
+  final void Function(String jsonString)? onExportLayout;
+  
+  /// Callback when layout import is requested
+  final void Function(LayoutState? layout, String? error)? onImportLayout;
 
   const FormLayout({
     super.key,
@@ -62,6 +68,8 @@ class FormLayout extends HookWidget {
     this.undoLimit = 50,
     this.theme,
     this.animationSettings,
+    this.onExportLayout,
+    this.onImportLayout,
   });
 
   @override
@@ -102,6 +110,8 @@ class FormLayout extends HookWidget {
     // Build the main content
     Widget content = FormLayoutActionDispatcher(
       controller: controller,
+      onExportLayout: onExportLayout,
+      onImportLayout: onImportLayout,
       child: KeyboardHandler(
         controller: controller,
         child: _buildLayout(

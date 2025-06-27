@@ -95,6 +95,112 @@ class AnimationSettings {
         return defaultCurve;
     }
   }
+
+  /// Convert curve to string representation
+  static String _curveToString(Curve curve) {
+    if (curve == Curves.linear) return 'linear';
+    if (curve == Curves.ease) return 'ease';
+    if (curve == Curves.easeIn) return 'easeIn';
+    if (curve == Curves.easeOut) return 'easeOut';
+    if (curve == Curves.easeInOut) return 'easeInOut';
+    if (curve == Curves.easeInCubic) return 'easeInCubic';
+    if (curve == Curves.easeOutCubic) return 'easeOutCubic';
+    if (curve == Curves.easeInOutCubic) return 'easeInOutCubic';
+    if (curve == Curves.easeInBack) return 'easeInBack';
+    if (curve == Curves.easeOutBack) return 'easeOutBack';
+    if (curve == Curves.easeInOutBack) return 'easeInOutBack';
+    if (curve == Curves.bounceIn) return 'bounceIn';
+    if (curve == Curves.bounceOut) return 'bounceOut';
+    if (curve == Curves.bounceInOut) return 'bounceInOut';
+    if (curve == Curves.elasticIn) return 'elasticIn';
+    if (curve == Curves.elasticOut) return 'elasticOut';
+    if (curve == Curves.elasticInOut) return 'elasticInOut';
+    if (curve == Curves.fastOutSlowIn) return 'fastOutSlowIn';
+    if (curve == Curves.slowMiddle) return 'slowMiddle';
+    return 'easeInOut'; // Default fallback
+  }
+
+  /// Convert string to curve representation
+  static Curve _stringToCurve(String? curveString) {
+    switch (curveString) {
+      case 'linear':
+        return Curves.linear;
+      case 'ease':
+        return Curves.ease;
+      case 'easeIn':
+        return Curves.easeIn;
+      case 'easeOut':
+        return Curves.easeOut;
+      case 'easeInOut':
+        return Curves.easeInOut;
+      case 'easeInCubic':
+        return Curves.easeInCubic;
+      case 'easeOutCubic':
+        return Curves.easeOutCubic;
+      case 'easeInOutCubic':
+        return Curves.easeInOutCubic;
+      case 'easeInBack':
+        return Curves.easeInBack;
+      case 'easeOutBack':
+        return Curves.easeOutBack;
+      case 'easeInOutBack':
+        return Curves.easeInOutBack;
+      case 'bounceIn':
+        return Curves.bounceIn;
+      case 'bounceOut':
+        return Curves.bounceOut;
+      case 'bounceInOut':
+        return Curves.bounceInOut;
+      case 'elasticIn':
+        return Curves.elasticIn;
+      case 'elasticOut':
+        return Curves.elasticOut;
+      case 'elasticInOut':
+        return Curves.elasticInOut;
+      case 'fastOutSlowIn':
+        return Curves.fastOutSlowIn;
+      case 'slowMiddle':
+        return Curves.slowMiddle;
+      default:
+        return Curves.easeInOut; // Default fallback
+    }
+  }
+
+  /// Convert to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'enabled': enabled,
+      'shortDuration': shortDuration.inMilliseconds,
+      'mediumDuration': mediumDuration.inMilliseconds,
+      'longDuration': longDuration.inMilliseconds,
+      'defaultCurve': _curveToString(defaultCurve),
+      'entranceCurve': _curveToString(entranceCurve),
+      'exitCurve': _curveToString(exitCurve),
+      'dragStartScale': dragStartScale,
+      'entranceScale': entranceScale,
+    };
+  }
+
+  /// Create from JSON
+  factory AnimationSettings.fromJson(Map<String, dynamic> json) {
+    return AnimationSettings(
+      enabled: json['enabled'] as bool? ?? true,
+      shortDuration: Duration(milliseconds: json['shortDuration'] as int? ?? 150),
+      mediumDuration: Duration(milliseconds: json['mediumDuration'] as int? ?? 250),
+      longDuration: Duration(milliseconds: json['longDuration'] as int? ?? 350),
+      defaultCurve: json.containsKey('defaultCurve') 
+          ? _stringToCurve(json['defaultCurve'] as String?) 
+          : Curves.easeInOut,
+      entranceCurve: json.containsKey('entranceCurve')
+          ? _stringToCurve(json['entranceCurve'] as String?)
+          : Curves.easeOutBack,
+      exitCurve: json.containsKey('exitCurve')
+          ? _stringToCurve(json['exitCurve'] as String?)
+          : Curves.easeInCubic,
+      dragStartScale: (json['dragStartScale'] as num?)?.toDouble() ?? 1.05,
+      entranceScale: (json['entranceScale'] as num?)?.toDouble() ?? 0.8,
+    );
+  }
 }
 
 /// Types of animations in the form builder

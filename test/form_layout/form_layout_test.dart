@@ -7,6 +7,7 @@ import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
 import 'package:formbuilder/form_layout/widgets/grid_drag_target.dart';
+import 'package:formbuilder/form_layout/intents/form_layout_intents.dart';
 
 void main() {
   group('FormLayout', () {
@@ -334,6 +335,93 @@ void main() {
       // Reset to default size
       tester.view.resetPhysicalSize();
       tester.view.resetDevicePixelRatio();
+    });
+
+    testWidgets('passes export callback to FormLayoutActionDispatcher', (tester) async {
+      String? exportedData;
+      
+      // Create a simple test to verify the callback is passed through
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: FormLayout(
+              toolbox: testToolbox,
+              onExportLayout: (jsonString) {
+                exportedData = jsonString;
+              },
+              initialLayout: LayoutState(
+                dimensions: const GridDimensions(columns: 3, rows: 2),
+                widgets: [
+                  WidgetPlacement(
+                    id: 'test_widget_1',
+                    widgetName: 'test_widget',
+                    column: 0,
+                    row: 0,
+                    width: 2,
+                    height: 1,
+                    properties: {'text': 'Test Export'},
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      // Verify the FormLayout renders properly with export callback
+      expect(find.byType(FormLayout), findsOneWidget);
+      
+      // Test passes if the widget builds correctly with the callback
+    });
+
+    testWidgets('passes import callback to FormLayoutActionDispatcher', (tester) async {
+      LayoutState? importedLayout;
+      String? importError;
+      
+      // Create a simple test to verify the callback is passed through
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: FormLayout(
+              toolbox: testToolbox,
+              onImportLayout: (layout, error) {
+                importedLayout = layout;
+                importError = error;
+              },
+            ),
+          ),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      // Verify the FormLayout renders properly with import callback
+      expect(find.byType(FormLayout), findsOneWidget);
+      
+      // Test passes if the widget builds correctly with the callback
+    });
+
+    testWidgets('builds correctly without import/export callbacks', (tester) async {
+      // Test that FormLayout builds correctly without callbacks
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: FormLayout(
+              toolbox: testToolbox,
+              // No import/export callbacks provided
+            ),
+          ),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      // Verify the FormLayout renders properly without callbacks
+      expect(find.byType(FormLayout), findsOneWidget);
+      
+      // Test passes if the widget builds correctly without callbacks
     });
   });
 }

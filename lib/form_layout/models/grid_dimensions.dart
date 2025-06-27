@@ -57,6 +57,22 @@ class GridDimensions {
   @override
   int get hashCode => columns.hashCode ^ rows.hashCode;
 
+  /// Convert to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'columns': columns,
+      'rows': rows,
+    };
+  }
+
+  /// Create from JSON
+  factory GridDimensions.fromJson(Map<String, dynamic> json) {
+    return GridDimensions.validated(
+      columns: json['columns'] as int,
+      rows: json['rows'] as int,
+    );
+  }
+
   @override
   String toString() {
     return 'GridDimensions(columns: $columns, rows: $rows)';

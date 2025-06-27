@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:formbuilder/form_layout/intents/form_layout_intents.dart';
 import 'package:formbuilder/form_layout/hooks/use_form_layout.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
+import 'package:formbuilder/form_layout/models/layout_state.dart';
+import 'package:formbuilder/form_layout/utils/layout_serializer.dart';
 
 /// Action that handles adding widgets to the form layout
 class AddWidgetAction extends Action<AddWidgetIntent> {
@@ -325,6 +327,61 @@ class ClearHistoryAction extends Action<ClearHistoryIntent> {
       return true;
     } catch (e) {
       debugPrint('Failed to clear history: $e');
+      return false;
+    }
+  }
+}
+
+/// Action that handles exporting the current layout
+class ExportLayoutAction extends Action<ExportLayoutIntent> {
+  final FormLayoutController controller;
+  final void Function(String jsonString)? onExportLayout;
+
+  ExportLayoutAction(this.controller, this.onExportLayout);
+
+  @override
+  bool invoke(ExportLayoutIntent intent) {
+    try {
+      if (onExportLayout == null) {
+        debugPrint('Export callback not provided');
+        return false;
+      }
+      
+      final jsonString = LayoutSerializer.toJsonString(controller.state);
+      onExportLayout!(jsonString);
+      return true;
+    } catch (e) {
+      debugPrint('Failed to export layout: $e');
+      return false;
+    }
+  }
+}
+
+/// Action that handles importing a layout from JSON
+class ImportLayoutAction extends Action<ImportLayoutIntent> {
+  final FormLayoutController controller;
+  final void Function(LayoutState? layout, String? error)? onImportLayout;
+
+  ImportLayoutAction(this.controller, this.onImportLayout);
+
+  @override
+  bool invoke(ImportLayoutIntent intent) {
+    try {
+      final layout = LayoutSerializer.fromJsonString(intent.jsonString);
+      
+      if (layout != null) {
+        // Successfully imported, update the controller state
+        controller.loadLayout(layout);
+        onImportLayout?.call(layout, null);
+        return true;
+      } else {
+        // Import failed due to invalid JSON or validation
+        onImportLayout?.call(null, 'Invalid layout data or validation failed');
+        return false;
+      }
+    } catch (e) {
+      debugPrint('Failed to import layout: $e');
+      onImportLayout?.call(null, 'Import error: $e');
       return false;
     }
   }

@@ -224,6 +224,30 @@ class FormLayoutController extends ChangeNotifier {
   void togglePreviewMode() {
     setPreviewMode(!_isPreviewMode);
   }
+
+  /// Load a new layout state (creates undo point)
+  void loadLayout(LayoutState newLayout) {
+    // Save current state to undo stack
+    _undoStack.add(_state);
+    
+    // Limit undo stack size
+    if (_undoStack.length > _undoLimit) {
+      _undoStack.removeAt(0);
+    }
+    
+    // Clear redo stack when new layout is loaded
+    _redoStack.clear();
+    
+    // Set the new layout
+    _state = newLayout;
+    
+    // Clear selection and interaction states
+    _selectedWidgetId = null;
+    _draggingWidgetIds.clear();
+    _resizingWidgetIds.clear();
+    
+    notifyListeners();
+  }
 }
 
 /// Custom hook for managing form layout state

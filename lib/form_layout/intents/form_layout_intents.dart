@@ -144,3 +144,18 @@ class StopResizingIntent extends Intent {
 class ClearHistoryIntent extends Intent {
   const ClearHistoryIntent();
 }
+
+/// Intent to export the current layout
+class ExportLayoutIntent extends Intent {
+  const ExportLayoutIntent();
+}
+
+/// Intent to import a layout from JSON string
+class ImportLayoutIntent extends Intent {
+  /// The JSON string containing the layout data
+  final String jsonString;
+
+  const ImportLayoutIntent({
+    required this.jsonString,
+  });
+}

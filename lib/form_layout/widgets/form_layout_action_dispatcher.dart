@@ -5,6 +5,7 @@ import 'package:formbuilder/form_layout/intents/form_layout_actions.dart';
 import 'package:formbuilder/form_layout/hooks/use_form_layout.dart';
 import 'package:formbuilder/form_layout/models/toolbox_item.dart';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
+import 'package:formbuilder/form_layout/models/layout_state.dart';
 
 /// Widget that provides all form layout actions to its descendants
 class FormLayoutActionDispatcher extends StatelessWidget {
@@ -13,11 +14,19 @@ class FormLayoutActionDispatcher extends StatelessWidget {
   
   /// The child widget to wrap with actions
   final Widget child;
+  
+  /// Callback when layout export is requested
+  final void Function(String jsonString)? onExportLayout;
+  
+  /// Callback when layout import is requested
+  final void Function(LayoutState? layout, String? error)? onImportLayout;
 
   const FormLayoutActionDispatcher({
     super.key,
     required this.controller,
     required this.child,
+    this.onExportLayout,
+    this.onImportLayout,
   });
 
   @override
@@ -48,6 +57,10 @@ class FormLayoutActionDispatcher extends StatelessWidget {
         StopDraggingIntent: StopDraggingAction(controller),
         StartResizingIntent: StartResizingAction(controller),
         StopResizingIntent: StopResizingAction(controller),
+        
+        // Import/Export actions
+        ExportLayoutIntent: ExportLayoutAction(controller, onExportLayout),
+        ImportLayoutIntent: ImportLayoutAction(controller, onImportLayout),
       },
       child: child,
     );
@@ -168,5 +181,15 @@ mixin FormLayoutIntentInvoker<T extends StatefulWidget> on State<T> {
   /// Clear the undo/redo history
   bool clearHistory() {
     return context.maybeInvokeIntent(const ClearHistoryIntent());
+  }
+  
+  /// Export the current layout
+  bool exportLayout() {
+    return context.maybeInvokeIntent(const ExportLayoutIntent());
+  }
+  
+  /// Import a layout from JSON string
+  bool importLayout(String jsonString) {
+    return context.maybeInvokeIntent(ImportLayoutIntent(jsonString: jsonString));
   }
 }

@@ -156,36 +156,50 @@ class LayoutState {
 
   Map<String, dynamic> toJson() {
     return {
-      'dimensions': {
-        'columns': dimensions.columns,
-        'rows': dimensions.rows,
+      'version': '1.0.0',
+      'timestamp': DateTime.now().toIso8601String(),
+      'metadata': {
+        'widgetCount': widgets.length,
+        'gridSize': dimensions.columns * dimensions.rows,
+        'totalArea': widgets.fold<int>(0, (sum, widget) => sum + widget.width * widget.height),
       },
-      'widgets': widgets.map((widget) => {
-        'id': widget.id,
-        'widgetName': widget.widgetName,
-        'column': widget.column,
-        'row': widget.row,
-        'width': widget.width,
-        'height': widget.height,
-      }).toList(),
+      'dimensions': dimensions.toJson(),
+      'widgets': widgets.map((widget) => widget.toJson()).toList(),
     };
   }
 
   factory LayoutState.fromJson(Map<String, dynamic> json) {
-    final dimensions = GridDimensions(
-      columns: json['dimensions']['columns'] as int,
-      rows: json['dimensions']['rows'] as int,
-    );
+    // Handle both new and legacy formats
+    final dimensionsData = json['dimensions'] as Map<String, dynamic>;
+    final GridDimensions dimensions;
+    
+    if (dimensionsData.containsKey('columns')) {
+      // Direct format or GridDimensions.toJson format
+      dimensions = GridDimensions.fromJson(dimensionsData);
+    } else {
+      // Legacy format
+      dimensions = GridDimensions(
+        columns: dimensionsData['columns'] as int,
+        rows: dimensionsData['rows'] as int,
+      );
+    }
 
     final widgets = (json['widgets'] as List).map((widgetJson) {
-      return WidgetPlacement(
-        id: widgetJson['id'] as String,
-        widgetName: widgetJson['widgetName'] as String,
-        column: widgetJson['column'] as int,
-        row: widgetJson['row'] as int,
-        width: widgetJson['width'] as int,
-        height: widgetJson['height'] as int,
-      );
+      // Check if this is the new format with WidgetPlacement.toJson
+      if (widgetJson.containsKey('properties')) {
+        return WidgetPlacement.fromJson(widgetJson as Map<String, dynamic>);
+      } else {
+        // Legacy format without properties
+        return WidgetPlacement(
+          id: widgetJson['id'] as String,
+          widgetName: widgetJson['widgetName'] as String,
+          column: widgetJson['column'] as int,
+          row: widgetJson['row'] as int,
+          width: widgetJson['width'] as int,
+          height: widgetJson['height'] as int,
+          properties: {}, // Empty properties for legacy format
+        );
+      }
     }).toList();
 
     return LayoutState(
