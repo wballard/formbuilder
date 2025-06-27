@@ -207,7 +207,7 @@ class _AnimatedDropTargetState extends State<AnimatedDropTarget>
               ? Container(
                   foregroundDecoration: BoxDecoration(
                     color: widget.activeColor!.withValues(
-                      alpha: widget.activeColor!.alpha * _colorAnimation.value / 255,
+                      alpha: widget.activeColor!.a * _colorAnimation.value,
                     ),
                   ),
                   child: child,

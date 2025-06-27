@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/semantics.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
 import 'dart:math';
@@ -60,9 +59,9 @@ class AccessibilityUtils {
 
   /// Calculate relative luminance of a color
   static double _relativeLuminance(Color color) {
-    final r = _toLinearRGB(color.red / 255.0);
-    final g = _toLinearRGB(color.green / 255.0);
-    final b = _toLinearRGB(color.blue / 255.0);
+    final r = _toLinearRGB(color.r);
+    final g = _toLinearRGB(color.g);
+    final b = _toLinearRGB(color.b);
     return 0.2126 * r + 0.7152 * g + 0.0722 * b;
   }
 

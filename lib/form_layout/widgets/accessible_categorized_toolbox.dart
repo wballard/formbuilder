@@ -187,6 +187,7 @@ class _AccessibleCategorizedToolboxState extends State<AccessibleCategorizedTool
     return Focus(
       focusNode: _toolboxFocusNode,
       onKeyEvent: (node, event) => _handleKeyEvent(event),
+      autofocus: false,
       child: Semantics(
         label: 'Widget toolbox',
         hint: 'Use arrow keys to navigate, Enter to select, Tab to expand categories',

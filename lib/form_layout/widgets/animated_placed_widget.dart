@@ -217,7 +217,6 @@ class _AnimatedPlacedWidgetState extends State<AnimatedPlacedWidget>
   Widget build(BuildContext context) {
     Widget child = PlacedWidget(
       placement: widget.placement,
-      child: widget.child,
       onTap: widget.onTap,
       isSelected: widget.isSelected,
       isDragging: widget.isDragging,
@@ -226,6 +225,7 @@ class _AnimatedPlacedWidgetState extends State<AnimatedPlacedWidget>
       onDelete: widget.onDelete,
       showDeleteButton: widget.showDeleteButton && !widget.isDeleting,
       showResizeHandles: widget.showResizeHandles,
+      child: widget.child,
     );
     
     // Apply animations

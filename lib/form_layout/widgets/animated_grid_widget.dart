@@ -51,12 +51,12 @@ class AnimatedGridWidget extends StatefulWidget {
 }
 
 class _AnimatedGridWidgetState extends State<AnimatedGridWidget>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late AnimationController _gridLinesController;
   late Animation<double> _gridLinesOpacity;
   
-  Map<Point<int>, AnimationController> _cellHighlightControllers = {};
-  Map<Point<int>, Animation<double>> _cellHighlightAnimations = {};
+  final Map<Point<int>, AnimationController> _cellHighlightControllers = {};
+  final Map<Point<int>, Animation<double>> _cellHighlightAnimations = {};
 
   @override
   void initState() {
@@ -252,7 +252,7 @@ class _AnimatedGridPainter extends CustomPainter {
         final isValid = isCellValid?.call(cell) ?? true;
         
         paint.color = isValid
-            ? highlightColor!.withValues(alpha: highlightColor!.alpha * opacity / 255)
+            ? highlightColor!.withValues(alpha: highlightColor!.a * opacity)
             : Colors.red.withValues(alpha: 0.3 * opacity);
         
         final rect = Rect.fromLTWH(
@@ -267,7 +267,7 @@ class _AnimatedGridPainter extends CustomPainter {
     }
     
     // Draw grid lines
-    if (lineColor.alpha > 0) {
+    if (lineColor.a > 0) {
       paint.color = lineColor;
       paint.strokeWidth = lineWidth;
       

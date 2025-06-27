@@ -85,8 +85,8 @@ class _BasicDragDropDemoState extends State<BasicDragDropDemo> {
     _addEvent('Cleared grid');
   }
 
-  Map<String, Widget> get _widgetBuilders => {
-    'text_input': Container(
+  Map<String, Widget Function(BuildContext, WidgetPlacement)> get _widgetBuilders => {
+    'text_input': (context, placement) => Container(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(4),
@@ -100,7 +100,7 @@ class _BasicDragDropDemoState extends State<BasicDragDropDemo> {
         ],
       ),
     ),
-    'button': Container(
+    'button': (context, placement) => Container(
       decoration: BoxDecoration(
         color: Colors.blue,
         borderRadius: BorderRadius.circular(4),
@@ -113,14 +113,14 @@ class _BasicDragDropDemoState extends State<BasicDragDropDemo> {
         ),
       ),
     ),
-    'label': Container(
+    'label': (context, placement) => Container(
       padding: const EdgeInsets.all(8),
       child: const Text(
         'Label',
         style: TextStyle(fontWeight: FontWeight.bold),
       ),
     ),
-    'checkbox': Container(
+    'checkbox': (context, placement) => Container(
       padding: const EdgeInsets.all(8),
       child: const Row(
         children: [
@@ -130,7 +130,7 @@ class _BasicDragDropDemoState extends State<BasicDragDropDemo> {
         ],
       ),
     ),
-    'radio': Container(
+    'radio': (context, placement) => Container(
       padding: const EdgeInsets.all(8),
       child: const Row(
         children: [
@@ -140,7 +140,7 @@ class _BasicDragDropDemoState extends State<BasicDragDropDemo> {
         ],
       ),
     ),
-    'dropdown': Container(
+    'dropdown': (context, placement) => Container(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(4),
@@ -153,7 +153,7 @@ class _BasicDragDropDemoState extends State<BasicDragDropDemo> {
         ],
       ),
     ),
-    'datepicker': Container(
+    'datepicker': (context, placement) => Container(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(4),
@@ -390,8 +390,8 @@ class _ComplexLayoutDemoState extends State<ComplexLayoutDemo> {
     );
   }
 
-  Map<String, Widget> get _widgetBuilders => {
-    'text_input': Container(
+  Map<String, Widget Function(BuildContext, WidgetPlacement)> get _widgetBuilders => {
+    'text_input': (context, placement) => Container(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(4),
@@ -399,7 +399,7 @@ class _ComplexLayoutDemoState extends State<ComplexLayoutDemo> {
       padding: const EdgeInsets.all(8),
       child: const Text('Text Input'),
     ),
-    'button': Container(
+    'button': (context, placement) => Container(
       decoration: BoxDecoration(
         color: Colors.blue,
         borderRadius: BorderRadius.circular(4),
@@ -412,7 +412,7 @@ class _ComplexLayoutDemoState extends State<ComplexLayoutDemo> {
         ),
       ),
     ),
-    'label': Container(
+    'label': (context, placement) => Container(
       padding: const EdgeInsets.all(8),
       child: const Text(
         'Contact Form',
@@ -553,8 +553,8 @@ class _ValidationDemoState extends State<ValidationDemo> {
     );
   }
 
-  Map<String, Widget> get _widgetBuilders => {
-    'text_input': Container(
+  Map<String, Widget Function(BuildContext, WidgetPlacement)> get _widgetBuilders => {
+    'text_input': (context, placement) => Container(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(4),
@@ -562,7 +562,7 @@ class _ValidationDemoState extends State<ValidationDemo> {
       padding: const EdgeInsets.all(8),
       child: const Text('Text Input'),
     ),
-    'button': Container(
+    'button': (context, placement) => Container(
       decoration: BoxDecoration(
         color: Colors.blue,
         borderRadius: BorderRadius.circular(4),

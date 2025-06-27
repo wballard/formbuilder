@@ -230,8 +230,6 @@ void main() {
         const foreground = Colors.black;
         const background = Colors.white;
         
-        final lightScheme = AccessibleColorScheme.lightColorScheme();
-        
         // The scheme should work with high contrast colors
         expect(
           AccessibilityUtils.meetsContrastRatio(foreground, background),

@@ -166,7 +166,6 @@ class _AccessiblePlacedWidgetState extends State<AccessiblePlacedWidget> {
     
     Widget placedWidget = AnimatedPlacedWidget(
       placement: widget.placement,
-      child: widget.child,
       onTap: widget.onTap,
       isSelected: widget.isSelected,
       isDragging: widget.isDragging,
@@ -178,6 +177,7 @@ class _AccessiblePlacedWidgetState extends State<AccessiblePlacedWidget> {
       animationSettings: widget.animationSettings,
       isDeleting: widget.isDeleting,
       onDeleteAnimationComplete: widget.onDeleteAnimationComplete,
+      child: widget.child,
     );
     
     // Wrap with focus and keyboard handling

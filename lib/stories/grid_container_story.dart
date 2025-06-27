@@ -61,8 +61,8 @@ class BasicGridContainerDemo extends StatelessWidget {
       ],
     );
 
-    final widgetBuilders = <String, Widget>{
-      'HeaderText': Container(
+    final widgetBuilders = <String, Widget Function(BuildContext, WidgetPlacement)>{
+      'HeaderText': (context, placement) => Container(
         color: Colors.blue.shade50,
         child: const Center(
           child: Text(
@@ -75,13 +75,13 @@ class BasicGridContainerDemo extends StatelessWidget {
           ),
         ),
       ),
-      'TextInput': const TextField(
+      'TextInput': (context, placement) => const TextField(
         decoration: InputDecoration(
           hintText: 'Enter your name',
           border: OutlineInputBorder(),
         ),
       ),
-      'Button': ElevatedButton(
+      'Button': (context, placement) => ElevatedButton(
         onPressed: () {},
         child: const Text('Submit'),
       ),
@@ -129,7 +129,7 @@ class _InteractiveGridContainerDemoState extends State<InteractiveGridContainerD
   Set<Point<int>>? _highlightedCells;
   
   late LayoutState _layoutState;
-  late Map<String, Widget> _widgetBuilders;
+  late Map<String, Widget Function(BuildContext, WidgetPlacement)> _widgetBuilders;
 
   @override
   void initState() {
@@ -190,7 +190,7 @@ class _InteractiveGridContainerDemoState extends State<InteractiveGridContainerD
     );
 
     _widgetBuilders = {
-      'Title': Container(
+      'Title': (context, placement) => Container(
         color: Colors.purple.shade50,
         child: const Center(
           child: Text(
@@ -203,26 +203,26 @@ class _InteractiveGridContainerDemoState extends State<InteractiveGridContainerD
           ),
         ),
       ),
-      'TextInput': const TextField(
+      'TextInput': (context, placement) => const TextField(
         decoration: InputDecoration(
           hintText: 'Enter text',
           border: OutlineInputBorder(),
         ),
       ),
-      'EmailInput': const TextField(
+      'EmailInput': (context, placement) => const TextField(
         decoration: InputDecoration(
           hintText: 'your@email.com',
           border: OutlineInputBorder(),
           prefixIcon: Icon(Icons.email),
         ),
       ),
-      'Checkbox': Row(
+      'Checkbox': (context, placement) => Row(
         children: [
           Checkbox(value: false, onChanged: (_) {}),
           const Text('Subscribe to newsletter'),
         ],
       ),
-      'Button': ElevatedButton(
+      'Button': (context, placement) => ElevatedButton(
         onPressed: () {},
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.purple,
@@ -427,8 +427,8 @@ class GridContainerSizesDemo extends StatelessWidget {
       ],
     );
 
-    final widgetBuilders = <String, Widget>{
-      'Widget': Container(
+    final widgetBuilders = <String, Widget Function(BuildContext, WidgetPlacement)>{
+      'Widget': (context, placement) => Container(
         color: Colors.green.shade100,
         child: const Center(
           child: Text('Widget'),
@@ -577,8 +577,8 @@ class FormExampleDemo extends StatelessWidget {
       ],
     );
 
-    final widgetBuilders = <String, Widget>{
-      'Title': Container(
+    final widgetBuilders = <String, Widget Function(BuildContext, WidgetPlacement)>{
+      'Title': (context, placement) => Container(
         color: Colors.indigo.shade50,
         child: const Center(
           child: Text(
@@ -591,7 +591,7 @@ class FormExampleDemo extends StatelessWidget {
           ),
         ),
       ),
-      'SectionLabel': Container(
+      'SectionLabel': (context, placement) => Container(
         color: Colors.grey.shade100,
         alignment: Alignment.centerLeft,
         padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -604,7 +604,7 @@ class FormExampleDemo extends StatelessWidget {
           ),
         ),
       ),
-      'SectionLabel2': Container(
+      'SectionLabel2': (context, placement) => Container(
         color: Colors.grey.shade100,
         alignment: Alignment.centerLeft,
         padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -617,13 +617,13 @@ class FormExampleDemo extends StatelessWidget {
           ),
         ),
       ),
-      'TextInput': const TextField(
+      'TextInput': (context, placement) => const TextField(
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         ),
       ),
-      'EmailInput': const TextField(
+      'EmailInput': (context, placement) => const TextField(
         decoration: InputDecoration(
           hintText: 'email@example.com',
           border: OutlineInputBorder(),
@@ -631,7 +631,7 @@ class FormExampleDemo extends StatelessWidget {
           contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         ),
       ),
-      'PhoneInput': const TextField(
+      'PhoneInput': (context, placement) => const TextField(
         decoration: InputDecoration(
           hintText: '(555) 123-4567',
           border: OutlineInputBorder(),
@@ -639,7 +639,7 @@ class FormExampleDemo extends StatelessWidget {
           contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         ),
       ),
-      'Dropdown': DropdownButtonFormField<String>(
+      'Dropdown': (context, placement) => DropdownButtonFormField<String>(
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
           contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -652,7 +652,7 @@ class FormExampleDemo extends StatelessWidget {
         ],
         onChanged: (_) {},
       ),
-      'PrimaryButton': ElevatedButton(
+      'PrimaryButton': (context, placement) => ElevatedButton(
         onPressed: () {},
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.indigo,
@@ -660,7 +660,7 @@ class FormExampleDemo extends StatelessWidget {
         ),
         child: const Text('Submit'),
       ),
-      'SecondaryButton': OutlinedButton(
+      'SecondaryButton': (context, placement) => OutlinedButton(
         onPressed: () {},
         child: const Text('Cancel'),
       ),

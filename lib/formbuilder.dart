@@ -1,4 +1,3 @@
-/// FormBuilder - A flexible form building library for Flutter
 
 // Main widget
 export 'form_layout/form_layout.dart';

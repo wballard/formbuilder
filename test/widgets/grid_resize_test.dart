@@ -317,6 +317,9 @@ void main() {
           ),
         );
 
+        // Wait for any animations to complete
+        await tester.pumpAndSettle();
+
         // No resize handles should be visible
         expect(find.byType(ResizeHandle), findsNothing);
       });
