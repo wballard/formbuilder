@@ -45,25 +45,19 @@ class ValidationResult {
         context = null;
 
   /// Creates an error validation result
-  const ValidationResult.error(String message, {Map<String, dynamic>? context})
+  const ValidationResult.error(this.message, {this.context})
       : isValid = false,
-        message = message,
-        severity = ValidationSeverity.error,
-        context = context;
+        severity = ValidationSeverity.error;
 
   /// Creates a warning validation result
-  const ValidationResult.warning(String message, {Map<String, dynamic>? context})
+  const ValidationResult.warning(this.message, {this.context})
       : isValid = true,
-        message = message,
-        severity = ValidationSeverity.warning,
-        context = context;
+        severity = ValidationSeverity.warning;
 
   /// Creates an info validation result
-  const ValidationResult.info(String message, {Map<String, dynamic>? context})
+  const ValidationResult.info(this.message, {this.context})
       : isValid = true,
-        message = message,
-        severity = ValidationSeverity.info,
-        context = context;
+        severity = ValidationSeverity.info;
 
   /// Whether this result indicates an error
   bool get isError => !isValid && severity == ValidationSeverity.error;

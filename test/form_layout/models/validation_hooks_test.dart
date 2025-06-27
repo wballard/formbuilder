@@ -91,7 +91,7 @@ void main() {
               const ValidationResult.success(),
         );
         
-        ValidateAddWidget newValidator = (state, placement) async =>
+        Future<ValidationResult> newValidator(state, placement) async =>
             const ValidationResult.error('New validator');
         
         final copy = original.copyWith(beforeAddWidget: newValidator);
