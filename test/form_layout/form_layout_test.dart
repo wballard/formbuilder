@@ -7,7 +7,6 @@ import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
 import 'package:formbuilder/form_layout/widgets/grid_drag_target.dart';
-import 'package:formbuilder/form_layout/intents/form_layout_intents.dart';
 
 void main() {
   group('FormLayout', () {
@@ -338,8 +337,6 @@ void main() {
     });
 
     testWidgets('passes export callback to FormLayoutActionDispatcher', (tester) async {
-      String? exportedData;
-      
       // Create a simple test to verify the callback is passed through
       await tester.pumpWidget(
         MaterialApp(
@@ -347,7 +344,7 @@ void main() {
             body: FormLayout(
               toolbox: testToolbox,
               onExportLayout: (jsonString) {
-                exportedData = jsonString;
+                // Callback provided for testing
               },
               initialLayout: LayoutState(
                 dimensions: const GridDimensions(columns: 3, rows: 2),
@@ -377,9 +374,6 @@ void main() {
     });
 
     testWidgets('passes import callback to FormLayoutActionDispatcher', (tester) async {
-      LayoutState? importedLayout;
-      String? importError;
-      
       // Create a simple test to verify the callback is passed through
       await tester.pumpWidget(
         MaterialApp(
@@ -387,8 +381,7 @@ void main() {
             body: FormLayout(
               toolbox: testToolbox,
               onImportLayout: (layout, error) {
-                importedLayout = layout;
-                importError = error;
+                // Callback provided for testing
               },
             ),
           ),

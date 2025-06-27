@@ -101,7 +101,15 @@ class WidgetPlacement {
       row.hashCode ^
       width.hashCode ^
       height.hashCode ^
-      properties.hashCode;
+      _mapHashCode(properties);
+
+  int _mapHashCode(Map<String, dynamic> map) {
+    int hash = 0;
+    for (final entry in map.entries) {
+      hash ^= entry.key.hashCode ^ entry.value.hashCode;
+    }
+    return hash;
+  }
 
   /// Convert to JSON
   Map<String, dynamic> toJson() {
