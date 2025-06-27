@@ -14,7 +14,7 @@ class GridContainer extends StatelessWidget {
   final LayoutState layoutState;
   
   /// Map of widget builders by widget name
-  final Map<String, Widget> widgetBuilders;
+  final Map<String, Widget Function(BuildContext, WidgetPlacement)> widgetBuilders;
   
   /// ID of the currently selected widget
   final String? selectedWidgetId;
@@ -102,15 +102,16 @@ class GridContainer extends StatelessWidget {
       isPreviewMode: isPreviewMode,
       child: Stack(
         children: [
-          // Grid background
-          AccessibleGridWidget(
-            dimensions: layoutState.dimensions,
-            highlightedCells: highlightedCells,
-            highlightColor: highlightColor,
-            isCellValid: isCellValid,
-            animationSettings: animationSettings,
-            showGridLines: !isPreviewMode,
-          ),
+          // Grid background (only show in edit mode)
+          if (!isPreviewMode)
+            AccessibleGridWidget(
+              dimensions: layoutState.dimensions,
+              highlightedCells: highlightedCells,
+              highlightColor: highlightColor,
+              isCellValid: isCellValid,
+              animationSettings: animationSettings,
+              showGridLines: true,
+            ),
         // Placed widgets overlay
         LayoutGrid(
           areas: _generateAreas(),
@@ -151,7 +152,9 @@ class GridContainer extends StatelessWidget {
       final widgetBuilder = widgetBuilders[placement.widgetName];
       
       // Create child widget or error widget
-      final child = widgetBuilder ?? _buildErrorWidget(placement.widgetName);
+      final child = widgetBuilder != null 
+          ? widgetBuilder(context, placement)
+          : _buildErrorWidget(placement.widgetName);
       
       final isSelected = selectedWidgetId == placement.id;
       final isDragging = draggingWidgetIds.contains(placement.id);

@@ -9,7 +9,7 @@ class FormPreview extends StatelessWidget {
   final LayoutState layoutState;
   
   /// Map of widget builders by widget name
-  final Map<String, Widget> widgetBuilders;
+  final Map<String, Widget Function(BuildContext, WidgetPlacement)> widgetBuilders;
   
   /// Background color for preview mode
   final Color? backgroundColor;
@@ -97,7 +97,9 @@ class FormPreview extends StatelessWidget {
       final widgetBuilder = widgetBuilders[placement.widgetName];
       
       // Create child widget or error widget
-      final child = widgetBuilder ?? _buildErrorWidget(placement.widgetName);
+      final child = widgetBuilder != null 
+          ? widgetBuilder(context, placement)
+          : _buildErrorWidget(placement.widgetName);
       
       // Wrap in a simple container without editing controls
       return Container(

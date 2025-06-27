@@ -85,16 +85,6 @@ void main() {
             builder: (context) {
               controller = useFormLayout(_createInitialState());
               
-              // Add a widget for testing
-              controller.addWidget(WidgetPlacement(
-                id: 'test_widget_id',
-                widgetName: 'test_widget',
-                column: 0,
-                row: 0,
-                width: 2,
-                height: 1,
-              ));
-              
               return FormLayoutActionDispatcher(
                 controller: controller,
                 child: Builder(
@@ -114,6 +104,17 @@ void main() {
           ),
         ),
       );
+
+      // Add a widget for testing
+      controller.addWidget(WidgetPlacement(
+        id: 'test_widget_id',
+        widgetName: 'test_widget',
+        column: 0,
+        row: 0,
+        width: 2,
+        height: 1,
+      ));
+      await tester.pump();
 
       expect(controller.state.widgets.length, 1);
       expect(invoked, false);
@@ -161,8 +162,8 @@ void main() {
       await tester.tap(find.byKey(const Key('move_button')));
       await tester.pump();
       final widgetAfter = controller.state.widgets.first;
-      expect(widgetAfter.column, 3);
-      expect(widgetAfter.row, 4);
+      expect(widgetAfter.column, 2);
+      expect(widgetAfter.row, 3);
       
       // Test remove widget
       await tester.tap(find.byKey(const Key('remove_button')));
@@ -178,16 +179,6 @@ void main() {
           home: HookBuilder(
             builder: (context) {
               controller = useFormLayout(_createInitialState());
-              
-              // Prepare state for testing
-              controller.addWidget(WidgetPlacement(
-                id: 'test_widget',
-                widgetName: 'test_widget',
-                column: 0,
-                row: 0,
-                width: 2,
-                height: 1,
-              ));
               
               return FormLayoutActionDispatcher(
                 controller: controller,
@@ -237,6 +228,17 @@ void main() {
           ),
         ),
       );
+      
+      // Prepare state for testing - add widget after initial build
+      controller.addWidget(WidgetPlacement(
+        id: 'test_widget',
+        widgetName: 'test_widget',
+        column: 0,
+        row: 0,
+        width: 2,
+        height: 1,
+      ));
+      await tester.pump();
       
       // Test undo action
       await tester.tap(find.byKey(const Key('undo')));
@@ -303,7 +305,7 @@ class _TestWidgetState extends State<_TestWidget> with FormLayoutIntentInvoker {
             final context = this.context;
             final ancestorContext = context.findAncestorWidgetOfExactType<FormLayoutActionDispatcher>()!.controller;
             if (ancestorContext.state.widgets.isNotEmpty) {
-              moveWidget(ancestorContext.state.widgets.first.id, const Point(3, 4));
+              moveWidget(ancestorContext.state.widgets.first.id, const Point(2, 3));
             }
           },
           child: const Text('Move'),

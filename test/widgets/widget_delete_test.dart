@@ -12,7 +12,7 @@ void main() {
   group('Widget Delete Functionality', () {
     late LayoutState testLayoutState;
     late Toolbox testToolbox;
-    late Map<String, Widget> testWidgetBuilders;
+    late Map<String, Widget Function(BuildContext, WidgetPlacement)> testWidgetBuilders;
 
     setUp(() {
       testLayoutState = LayoutState(
@@ -49,7 +49,7 @@ void main() {
       ]);
       
       testWidgetBuilders = {
-        'TestWidget': Container(color: Colors.blue),
+        'TestWidget': (context, placement) => Container(color: Colors.blue),
       };
     });
 
@@ -146,8 +146,8 @@ void main() {
         ),
       );
 
-      // Let the widget build completely
-      await tester.pumpAndSettle();
+      // Let the widget build completely  
+      await tester.pump();
 
       // Should find the delete button for selected widget
       expect(find.byIcon(Icons.close), findsOneWidget);
@@ -193,7 +193,7 @@ void main() {
         ),
       );
 
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       // Should find only one delete button (for the selected widget)
       expect(find.byIcon(Icons.close), findsOneWidget);
@@ -224,7 +224,7 @@ void main() {
         ),
       );
 
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       // Give the Focus widget autofocus and send key event directly
       // In tests, sendKeyEvent should work with any focusable widget
@@ -261,7 +261,7 @@ void main() {
         ),
       );
 
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       // Send Backspace key event directly
       await tester.sendKeyEvent(LogicalKeyboardKey.backspace);
@@ -295,7 +295,7 @@ void main() {
         ),
       );
 
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       // Send Delete key event directly
       await tester.sendKeyEvent(LogicalKeyboardKey.delete);
@@ -328,7 +328,7 @@ void main() {
         ),
       );
 
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       // Send various other key events directly
       await tester.sendKeyEvent(LogicalKeyboardKey.enter);
@@ -388,7 +388,7 @@ void main() {
         ),
       );
 
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       // Find the positioned widget that contains the delete button
       final positionedFinder = find.ancestor(
@@ -421,7 +421,7 @@ void main() {
           ),
         );
 
-        await tester.pumpAndSettle();
+        await tester.pump();
 
         // Should show delete button when selected and not dragging/resizing
         expect(find.byIcon(Icons.close), findsOneWidget);

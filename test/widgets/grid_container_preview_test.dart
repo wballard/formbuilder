@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formbuilder/form_layout/widgets/grid_container.dart';
-import 'package:formbuilder/form_layout/widgets/grid_widget.dart';
+import 'package:formbuilder/form_layout/widgets/accessible_grid_widget.dart';
 import 'package:formbuilder/form_layout/widgets/placed_widget.dart';
 import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
@@ -10,7 +10,7 @@ import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
 void main() {
   group('GridContainer Preview Mode', () {
     late LayoutState testLayoutState;
-    late Map<String, Widget> testWidgetBuilders;
+    late Map<String, Widget Function(BuildContext, WidgetPlacement)> testWidgetBuilders;
 
     setUp(() {
       testLayoutState = LayoutState(
@@ -36,7 +36,7 @@ void main() {
       );
 
       testWidgetBuilders = {
-        'TestWidget': Container(
+        'TestWidget': (context, placement) => Container(
           color: Colors.blue,
           child: const Text('Test Widget'),
         ),
@@ -53,7 +53,7 @@ void main() {
         ),
       );
 
-      expect(find.byType(GridWidget), findsOneWidget);
+      expect(find.byType(AccessibleGridWidget), findsOneWidget);
     });
 
     testWidgets('hides grid background in preview mode', (WidgetTester tester) async {
@@ -67,7 +67,7 @@ void main() {
         ),
       );
 
-      expect(find.byType(GridWidget), findsNothing);
+      expect(find.byType(AccessibleGridWidget), findsNothing);
     });
 
     testWidgets('uses PlacedWidget in edit mode', (WidgetTester tester) async {
@@ -135,7 +135,7 @@ void main() {
       bool buttonPressed = false;
 
       final interactiveBuilders = {
-        'TestWidget': ElevatedButton(
+        'TestWidget': (context, placement) => ElevatedButton(
           onPressed: () {
             buttonPressed = true;
           },
@@ -252,7 +252,7 @@ void main() {
       );
 
       expect(find.byType(GridContainer), findsOneWidget);
-      expect(find.byType(GridWidget), findsNothing);
+      expect(find.byType(AccessibleGridWidget), findsNothing);
     });
 
     testWidgets('callback parameters are ignored in preview mode', (WidgetTester tester) async {

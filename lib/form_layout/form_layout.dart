@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:formbuilder/form_layout/models/layout_state.dart';
+import 'package:formbuilder/form_layout/models/widget_placement.dart';
 import 'package:formbuilder/form_layout/models/toolbox.dart';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
 import 'package:formbuilder/form_layout/models/animation_settings.dart';
 import 'package:formbuilder/form_layout/widgets/accessible_categorized_toolbox.dart';
-import 'dart:math';
 import 'package:formbuilder/form_layout/widgets/grid_drag_target.dart';
 import 'package:formbuilder/form_layout/widgets/keyboard_handler.dart';
 import 'package:formbuilder/form_layout/widgets/form_layout_action_dispatcher.dart';
@@ -217,15 +217,11 @@ class FormLayout extends HookWidget {
   }
 
 
-  Map<String, Widget> _getWidgetBuilders(CategorizedToolbox toolbox) {
-    final builders = <String, Widget>{};
+  Map<String, Widget Function(BuildContext, WidgetPlacement)> _getWidgetBuilders(CategorizedToolbox toolbox) {
+    final builders = <String, Widget Function(BuildContext, WidgetPlacement)>{};
     for (final category in toolbox.categories) {
       for (final item in category.items) {
-        // Create a placeholder widget for each item type
-        // The actual builder will be called by GridDragTarget with the placement
-        builders[item.name] = Builder(
-          builder: (context) => item.toolboxBuilder(context),
-        );
+        builders[item.name] = item.gridBuilder;
       }
     }
     return builders;

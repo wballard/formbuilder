@@ -11,7 +11,7 @@ void main() {
   group('Grid Resize Functionality', () {
     late LayoutState testLayoutState;
     late Toolbox testToolbox;
-    late Map<String, Widget> testWidgetBuilders;
+    late Map<String, Widget Function(BuildContext, WidgetPlacement)> testWidgetBuilders;
 
     setUp(() {
       testLayoutState = LayoutState(
@@ -40,7 +40,7 @@ void main() {
       ]);
       
       testWidgetBuilders = {
-        'TestWidget': Container(color: Colors.blue),
+        'TestWidget': (context, placement) => Container(color: Colors.blue),
       };
     });
 

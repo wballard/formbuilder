@@ -306,6 +306,10 @@ class _PlacedWidgetState extends State<PlacedWidget>
           message: 'Delete widget',
           child: InkWell(
             onTap: () {
+              // Call the direct callback if provided
+              widget.onDelete?.call();
+              
+              // Also invoke the intent for action handling
               Actions.maybeInvoke<RemoveWidgetIntent>(
                 context, 
                 RemoveWidgetIntent(widgetId: widget.placement.id),

@@ -10,14 +10,14 @@ import 'package:formbuilder/form_layout/models/toolbox_item.dart';
 void main() {
   group('GridDragTarget', () {
     late LayoutState testLayoutState;
-    late Map<String, Widget> testWidgetBuilders;
+    late Map<String, Widget Function(BuildContext, WidgetPlacement)> testWidgetBuilders;
     late Toolbox testToolbox;
 
     setUp(() {
       testLayoutState = LayoutState.empty();
       testWidgetBuilders = {
-        'TextInput': Container(color: Colors.blue),
-        'Button': Container(color: Colors.green),
+        'TextInput': (context, placement) => Container(color: Colors.blue),
+        'Button': (context, placement) => Container(color: Colors.green),
       };
       testToolbox = Toolbox.withDefaults();
     });

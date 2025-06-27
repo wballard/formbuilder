@@ -8,7 +8,7 @@ import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
 void main() {
   group('FormPreview', () {
     late LayoutState testLayoutState;
-    late Map<String, Widget> testWidgetBuilders;
+    late Map<String, Widget Function(BuildContext, WidgetPlacement)> testWidgetBuilders;
 
     setUp(() {
       testLayoutState = LayoutState(
@@ -42,11 +42,11 @@ void main() {
       );
 
       testWidgetBuilders = {
-        'TestButton': ElevatedButton(
+        'TestButton': (context, placement) => ElevatedButton(
           onPressed: () {},
           child: const Text('Test Button'),
         ),
-        'TestTextField': const TextField(
+        'TestTextField': (context, placement) => const TextField(
           decoration: InputDecoration(labelText: 'Test Field'),
         ),
       };
@@ -155,7 +155,7 @@ void main() {
       bool buttonPressed = false;
 
       final interactiveWidgetBuilders = {
-        'TestButton': ElevatedButton(
+        'TestButton': (context, placement) => ElevatedButton(
           onPressed: () {
             buttonPressed = true;
           },

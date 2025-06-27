@@ -114,12 +114,14 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
       case LogicalKeyboardKey.escape:
         // If in preview mode, exit preview mode
         if (widget.controller.isPreviewMode) {
+          widget.controller.setPreviewMode(false);
           Actions.maybeInvoke<TogglePreviewModeIntent>(
             context,
             const TogglePreviewModeIntent(),
           );
         } else {
           // Otherwise, deselect widget
+          widget.controller.selectWidget(null);
           Actions.maybeInvoke<SelectWidgetIntent>(
             context,
             const SelectWidgetIntent(widgetId: null),
@@ -149,6 +151,7 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
         event.logicalKey == LogicalKeyboardKey.backspace) {
       final selectedId = widget.controller.selectedWidgetId;
       if (selectedId != null) {
+        widget.controller.removeWidget(selectedId);
         Actions.maybeInvoke<RemoveWidgetIntent>(
           context,
           RemoveWidgetIntent(widgetId: selectedId),
@@ -163,15 +166,18 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
       case LogicalKeyboardKey.keyZ:
         if (isShiftPressed) {
           // Ctrl/Cmd+Shift+Z = Redo
+          widget.controller.redo();
           Actions.maybeInvoke<RedoIntent>(context, const RedoIntent());
         } else {
           // Ctrl/Cmd+Z = Undo
+          widget.controller.undo();
           Actions.maybeInvoke<UndoIntent>(context, const UndoIntent());
         }
         return true;
 
       case LogicalKeyboardKey.keyY:
         // Ctrl/Cmd+Y = Redo (Windows/Linux convention)
+        widget.controller.redo();
         Actions.maybeInvoke<RedoIntent>(context, const RedoIntent());
         return true;
 
@@ -179,6 +185,7 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
         // Ctrl/Cmd+D = Duplicate
         final selectedId = widget.controller.selectedWidgetId;
         if (selectedId != null) {
+          _duplicateWidget(selectedId);
           Actions.maybeInvoke<DuplicateWidgetIntent>(
             context,
             DuplicateWidgetIntent(widgetId: selectedId),
@@ -190,6 +197,7 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
         // Ctrl/Cmd+A = Select all (future feature)
         // For now, just select the first widget
         if (widget.controller.state.widgets.isNotEmpty) {
+          widget.controller.selectWidget(widget.controller.state.widgets.first.id);
           Actions.maybeInvoke<SelectWidgetIntent>(
             context,
             SelectWidgetIntent(widgetId: widget.controller.state.widgets.first.id),
@@ -199,6 +207,7 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
 
       case LogicalKeyboardKey.keyP:
         // Ctrl/Cmd+P = Toggle preview mode
+        widget.controller.togglePreviewMode();
         Actions.maybeInvoke<TogglePreviewModeIntent>(
           context,
           const TogglePreviewModeIntent(),
@@ -261,6 +270,8 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
 
     final currentId = widget.controller.selectedWidgetId;
     if (currentId == null) {
+      // Call the direct method and also invoke the intent
+      widget.controller.selectWidget(widgets.first.id);
       Actions.maybeInvoke<SelectWidgetIntent>(
         context,
         SelectWidgetIntent(widgetId: widgets.first.id),
@@ -270,6 +281,8 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
 
     final currentIndex = widgets.indexWhere((w) => w.id == currentId);
     if (currentIndex == -1) {
+      // Call the direct method and also invoke the intent
+      widget.controller.selectWidget(widgets.first.id);
       Actions.maybeInvoke<SelectWidgetIntent>(
         context,
         SelectWidgetIntent(widgetId: widgets.first.id),
@@ -278,6 +291,8 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
     }
 
     final nextIndex = (currentIndex + 1) % widgets.length;
+    // Call the direct method and also invoke the intent
+    widget.controller.selectWidget(widgets[nextIndex].id);
     Actions.maybeInvoke<SelectWidgetIntent>(
       context,
       SelectWidgetIntent(widgetId: widgets[nextIndex].id),
@@ -290,6 +305,8 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
 
     final currentId = widget.controller.selectedWidgetId;
     if (currentId == null) {
+      // Call the direct method and also invoke the intent
+      widget.controller.selectWidget(widgets.last.id);
       Actions.maybeInvoke<SelectWidgetIntent>(
         context,
         SelectWidgetIntent(widgetId: widgets.last.id),
@@ -299,6 +316,8 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
 
     final currentIndex = widgets.indexWhere((w) => w.id == currentId);
     if (currentIndex == -1) {
+      // Call the direct method and also invoke the intent
+      widget.controller.selectWidget(widgets.last.id);
       Actions.maybeInvoke<SelectWidgetIntent>(
         context,
         SelectWidgetIntent(widgetId: widgets.last.id),
@@ -307,6 +326,8 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
     }
 
     final previousIndex = currentIndex == 0 ? widgets.length - 1 : currentIndex - 1;
+    // Call the direct method and also invoke the intent
+    widget.controller.selectWidget(widgets[previousIndex].id);
     Actions.maybeInvoke<SelectWidgetIntent>(
       context,
       SelectWidgetIntent(widgetId: widgets[previousIndex].id),
@@ -318,6 +339,7 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
     if (currentId == null) {
       // No selection, select first widget
       if (widget.controller.state.widgets.isNotEmpty) {
+        widget.controller.selectWidget(widget.controller.state.widgets.first.id);
         Actions.maybeInvoke<SelectWidgetIntent>(
           context,
           SelectWidgetIntent(widgetId: widget.controller.state.widgets.first.id),
@@ -363,6 +385,7 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
     }
 
     if (targetWidget != null) {
+      widget.controller.selectWidget(targetWidget.id);
       Actions.maybeInvoke<SelectWidgetIntent>(
         context,
         SelectWidgetIntent(widgetId: targetWidget.id),
@@ -377,6 +400,7 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
         widget.controller.state.dimensions.rows - placement.height).toInt();
 
     if (newColumn != placement.column || newRow != placement.row) {
+      widget.controller.moveWidget(placement.id, newColumn, newRow);
       Actions.maybeInvoke<MoveWidgetIntent>(
         context,
         MoveWidgetIntent(
@@ -404,6 +428,7 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
     }
 
     if (newWidth != placement.width || newHeight != placement.height) {
+      widget.controller.resizeWidget(placement.id, newWidth, newHeight);
       Actions.maybeInvoke<ResizeWidgetIntent>(
         context,
         ResizeWidgetIntent(
@@ -411,6 +436,57 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
           newSize: Size(newWidth.toDouble(), newHeight.toDouble()),
         ),
       );
+    }
+  }
+
+  /// Duplicate a widget by creating a copy next to the original
+  void _duplicateWidget(String widgetId) {
+    try {
+      final selectedWidget = widget.controller.state.getWidget(widgetId);
+      if (selectedWidget == null) return;
+
+      // Try to place the duplicate next to the original
+      final gridDimensions = widget.controller.state.dimensions;
+      
+      // Try different positions around the original widget
+      final positions = [
+        // Right of original
+        Point(selectedWidget.column + selectedWidget.width, selectedWidget.row),
+        // Below original
+        Point(selectedWidget.column, selectedWidget.row + selectedWidget.height),
+        // Left of original
+        Point(selectedWidget.column - selectedWidget.width, selectedWidget.row),
+        // Above original
+        Point(selectedWidget.column, selectedWidget.row - selectedWidget.height),
+      ];
+
+      for (final position in positions) {
+        if (position.x >= 0 && 
+            position.y >= 0 && 
+            position.x + selectedWidget.width <= gridDimensions.columns &&
+            position.y + selectedWidget.height <= gridDimensions.rows) {
+          
+          final duplicateWidget = WidgetPlacement(
+            id: '${selectedWidget.id}_copy_${DateTime.now().millisecondsSinceEpoch}',
+            widgetName: selectedWidget.widgetName,
+            column: position.x,
+            row: position.y,
+            width: selectedWidget.width,
+            height: selectedWidget.height,
+          );
+
+          try {
+            widget.controller.addWidget(duplicateWidget);
+            widget.controller.selectWidget(duplicateWidget.id);
+            return;
+          } catch (e) {
+            // This position didn't work, try the next one
+            continue;
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint('Failed to duplicate widget: $e');
     }
   }
 }

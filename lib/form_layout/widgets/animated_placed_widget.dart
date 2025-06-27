@@ -225,6 +225,7 @@ class _AnimatedPlacedWidgetState extends State<AnimatedPlacedWidget>
       canDrag: widget.canDrag,
       onDelete: widget.onDelete,
       showDeleteButton: widget.showDeleteButton && !widget.isDeleting,
+      showResizeHandles: widget.showResizeHandles,
     );
     
     // Apply animations

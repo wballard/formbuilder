@@ -231,66 +231,132 @@ class _AccessibleCategorizedToolboxState extends State<AccessibleCategorizedTool
       selected: isSelected,
       child: Card(
         elevation: isSelected ? 4 : 1,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Category header
-            AccessibleTouchTarget(
-              onTap: () {
-                setState(() {
-                  if (isExpanded) {
-                    _expandedCategories.remove(category.name);
-                  } else {
-                    _expandedCategories.add(category.name);
-                  }
-                });
-              },
-              semanticLabel: category.name,
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Row(
+        child: widget.scrollDirection == Axis.horizontal
+            ? SizedBox(
+                width: 200, // Fixed width for horizontal scrolling
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Icon(
-                      isExpanded ? Icons.expand_less : Icons.expand_more,
-                      size: 20,
-                      semanticLabel: isExpanded ? 'Collapse' : 'Expand',
+                    // Category header
+                    AccessibleTouchTarget(
+                      onTap: () {
+                        setState(() {
+                          if (isExpanded) {
+                            _expandedCategories.remove(category.name);
+                          } else {
+                            _expandedCategories.add(category.name);
+                          }
+                        });
+                      },
+                      semanticLabel: category.name,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Row(
+                          children: [
+                            Icon(
+                              isExpanded ? Icons.expand_less : Icons.expand_more,
+                              size: 20,
+                              semanticLabel: isExpanded ? 'Collapse' : 'Expand',
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                category.name,
+                                style: theme.textTheme.titleSmall?.copyWith(
+                                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    const SizedBox(width: 8),
-                    Text(
-                      category.name,
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                    
+                    // Category items
+                    if (isExpanded) ...[
+                      const Divider(height: 1),
+                      Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Wrap(
+                          spacing: widget.itemSpacing,
+                          runSpacing: widget.itemSpacing,
+                          children: category.items.asMap().entries.map((entry) {
+                            final itemIndex = entry.key;
+                            final item = entry.value;
+                            final isItemSelected = isSelected && _selectedItemIndex == itemIndex;
+                            
+                            return _buildAccessibleItem(
+                              context,
+                              item,
+                              isItemSelected,
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Category header
+                  AccessibleTouchTarget(
+                    onTap: () {
+                      setState(() {
+                        if (isExpanded) {
+                          _expandedCategories.remove(category.name);
+                        } else {
+                          _expandedCategories.add(category.name);
+                        }
+                      });
+                    },
+                    semanticLabel: category.name,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Row(
+                        children: [
+                          Icon(
+                            isExpanded ? Icons.expand_less : Icons.expand_more,
+                            size: 20,
+                            semanticLabel: isExpanded ? 'Collapse' : 'Expand',
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            category.name,
+                            style: theme.textTheme.titleSmall?.copyWith(
+                              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  
+                  // Category items
+                  if (isExpanded) ...[
+                    const Divider(height: 1),
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Wrap(
+                        spacing: widget.itemSpacing,
+                        runSpacing: widget.itemSpacing,
+                        children: category.items.asMap().entries.map((entry) {
+                          final itemIndex = entry.key;
+                          final item = entry.value;
+                          final isItemSelected = isSelected && _selectedItemIndex == itemIndex;
+                          
+                          return _buildAccessibleItem(
+                            context,
+                            item,
+                            isItemSelected,
+                          );
+                        }).toList(),
                       ),
                     ),
                   ],
-                ),
+                ],
               ),
-            ),
-            
-            // Category items
-            if (isExpanded) ...[
-              const Divider(height: 1),
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: Wrap(
-                  spacing: widget.itemSpacing,
-                  runSpacing: widget.itemSpacing,
-                  children: category.items.asMap().entries.map((entry) {
-                    final itemIndex = entry.key;
-                    final item = entry.value;
-                    final isItemSelected = isSelected && _selectedItemIndex == itemIndex;
-                    
-                    return _buildAccessibleItem(
-                      context,
-                      item,
-                      isItemSelected,
-                    );
-                  }).toList(),
-                ),
-              ),
-            ],
-          ],
-        ),
       ),
     );
   }

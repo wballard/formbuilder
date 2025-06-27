@@ -75,16 +75,6 @@ void main() {
             builder: (context) {
               controller = useFormLayout(_createInitialState());
               
-              // Add a widget first
-              controller.addWidget(WidgetPlacement(
-                id: 'widget_to_remove',
-                widgetName: 'test_widget',
-                column: 0,
-                row: 0,
-                width: 2,
-                height: 1,
-              ));
-              
               return ElevatedButton(
                 onPressed: () {
                   final action = RemoveWidgetAction(controller);
@@ -99,6 +89,17 @@ void main() {
           ),
         ),
       );
+
+      // Add a widget first
+      controller.addWidget(WidgetPlacement(
+        id: 'widget_to_remove',
+        widgetName: 'test_widget',
+        column: 0,
+        row: 0,
+        width: 2,
+        height: 1,
+      ));
+      await tester.pump();
 
       expect(controller.state.widgets.length, 1);
       
@@ -115,16 +116,6 @@ void main() {
             builder: (context) {
               controller = useFormLayout(_createInitialState());
               
-              // Add a widget first
-              controller.addWidget(WidgetPlacement(
-                id: 'widget_to_move',
-                widgetName: 'test_widget',
-                column: 0,
-                row: 0,
-                width: 2,
-                height: 1,
-              ));
-              
               return ElevatedButton(
                 onPressed: () {
                   final action = MoveWidgetAction(controller);
@@ -140,6 +131,17 @@ void main() {
           ),
         ),
       );
+
+      // Add a widget first
+      controller.addWidget(WidgetPlacement(
+        id: 'widget_to_move',
+        widgetName: 'test_widget',
+        column: 0,
+        row: 0,
+        width: 2,
+        height: 1,
+      ));
+      await tester.pump();
 
       final widget = controller.state.widgets.first;
       expect(widget.column, 0);
@@ -160,16 +162,6 @@ void main() {
             builder: (context) {
               controller = useFormLayout(_createInitialState());
               
-              // Add a widget first
-              controller.addWidget(WidgetPlacement(
-                id: 'widget_to_resize',
-                widgetName: 'test_widget',
-                column: 0,
-                row: 0,
-                width: 2,
-                height: 1,
-              ));
-              
               return ElevatedButton(
                 onPressed: () {
                   final action = ResizeWidgetAction(controller);
@@ -185,6 +177,17 @@ void main() {
           ),
         ),
       );
+
+      // Add a widget first
+      controller.addWidget(WidgetPlacement(
+        id: 'widget_to_resize',
+        widgetName: 'test_widget',
+        column: 0,
+        row: 0,
+        width: 2,
+        height: 1,
+      ));
+      await tester.pump();
 
       final widget = controller.state.widgets.first;
       expect(widget.width, 2);
@@ -205,16 +208,6 @@ void main() {
             builder: (context) {
               controller = useFormLayout(_createInitialState());
               
-              // Add a widget first
-              controller.addWidget(WidgetPlacement(
-                id: 'widget_to_select',
-                widgetName: 'test_widget',
-                column: 0,
-                row: 0,
-                width: 2,
-                height: 1,
-              ));
-              
               return ElevatedButton(
                 onPressed: () {
                   final action = SelectWidgetAction(controller);
@@ -229,6 +222,17 @@ void main() {
           ),
         ),
       );
+
+      // Add a widget first
+      controller.addWidget(WidgetPlacement(
+        id: 'widget_to_select',
+        widgetName: 'test_widget',
+        column: 0,
+        row: 0,
+        width: 2,
+        height: 1,
+      ));
+      await tester.pump();
 
       expect(controller.selectedWidgetId, isNull);
       
@@ -245,16 +249,6 @@ void main() {
             builder: (context) {
               controller = useFormLayout(_createInitialState());
               
-              // Add a widget to create history
-              controller.addWidget(WidgetPlacement(
-                id: 'widget_for_undo',
-                widgetName: 'test_widget',
-                column: 0,
-                row: 0,
-                width: 2,
-                height: 1,
-              ));
-              
               return ElevatedButton(
                 onPressed: () {
                   final action = UndoAction(controller);
@@ -267,6 +261,17 @@ void main() {
           ),
         ),
       );
+
+      // Add a widget to create history
+      controller.addWidget(WidgetPlacement(
+        id: 'widget_for_undo',
+        widgetName: 'test_widget',
+        column: 0,
+        row: 0,
+        width: 2,
+        height: 1,
+      ));
+      await tester.pump();
 
       expect(controller.state.widgets.length, 1);
       expect(controller.canUndo, true);
@@ -284,17 +289,6 @@ void main() {
             builder: (context) {
               controller = useFormLayout(_createInitialState());
               
-              // Add a widget and undo to create redo history
-              controller.addWidget(WidgetPlacement(
-                id: 'widget_for_redo',
-                widgetName: 'test_widget',
-                column: 0,
-                row: 0,
-                width: 2,
-                height: 1,
-              ));
-              controller.undo();
-              
               return ElevatedButton(
                 onPressed: () {
                   final action = RedoAction(controller);
@@ -307,6 +301,18 @@ void main() {
           ),
         ),
       );
+
+      // Add a widget and undo to create redo history
+      controller.addWidget(WidgetPlacement(
+        id: 'widget_for_redo',
+        widgetName: 'test_widget',
+        column: 0,
+        row: 0,
+        width: 2,
+        height: 1,
+      ));
+      controller.undo();
+      await tester.pump();
 
       expect(controller.state.widgets.length, 0);
       expect(controller.canRedo, true);
@@ -357,16 +363,6 @@ void main() {
             builder: (context) {
               controller = useFormLayout(_createInitialState());
               
-              // Add a widget to duplicate
-              controller.addWidget(WidgetPlacement(
-                id: 'widget_to_duplicate',
-                widgetName: 'test_widget',
-                column: 0,
-                row: 0,
-                width: 2,
-                height: 1,
-              ));
-              
               return ElevatedButton(
                 onPressed: () {
                   final action = DuplicateWidgetAction(controller);
@@ -381,6 +377,17 @@ void main() {
           ),
         ),
       );
+
+      // Add a widget to duplicate
+      controller.addWidget(WidgetPlacement(
+        id: 'widget_to_duplicate',
+        widgetName: 'test_widget',
+        column: 0,
+        row: 0,
+        width: 2,
+        height: 1,
+      ));
+      await tester.pump();
 
       expect(controller.state.widgets.length, 1);
       

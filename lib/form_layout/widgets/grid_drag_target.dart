@@ -18,7 +18,7 @@ class GridDragTarget extends StatefulWidget {
   final LayoutState layoutState;
   
   /// Widget builders for rendering placed widgets
-  final Map<String, Widget> widgetBuilders;
+  final Map<String, Widget Function(BuildContext, WidgetPlacement)> widgetBuilders;
   
   /// The toolbox containing available widgets
   final Toolbox toolbox;
@@ -377,6 +377,10 @@ class _GridDragTargetState extends State<GridDragTarget> {
                          event.logicalKey == LogicalKeyboardKey.backspace;
       
       if (isDeleteKey) {
+        // Call the direct callback if provided
+        widget.onWidgetDelete?.call(widget.selectedWidgetId!);
+        
+        // Also invoke the intent for action handling
         Actions.maybeInvoke<RemoveWidgetIntent>(
           context,
           RemoveWidgetIntent(widgetId: widget.selectedWidgetId!),

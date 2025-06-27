@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 import 'package:formbuilder/form_layout/widgets/grid_container.dart';
-import 'package:formbuilder/form_layout/widgets/grid_widget.dart';
+import 'package:formbuilder/form_layout/widgets/accessible_grid_widget.dart';
 import 'package:formbuilder/form_layout/widgets/placed_widget.dart';
 import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
@@ -11,7 +11,7 @@ import 'dart:math';
 void main() {
   group('GridContainer', () {
     late LayoutState testLayoutState;
-    late Map<String, Widget> testWidgetBuilders;
+    late Map<String, Widget Function(BuildContext, WidgetPlacement)> testWidgetBuilders;
 
     setUp(() {
       const dimensions = GridDimensions(columns: 4, rows: 4);
@@ -38,10 +38,10 @@ void main() {
       );
       
       testWidgetBuilders = {
-        'TextInput': const TextField(
+        'TextInput': (context, placement) => const TextField(
           decoration: InputDecoration(hintText: 'Enter text'),
         ),
-        'Button': ElevatedButton(
+        'Button': (context, placement) => ElevatedButton(
           onPressed: () {},
           child: const Text('Submit'),
         ),
@@ -136,8 +136,8 @@ void main() {
         ),
       );
       
-      // Find the GridWidget and check its highlighting
-      final gridWidget = tester.widget<GridWidget>(find.byType(GridWidget));
+      // Find the AccessibleGridWidget and check its highlighting
+      final gridWidget = tester.widget<AccessibleGridWidget>(find.byType(AccessibleGridWidget));
       expect(gridWidget.highlightedCells, equals(highlightedCells));
     });
 
@@ -259,8 +259,8 @@ void main() {
         ),
       );
       
-      // Find the GridWidget and check validation function was passed
-      final gridWidget = tester.widget<GridWidget>(find.byType(GridWidget));
+      // Find the AccessibleGridWidget and check validation function was passed
+      final gridWidget = tester.widget<AccessibleGridWidget>(find.byType(AccessibleGridWidget));
       expect(gridWidget.isCellValid, equals(isCellValid));
       
       // Verify the validation function can be called
