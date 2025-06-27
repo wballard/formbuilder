@@ -102,10 +102,10 @@ void main() {
       );
       
       final gridWidget = tester.widget<GridWidget>(find.byType(GridWidget));
-      expect(gridWidget.gridLineColor, equals(Colors.grey.shade300));
+      expect(gridWidget.gridLineColor, isNull); // Uses theme default
       expect(gridWidget.gridLineWidth, equals(1.0));
-      expect(gridWidget.backgroundColor, equals(Colors.white));
-      expect(gridWidget.padding, equals(const EdgeInsets.all(8)));
+      expect(gridWidget.backgroundColor, isNull); // Uses theme default
+      expect(gridWidget.padding, isNull); // Uses theme default
     });
 
     testWidgets('fills available space', (WidgetTester tester) async {

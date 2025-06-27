@@ -181,7 +181,7 @@ void main() {
       for (final card in cards) {
         expect(card.shape, isA<RoundedRectangleBorder>());
         final shape = card.shape as RoundedRectangleBorder;
-        expect(shape.borderRadius, equals(BorderRadius.circular(8.0)));
+        expect(shape.borderRadius, equals(BorderRadius.circular(4.0))); // Uses theme default
       }
     });
 

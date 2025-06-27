@@ -5,6 +5,7 @@ import 'package:formbuilder/form_layout/models/animation_settings.dart';
 import 'package:formbuilder/form_layout/widgets/resize_handle.dart';
 import 'package:formbuilder/form_layout/widgets/animated_drag_feedback.dart';
 import 'package:formbuilder/form_layout/intents/form_layout_intents.dart';
+import 'package:formbuilder/form_layout/theme/form_layout_theme.dart';
 
 /// A widget that renders a placed widget on the grid with interaction states
 class PlacedWidget extends StatefulWidget {
@@ -110,7 +111,7 @@ class _PlacedWidgetState extends State<PlacedWidget>
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final formTheme = FormLayoutTheme.of(context);
     final isDesktop = !kIsWeb && (
       defaultTargetPlatform == TargetPlatform.macOS ||
       defaultTargetPlatform == TargetPlatform.windows ||
@@ -118,9 +119,9 @@ class _PlacedWidgetState extends State<PlacedWidget>
     );
     
     // Calculate elevation based on state
-    double elevation = 2.0;
+    double elevation = formTheme.elevations;
     if (_isHovering && isDesktop) {
-      elevation = 4.0;
+      elevation = formTheme.elevations * 2;
     }
     
     // Build the content
@@ -132,20 +133,20 @@ class _PlacedWidgetState extends State<PlacedWidget>
     // Wrap in Material for elevation and ink effects
     content = Material(
       elevation: elevation,
-      borderRadius: BorderRadius.circular(4),
-      color: Colors.white,
+      borderRadius: formTheme.widgetBorderRadius,
+      color: formTheme.gridBackgroundColor,
       child: InkWell(
         onTap: widget.onTap,
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: formTheme.widgetBorderRadius,
         child: Container(
           decoration: BoxDecoration(
             border: widget.isSelected
                 ? Border.all(
-                    color: theme.primaryColor,
+                    color: formTheme.selectionBorderColor,
                     width: 2.0,
                   )
                 : null,
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: formTheme.widgetBorderRadius,
           ),
           child: content,
         ),

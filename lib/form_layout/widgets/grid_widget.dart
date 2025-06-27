@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
+import 'package:formbuilder/form_layout/theme/form_layout_theme.dart';
 import 'dart:math';
 
 /// A widget that displays a grid layout with visual indicators
@@ -9,16 +10,16 @@ class GridWidget extends StatefulWidget {
   final GridDimensions dimensions;
   
   /// Color of the grid lines
-  final Color gridLineColor;
+  final Color? gridLineColor;
   
   /// Width of the grid lines
   final double gridLineWidth;
   
   /// Background color of the grid
-  final Color backgroundColor;
+  final Color? backgroundColor;
   
   /// Padding around the grid
-  final EdgeInsets padding;
+  final EdgeInsets? padding;
   
   /// Cells to highlight
   final Set<Point<int>>? highlightedCells;
@@ -35,16 +36,15 @@ class GridWidget extends StatefulWidget {
   const GridWidget({
     super.key,
     required this.dimensions,
-    Color? gridLineColor,
+    this.gridLineColor,
     this.gridLineWidth = 1.0,
-    Color? backgroundColor,
-    this.padding = const EdgeInsets.all(8),
+    this.backgroundColor,
+    this.padding,
     this.highlightedCells,
     this.highlightColor,
     this.invalidHighlightColor,
     this.isCellValid,
-  }) : gridLineColor = gridLineColor ?? const Color(0xFFE0E0E0), // Colors.grey.shade300
-       backgroundColor = backgroundColor ?? Colors.white;
+  });
 
   /// Helper method to calculate cells in a rectangle
   static Set<Point<int>> getCellsInRectangle(int col, int row, int width, int height) {
@@ -122,20 +122,22 @@ class _GridWidgetState extends State<GridWidget> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final defaultHighlightColor = widget.highlightColor ?? 
-        theme.primaryColor.withValues(alpha: 0.3);
-    final defaultInvalidColor = widget.invalidHighlightColor ?? 
-        Colors.red.withValues(alpha: 0.3);
+    final formTheme = FormLayoutTheme.of(context);
+    
+    final effectiveGridLineColor = widget.gridLineColor ?? formTheme.gridLineColor;
+    final effectiveBackgroundColor = widget.backgroundColor ?? formTheme.gridBackgroundColor;
+    final effectivePadding = widget.padding ?? formTheme.defaultPadding;
+    final effectiveHighlightColor = widget.highlightColor ?? formTheme.dragHighlightColor;
+    final effectiveInvalidColor = widget.invalidHighlightColor ?? formTheme.invalidDropColor;
     
     return Container(
-      color: widget.backgroundColor,
+      color: effectiveBackgroundColor,
       child: Padding(
-        padding: widget.padding,
+        padding: effectivePadding,
         child: Container(
           decoration: BoxDecoration(
             border: Border.all(
-              color: widget.gridLineColor,
+              color: effectiveGridLineColor,
               width: widget.gridLineWidth,
             ),
           ),
@@ -151,7 +153,7 @@ class _GridWidgetState extends State<GridWidget> with TickerProviderStateMixin {
             ),
             columnGap: 0,
             rowGap: 0,
-            children: _generateCells(defaultHighlightColor, defaultInvalidColor),
+            children: _generateCells(effectiveHighlightColor, effectiveInvalidColor, effectiveGridLineColor),
           ),
         ),
       ),
@@ -172,7 +174,7 @@ class _GridWidgetState extends State<GridWidget> with TickerProviderStateMixin {
   }
 
   /// Generate cells for the grid
-  List<Widget> _generateCells(Color highlightColor, Color invalidHighlightColor) {
+  List<Widget> _generateCells(Color highlightColor, Color invalidHighlightColor, Color gridLineColor) {
     final cells = <Widget>[];
     
     for (int row = 0; row < widget.dimensions.rows; row++) {
@@ -190,7 +192,7 @@ class _GridWidgetState extends State<GridWidget> with TickerProviderStateMixin {
         cells.add(
           _GridCell(
             area: 'cell_${row}_$col',
-            gridLineColor: widget.gridLineColor,
+            gridLineColor: gridLineColor,
             gridLineWidth: widget.gridLineWidth,
             isTopEdge: row == 0,
             isLeftEdge: col == 0,

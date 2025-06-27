@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:formbuilder/form_layout/models/toolbox_item.dart';
+import 'package:formbuilder/form_layout/theme/form_layout_theme.dart';
 
 /// A widget that displays a collection of draggable toolbox items
 class ToolboxWidget extends StatelessWidget {
@@ -48,8 +49,10 @@ class ToolboxWidget extends StatelessWidget {
     );
   }
 
-  /// Builds a single toolbox item with Material Design styling
+  /// Builds a single toolbox item with themed styling
   Widget _buildToolboxItem(BuildContext context, ToolboxItem item) {
+    final formTheme = FormLayoutTheme.of(context);
+    
     final widget = _HoverableCard(
       child: Tooltip(
         message: item.displayName,
@@ -62,7 +65,7 @@ class ToolboxWidget extends StatelessWidget {
               Container(
                 width: 100,
                 height: 100,
-                padding: const EdgeInsets.all(8),
+                padding: formTheme.defaultPadding,
                 child: ClipRect(
                   child: OverflowBox(
                     maxWidth: 84, // 100 - 16 (padding)
@@ -76,12 +79,10 @@ class ToolboxWidget extends StatelessWidget {
               ),
               // Item name
               Padding(
-                padding: const EdgeInsets.all(8),
+                padding: formTheme.defaultPadding,
                 child: Text(
                   item.displayName,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        fontWeight: FontWeight.w500,
-                      ),
+                  style: formTheme.labelStyle,
                   textAlign: TextAlign.center,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -96,8 +97,8 @@ class ToolboxWidget extends StatelessWidget {
     return LongPressDraggable<ToolboxItem>(
       data: item,
       feedback: Material(
-        elevation: 8,
-        borderRadius: BorderRadius.circular(8.0),
+        elevation: formTheme.elevations * 4, // Higher elevation for feedback
+        borderRadius: formTheme.widgetBorderRadius,
         color: Colors.transparent,
         child: Opacity(
           opacity: 0.8,
@@ -135,16 +136,19 @@ class _HoverableCardState extends State<_HoverableCard> {
 
   @override
   Widget build(BuildContext context) {
+    final formTheme = FormLayoutTheme.of(context);
+    
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         child: Card(
-          elevation: _isHovered ? 4 : 2,
+          elevation: _isHovered ? formTheme.elevations * 2 : formTheme.elevations,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
+            borderRadius: formTheme.widgetBorderRadius,
           ),
+          color: formTheme.toolboxBackgroundColor,
           child: widget.child,
         ),
       ),
