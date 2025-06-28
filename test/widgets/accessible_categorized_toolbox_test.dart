@@ -29,7 +29,8 @@ void main() {
                 defaultWidth: 1,
                 defaultHeight: 1,
                 toolboxBuilder: (context) => const Icon(Icons.check_box),
-                gridBuilder: (context, placement) => const Checkbox(value: false, onChanged: null),
+                gridBuilder: (context, placement) =>
+                    const Checkbox(value: false, onChanged: null),
               ),
             ],
           ),
@@ -54,21 +55,18 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AccessibleCategorizedToolbox(
-              toolbox: testToolbox,
-            ),
+            body: AccessibleCategorizedToolbox(toolbox: testToolbox),
           ),
         ),
       );
 
       // Check semantic label
-      expect(
-        find.bySemanticsLabel('Widget toolbox'),
-        findsOneWidget,
-      );
+      expect(find.bySemanticsLabel('Widget toolbox'), findsOneWidget);
 
       // Check semantic hint mentions navigation
-      final semantics = tester.getSemantics(find.byType(AccessibleCategorizedToolbox));
+      final semantics = tester.getSemantics(
+        find.byType(AccessibleCategorizedToolbox),
+      );
       expect(semantics.hint, contains('Use arrow keys to navigate'));
       expect(semantics.hint, contains('Enter to select'));
       expect(semantics.hint, contains('Tab to expand categories'));
@@ -78,9 +76,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AccessibleCategorizedToolbox(
-              toolbox: testToolbox,
-            ),
+            body: AccessibleCategorizedToolbox(toolbox: testToolbox),
           ),
         ),
       );
@@ -93,13 +89,13 @@ void main() {
       expect(find.text('Container'), findsNothing);
     });
 
-    testWidgets('should handle category expansion/collapse via tap', (tester) async {
+    testWidgets('should handle category expansion/collapse via tap', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AccessibleCategorizedToolbox(
-              toolbox: testToolbox,
-            ),
+            body: AccessibleCategorizedToolbox(toolbox: testToolbox),
           ),
         ),
       );
@@ -122,13 +118,13 @@ void main() {
       expect(find.text('Container'), findsNothing);
     });
 
-    testWidgets('should handle keyboard navigation between categories', (tester) async {
+    testWidgets('should handle keyboard navigation between categories', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AccessibleCategorizedToolbox(
-              toolbox: testToolbox,
-            ),
+            body: AccessibleCategorizedToolbox(toolbox: testToolbox),
           ),
         ),
       );
@@ -146,13 +142,13 @@ void main() {
       await tester.pump();
     });
 
-    testWidgets('should handle keyboard navigation between items', (tester) async {
+    testWidgets('should handle keyboard navigation between items', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AccessibleCategorizedToolbox(
-              toolbox: testToolbox,
-            ),
+            body: AccessibleCategorizedToolbox(toolbox: testToolbox),
           ),
         ),
       );
@@ -174,19 +170,19 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AccessibleCategorizedToolbox(
-              toolbox: testToolbox,
-            ),
+            body: AccessibleCategorizedToolbox(toolbox: testToolbox),
           ),
         ),
       );
 
       // Focus the toolbox - ensure the Focus widget inside has focus
-      final focusWidgetFinder = find.descendant(
-        of: find.byType(AccessibleCategorizedToolbox),
-        matching: find.byType(Focus),
-      ).first;
-      
+      final focusWidgetFinder = find
+          .descendant(
+            of: find.byType(AccessibleCategorizedToolbox),
+            matching: find.byType(Focus),
+          )
+          .first;
+
       final focusWidget = tester.widget<Focus>(focusWidgetFinder);
       focusWidget.focusNode!.requestFocus();
       await tester.pump();
@@ -222,9 +218,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AccessibleCategorizedToolbox(
-              toolbox: testToolbox,
-            ),
+            body: AccessibleCategorizedToolbox(toolbox: testToolbox),
           ),
         ),
       );
@@ -242,22 +236,24 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AccessibleCategorizedToolbox(
-              toolbox: testToolbox,
-            ),
+            body: AccessibleCategorizedToolbox(toolbox: testToolbox),
           ),
         ),
       );
 
       // Check Text Field item semantics
       expect(
-        find.bySemanticsLabel('Text Field. Default size: 2 by 1 cells. Double tap to place on grid.'),
+        find.bySemanticsLabel(
+          'Text Field. Default size: 2 by 1 cells. Double tap to place on grid.',
+        ),
         findsOneWidget,
       );
 
       // Check Checkbox item semantics
       expect(
-        find.bySemanticsLabel('Checkbox. Default size: 1 by 1 cells. Double tap to place on grid.'),
+        find.bySemanticsLabel(
+          'Checkbox. Default size: 1 by 1 cells. Double tap to place on grid.',
+        ),
         findsOneWidget,
       );
     });
@@ -266,9 +262,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AccessibleCategorizedToolbox(
-              toolbox: testToolbox,
-            ),
+            body: AccessibleCategorizedToolbox(toolbox: testToolbox),
           ),
         ),
       );
@@ -302,9 +296,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AccessibleCategorizedToolbox(
-              toolbox: emptyToolbox,
-            ),
+            body: AccessibleCategorizedToolbox(toolbox: emptyToolbox),
           ),
         ),
       );
@@ -314,12 +306,7 @@ void main() {
 
     testWidgets('should handle category with no items', (tester) async {
       final toolboxWithEmptyCategory = CategorizedToolbox(
-        categories: [
-          ToolboxCategory(
-            name: 'Empty',
-            items: [],
-          ),
-        ],
+        categories: [ToolboxCategory(name: 'Empty', items: [])],
       );
 
       await tester.pumpWidget(
@@ -339,9 +326,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AccessibleCategorizedToolbox(
-              toolbox: testToolbox,
-            ),
+            body: AccessibleCategorizedToolbox(toolbox: testToolbox),
           ),
         ),
       );

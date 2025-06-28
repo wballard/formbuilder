@@ -29,7 +29,8 @@ class _FormLayoutExampleState extends State<FormLayoutExample> {
           ToolboxItem(
             name: 'text_field',
             displayName: 'Text Field',
-            toolboxBuilder: (context) => const Icon(Icons.text_fields, size: 32),
+            toolboxBuilder: (context) =>
+                const Icon(Icons.text_fields, size: 32),
             gridBuilder: (context, placement) => _buildTextField(placement),
             defaultWidth: 2,
             defaultHeight: 1,
@@ -45,7 +46,8 @@ class _FormLayoutExampleState extends State<FormLayoutExample> {
           ToolboxItem(
             name: 'dropdown',
             displayName: 'Dropdown',
-            toolboxBuilder: (context) => const Icon(Icons.arrow_drop_down_circle, size: 32),
+            toolboxBuilder: (context) =>
+                const Icon(Icons.arrow_drop_down_circle, size: 32),
             gridBuilder: (context, placement) => _buildDropdown(placement),
             defaultWidth: 2,
             defaultHeight: 1,
@@ -66,7 +68,8 @@ class _FormLayoutExampleState extends State<FormLayoutExample> {
           ToolboxItem(
             name: 'radio_group',
             displayName: 'Radio Group',
-            toolboxBuilder: (context) => const Icon(Icons.radio_button_checked, size: 32),
+            toolboxBuilder: (context) =>
+                const Icon(Icons.radio_button_checked, size: 32),
             gridBuilder: (context, placement) => _buildRadioGroup(placement),
             defaultWidth: 2,
             defaultHeight: 2,
@@ -95,7 +98,8 @@ class _FormLayoutExampleState extends State<FormLayoutExample> {
           ToolboxItem(
             name: 'divider',
             displayName: 'Divider',
-            toolboxBuilder: (context) => const Icon(Icons.horizontal_rule, size: 32),
+            toolboxBuilder: (context) =>
+                const Icon(Icons.horizontal_rule, size: 32),
             gridBuilder: (context, placement) => _buildDivider(placement),
             defaultWidth: 4,
             defaultHeight: 1,
@@ -116,7 +120,8 @@ class _FormLayoutExampleState extends State<FormLayoutExample> {
           ToolboxItem(
             name: 'date_picker',
             displayName: 'Date Picker',
-            toolboxBuilder: (context) => const Icon(Icons.calendar_today, size: 32),
+            toolboxBuilder: (context) =>
+                const Icon(Icons.calendar_today, size: 32),
             gridBuilder: (context, placement) => _buildDatePicker(placement),
             defaultWidth: 2,
             defaultHeight: 1,
@@ -124,7 +129,8 @@ class _FormLayoutExampleState extends State<FormLayoutExample> {
           ToolboxItem(
             name: 'file_upload',
             displayName: 'File Upload',
-            toolboxBuilder: (context) => const Icon(Icons.upload_file, size: 32),
+            toolboxBuilder: (context) =>
+                const Icon(Icons.upload_file, size: 32),
             gridBuilder: (context, placement) => _buildFileUpload(placement),
             defaultWidth: 3,
             defaultHeight: 2,
@@ -228,10 +234,7 @@ class _FormLayoutExampleState extends State<FormLayoutExample> {
                 child: const Text('Enable Undo/Redo'),
               ),
               const PopupMenuDivider(),
-              const PopupMenuItem(
-                value: 'reset',
-                child: Text('Reset Layout'),
-              ),
+              const PopupMenuItem(value: 'reset', child: Text('Reset Layout')),
             ],
           ),
         ],
@@ -262,7 +265,7 @@ class _FormLayoutExampleState extends State<FormLayoutExample> {
                 ],
               ),
             ),
-          
+
           // The main FormLayout widget
           Expanded(
             child: FormLayout(
@@ -289,25 +292,29 @@ class _FormLayoutExampleState extends State<FormLayoutExample> {
 
   void _showJsonExport(BuildContext context) {
     if (_currentLayout == null) return;
-    
+
     // Convert layout to JSON (simplified for example)
     final json = {
       'dimensions': {
         'columns': _currentLayout!.dimensions.columns,
         'rows': _currentLayout!.dimensions.rows,
       },
-      'widgets': _currentLayout!.widgets.map((w) => {
-        'id': w.id,
-        'type': w.widgetName,
-        'position': {
-          'column': w.column,
-          'row': w.row,
-          'width': w.width,
-          'height': w.height,
-        },
-      }).toList(),
+      'widgets': _currentLayout!.widgets
+          .map(
+            (w) => {
+              'id': w.id,
+              'type': w.widgetName,
+              'position': {
+                'column': w.column,
+                'row': w.row,
+                'width': w.width,
+                'height': w.height,
+              },
+            },
+          )
+          .toList(),
     };
-    
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -419,10 +426,7 @@ class _FormLayoutExampleState extends State<FormLayoutExample> {
       alignment: Alignment.centerLeft,
       child: Text(
         'Label ${placement.id}',
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-        ),
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -437,9 +441,7 @@ class _FormLayoutExampleState extends State<FormLayoutExample> {
   static Widget _buildSpacer(WidgetPlacement placement) {
     return Container(
       color: Colors.grey.withValues(alpha: 0.1),
-      child: const Center(
-        child: Icon(Icons.space_bar, color: Colors.grey),
-      ),
+      child: const Center(child: Icon(Icons.space_bar, color: Colors.grey)),
     );
   }
 

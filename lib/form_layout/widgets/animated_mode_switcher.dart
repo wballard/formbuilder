@@ -5,16 +5,16 @@ import 'package:formbuilder/form_layout/models/animation_settings.dart';
 class AnimatedModeSwitcher extends StatelessWidget {
   /// Whether we're in preview mode
   final bool isPreviewMode;
-  
+
   /// The edit mode child widget
   final Widget editChild;
-  
+
   /// The preview mode child widget
   final Widget previewChild;
-  
+
   /// Animation settings
   final AnimationSettings animationSettings;
-  
+
   /// Custom transition builder
   final Widget Function(Widget, Animation<double>)? transitionBuilder;
 
@@ -32,7 +32,7 @@ class AnimatedModeSwitcher extends StatelessWidget {
     if (!animationSettings.enabled) {
       return isPreviewMode ? previewChild : editChild;
     }
-    
+
     return AnimatedSwitcher(
       duration: animationSettings.getDuration(AnimationType.long),
       switchInCurve: animationSettings.entranceCurve,
@@ -44,14 +44,11 @@ class AnimatedModeSwitcher extends StatelessWidget {
       ),
     );
   }
-  
+
   Widget _defaultTransitionBuilder(Widget child, Animation<double> animation) {
     return FadeTransition(
       opacity: animation,
-      child: ScaleTransition(
-        scale: animation,
-        child: child,
-      ),
+      child: ScaleTransition(scale: animation, child: child),
     );
   }
 }
@@ -60,13 +57,13 @@ class AnimatedModeSwitcher extends StatelessWidget {
 class AnimatedToolbar extends StatelessWidget {
   /// Whether the toolbar is visible
   final bool isVisible;
-  
+
   /// The toolbar child widget
   final Widget child;
-  
+
   /// Animation settings
   final AnimationSettings animationSettings;
-  
+
   /// Slide direction
   final AxisDirection slideFrom;
 
@@ -83,7 +80,7 @@ class AnimatedToolbar extends StatelessWidget {
     if (!animationSettings.enabled) {
       return isVisible ? child : const SizedBox.shrink();
     }
-    
+
     final Offset beginOffset;
     switch (slideFrom) {
       case AxisDirection.up:
@@ -99,7 +96,7 @@ class AnimatedToolbar extends StatelessWidget {
         beginOffset = const Offset(1.0, 0.0);
         break;
     }
-    
+
     return AnimatedSlide(
       duration: animationSettings.getDuration(AnimationType.medium),
       curve: animationSettings.defaultCurve,
@@ -118,16 +115,16 @@ class AnimatedToolbar extends StatelessWidget {
 class AnimatedCrossfade extends StatelessWidget {
   /// Whether to show the first child
   final bool showFirst;
-  
+
   /// The first child widget
   final Widget firstChild;
-  
+
   /// The second child widget
   final Widget secondChild;
-  
+
   /// Animation settings
   final AnimationSettings animationSettings;
-  
+
   /// Layout builder for size transitions
   final AnimatedCrossFadeBuilder? layoutBuilder;
 
@@ -145,7 +142,7 @@ class AnimatedCrossfade extends StatelessWidget {
     if (!animationSettings.enabled) {
       return showFirst ? firstChild : secondChild;
     }
-    
+
     return AnimatedCrossFade(
       firstChild: firstChild,
       secondChild: secondChild,

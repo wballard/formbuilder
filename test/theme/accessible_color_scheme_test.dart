@@ -6,12 +6,14 @@ import 'package:formbuilder/form_layout/utils/accessibility_utils.dart';
 void main() {
   group('AccessibleColorScheme', () {
     group('lightColorScheme', () {
-      testWidgets('should create light color scheme with accessible contrast', (tester) async {
+      testWidgets('should create light color scheme with accessible contrast', (
+        tester,
+      ) async {
         final colorScheme = AccessibleColorScheme.lightColorScheme();
 
         expect(colorScheme.brightness, equals(Brightness.light));
         expect(colorScheme.surface, equals(Colors.white));
-        
+
         // Verify contrast ratios meet WCAG AA standards
         expect(
           AccessibilityUtils.meetsContrastRatio(
@@ -20,7 +22,7 @@ void main() {
           ),
           isTrue,
         );
-        
+
         expect(
           AccessibilityUtils.meetsContrastRatio(
             colorScheme.onSurface,
@@ -30,7 +32,9 @@ void main() {
         );
       });
 
-      testWidgets('should accept custom colors and ensure contrast', (tester) async {
+      testWidgets('should accept custom colors and ensure contrast', (
+        tester,
+      ) async {
         const customPrimary = Colors.red;
         const customSecondary = Colors.green;
         const customError = Colors.orange;
@@ -45,7 +49,7 @@ void main() {
         expect(colorScheme.primary, isNotNull);
         expect(colorScheme.secondary, isNotNull);
         expect(colorScheme.error, isNotNull);
-        
+
         // All should meet contrast requirements
         expect(
           AccessibilityUtils.meetsContrastRatio(
@@ -58,11 +62,13 @@ void main() {
     });
 
     group('darkColorScheme', () {
-      testWidgets('should create dark color scheme with accessible contrast', (tester) async {
+      testWidgets('should create dark color scheme with accessible contrast', (
+        tester,
+      ) async {
         final colorScheme = AccessibleColorScheme.darkColorScheme();
 
         expect(colorScheme.brightness, equals(Brightness.dark));
-        
+
         // Verify contrast ratios meet WCAG AA standards
         expect(
           AccessibilityUtils.meetsContrastRatio(
@@ -71,7 +77,7 @@ void main() {
           ),
           isTrue,
         );
-        
+
         expect(
           AccessibilityUtils.meetsContrastRatio(
             colorScheme.onSurface,
@@ -81,7 +87,9 @@ void main() {
         );
       });
 
-      testWidgets('should accept custom colors and ensure contrast', (tester) async {
+      testWidgets('should accept custom colors and ensure contrast', (
+        tester,
+      ) async {
         const customPrimary = Colors.blue;
         const customSecondary = Colors.purple;
         const customError = Colors.pink;
@@ -104,7 +112,9 @@ void main() {
     });
 
     group('highContrastLight', () {
-      testWidgets('should create high contrast light color scheme', (tester) async {
+      testWidgets('should create high contrast light color scheme', (
+        tester,
+      ) async {
         final colorScheme = AccessibleColorScheme.highContrastLight();
 
         expect(colorScheme.brightness, equals(Brightness.light));
@@ -112,7 +122,7 @@ void main() {
         expect(colorScheme.onPrimary, equals(Colors.white));
         expect(colorScheme.surface, equals(Colors.white));
         expect(colorScheme.onSurface, equals(Colors.black));
-        
+
         // High contrast should definitely meet WCAG standards
         expect(
           AccessibilityUtils.meetsContrastRatio(
@@ -121,7 +131,7 @@ void main() {
           ),
           isTrue,
         );
-        
+
         expect(
           AccessibilityUtils.meetsContrastRatio(
             colorScheme.onSurface,
@@ -133,7 +143,9 @@ void main() {
     });
 
     group('highContrastDark', () {
-      testWidgets('should create high contrast dark color scheme', (tester) async {
+      testWidgets('should create high contrast dark color scheme', (
+        tester,
+      ) async {
         final colorScheme = AccessibleColorScheme.highContrastDark();
 
         expect(colorScheme.brightness, equals(Brightness.dark));
@@ -141,7 +153,7 @@ void main() {
         expect(colorScheme.onPrimary, equals(Colors.black));
         expect(colorScheme.surface, equals(Colors.black));
         expect(colorScheme.onSurface, equals(Colors.white));
-        
+
         // High contrast should definitely meet WCAG standards
         expect(
           AccessibilityUtils.meetsContrastRatio(
@@ -150,7 +162,7 @@ void main() {
           ),
           isTrue,
         );
-        
+
         expect(
           AccessibilityUtils.meetsContrastRatio(
             colorScheme.onSurface,
@@ -162,7 +174,9 @@ void main() {
     });
 
     group('getColorScheme', () {
-      testWidgets('should return light color scheme for light brightness', (tester) async {
+      testWidgets('should return light color scheme for light brightness', (
+        tester,
+      ) async {
         final colorScheme = AccessibleColorScheme.getColorScheme(
           brightness: Brightness.light,
           highContrast: false,
@@ -172,7 +186,9 @@ void main() {
         expect(colorScheme.surface, equals(Colors.white));
       });
 
-      testWidgets('should return dark color scheme for dark brightness', (tester) async {
+      testWidgets('should return dark color scheme for dark brightness', (
+        tester,
+      ) async {
         final colorScheme = AccessibleColorScheme.getColorScheme(
           brightness: Brightness.dark,
           highContrast: false,
@@ -181,7 +197,9 @@ void main() {
         expect(colorScheme.brightness, equals(Brightness.dark));
       });
 
-      testWidgets('should return high contrast light when requested', (tester) async {
+      testWidgets('should return high contrast light when requested', (
+        tester,
+      ) async {
         final colorScheme = AccessibleColorScheme.getColorScheme(
           brightness: Brightness.light,
           highContrast: true,
@@ -192,7 +210,9 @@ void main() {
         expect(colorScheme.surface, equals(Colors.white));
       });
 
-      testWidgets('should return high contrast dark when requested', (tester) async {
+      testWidgets('should return high contrast dark when requested', (
+        tester,
+      ) async {
         final colorScheme = AccessibleColorScheme.getColorScheme(
           brightness: Brightness.dark,
           highContrast: true,
@@ -203,9 +223,11 @@ void main() {
         expect(colorScheme.surface, equals(Colors.black));
       });
 
-      testWidgets('should accept custom colors for non-high contrast schemes', (tester) async {
+      testWidgets('should accept custom colors for non-high contrast schemes', (
+        tester,
+      ) async {
         const customPrimary = Colors.teal;
-        
+
         final lightScheme = AccessibleColorScheme.getColorScheme(
           brightness: Brightness.light,
           highContrast: false,
@@ -225,11 +247,13 @@ void main() {
     });
 
     group('_ensureContrast', () {
-      testWidgets('should maintain color if contrast is sufficient', (tester) async {
+      testWidgets('should maintain color if contrast is sufficient', (
+        tester,
+      ) async {
         // Black on white already has excellent contrast
         const foreground = Colors.black;
         const background = Colors.white;
-        
+
         // The scheme should work with high contrast colors
         expect(
           AccessibilityUtils.meetsContrastRatio(foreground, background),
@@ -237,19 +261,21 @@ void main() {
         );
       });
 
-      testWidgets('should adjust color if contrast is insufficient', (tester) async {
+      testWidgets('should adjust color if contrast is insufficient', (
+        tester,
+      ) async {
         // Light gray on white has poor contrast
         const foreground = Color(0xFFE0E0E0);
         const background = Colors.white;
-        
+
         expect(
           AccessibilityUtils.meetsContrastRatio(foreground, background),
           isFalse,
         );
-        
+
         // The color scheme should automatically adjust such colors
         final colorScheme = AccessibleColorScheme.lightColorScheme();
-        
+
         // All colors in the scheme should meet contrast requirements
         expect(
           AccessibilityUtils.meetsContrastRatio(
@@ -262,7 +288,9 @@ void main() {
     });
 
     group('color consistency', () {
-      testWidgets('should maintain consistent color relationships', (tester) async {
+      testWidgets('should maintain consistent color relationships', (
+        tester,
+      ) async {
         final lightScheme = AccessibleColorScheme.lightColorScheme();
         final darkScheme = AccessibleColorScheme.darkColorScheme();
 
@@ -275,12 +303,20 @@ void main() {
         expect(darkScheme.onSurface.computeLuminance(), greaterThan(0.5));
       });
 
-      testWidgets('should have proper container color relationships', (tester) async {
+      testWidgets('should have proper container color relationships', (
+        tester,
+      ) async {
         final lightScheme = AccessibleColorScheme.lightColorScheme();
 
         // Container colors should be different from their content colors
-        expect(lightScheme.onPrimaryContainer, isNot(equals(lightScheme.primaryContainer)));
-        expect(lightScheme.onSecondaryContainer, isNot(equals(lightScheme.secondaryContainer)));
+        expect(
+          lightScheme.onPrimaryContainer,
+          isNot(equals(lightScheme.primaryContainer)),
+        );
+        expect(
+          lightScheme.onSecondaryContainer,
+          isNot(equals(lightScheme.secondaryContainer)),
+        );
       });
     });
   });

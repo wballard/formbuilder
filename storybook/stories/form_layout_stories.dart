@@ -19,9 +19,7 @@ List<Story> getFormLayoutStories() {
             name: 'text',
             displayName: 'Text Input',
             toolboxBuilder: (context) => const Card(
-              child: Center(
-                child: Icon(Icons.text_fields, size: 32),
-              ),
+              child: Center(child: Icon(Icons.text_fields, size: 32)),
             ),
             gridBuilder: (context, placement) => Card(
               color: Colors.blue.shade100,
@@ -42,9 +40,7 @@ List<Story> getFormLayoutStories() {
             name: 'button',
             displayName: 'Button',
             toolboxBuilder: (context) => const Card(
-              child: Center(
-                child: Icon(Icons.smart_button, size: 32),
-              ),
+              child: Center(child: Icon(Icons.smart_button, size: 32)),
             ),
             gridBuilder: (context, placement) => Card(
               color: Colors.green.shade100,
@@ -66,16 +62,11 @@ List<Story> getFormLayoutStories() {
           ToolboxItem(
             name: 'image',
             displayName: 'Image',
-            toolboxBuilder: (context) => const Card(
-              child: Center(
-                child: Icon(Icons.image, size: 32),
-              ),
-            ),
+            toolboxBuilder: (context) =>
+                const Card(child: Center(child: Icon(Icons.image, size: 32))),
             gridBuilder: (context, placement) => Card(
               color: Colors.purple.shade100,
-              child: const Center(
-                child: Icon(Icons.image, size: 48),
-              ),
+              child: const Center(child: Icon(Icons.image, size: 48)),
             ),
             defaultWidth: 3,
             defaultHeight: 2,
@@ -84,15 +75,11 @@ List<Story> getFormLayoutStories() {
             name: 'chart',
             displayName: 'Chart',
             toolboxBuilder: (context) => const Card(
-              child: Center(
-                child: Icon(Icons.bar_chart, size: 32),
-              ),
+              child: Center(child: Icon(Icons.bar_chart, size: 32)),
             ),
             gridBuilder: (context, placement) => Card(
               color: Colors.orange.shade100,
-              child: const Center(
-                child: Icon(Icons.bar_chart, size: 48),
-              ),
+              child: const Center(child: Icon(Icons.bar_chart, size: 48)),
             ),
             defaultWidth: 4,
             defaultHeight: 3,
@@ -113,7 +100,7 @@ List<Story> getFormLayoutStories() {
         },
       ),
     ),
-    
+
     Story(
       name: 'Form Layout/Vertical Toolbox',
       description: 'FormLayout with toolbox positioned at the top',
@@ -135,7 +122,7 @@ List<Story> getFormLayoutStories() {
         ),
       ),
     ),
-    
+
     Story(
       name: 'Form Layout/No Toolbox',
       description: 'FormLayout with hidden toolbox (grid only)',
@@ -173,7 +160,7 @@ List<Story> getFormLayoutStories() {
         ),
       ),
     ),
-    
+
     Story(
       name: 'Form Layout/Custom Dimensions',
       description: 'FormLayout with custom grid dimensions',
@@ -181,36 +168,27 @@ List<Story> getFormLayoutStories() {
         toolbox: sampleToolbox,
         initialLayout: LayoutState(
           dimensions: GridDimensions(
-            columns: context.knobs.slider(
-              label: 'Columns',
-              initial: 6,
-              min: 2,
-              max: 12,
-            ).toInt(),
-            rows: context.knobs.slider(
-              label: 'Rows',
-              initial: 8,
-              min: 2,
-              max: 12,
-            ).toInt(),
+            columns: context.knobs
+                .slider(label: 'Columns', initial: 6, min: 2, max: 12)
+                .toInt(),
+            rows: context.knobs
+                .slider(label: 'Rows', initial: 8, min: 2, max: 12)
+                .toInt(),
           ),
           widgets: const [],
         ),
       ),
     ),
-    
+
     Story(
       name: 'Form Layout/Disabled Undo',
       description: 'FormLayout with undo/redo disabled',
       builder: (context) => FormLayout(
         toolbox: sampleToolbox,
-        enableUndo: context.knobs.boolean(
-          label: 'Enable Undo',
-          initial: false,
-        ),
+        enableUndo: context.knobs.boolean(label: 'Enable Undo', initial: false),
       ),
     ),
-    
+
     Story(
       name: 'Form Layout/Custom Theme',
       description: 'FormLayout with custom Material theme',
@@ -232,14 +210,14 @@ List<Story> getFormLayoutStories() {
         ),
       ),
     ),
-    
+
     Story(
       name: 'Form Layout/Pre-populated',
       description: 'FormLayout with pre-populated widgets',
       builder: (context) {
         final columns = 6;
         final rows = 8;
-        
+
         // Create a sample form layout
         final widgets = <WidgetPlacement>[
           // Header
@@ -289,7 +267,7 @@ List<Story> getFormLayoutStories() {
             height: 1,
           ),
         ];
-        
+
         return FormLayout(
           toolbox: sampleToolbox,
           initialLayout: LayoutState(
@@ -299,7 +277,7 @@ List<Story> getFormLayoutStories() {
         );
       },
     ),
-    
+
     Story(
       name: 'Form Layout/Callback Example',
       description: 'FormLayout with layout change callback',
@@ -307,7 +285,7 @@ List<Story> getFormLayoutStories() {
         return StatefulBuilder(
           builder: (context, setState) {
             String statusMessage = 'No changes yet';
-            
+
             return Column(
               children: [
                 Container(
@@ -326,7 +304,8 @@ List<Story> getFormLayoutStories() {
                     toolbox: sampleToolbox,
                     onLayoutChanged: (layout) {
                       setState(() {
-                        statusMessage = 'Layout has ${layout.widgets.length} widgets '
+                        statusMessage =
+                            'Layout has ${layout.widgets.length} widgets '
                             'on a ${layout.dimensions.columns}×${layout.dimensions.rows} grid';
                       });
                     },
@@ -338,14 +317,14 @@ List<Story> getFormLayoutStories() {
         );
       },
     ),
-    
+
     Story(
       name: 'Form Layout/Responsive',
       description: 'FormLayout that adapts to screen size',
       builder: (context) {
         final screenWidth = MediaQuery.of(context).size.width;
         final isSmallScreen = screenWidth < 600;
-        
+
         return FormLayout(
           toolbox: sampleToolbox,
           toolboxPosition: isSmallScreen ? Axis.vertical : Axis.horizontal,

@@ -11,13 +11,13 @@ import 'package:formbuilder/form_layout/models/layout_state.dart';
 class FormLayoutActionDispatcher extends StatelessWidget {
   /// The form layout controller to use for actions
   final FormLayoutController controller;
-  
+
   /// The child widget to wrap with actions
   final Widget child;
-  
+
   /// Callback when layout export is requested
   final void Function(String jsonString)? onExportLayout;
-  
+
   /// Callback when layout import is requested
   final void Function(LayoutState? layout, String? error)? onImportLayout;
 
@@ -40,24 +40,24 @@ class FormLayoutActionDispatcher extends StatelessWidget {
         ResizeWidgetIntent: ResizeWidgetAction(controller),
         SelectWidgetIntent: SelectWidgetAction(controller),
         DuplicateWidgetIntent: DuplicateWidgetAction(controller),
-        
+
         // Grid actions
         ResizeGridIntent: ResizeGridAction(controller),
-        
+
         // History actions
         UndoIntent: UndoAction(controller),
         RedoIntent: RedoAction(controller),
         ClearHistoryIntent: ClearHistoryAction(controller),
-        
+
         // Mode actions
         TogglePreviewModeIntent: TogglePreviewModeAction(controller),
-        
+
         // State management actions
         StartDraggingIntent: StartDraggingAction(controller),
         StopDraggingIntent: StopDraggingAction(controller),
         StartResizingIntent: StartResizingAction(controller),
         StopResizingIntent: StopResizingAction(controller),
-        
+
         // Import/Export actions
         ExportLayoutIntent: ExportLayoutAction(controller, onExportLayout),
         ImportLayoutIntent: ImportLayoutAction(controller, onImportLayout),
@@ -74,7 +74,7 @@ extension ActionInvoker on BuildContext {
     final result = Actions.maybeInvoke<T>(this, intent);
     return result != null;
   }
-  
+
   /// Invokes an intent and throws if not handled
   Object? invokeIntent<T extends Intent>(T intent) {
     return Actions.invoke<T>(this, intent);
@@ -85,111 +85,96 @@ extension ActionInvoker on BuildContext {
 mixin FormLayoutIntentInvoker<T extends StatefulWidget> on State<T> {
   /// Add a widget at the specified position
   bool addWidget(ToolboxItem item, Point<int> position) {
-    return context.maybeInvokeIntent(AddWidgetIntent(
-      item: item,
-      position: position,
-    ));
+    return context.maybeInvokeIntent(
+      AddWidgetIntent(item: item, position: position),
+    );
   }
-  
+
   /// Remove a widget by ID
   bool removeWidget(String widgetId) {
-    return context.maybeInvokeIntent(RemoveWidgetIntent(
-      widgetId: widgetId,
-    ));
+    return context.maybeInvokeIntent(RemoveWidgetIntent(widgetId: widgetId));
   }
-  
+
   /// Move a widget to a new position
   bool moveWidget(String widgetId, Point<int> newPosition) {
-    return context.maybeInvokeIntent(MoveWidgetIntent(
-      widgetId: widgetId,
-      newPosition: newPosition,
-    ));
+    return context.maybeInvokeIntent(
+      MoveWidgetIntent(widgetId: widgetId, newPosition: newPosition),
+    );
   }
-  
+
   /// Resize a widget
   bool resizeWidget(String widgetId, Size newSize) {
-    return context.maybeInvokeIntent(ResizeWidgetIntent(
-      widgetId: widgetId,
-      newSize: newSize,
-    ));
+    return context.maybeInvokeIntent(
+      ResizeWidgetIntent(widgetId: widgetId, newSize: newSize),
+    );
   }
-  
+
   /// Select a widget (or deselect all if null)
   bool selectWidget(String? widgetId) {
-    return context.maybeInvokeIntent(SelectWidgetIntent(
-      widgetId: widgetId,
-    ));
+    return context.maybeInvokeIntent(SelectWidgetIntent(widgetId: widgetId));
   }
-  
+
   /// Duplicate a widget
   bool duplicateWidget(String widgetId) {
-    return context.maybeInvokeIntent(DuplicateWidgetIntent(
-      widgetId: widgetId,
-    ));
+    return context.maybeInvokeIntent(DuplicateWidgetIntent(widgetId: widgetId));
   }
-  
+
   /// Resize the grid
   bool resizeGrid(GridDimensions newDimensions) {
-    return context.maybeInvokeIntent(ResizeGridIntent(
-      newDimensions: newDimensions,
-    ));
+    return context.maybeInvokeIntent(
+      ResizeGridIntent(newDimensions: newDimensions),
+    );
   }
-  
+
   /// Undo the last operation
   bool undo() {
     return context.maybeInvokeIntent(const UndoIntent());
   }
-  
+
   /// Redo the last undone operation
   bool redo() {
     return context.maybeInvokeIntent(const RedoIntent());
   }
-  
+
   /// Toggle preview mode
   bool togglePreviewMode() {
     return context.maybeInvokeIntent(const TogglePreviewModeIntent());
   }
-  
+
   /// Start dragging a widget
   bool startDragging(String widgetId) {
-    return context.maybeInvokeIntent(StartDraggingIntent(
-      widgetId: widgetId,
-    ));
+    return context.maybeInvokeIntent(StartDraggingIntent(widgetId: widgetId));
   }
-  
+
   /// Stop dragging a widget
   bool stopDragging(String widgetId) {
-    return context.maybeInvokeIntent(StopDraggingIntent(
-      widgetId: widgetId,
-    ));
+    return context.maybeInvokeIntent(StopDraggingIntent(widgetId: widgetId));
   }
-  
+
   /// Start resizing a widget
   bool startResizing(String widgetId) {
-    return context.maybeInvokeIntent(StartResizingIntent(
-      widgetId: widgetId,
-    ));
+    return context.maybeInvokeIntent(StartResizingIntent(widgetId: widgetId));
   }
-  
+
   /// Stop resizing a widget
   bool stopResizing(String widgetId) {
-    return context.maybeInvokeIntent(StopResizingIntent(
-      widgetId: widgetId,
-    ));
+    return context.maybeInvokeIntent(StopResizingIntent(widgetId: widgetId));
   }
-  
+
   /// Clear the undo/redo history
   bool clearHistory() {
     return context.maybeInvokeIntent(const ClearHistoryIntent());
   }
-  
+
   /// Export the current layout
   bool exportLayout() {
     return context.maybeInvokeIntent(const ExportLayoutIntent());
   }
-  
+
   /// Import a layout from JSON string
   bool importLayout(String jsonString) {
-    return context.maybeInvokeIntent(ImportLayoutIntent(jsonString: jsonString));
+    return context.maybeInvokeIntent(
+      ImportLayoutIntent(jsonString: jsonString),
+    );
   }
 }

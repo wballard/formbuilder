@@ -6,7 +6,7 @@ import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
 abstract class FormLayoutCommand {
   /// Execute the command on the given state
   LayoutState execute(LayoutState state);
-  
+
   /// Undo the command on the given state
   LayoutState undo(LayoutState state);
 }
@@ -20,7 +20,9 @@ class AddWidgetCommand extends FormLayoutCommand {
   @override
   LayoutState execute(LayoutState state) {
     if (!state.canAddWidget(placement)) {
-      throw ArgumentError('Cannot add widget: placement conflicts with existing widgets or is out of bounds');
+      throw ArgumentError(
+        'Cannot add widget: placement conflicts with existing widgets or is out of bounds',
+      );
     }
     return state.addWidget(placement);
   }
@@ -67,13 +69,15 @@ class MoveWidgetCommand extends FormLayoutCommand {
     if (widget == null) {
       throw ArgumentError('Widget with ID "$widgetId" does not exist');
     }
-    
+
     // Create a temporary state without the current widget to check if the new placement is valid
     final tempState = state.removeWidget(widgetId);
     if (!tempState.canAddWidget(newPlacement)) {
-      throw ArgumentError('Cannot move widget: new placement conflicts with existing widgets or is out of bounds');
+      throw ArgumentError(
+        'Cannot move widget: new placement conflicts with existing widgets or is out of bounds',
+      );
     }
-    
+
     return state.updateWidget(widgetId, newPlacement);
   }
 
@@ -97,13 +101,15 @@ class ResizeWidgetCommand extends FormLayoutCommand {
     if (widget == null) {
       throw ArgumentError('Widget with ID "$widgetId" does not exist');
     }
-    
+
     // Create a temporary state without the current widget to check if the new placement is valid
     final tempState = state.removeWidget(widgetId);
     if (!tempState.canAddWidget(newPlacement)) {
-      throw ArgumentError('Cannot resize widget: new placement conflicts with existing widgets or is out of bounds');
+      throw ArgumentError(
+        'Cannot resize widget: new placement conflicts with existing widgets or is out of bounds',
+      );
     }
-    
+
     return state.updateWidget(widgetId, newPlacement);
   }
 
@@ -127,13 +133,15 @@ class UpdateWidgetCommand extends FormLayoutCommand {
     if (widget == null) {
       throw ArgumentError('Widget with ID "$widgetId" does not exist');
     }
-    
+
     // Create a temporary state without the current widget to check if the new placement is valid
     final tempState = state.removeWidget(widgetId);
     if (!tempState.canAddWidget(newPlacement)) {
-      throw ArgumentError('Cannot update widget: new placement conflicts with existing widgets or is out of bounds');
+      throw ArgumentError(
+        'Cannot update widget: new placement conflicts with existing widgets or is out of bounds',
+      );
     }
-    
+
     return state.updateWidget(widgetId, newPlacement);
   }
 
@@ -160,4 +168,3 @@ class ResizeGridCommand extends FormLayoutCommand {
     return state.resizeGrid(oldDimensions);
   }
 }
-

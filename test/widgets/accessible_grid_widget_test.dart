@@ -13,21 +13,18 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AccessibleGridWidget(
-              dimensions: testDimensions,
-            ),
+            body: AccessibleGridWidget(dimensions: testDimensions),
           ),
         ),
       );
 
       // Check semantic label
-      expect(
-        find.bySemanticsLabel('Form layout grid'),
-        findsOneWidget,
-      );
+      expect(find.bySemanticsLabel('Form layout grid'), findsOneWidget);
 
       // Check semantic hint mentions navigation
-      final semantics = tester.getSemantics(find.bySemanticsLabel('Form layout grid'));
+      final semantics = tester.getSemantics(
+        find.bySemanticsLabel('Form layout grid'),
+      );
       expect(semantics.hint, contains('Use arrow keys to navigate cells'));
       expect(semantics.hint, contains('3 columns by 3 rows'));
     });
@@ -36,9 +33,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AccessibleGridWidget(
-              dimensions: testDimensions,
-            ),
+            body: AccessibleGridWidget(dimensions: testDimensions),
           ),
         ),
       );
@@ -71,9 +66,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AccessibleGridWidget(
-              dimensions: testDimensions,
-            ),
+            body: AccessibleGridWidget(dimensions: testDimensions),
           ),
         ),
       );
@@ -119,14 +112,14 @@ void main() {
         of: find.byType(AccessibleGridWidget),
         matching: find.byType(Focus),
       );
-      
+
       // Tap to request focus on the Focus widget specifically
       await tester.tap(focusFinder, warnIfMissed: false);
       await tester.pump();
-      
+
       // Give it a moment to establish focus
       await tester.pumpAndSettle();
-      
+
       // Use sendKeyEvent directly
       await tester.sendKeyEvent(LogicalKeyboardKey.enter);
       await tester.pump();
@@ -159,11 +152,11 @@ void main() {
         of: find.byType(AccessibleGridWidget),
         matching: find.byType(Focus),
       );
-      
+
       // Tap to request focus on the Focus widget specifically
       await tester.tap(focusFinder, warnIfMissed: false);
       await tester.pump();
-      
+
       // Give it a moment to establish focus
       await tester.pumpAndSettle();
 
@@ -178,9 +171,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AccessibleGridWidget(
-              dimensions: testDimensions,
-            ),
+            body: AccessibleGridWidget(dimensions: testDimensions),
           ),
         ),
       );
@@ -197,10 +188,7 @@ void main() {
     });
 
     testWidgets('should handle highlighted cells', (tester) async {
-      final highlightedCells = {
-        const Point(1, 1),
-        const Point(2, 2),
-      };
+      final highlightedCells = {const Point(1, 1), const Point(2, 2)};
 
       await tester.pumpWidget(
         MaterialApp(
@@ -216,13 +204,16 @@ void main() {
       expect(find.byType(AccessibleGridWidget), findsOneWidget);
     });
 
-    testWidgets('should validate cells when isCellValid is provided', (tester) async {
+    testWidgets('should validate cells when isCellValid is provided', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: AccessibleGridWidget(
               dimensions: testDimensions,
-              isCellValid: (cell) => cell.x != 1 || cell.y != 1, // Cell (1,1) is invalid
+              isCellValid: (cell) =>
+                  cell.x != 1 || cell.y != 1, // Cell (1,1) is invalid
             ),
           ),
         ),
@@ -247,9 +238,7 @@ void main() {
           home: Scaffold(
             body: Column(
               children: [
-                AccessibleGridWidget(
-                  dimensions: testDimensions,
-                ),
+                AccessibleGridWidget(dimensions: testDimensions),
                 ElevatedButton(
                   onPressed: () {},
                   child: const Text('Other Widget'),
@@ -276,9 +265,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AccessibleGridWidget(
-              dimensions: testDimensions,
-            ),
+            body: AccessibleGridWidget(dimensions: testDimensions),
           ),
         ),
       );
@@ -296,7 +283,9 @@ void main() {
   group('AccessibleGridSemantics', () {
     const testDimensions = GridDimensions(columns: 4, rows: 3);
 
-    testWidgets('should provide proper grid semantics for edit mode', (tester) async {
+    testWidgets('should provide proper grid semantics for edit mode', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -310,7 +299,9 @@ void main() {
         ),
       );
 
-      final semantics = tester.getSemantics(find.byType(AccessibleGridSemantics));
+      final semantics = tester.getSemantics(
+        find.byType(AccessibleGridSemantics),
+      );
       expect(semantics.label, contains('Form layout grid'));
       expect(semantics.label, contains('4 columns'));
       expect(semantics.label, contains('3 rows'));
@@ -318,7 +309,9 @@ void main() {
       expect(semantics.label, contains('Edit mode active'));
     });
 
-    testWidgets('should provide proper grid semantics for preview mode', (tester) async {
+    testWidgets('should provide proper grid semantics for preview mode', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -332,12 +325,16 @@ void main() {
         ),
       );
 
-      final semantics = tester.getSemantics(find.byType(AccessibleGridSemantics));
+      final semantics = tester.getSemantics(
+        find.byType(AccessibleGridSemantics),
+      );
       expect(semantics.label, contains('No widgets placed'));
       expect(semantics.label, contains('Preview mode active'));
     });
 
-    testWidgets('should handle singular vs plural widget count', (tester) async {
+    testWidgets('should handle singular vs plural widget count', (
+      tester,
+    ) async {
       // Test singular
       await tester.pumpWidget(
         MaterialApp(
@@ -352,7 +349,9 @@ void main() {
         ),
       );
 
-      final singularSemantics = tester.getSemantics(find.byType(AccessibleGridSemantics));
+      final singularSemantics = tester.getSemantics(
+        find.byType(AccessibleGridSemantics),
+      );
       expect(singularSemantics.label, contains('1 widget placed'));
 
       // Test plural
@@ -369,7 +368,9 @@ void main() {
         ),
       );
 
-      final pluralSemantics = tester.getSemantics(find.byType(AccessibleGridSemantics));
+      final pluralSemantics = tester.getSemantics(
+        find.byType(AccessibleGridSemantics),
+      );
       expect(pluralSemantics.label, contains('3 widgets placed'));
     });
   });

@@ -17,7 +17,7 @@ class _DragAndDropToolboxDemoState extends State<DragAndDropToolboxDemo> {
   String? _lastDraggedItem;
   bool _isDragging = false;
   final List<String> _dragLog = [];
-  
+
   void _addLog(String message) {
     setState(() {
       _dragLog.add('${DateTime.now().toString().substring(11, 19)}: $message');
@@ -59,8 +59,8 @@ class _DragAndDropToolboxDemoState extends State<DragAndDropToolboxDemo> {
                     child: Text(
                       'Drag Items',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   Expanded(
@@ -102,7 +102,9 @@ class _DragAndDropToolboxDemoState extends State<DragAndDropToolboxDemo> {
                     decoration: BoxDecoration(
                       color: Colors.grey.shade100,
                       border: Border.all(
-                        color: _isDragging ? Colors.green : Colors.grey.shade400,
+                        color: _isDragging
+                            ? Colors.green
+                            : Colors.grey.shade400,
                         width: 2,
                         style: BorderStyle.solid,
                       ),
@@ -111,7 +113,9 @@ class _DragAndDropToolboxDemoState extends State<DragAndDropToolboxDemo> {
                     child: DragTarget<ToolboxItem>(
                       onWillAcceptWithDetails: (details) => true,
                       onAcceptWithDetails: (details) {
-                        _addLog('Dropped ${details.data.displayName} into drop zone');
+                        _addLog(
+                          'Dropped ${details.data.displayName} into drop zone',
+                        );
                       },
                       builder: (context, candidateData, rejectedData) {
                         return Center(
@@ -119,12 +123,12 @@ class _DragAndDropToolboxDemoState extends State<DragAndDropToolboxDemo> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
-                                candidateData.isNotEmpty 
-                                    ? Icons.add_circle_outline 
+                                candidateData.isNotEmpty
+                                    ? Icons.add_circle_outline
                                     : Icons.drag_indicator,
                                 size: 48,
-                                color: candidateData.isNotEmpty 
-                                    ? Colors.green 
+                                color: candidateData.isNotEmpty
+                                    ? Colors.green
                                     : Colors.grey,
                               ),
                               const SizedBox(height: 8),
@@ -134,11 +138,11 @@ class _DragAndDropToolboxDemoState extends State<DragAndDropToolboxDemo> {
                                     : 'Drag widgets here',
                                 style: TextStyle(
                                   fontSize: 16,
-                                  color: candidateData.isNotEmpty 
-                                      ? Colors.green 
+                                  color: candidateData.isNotEmpty
+                                      ? Colors.green
                                       : Colors.grey.shade600,
-                                  fontWeight: candidateData.isNotEmpty 
-                                      ? FontWeight.bold 
+                                  fontWeight: candidateData.isNotEmpty
+                                      ? FontWeight.bold
                                       : FontWeight.normal,
                                 ),
                               ),
@@ -182,7 +186,9 @@ class _DragAndDropToolboxDemoState extends State<DragAndDropToolboxDemo> {
                             const Text('• Long press to initiate drag'),
                             const Text('• Visual feedback during drag'),
                             const Text('• 80% opacity for drag feedback'),
-                            const Text('• 30% opacity for original widget while dragging'),
+                            const Text(
+                              '• 30% opacity for original widget while dragging',
+                            ),
                             const Text('• Drag callbacks for state management'),
                             const Text('• Drop zone with visual indicators'),
                             const SizedBox(height: 16),
@@ -195,7 +201,10 @@ class _DragAndDropToolboxDemoState extends State<DragAndDropToolboxDemo> {
                                 ),
                                 child: Row(
                                   children: [
-                                    const Icon(Icons.drag_indicator, color: Colors.blue),
+                                    const Icon(
+                                      Icons.drag_indicator,
+                                      color: Colors.blue,
+                                    ),
                                     const SizedBox(width: 8),
                                     Text(
                                       'Currently dragging: $_currentDragItem',
@@ -220,7 +229,9 @@ class _DragAndDropToolboxDemoState extends State<DragAndDropToolboxDemo> {
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade100,
                                   borderRadius: BorderRadius.circular(4),
-                                  border: Border.all(color: Colors.grey.shade300),
+                                  border: Border.all(
+                                    color: Colors.grey.shade300,
+                                  ),
                                 ),
                                 child: ListView.builder(
                                   itemCount: _dragLog.length,

@@ -7,13 +7,14 @@ import 'package:formbuilder/form_layout/models/widget_placement.dart';
 class FormPreview extends StatelessWidget {
   /// The current layout state to preview
   final LayoutState layoutState;
-  
+
   /// Map of widget builders by widget name
-  final Map<String, Widget Function(BuildContext, WidgetPlacement)> widgetBuilders;
-  
+  final Map<String, Widget Function(BuildContext, WidgetPlacement)>
+  widgetBuilders;
+
   /// Background color for preview mode
   final Color? backgroundColor;
-  
+
   /// Whether to show a preview mode indicator
   final bool showPreviewIndicator;
 
@@ -30,10 +31,7 @@ class FormPreview extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
-        border: Border.all(
-          color: Theme.of(context).dividerColor,
-          width: 1,
-        ),
+        border: Border.all(color: Theme.of(context).dividerColor, width: 1),
       ),
       child: Stack(
         children: [
@@ -44,10 +42,7 @@ class FormPreview extends StatelessWidget {
               layoutState.dimensions.columns,
               (_) => 1.fr,
             ),
-            rowSizes: List.generate(
-              layoutState.dimensions.rows,
-              (_) => 1.fr,
-            ),
+            rowSizes: List.generate(layoutState.dimensions.rows, (_) => 1.fr),
             columnGap: 8,
             rowGap: 8,
             children: _buildPreviewWidgets(context),
@@ -95,12 +90,12 @@ class FormPreview extends StatelessWidget {
     return layoutState.widgets.map((placement) {
       // Get the widget builder
       final widgetBuilder = widgetBuilders[placement.widgetName];
-      
+
       // Create child widget or error widget
-      final child = widgetBuilder != null 
+      final child = widgetBuilder != null
           ? widgetBuilder(context, placement)
           : _buildErrorWidget(placement.widgetName);
-      
+
       // Wrap in a simple container without editing controls
       return Container(
         padding: const EdgeInsets.all(4),
@@ -115,13 +110,13 @@ class FormPreview extends StatelessWidget {
     if (placement.width == 1 && placement.height == 1) {
       return 'cell_${placement.row}_${placement.column}';
     }
-    
+
     // For multi-cell widgets, create a span area name
     final startRow = placement.row;
     final endRow = placement.row + placement.height - 1;
     final startCol = placement.column;
     final endCol = placement.column + placement.width - 1;
-    
+
     return 'span_${startRow}_${startCol}_${endRow}_$endCol';
   }
 
@@ -137,11 +132,7 @@ class FormPreview extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.error_outline,
-            color: Colors.red.shade700,
-            size: 24,
-          ),
+          Icon(Icons.error_outline, color: Colors.red.shade700, size: 24),
           const SizedBox(height: 4),
           Text(
             'Unknown widget: $widgetName',

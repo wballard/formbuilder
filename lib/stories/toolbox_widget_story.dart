@@ -5,31 +5,31 @@ import 'package:formbuilder/form_layout/models/toolbox_item.dart';
 import 'package:formbuilder/stories/toolbox_widget_story_drag.dart';
 
 List<Story> get toolboxWidgetStories => [
-      Story(
-        name: 'Widgets/ToolboxWidget/Default',
-        builder: (context) => const DefaultToolboxDemo(),
-      ),
-      Story(
-        name: 'Widgets/ToolboxWidget/Horizontal Layout',
-        builder: (context) => const HorizontalToolboxDemo(),
-      ),
-      Story(
-        name: 'Widgets/ToolboxWidget/Custom Spacing',
-        builder: (context) => const CustomSpacingToolboxDemo(),
-      ),
-      Story(
-        name: 'Widgets/ToolboxWidget/Limited Items',
-        builder: (context) => const LimitedItemsToolboxDemo(),
-      ),
-      Story(
-        name: 'Widgets/ToolboxWidget/Single Item',
-        builder: (context) => const SingleItemToolboxDemo(),
-      ),
-      Story(
-        name: 'Widgets/ToolboxWidget/Drag and Drop',
-        builder: (context) => const DragAndDropToolboxDemo(),
-      ),
-    ];
+  Story(
+    name: 'Widgets/ToolboxWidget/Default',
+    builder: (context) => const DefaultToolboxDemo(),
+  ),
+  Story(
+    name: 'Widgets/ToolboxWidget/Horizontal Layout',
+    builder: (context) => const HorizontalToolboxDemo(),
+  ),
+  Story(
+    name: 'Widgets/ToolboxWidget/Custom Spacing',
+    builder: (context) => const CustomSpacingToolboxDemo(),
+  ),
+  Story(
+    name: 'Widgets/ToolboxWidget/Limited Items',
+    builder: (context) => const LimitedItemsToolboxDemo(),
+  ),
+  Story(
+    name: 'Widgets/ToolboxWidget/Single Item',
+    builder: (context) => const SingleItemToolboxDemo(),
+  ),
+  Story(
+    name: 'Widgets/ToolboxWidget/Drag and Drop',
+    builder: (context) => const DragAndDropToolboxDemo(),
+  ),
+];
 
 class DefaultToolboxDemo extends StatelessWidget {
   const DefaultToolboxDemo({super.key});
@@ -37,7 +37,7 @@ class DefaultToolboxDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final toolbox = Toolbox.withDefaults();
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Default ToolboxWidget'),
@@ -64,13 +64,11 @@ class DefaultToolboxDemo extends StatelessWidget {
                     child: Text(
                       'Toolbox',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  Expanded(
-                    child: ToolboxWidget(toolbox: toolbox),
-                  ),
+                  Expanded(child: ToolboxWidget(toolbox: toolbox)),
                 ],
               ),
             ),
@@ -109,8 +107,10 @@ class DefaultToolboxDemo extends StatelessWidget {
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       const SizedBox(height: 8),
-                      ...toolbox.items.map((item) => 
-                        Text('• ${item.displayName} (${item.defaultWidth}x${item.defaultHeight})')
+                      ...toolbox.items.map(
+                        (item) => Text(
+                          '• ${item.displayName} (${item.defaultWidth}x${item.defaultHeight})',
+                        ),
                       ),
                     ],
                   ),
@@ -130,7 +130,7 @@ class HorizontalToolboxDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final toolbox = Toolbox.withDefaults();
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Horizontal ToolboxWidget'),
@@ -157,8 +157,8 @@ class HorizontalToolboxDemo extends StatelessWidget {
                     child: Text(
                       'Toolbox (Horizontal)',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   Expanded(
@@ -198,7 +198,9 @@ class HorizontalToolboxDemo extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       const Text('• direction: Axis.horizontal'),
-                      const Text('• Wrapped in SingleChildScrollView for overflow'),
+                      const Text(
+                        '• Wrapped in SingleChildScrollView for overflow',
+                      ),
                       const Text('• Same spacing and styling as vertical'),
                       const SizedBox(height: 16),
                       Container(
@@ -212,7 +214,10 @@ class HorizontalToolboxDemo extends StatelessWidget {
                           '  toolbox: toolbox,\n'
                           '  direction: Axis.horizontal,\n'
                           ')',
-                          style: TextStyle(fontFamily: 'monospace', fontSize: 12),
+                          style: TextStyle(
+                            fontFamily: 'monospace',
+                            fontSize: 12,
+                          ),
                         ),
                       ),
                     ],
@@ -233,7 +238,7 @@ class CustomSpacingToolboxDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final toolbox = Toolbox.withDefaults();
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Custom Spacing ToolboxWidget'),
@@ -332,83 +337,85 @@ class LimitedItemsToolboxDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Create a toolbox with just a few essential items
-    final limitedToolbox = Toolbox(items: [
-      ToolboxItem(
-        name: 'text_input',
-        displayName: 'Text Input',
-        toolboxBuilder: (context) => Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
-            borderRadius: BorderRadius.circular(4),
+    final limitedToolbox = Toolbox(
+      items: [
+        ToolboxItem(
+          name: 'text_input',
+          displayName: 'Text Input',
+          toolboxBuilder: (context) => Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            padding: const EdgeInsets.all(8),
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.text_fields, size: 20),
+                SizedBox(width: 8),
+                Text('Input'),
+              ],
+            ),
           ),
-          padding: const EdgeInsets.all(8),
-          child: const Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.text_fields, size: 20),
-              SizedBox(width: 8),
-              Text('Input'),
-            ],
+          gridBuilder: (context, placement) => Container(
+            color: Colors.blue.withValues(alpha: 0.1),
+            child: const Center(child: Text('Text Input')),
           ),
+          defaultWidth: 2,
+          defaultHeight: 1,
         ),
-        gridBuilder: (context, placement) => Container(
-          color: Colors.blue.withValues(alpha: 0.1),
-          child: const Center(child: Text('Text Input')),
-        ),
-        defaultWidth: 2,
-        defaultHeight: 1,
-      ),
-      ToolboxItem(
-        name: 'button',
-        displayName: 'Button',
-        toolboxBuilder: (context) => Container(
-          decoration: BoxDecoration(
+        ToolboxItem(
+          name: 'button',
+          displayName: 'Button',
+          toolboxBuilder: (context) => Container(
+            decoration: BoxDecoration(
+              color: Colors.blue,
+              borderRadius: BorderRadius.circular(4),
+            ),
+            padding: const EdgeInsets.all(8),
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.smart_button, size: 20, color: Colors.white),
+                SizedBox(width: 8),
+                Text('Button', style: TextStyle(color: Colors.white)),
+              ],
+            ),
+          ),
+          gridBuilder: (context, placement) => Container(
             color: Colors.blue,
-            borderRadius: BorderRadius.circular(4),
+            child: const Center(
+              child: Text('Button', style: TextStyle(color: Colors.white)),
+            ),
           ),
-          padding: const EdgeInsets.all(8),
-          child: const Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.smart_button, size: 20, color: Colors.white),
-              SizedBox(width: 8),
-              Text('Button', style: TextStyle(color: Colors.white)),
-            ],
-          ),
+          defaultWidth: 1,
+          defaultHeight: 1,
         ),
-        gridBuilder: (context, placement) => Container(
-          color: Colors.blue,
-          child: const Center(
-            child: Text('Button', style: TextStyle(color: Colors.white)),
+        ToolboxItem(
+          name: 'label',
+          displayName: 'Label',
+          toolboxBuilder: (context) => Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey.shade300),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            padding: const EdgeInsets.all(8),
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.label_outline, size: 20),
+                SizedBox(width: 8),
+                Text('Label'),
+              ],
+            ),
           ),
+          gridBuilder: (context, placement) => const Text('Label'),
+          defaultWidth: 1,
+          defaultHeight: 1,
         ),
-        defaultWidth: 1,
-        defaultHeight: 1,
-      ),
-      ToolboxItem(
-        name: 'label',
-        displayName: 'Label',
-        toolboxBuilder: (context) => Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey.shade300),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          padding: const EdgeInsets.all(8),
-          child: const Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.label_outline, size: 20),
-              SizedBox(width: 8),
-              Text('Label'),
-            ],
-          ),
-        ),
-        gridBuilder: (context, placement) => const Text('Label'),
-        defaultWidth: 1,
-        defaultHeight: 1,
-      ),
-    ]);
-    
+      ],
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Limited Items ToolboxWidget'),
@@ -434,13 +441,11 @@ class LimitedItemsToolboxDemo extends StatelessWidget {
                     child: Text(
                       'Essential Tools',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  Expanded(
-                    child: ToolboxWidget(toolbox: limitedToolbox),
-                  ),
+                  Expanded(child: ToolboxWidget(toolbox: limitedToolbox)),
                 ],
               ),
             ),
@@ -477,8 +482,8 @@ class LimitedItemsToolboxDemo extends StatelessWidget {
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       const SizedBox(height: 8),
-                      ...limitedToolbox.items.map((item) => 
-                        Text('• ${item.displayName}')
+                      ...limitedToolbox.items.map(
+                        (item) => Text('• ${item.displayName}'),
                       ),
                     ],
                   ),
@@ -497,56 +502,58 @@ class SingleItemToolboxDemo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final singleItemToolbox = Toolbox(items: [
-      ToolboxItem(
-        name: 'custom_widget',
-        displayName: 'Custom Widget',
-        toolboxBuilder: (context) => Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.purple.shade300, Colors.blue.shade300],
+    final singleItemToolbox = Toolbox(
+      items: [
+        ToolboxItem(
+          name: 'custom_widget',
+          displayName: 'Custom Widget',
+          toolboxBuilder: (context) => Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.purple.shade300, Colors.blue.shade300],
+              ),
+              borderRadius: BorderRadius.circular(8),
             ),
-            borderRadius: BorderRadius.circular(8),
+            padding: const EdgeInsets.all(12),
+            child: const Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.extension, size: 24, color: Colors.white),
+                SizedBox(height: 4),
+                Text(
+                  'Custom',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
           ),
-          padding: const EdgeInsets.all(12),
-          child: const Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.extension, size: 24, color: Colors.white),
-              SizedBox(height: 4),
-              Text(
-                'Custom',
+          gridBuilder: (context, placement) => Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.purple.shade300, Colors.blue.shade300],
+              ),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: const Center(
+              child: Text(
+                'Custom Widget',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: 12,
                 ),
               ),
-            ],
-          ),
-        ),
-        gridBuilder: (context, placement) => Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.purple.shade300, Colors.blue.shade300],
-            ),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: const Center(
-            child: Text(
-              'Custom Widget',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
             ),
           ),
+          defaultWidth: 2,
+          defaultHeight: 2,
         ),
-        defaultWidth: 2,
-        defaultHeight: 2,
-      ),
-    ]);
-    
+      ],
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Single Item ToolboxWidget'),
@@ -572,13 +579,11 @@ class SingleItemToolboxDemo extends StatelessWidget {
                     child: Text(
                       'Single Item',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  Expanded(
-                    child: ToolboxWidget(toolbox: singleItemToolbox),
-                  ),
+                  Expanded(child: ToolboxWidget(toolbox: singleItemToolbox)),
                 ],
               ),
             ),
@@ -629,7 +634,10 @@ class SingleItemToolboxDemo extends StatelessWidget {
                           '  defaultWidth: 2,\n'
                           '  defaultHeight: 2,\n'
                           ')',
-                          style: TextStyle(fontFamily: 'monospace', fontSize: 11),
+                          style: TextStyle(
+                            fontFamily: 'monospace',
+                            fontSize: 11,
+                          ),
                         ),
                       ),
                     ],

@@ -10,31 +10,31 @@ import 'dart:math';
 class AccessibleGridWidget extends StatefulWidget {
   /// The grid dimensions
   final GridDimensions dimensions;
-  
+
   /// Color for the grid lines
   final Color lineColor;
-  
+
   /// Width of the grid lines
   final double lineWidth;
-  
+
   /// Background color
   final Color backgroundColor;
-  
+
   /// Cells to highlight
   final Set<Point<int>>? highlightedCells;
-  
+
   /// Color for highlighted cells
   final Color? highlightColor;
-  
+
   /// Function to determine if a cell is valid
   final bool Function(Point<int>)? isCellValid;
-  
+
   /// Animation settings
   final AnimationSettings animationSettings;
-  
+
   /// Whether to show grid lines (for preview mode)
   final bool showGridLines;
-  
+
   /// Callback when a cell is selected via keyboard
   final void Function(Point<int>)? onCellSelected;
 
@@ -92,22 +92,22 @@ class _AccessibleGridWidgetState extends State<AccessibleGridWidget> {
     if (event is! KeyDownEvent || _focusedCell == null) {
       return KeyEventResult.ignored;
     }
-    
+
     final key = event.logicalKey;
     Point<int>? newCell;
-    
+
     if (key == LogicalKeyboardKey.arrowLeft && _focusedCell!.x > 0) {
       newCell = Point(_focusedCell!.x - 1, _focusedCell!.y);
-    } else if (key == LogicalKeyboardKey.arrowRight && 
-               _focusedCell!.x < widget.dimensions.columns - 1) {
+    } else if (key == LogicalKeyboardKey.arrowRight &&
+        _focusedCell!.x < widget.dimensions.columns - 1) {
       newCell = Point(_focusedCell!.x + 1, _focusedCell!.y);
     } else if (key == LogicalKeyboardKey.arrowUp && _focusedCell!.y > 0) {
       newCell = Point(_focusedCell!.x, _focusedCell!.y - 1);
-    } else if (key == LogicalKeyboardKey.arrowDown && 
-               _focusedCell!.y < widget.dimensions.rows - 1) {
+    } else if (key == LogicalKeyboardKey.arrowDown &&
+        _focusedCell!.y < widget.dimensions.rows - 1) {
       newCell = Point(_focusedCell!.x, _focusedCell!.y + 1);
     }
-    
+
     if (newCell != null) {
       setState(() {
         _focusedCell = newCell;
@@ -115,9 +115,9 @@ class _AccessibleGridWidgetState extends State<AccessibleGridWidget> {
       _announceCurrentCell();
       return KeyEventResult.handled;
     }
-    
+
     // Enter/Space to select cell
-    if ((key == LogicalKeyboardKey.enter || key == LogicalKeyboardKey.space) && 
+    if ((key == LogicalKeyboardKey.enter || key == LogicalKeyboardKey.space) &&
         widget.onCellSelected != null) {
       widget.onCellSelected!(_focusedCell!);
       AccessibilityUtils.announceStatus(
@@ -126,29 +126,29 @@ class _AccessibleGridWidgetState extends State<AccessibleGridWidget> {
       );
       return KeyEventResult.handled;
     }
-    
+
     return KeyEventResult.ignored;
   }
 
   void _announceCurrentCell() {
     if (_focusedCell == null) return;
-    
+
     final cellLabel = AccessibilityUtils.getGridCellLabel(
       _focusedCell!.x,
       _focusedCell!.y,
     );
-    
+
     // Check if cell is occupied
     final isOccupied = widget.highlightedCells?.contains(_focusedCell) ?? false;
     final isValid = widget.isCellValid?.call(_focusedCell!) ?? true;
-    
+
     String status = cellLabel;
     if (isOccupied) {
       status += isValid ? '. Cell occupied' : '. Cell invalid';
     } else {
       status += '. Cell empty';
     }
-    
+
     AccessibilityUtils.announceStatus(context, status);
   }
 
@@ -157,26 +157,27 @@ class _AccessibleGridWidgetState extends State<AccessibleGridWidget> {
     // Calculate highlighted cells including focused cell
     Set<Point<int>>? allHighlightedCells = widget.highlightedCells;
     if (_isGridFocused && _focusedCell != null) {
-      allHighlightedCells = {
-        ...allHighlightedCells ?? {},
-        _focusedCell!,
-      };
+      allHighlightedCells = {...allHighlightedCells ?? {}, _focusedCell!};
     }
-    
+
     // Determine highlight color for focused cell
     Color? effectiveHighlightColor = widget.highlightColor;
-    if (_isGridFocused && _focusedCell != null && 
+    if (_isGridFocused &&
+        _focusedCell != null &&
         !(widget.highlightedCells?.contains(_focusedCell) ?? false)) {
       // Use a different color for keyboard focus
-      effectiveHighlightColor = Theme.of(context).colorScheme.primary.withValues(alpha: 0.2);
+      effectiveHighlightColor = Theme.of(
+        context,
+      ).colorScheme.primary.withValues(alpha: 0.2);
     }
-    
+
     return Focus(
       focusNode: _gridFocusNode,
       onKeyEvent: (node, event) => _handleKeyEvent(event),
       child: Semantics(
         label: 'Form layout grid',
-        hint: 'Use arrow keys to navigate cells. ${widget.dimensions.columns} columns by ${widget.dimensions.rows} rows',
+        hint:
+            'Use arrow keys to navigate cells. ${widget.dimensions.columns} columns by ${widget.dimensions.rows} rows',
         textField: false,
         container: true,
         child: GestureDetector(
@@ -219,13 +220,13 @@ class _AccessibleGridWidgetState extends State<AccessibleGridWidget> {
 class AccessibleGridSemantics extends StatelessWidget {
   /// The child widget (usually the grid container)
   final Widget child;
-  
+
   /// The grid dimensions
   final GridDimensions dimensions;
-  
+
   /// Number of placed widgets
   final int placedWidgetCount;
-  
+
   /// Whether in preview mode
   final bool isPreviewMode;
 
@@ -239,11 +240,12 @@ class AccessibleGridSemantics extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final gridDescription = 'Form layout grid with ${dimensions.columns} columns '
+    final gridDescription =
+        'Form layout grid with ${dimensions.columns} columns '
         'and ${dimensions.rows} rows. '
         '${placedWidgetCount == 0 ? "No widgets placed" : "$placedWidgetCount widget${placedWidgetCount == 1 ? "" : "s"} placed"}. '
         '${isPreviewMode ? "Preview mode active" : "Edit mode active"}';
-    
+
     return Semantics(
       label: gridDescription,
       container: true,

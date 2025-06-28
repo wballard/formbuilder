@@ -6,23 +6,23 @@ import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/toolbox_item.dart';
 
 List<Story> get modelStories => [
-      Story(
-        name: 'Models/GridDimensions',
-        builder: (context) => const GridDimensionsDemo(),
-      ),
-      Story(
-        name: 'Models/WidgetPlacement',
-        builder: (context) => const WidgetPlacementDemo(),
-      ),
-      Story(
-        name: 'Models/LayoutState',
-        builder: (context) => const LayoutStateDemo(),
-      ),
-      Story(
-        name: 'Models/ToolboxItem',
-        builder: (context) => const ToolboxItemDemo(),
-      ),
-    ];
+  Story(
+    name: 'Models/GridDimensions',
+    builder: (context) => const GridDimensionsDemo(),
+  ),
+  Story(
+    name: 'Models/WidgetPlacement',
+    builder: (context) => const WidgetPlacementDemo(),
+  ),
+  Story(
+    name: 'Models/LayoutState',
+    builder: (context) => const LayoutStateDemo(),
+  ),
+  Story(
+    name: 'Models/ToolboxItem',
+    builder: (context) => const ToolboxItemDemo(),
+  ),
+];
 
 class GridDimensionsDemo extends StatelessWidget {
   const GridDimensionsDemo({super.key});
@@ -56,8 +56,12 @@ class GridDimensionsDemo extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 8),
-                    Text('Columns: ${GridDimensions.minColumns} - ${GridDimensions.maxColumns}'),
-                    Text('Rows: ${GridDimensions.minRows} - ${GridDimensions.maxRows}'),
+                    Text(
+                      'Columns: ${GridDimensions.minColumns} - ${GridDimensions.maxColumns}',
+                    ),
+                    Text(
+                      'Rows: ${GridDimensions.minRows} - ${GridDimensions.maxRows}',
+                    ),
                   ],
                 ),
               ),
@@ -117,10 +121,7 @@ class GridDimensionsDemo extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Row(
         children: [
-          SizedBox(
-            width: 80,
-            child: Text('$label:'),
-          ),
+          SizedBox(width: 80, child: Text('$label:')),
           Text(dimensions.toString()),
         ],
       ),
@@ -248,7 +249,7 @@ class WidgetPlacementDemo extends StatelessWidget {
       width: 2,
       height: 1,
     );
-    
+
     final placement2 = WidgetPlacement(
       id: 'widget2',
       widgetName: 'TextInput',
@@ -257,15 +258,17 @@ class WidgetPlacementDemo extends StatelessWidget {
       width: 2,
       height: 1,
     );
-    
+
     const grid = GridDimensions(columns: 4, rows: 4);
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('placement1.fitsInGrid(4x4): ${placement1.fitsInGrid(grid)}'),
         const SizedBox(height: 4),
-        Text('placement1.overlaps(placement2): ${placement1.overlaps(placement2)}'),
+        Text(
+          'placement1.overlaps(placement2): ${placement1.overlaps(placement2)}',
+        ),
         const SizedBox(height: 4),
         Text('placement1.bounds: ${placement1.bounds}'),
       ],
@@ -276,7 +279,7 @@ class WidgetPlacementDemo extends StatelessWidget {
     const cellSize = 40.0;
     const gridColumns = 6;
     const gridRows = 4;
-    
+
     final placements = [
       WidgetPlacement(
         id: 'widget1',
@@ -311,13 +314,11 @@ class WidgetPlacementDemo extends StatelessWidget {
         height: 1,
       ),
     ];
-    
+
     return Container(
       width: gridColumns * cellSize,
       height: gridRows * cellSize,
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
-      ),
+      decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
       child: Stack(
         children: [
           // Grid lines
@@ -326,10 +327,7 @@ class WidgetPlacementDemo extends StatelessWidget {
               top: index * cellSize,
               left: 0,
               right: 0,
-              child: Container(
-                height: 1,
-                color: Colors.grey.shade300,
-              ),
+              child: Container(height: 1, color: Colors.grey.shade300),
             );
           }),
           ...List.generate(gridColumns + 1, (index) {
@@ -337,10 +335,7 @@ class WidgetPlacementDemo extends StatelessWidget {
               left: index * cellSize,
               top: 0,
               bottom: 0,
-              child: Container(
-                width: 1,
-                color: Colors.grey.shade300,
-              ),
+              child: Container(width: 1, color: Colors.grey.shade300),
             );
           }),
           // Placed widgets
@@ -405,10 +400,16 @@ class LayoutStateDemo extends StatelessWidget {
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       const SizedBox(height: 8),
-                      const Text('• Maintains grid dimensions and widget placements'),
+                      const Text(
+                        '• Maintains grid dimensions and widget placements',
+                      ),
                       const Text('• Prevents overlapping widgets'),
-                      const Text('• Validates widget placements fit within grid'),
-                      const Text('• Supports adding, removing, and updating widgets'),
+                      const Text(
+                        '• Validates widget placements fit within grid',
+                      ),
+                      const Text(
+                        '• Supports adding, removing, and updating widgets',
+                      ),
                       const Text('• Serializable to/from JSON'),
                       const Text('• Immutable state management'),
                     ],
@@ -461,9 +462,15 @@ class LayoutStateDemo extends StatelessWidget {
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       const SizedBox(height: 8),
-                      const Text('When resizing the grid to smaller dimensions:'),
-                      const Text('• Widgets that no longer fit are automatically removed'),
-                      const Text('• Returns a new LayoutState with valid widgets only'),
+                      const Text(
+                        'When resizing the grid to smaller dimensions:',
+                      ),
+                      const Text(
+                        '• Widgets that no longer fit are automatically removed',
+                      ),
+                      const Text(
+                        '• Returns a new LayoutState with valid widgets only',
+                      ),
                       const SizedBox(height: 8),
                       const Text('Example:'),
                       const Text('// Resize from 4x4 to 3x3'),
@@ -491,7 +498,7 @@ class LayoutStateDemo extends StatelessWidget {
       width: 4,
       height: 1,
     );
-    
+
     final widget2 = WidgetPlacement(
       id: 'input1',
       widgetName: 'Input',
@@ -500,7 +507,7 @@ class LayoutStateDemo extends StatelessWidget {
       width: 2,
       height: 1,
     );
-    
+
     final widget3 = WidgetPlacement(
       id: 'button1',
       widgetName: 'Button',
@@ -509,12 +516,12 @@ class LayoutStateDemo extends StatelessWidget {
       width: 2,
       height: 1,
     );
-    
+
     final state = LayoutState(
       dimensions: const GridDimensions(columns: 4, rows: 3),
       widgets: [widget1, widget2, widget3],
     );
-    
+
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -530,9 +537,7 @@ class LayoutStateDemo extends StatelessWidget {
             Container(
               width: 4 * 60.0,
               height: 3 * 60.0,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-              ),
+              decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
               child: Stack(
                 children: [
                   // Grid lines
@@ -541,10 +546,7 @@ class LayoutStateDemo extends StatelessWidget {
                       top: index * 60.0,
                       left: 0,
                       right: 0,
-                      child: Container(
-                        height: 1,
-                        color: Colors.grey.shade300,
-                      ),
+                      child: Container(height: 1, color: Colors.grey.shade300),
                     );
                   }),
                   ...List.generate(5, (index) {
@@ -552,10 +554,7 @@ class LayoutStateDemo extends StatelessWidget {
                       left: index * 60.0,
                       top: 0,
                       bottom: 0,
-                      child: Container(
-                        width: 1,
-                        color: Colors.grey.shade300,
-                      ),
+                      child: Container(width: 1, color: Colors.grey.shade300),
                     );
                   }),
                   // Widgets
@@ -566,7 +565,7 @@ class LayoutStateDemo extends StatelessWidget {
                       'Button': Colors.orange,
                     };
                     final color = colors[placement.widgetName] ?? Colors.grey;
-                    
+
                     return Positioned(
                       left: placement.column * 60.0,
                       top: placement.row * 60.0,
@@ -596,7 +595,9 @@ class LayoutStateDemo extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text('Layout Info:'),
-            Text('• Grid: ${state.dimensions.columns}x${state.dimensions.rows}'),
+            Text(
+              '• Grid: ${state.dimensions.columns}x${state.dimensions.rows}',
+            ),
             Text('• Widgets: ${state.widgets.length}'),
             const SizedBox(height: 8),
             Text('JSON Representation:'),
@@ -609,10 +610,7 @@ class LayoutStateDemo extends StatelessWidget {
               ),
               child: Text(
                 _formatJson(state.toJson()),
-                style: const TextStyle(
-                  fontFamily: 'monospace',
-                  fontSize: 12,
-                ),
+                style: const TextStyle(fontFamily: 'monospace', fontSize: 12),
               ),
             ),
           ],
@@ -655,7 +653,7 @@ class ToolboxItemDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final toolbox = Toolbox.withDefaults();
-    
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -684,12 +682,18 @@ class ToolboxItemDemo extends StatelessWidget {
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       const SizedBox(height: 8),
-                      const Text('• ToolboxWidgetBuilder: Creates toolbox representation'),
-                      const Text('• GridWidgetBuilder: Creates widget on the grid'),
+                      const Text(
+                        '• ToolboxWidgetBuilder: Creates toolbox representation',
+                      ),
+                      const Text(
+                        '• GridWidgetBuilder: Creates widget on the grid',
+                      ),
                       const Text('• Default dimensions for initial placement'),
                       const Text('• Unique name and display name'),
                       const SizedBox(height: 12),
-                      const Text('The Toolbox class manages a collection of items and ensures unique names.'),
+                      const Text(
+                        'The Toolbox class manages a collection of items and ensures unique names.',
+                      ),
                     ],
                   ),
                 ),
@@ -718,7 +722,10 @@ class ToolboxItemDemo extends StatelessWidget {
                           'typedef GridWidgetBuilder = \n'
                           '  Widget Function(BuildContext context,\n'
                           '                  WidgetPlacement placement);',
-                          style: TextStyle(fontFamily: 'monospace', fontSize: 12),
+                          style: TextStyle(
+                            fontFamily: 'monospace',
+                            fontSize: 12,
+                          ),
                         ),
                       ),
                     ],
@@ -749,7 +756,9 @@ class ToolboxItemDemo extends StatelessWidget {
                               Container(
                                 padding: const EdgeInsets.all(4),
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey.shade300),
+                                  border: Border.all(
+                                    color: Colors.grey.shade300,
+                                  ),
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: item.toolboxBuilder(context),
@@ -757,7 +766,10 @@ class ToolboxItemDemo extends StatelessWidget {
                               const SizedBox(height: 4),
                               Text(
                                 '${item.defaultWidth}x${item.defaultHeight}',
-                                style: const TextStyle(fontSize: 11, color: Colors.grey),
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.grey,
+                                ),
                               ),
                             ],
                           );
@@ -788,7 +800,7 @@ class ToolboxItemDemo extends StatelessWidget {
                           width: item.defaultWidth,
                           height: item.defaultHeight,
                         );
-                        
+
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 12.0),
                           child: Row(
@@ -801,7 +813,9 @@ class ToolboxItemDemo extends StatelessWidget {
                                 width: item.defaultWidth * 60.0,
                                 height: item.defaultHeight * 40.0,
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey.shade400),
+                                  border: Border.all(
+                                    color: Colors.grey.shade400,
+                                  ),
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: ClipRRect(
@@ -848,7 +862,10 @@ class ToolboxItemDemo extends StatelessWidget {
                           ');\n\n'
                           '// Get item from toolbox\n'
                           'final item = toolbox.getItem("text_input");',
-                          style: TextStyle(fontFamily: 'monospace', fontSize: 12),
+                          style: TextStyle(
+                            fontFamily: 'monospace',
+                            fontSize: 12,
+                          ),
                         ),
                       ),
                     ],

@@ -14,36 +14,42 @@ void main() {
     testWidgets('displays all toolbox items', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: ToolboxWidget(toolbox: testToolbox),
-          ),
+          home: Scaffold(body: ToolboxWidget(toolbox: testToolbox)),
         ),
       );
 
       // Verify all items are displayed
       expect(find.byType(ToolboxWidget), findsOneWidget);
-      
+
       // Check that we have the expected number of cards
       expect(find.byType(Card), findsNWidgets(testToolbox.items.length));
-      
+
       // Verify each item's display name is shown in the item labels (not just in toolbox builders)
       // Use a more specific finder to avoid conflicts with text in toolbox builders
       final textWidgets = tester.widgetList<Text>(find.byType(Text));
-      final itemNames = testToolbox.items.map((item) => item.displayName).toSet();
-      
+      final itemNames = testToolbox.items
+          .map((item) => item.displayName)
+          .toSet();
+
       // Count how many Text widgets contain each item name
       for (final itemName in itemNames) {
-        final matchingTexts = textWidgets.where((text) => text.data == itemName).length;
-        expect(matchingTexts, greaterThanOrEqualTo(1), reason: 'Should find at least one Text widget for $itemName');
+        final matchingTexts = textWidgets
+            .where((text) => text.data == itemName)
+            .length;
+        expect(
+          matchingTexts,
+          greaterThanOrEqualTo(1),
+          reason: 'Should find at least one Text widget for $itemName',
+        );
       }
     });
 
-    testWidgets('applies vertical layout by default', (WidgetTester tester) async {
+    testWidgets('applies vertical layout by default', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: ToolboxWidget(toolbox: testToolbox),
-          ),
+          home: Scaffold(body: ToolboxWidget(toolbox: testToolbox)),
         ),
       );
 
@@ -51,7 +57,9 @@ void main() {
       expect(wrapWidget.direction, equals(Axis.vertical));
     });
 
-    testWidgets('applies horizontal layout when specified', (WidgetTester tester) async {
+    testWidgets('applies horizontal layout when specified', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -69,14 +77,11 @@ void main() {
 
     testWidgets('applies custom spacing', (WidgetTester tester) async {
       const customSpacing = 16.0;
-      
+
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: ToolboxWidget(
-              toolbox: testToolbox,
-              spacing: customSpacing,
-            ),
+            body: ToolboxWidget(toolbox: testToolbox, spacing: customSpacing),
           ),
         ),
       );
@@ -88,14 +93,11 @@ void main() {
 
     testWidgets('applies custom padding', (WidgetTester tester) async {
       const customPadding = EdgeInsets.all(16.0);
-      
+
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: ToolboxWidget(
-              toolbox: testToolbox,
-              padding: customPadding,
-            ),
+            body: ToolboxWidget(toolbox: testToolbox, padding: customPadding),
           ),
         ),
       );
@@ -105,16 +107,18 @@ void main() {
       expect(paddingWidgets.any((p) => p.padding == customPadding), isTrue);
     });
 
-    testWidgets('uses default values when not specified', (WidgetTester tester) async {
+    testWidgets('uses default values when not specified', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: ToolboxWidget(toolbox: testToolbox),
-          ),
+          home: Scaffold(body: ToolboxWidget(toolbox: testToolbox)),
         ),
       );
 
-      final toolboxWidget = tester.widget<ToolboxWidget>(find.byType(ToolboxWidget));
+      final toolboxWidget = tester.widget<ToolboxWidget>(
+        find.byType(ToolboxWidget),
+      );
       expect(toolboxWidget.direction, equals(Axis.vertical));
       expect(toolboxWidget.spacing, equals(8.0));
       expect(toolboxWidget.padding, equals(const EdgeInsets.all(8)));
@@ -123,51 +127,55 @@ void main() {
     testWidgets('items have consistent sizing', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: ToolboxWidget(toolbox: testToolbox),
-          ),
+          home: Scaffold(body: ToolboxWidget(toolbox: testToolbox)),
         ),
       );
 
       // Find all SizedBox widgets that should contain our items
       final sizedBoxes = tester.widgetList<SizedBox>(find.byType(SizedBox));
-      
+
       // Filter for item containers (width 100)
-      final itemContainers = sizedBoxes.where((box) => box.width == 100).toList();
+      final itemContainers = sizedBoxes
+          .where((box) => box.width == 100)
+          .toList();
       expect(itemContainers.length, equals(testToolbox.items.length));
-      
+
       // Verify each item container has consistent sizing
       for (final box in itemContainers) {
         expect(box.width, equals(100));
       }
     });
 
-    testWidgets('items have tooltips with display names', (WidgetTester tester) async {
+    testWidgets('items have tooltips with display names', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: ToolboxWidget(toolbox: testToolbox),
-          ),
+          home: Scaffold(body: ToolboxWidget(toolbox: testToolbox)),
         ),
       );
 
       // Verify tooltips exist
       expect(find.byType(Tooltip), findsNWidgets(testToolbox.items.length));
-      
+
       // Check that each tooltip has the correct message
-      final tooltips = tester.widgetList<Tooltip>(find.byType(Tooltip)).toList();
-      final expectedMessages = testToolbox.items.map((item) => item.displayName).toSet();
+      final tooltips = tester
+          .widgetList<Tooltip>(find.byType(Tooltip))
+          .toList();
+      final expectedMessages = testToolbox.items
+          .map((item) => item.displayName)
+          .toSet();
       final actualMessages = tooltips.map((tooltip) => tooltip.message).toSet();
-      
+
       expect(actualMessages, equals(expectedMessages));
     });
 
-    testWidgets('cards have correct elevation styling', (WidgetTester tester) async {
+    testWidgets('cards have correct elevation styling', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: ToolboxWidget(toolbox: testToolbox),
-          ),
+          home: Scaffold(body: ToolboxWidget(toolbox: testToolbox)),
         ),
       );
 
@@ -181,18 +189,21 @@ void main() {
       for (final card in cards) {
         expect(card.shape, isA<RoundedRectangleBorder>());
         final shape = card.shape as RoundedRectangleBorder;
-        expect(shape.borderRadius, equals(BorderRadius.circular(4.0))); // Uses theme default
+        expect(
+          shape.borderRadius,
+          equals(BorderRadius.circular(4.0)),
+        ); // Uses theme default
       }
     });
 
-    testWidgets('handles empty toolbox gracefully', (WidgetTester tester) async {
+    testWidgets('handles empty toolbox gracefully', (
+      WidgetTester tester,
+    ) async {
       final emptyToolbox = Toolbox(items: []);
-      
+
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: ToolboxWidget(toolbox: emptyToolbox),
-          ),
+          home: Scaffold(body: ToolboxWidget(toolbox: emptyToolbox)),
         ),
       );
 
@@ -202,22 +213,22 @@ void main() {
     });
 
     testWidgets('handles single item toolbox', (WidgetTester tester) async {
-      final singleItemToolbox = Toolbox(items: [
-        ToolboxItem(
-          name: 'test_item',
-          displayName: 'Test Item',
-          toolboxBuilder: (context) => const Icon(Icons.widgets),
-          gridBuilder: (context, placement) => const Text('Test'),
-          defaultWidth: 1,
-          defaultHeight: 1,
-        ),
-      ]);
-      
+      final singleItemToolbox = Toolbox(
+        items: [
+          ToolboxItem(
+            name: 'test_item',
+            displayName: 'Test Item',
+            toolboxBuilder: (context) => const Icon(Icons.widgets),
+            gridBuilder: (context, placement) => const Text('Test'),
+            defaultWidth: 1,
+            defaultHeight: 1,
+          ),
+        ],
+      );
+
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: ToolboxWidget(toolbox: singleItemToolbox),
-          ),
+          home: Scaffold(body: ToolboxWidget(toolbox: singleItemToolbox)),
         ),
       );
 
@@ -228,22 +239,23 @@ void main() {
     });
 
     testWidgets('text truncates when too long', (WidgetTester tester) async {
-      final longNameToolbox = Toolbox(items: [
-        ToolboxItem(
-          name: 'long_name_item',
-          displayName: 'This is a very long display name that should truncate',
-          toolboxBuilder: (context) => const Icon(Icons.text_fields),
-          gridBuilder: (context, placement) => const Text('Long'),
-          defaultWidth: 1,
-          defaultHeight: 1,
-        ),
-      ]);
-      
+      final longNameToolbox = Toolbox(
+        items: [
+          ToolboxItem(
+            name: 'long_name_item',
+            displayName:
+                'This is a very long display name that should truncate',
+            toolboxBuilder: (context) => const Icon(Icons.text_fields),
+            gridBuilder: (context, placement) => const Text('Long'),
+            defaultWidth: 1,
+            defaultHeight: 1,
+          ),
+        ],
+      );
+
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: ToolboxWidget(toolbox: longNameToolbox),
-          ),
+          home: Scaffold(body: ToolboxWidget(toolbox: longNameToolbox)),
         ),
       );
 
@@ -251,7 +263,7 @@ void main() {
       final textWidget = tester.widget<Text>(
         find.text('This is a very long display name that should truncate'),
       );
-      
+
       expect(textWidget.maxLines, equals(2));
       expect(textWidget.overflow, equals(TextOverflow.ellipsis));
       expect(textWidget.textAlign, equals(TextAlign.center));
@@ -261,30 +273,36 @@ void main() {
       testWidgets('cards have hover region', (WidgetTester tester) async {
         await tester.pumpWidget(
           MaterialApp(
-            home: Scaffold(
-              body: ToolboxWidget(toolbox: testToolbox),
-            ),
+            home: Scaffold(body: ToolboxWidget(toolbox: testToolbox)),
           ),
         );
 
         // Verify MouseRegion widgets exist for hover effects (should be at least as many as items)
-        expect(find.byType(MouseRegion), findsAtLeastNWidgets(testToolbox.items.length));
+        expect(
+          find.byType(MouseRegion),
+          findsAtLeastNWidgets(testToolbox.items.length),
+        );
       });
 
-      testWidgets('cards have animated containers for hover effects', (WidgetTester tester) async {
+      testWidgets('cards have animated containers for hover effects', (
+        WidgetTester tester,
+      ) async {
         await tester.pumpWidget(
           MaterialApp(
-            home: Scaffold(
-              body: ToolboxWidget(toolbox: testToolbox),
-            ),
+            home: Scaffold(body: ToolboxWidget(toolbox: testToolbox)),
           ),
         );
 
         // Verify AnimatedContainer widgets exist for smooth transitions
-        expect(find.byType(AnimatedContainer), findsAtLeastNWidgets(testToolbox.items.length));
-        
+        expect(
+          find.byType(AnimatedContainer),
+          findsAtLeastNWidgets(testToolbox.items.length),
+        );
+
         // Check animation duration
-        final animatedContainers = tester.widgetList<AnimatedContainer>(find.byType(AnimatedContainer));
+        final animatedContainers = tester.widgetList<AnimatedContainer>(
+          find.byType(AnimatedContainer),
+        );
         for (final container in animatedContainers) {
           expect(container.duration, equals(const Duration(milliseconds: 200)));
         }
@@ -294,17 +312,20 @@ void main() {
     // TODO: Fix drag and drop tests - the complex widget structure makes testing challenging
     // The functionality is implemented and works in the Storybook demo
     group('drag and drop', () {
-      testWidgets('items are wrapped with LongPressDraggable', (WidgetTester tester) async {
+      testWidgets('items are wrapped with LongPressDraggable', (
+        WidgetTester tester,
+      ) async {
         await tester.pumpWidget(
           MaterialApp(
-            home: Scaffold(
-              body: ToolboxWidget(toolbox: testToolbox),
-            ),
+            home: Scaffold(body: ToolboxWidget(toolbox: testToolbox)),
           ),
         );
 
         // Verify each item is wrapped with LongPressDraggable
-        expect(find.byType(LongPressDraggable<ToolboxItem>), findsNWidgets(testToolbox.items.length));
+        expect(
+          find.byType(LongPressDraggable<ToolboxItem>),
+          findsNWidgets(testToolbox.items.length),
+        );
       });
 
       /*testWidgets('onDragStarted callback is invoked with correct item', (WidgetTester tester) async {
@@ -384,17 +405,17 @@ void main() {
       testWidgets('draggable has correct data', (WidgetTester tester) async {
         await tester.pumpWidget(
           MaterialApp(
-            home: Scaffold(
-              body: ToolboxWidget(toolbox: testToolbox),
-            ),
+            home: Scaffold(body: ToolboxWidget(toolbox: testToolbox)),
           ),
         );
 
         // Verify each draggable has the correct toolbox item as data
-        final draggables = tester.widgetList<LongPressDraggable<ToolboxItem>>(
-          find.byType(LongPressDraggable<ToolboxItem>),
-        ).toList();
-        
+        final draggables = tester
+            .widgetList<LongPressDraggable<ToolboxItem>>(
+              find.byType(LongPressDraggable<ToolboxItem>),
+            )
+            .toList();
+
         for (int i = 0; i < draggables.length; i++) {
           expect(draggables[i].data, equals(testToolbox.items[i]));
         }
@@ -528,12 +549,12 @@ void main() {
         await tester.pump();
       });*/
 
-      testWidgets('draggable allows free movement (axis is null)', (WidgetTester tester) async {
+      testWidgets('draggable allows free movement (axis is null)', (
+        WidgetTester tester,
+      ) async {
         await tester.pumpWidget(
           MaterialApp(
-            home: Scaffold(
-              body: ToolboxWidget(toolbox: testToolbox),
-            ),
+            home: Scaffold(body: ToolboxWidget(toolbox: testToolbox)),
           ),
         );
 
@@ -541,7 +562,7 @@ void main() {
         final draggables = tester.widgetList<LongPressDraggable<ToolboxItem>>(
           find.byType(LongPressDraggable<ToolboxItem>),
         );
-        
+
         for (final draggable in draggables) {
           expect(draggable.axis, isNull);
         }

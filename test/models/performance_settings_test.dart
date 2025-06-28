@@ -5,7 +5,7 @@ void main() {
   group('PerformanceSettings', () {
     test('should have default values', () {
       const settings = PerformanceSettings();
-      
+
       expect(settings.qualityLevel, equals(QualityLevel.balanced));
       expect(settings.enableAnimations, isTrue);
       expect(settings.enableVirtualScrolling, isTrue);
@@ -21,13 +21,13 @@ void main() {
       expect(lowPerf.enableAnimations, isFalse);
       expect(lowPerf.maxHistorySize, equals(20));
       expect(lowPerf.dragUpdateFrequency, equals(30));
-      
+
       const highPerf = PerformanceSettings.highPerformance();
       expect(highPerf.qualityLevel, equals(QualityLevel.high));
       expect(highPerf.enableAnimations, isTrue);
       expect(highPerf.maxHistorySize, equals(100));
       expect(highPerf.dragUpdateFrequency, equals(120));
-      
+
       const battery = PerformanceSettings.batterySaver();
       expect(battery.qualityLevel, equals(QualityLevel.low));
       expect(battery.enableAnimations, isFalse);
@@ -36,46 +36,64 @@ void main() {
 
     test('should copy with modifications', () {
       const original = PerformanceSettings();
-      
+
       final modified = original.copyWith(
         qualityLevel: QualityLevel.high,
         enableAnimations: false,
       );
-      
+
       expect(modified.qualityLevel, equals(QualityLevel.high));
       expect(modified.enableAnimations, isFalse);
-      expect(modified.enableVirtualScrolling, equals(original.enableVirtualScrolling));
+      expect(
+        modified.enableVirtualScrolling,
+        equals(original.enableVirtualScrolling),
+      );
     });
 
     test('should detect auto settings', () {
       const auto = PerformanceSettings.auto();
       expect(auto.isAutoMode, isTrue);
-      
+
       const manual = PerformanceSettings();
       expect(manual.isAutoMode, isFalse);
     });
 
     test('should calculate effective settings based on performance', () {
       const auto = PerformanceSettings.auto();
-      
+
       // Good performance
-      final goodPerf = auto.getEffectiveSettings(currentFps: 60, memoryUsage: 100);
+      final goodPerf = auto.getEffectiveSettings(
+        currentFps: 60,
+        memoryUsage: 100,
+      );
       expect(goodPerf.qualityLevel, equals(QualityLevel.high));
       expect(goodPerf.enableAnimations, isTrue);
-      
+
       // Medium performance
-      final mediumPerf = auto.getEffectiveSettings(currentFps: 45, memoryUsage: 300);
+      final mediumPerf = auto.getEffectiveSettings(
+        currentFps: 45,
+        memoryUsage: 300,
+      );
       expect(mediumPerf.qualityLevel, equals(QualityLevel.balanced));
-      
+
       // Poor performance
-      final poorPerf = auto.getEffectiveSettings(currentFps: 20, memoryUsage: 600);
+      final poorPerf = auto.getEffectiveSettings(
+        currentFps: 20,
+        memoryUsage: 600,
+      );
       expect(poorPerf.qualityLevel, equals(QualityLevel.low));
       expect(poorPerf.enableAnimations, isFalse);
     });
 
     test('should validate settings', () {
-      expect(() => PerformanceSettings(maxHistorySize: 0), throwsAssertionError);
-      expect(() => PerformanceSettings(dragUpdateFrequency: 0), throwsAssertionError);
+      expect(
+        () => PerformanceSettings(maxHistorySize: 0),
+        throwsAssertionError,
+      );
+      expect(
+        () => PerformanceSettings(dragUpdateFrequency: 0),
+        throwsAssertionError,
+      );
       expect(() => PerformanceSettings(cacheSize: -1), throwsAssertionError);
     });
 
@@ -85,10 +103,10 @@ void main() {
         enableAnimations: false,
         maxHistorySize: 75,
       );
-      
+
       final json = original.toJson();
       final restored = PerformanceSettings.fromJson(json);
-      
+
       expect(restored.qualityLevel, equals(original.qualityLevel));
       expect(restored.enableAnimations, equals(original.enableAnimations));
       expect(restored.maxHistorySize, equals(original.maxHistorySize));
@@ -103,10 +121,14 @@ void main() {
     });
 
     test('should have correct animation durations', () {
-      expect(QualityLevel.low.animationDuration, 
-             lessThan(QualityLevel.balanced.animationDuration));
-      expect(QualityLevel.balanced.animationDuration, 
-             lessThan(QualityLevel.high.animationDuration));
+      expect(
+        QualityLevel.low.animationDuration,
+        lessThan(QualityLevel.balanced.animationDuration),
+      );
+      expect(
+        QualityLevel.balanced.animationDuration,
+        lessThan(QualityLevel.high.animationDuration),
+      );
     });
 
     test('should have correct render scales', () {
@@ -118,15 +140,15 @@ void main() {
 
   group('PerformanceProfiler', () {
     late PerformanceProfiler profiler;
-    
+
     setUp(() {
       profiler = PerformanceProfiler();
     });
-    
+
     tearDown(() {
       profiler.dispose();
     });
-    
+
     test('should suggest settings based on device capability', () {
       // High-end device
       final highEnd = profiler.suggestSettings(
@@ -135,7 +157,7 @@ void main() {
         gpuMemory: 4 * 1024, // 4 GB
       );
       expect(highEnd.qualityLevel, equals(QualityLevel.high));
-      
+
       // Low-end device
       final lowEnd = profiler.suggestSettings(
         deviceRam: 2 * 1024, // 2 GB
@@ -144,11 +166,11 @@ void main() {
       );
       expect(lowEnd.qualityLevel, equals(QualityLevel.low));
     });
-    
+
     test('should adapt settings based on runtime performance', () {
       // Start with auto settings (not high performance)
       profiler.updateSettings(const PerformanceSettings.auto());
-      
+
       // Simulate poor performance
       for (int i = 0; i < 10; i++) {
         profiler.recordPerformanceMetrics(
@@ -156,15 +178,21 @@ void main() {
           memoryUsage: 700 * 1024 * 1024, // 700 MB
         );
       }
-      
+
       final adapted = profiler.getAdaptedSettings();
       expect(adapted.qualityLevel, equals(QualityLevel.low));
     });
-    
+
     test('should track performance history', () {
-      profiler.recordPerformanceMetrics(frameTime: 16.67, memoryUsage: 100 * 1024 * 1024);
-      profiler.recordPerformanceMetrics(frameTime: 20.0, memoryUsage: 150 * 1024 * 1024);
-      
+      profiler.recordPerformanceMetrics(
+        frameTime: 16.67,
+        memoryUsage: 100 * 1024 * 1024,
+      );
+      profiler.recordPerformanceMetrics(
+        frameTime: 20.0,
+        memoryUsage: 150 * 1024 * 1024,
+      );
+
       final metrics = profiler.getPerformanceMetrics();
       expect(metrics.averageFrameTime, closeTo(18.335, 0.1));
       expect(metrics.averageFps, closeTo(54.5, 1.0));

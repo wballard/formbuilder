@@ -10,7 +10,8 @@ import 'package:formbuilder/form_layout/models/toolbox_item.dart';
 void main() {
   group('GridDragTarget', () {
     late LayoutState testLayoutState;
-    late Map<String, Widget Function(BuildContext, WidgetPlacement)> testWidgetBuilders;
+    late Map<String, Widget Function(BuildContext, WidgetPlacement)>
+    testWidgetBuilders;
     late Toolbox testToolbox;
 
     setUp(() {
@@ -22,7 +23,9 @@ void main() {
       testToolbox = Toolbox.withDefaults();
     });
 
-    testWidgets('creates widget with required properties', (WidgetTester tester) async {
+    testWidgets('creates widget with required properties', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -40,7 +43,9 @@ void main() {
       expect(find.byType(GridContainer), findsOneWidget);
     });
 
-    testWidgets('wraps GridContainer with DragTarget', (WidgetTester tester) async {
+    testWidgets('wraps GridContainer with DragTarget', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -60,9 +65,11 @@ void main() {
       expect(dragTarget, isNotNull);
     });
 
-    testWidgets('passes through GridContainer properties', (WidgetTester tester) async {
+    testWidgets('passes through GridContainer properties', (
+      WidgetTester tester,
+    ) async {
       const selectedWidgetId = 'test_widget';
-      
+
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -76,15 +83,19 @@ void main() {
         ),
       );
 
-      final gridContainer = tester.widget<GridContainer>(find.byType(GridContainer));
+      final gridContainer = tester.widget<GridContainer>(
+        find.byType(GridContainer),
+      );
       expect(gridContainer.layoutState, equals(testLayoutState));
       expect(gridContainer.widgetBuilders, equals(testWidgetBuilders));
       expect(gridContainer.selectedWidgetId, equals(selectedWidgetId));
     });
 
-    testWidgets('calls onWidgetTap when GridContainer widget is tapped', (WidgetTester tester) async {
+    testWidgets('calls onWidgetTap when GridContainer widget is tapped', (
+      WidgetTester tester,
+    ) async {
       String? tappedWidgetId;
-      
+
       // Add a widget to the layout state
       final placement = WidgetPlacement(
         id: 'widget1',
@@ -116,11 +127,13 @@ void main() {
       );
       expect(placedWidgetInkWell, findsOneWidget);
       await tester.tap(placedWidgetInkWell);
-      
+
       expect(tappedWidgetId, equals('widget1'));
     });
 
-    testWidgets('calls onWidgetDropped when valid drop occurs', (WidgetTester tester) async {
+    testWidgets('calls onWidgetDropped when valid drop occurs', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -141,14 +154,18 @@ void main() {
       expect(dragTarget, findsOneWidget);
 
       // Use the drag target's onAccept callback directly for testing
-      final dragTargetWidget = tester.widget<DragTarget<ToolboxItem>>(dragTarget);
-      
+      final dragTargetWidget = tester.widget<DragTarget<ToolboxItem>>(
+        dragTarget,
+      );
+
       // Test that the callback is set up
       expect(dragTargetWidget.onAcceptWithDetails, isNotNull);
     });
 
     group('coordinate calculation', () {
-      testWidgets('converts screen position to grid coordinates', (WidgetTester tester) async {
+      testWidgets('converts screen position to grid coordinates', (
+        WidgetTester tester,
+      ) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -169,7 +186,9 @@ void main() {
         expect(find.byType(GridDragTarget), findsOneWidget);
       });
 
-      testWidgets('calculates occupied cells correctly', (WidgetTester tester) async {
+      testWidgets('calculates occupied cells correctly', (
+        WidgetTester tester,
+      ) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -192,7 +211,9 @@ void main() {
     });
 
     group('drag feedback', () {
-      testWidgets('highlights valid drop positions', (WidgetTester tester) async {
+      testWidgets('highlights valid drop positions', (
+        WidgetTester tester,
+      ) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -210,7 +231,9 @@ void main() {
         expect(find.byType(GridDragTarget), findsOneWidget);
       });
 
-      testWidgets('indicates invalid drop positions', (WidgetTester tester) async {
+      testWidgets('indicates invalid drop positions', (
+        WidgetTester tester,
+      ) async {
         // Create a layout state with an existing widget
         final existingPlacement = WidgetPlacement(
           id: 'existing',
@@ -256,13 +279,15 @@ void main() {
         final dragTargetWidget = tester.widget<DragTarget<ToolboxItem>>(
           find.byType(DragTarget<ToolboxItem>),
         );
-        
+
         expect(dragTargetWidget.onWillAcceptWithDetails, isNotNull);
         expect(dragTargetWidget.onMove, isNotNull);
         expect(dragTargetWidget.onLeave, isNotNull);
       });
 
-      testWidgets('rejects drops on occupied cells', (WidgetTester tester) async {
+      testWidgets('rejects drops on occupied cells', (
+        WidgetTester tester,
+      ) async {
         // Create a layout with an existing widget
         final existingPlacement = WidgetPlacement(
           id: 'existing',
@@ -289,12 +314,14 @@ void main() {
         final dragTargetWidget = tester.widget<DragTarget<ToolboxItem>>(
           find.byType(DragTarget<ToolboxItem>),
         );
-        
+
         // Verify drag target is set up correctly
         expect(dragTargetWidget.onWillAcceptWithDetails, isNotNull);
       });
 
-      testWidgets('rejects drops outside grid boundaries', (WidgetTester tester) async {
+      testWidgets('rejects drops outside grid boundaries', (
+        WidgetTester tester,
+      ) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -311,7 +338,9 @@ void main() {
         expect(find.byType(GridDragTarget), findsOneWidget);
       });
 
-      testWidgets('highlights cells during drag operations', (WidgetTester tester) async {
+      testWidgets('highlights cells during drag operations', (
+        WidgetTester tester,
+      ) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -325,14 +354,24 @@ void main() {
         );
 
         // Check that highlighting is handled by the GridContainer
-        final gridContainer = tester.widget<GridContainer>(find.byType(GridContainer));
-        expect(gridContainer.highlightedCells, isNull); // Initially no highlights
-        expect(gridContainer.highlightColor, isNull); // Initially no highlight color
+        final gridContainer = tester.widget<GridContainer>(
+          find.byType(GridContainer),
+        );
+        expect(
+          gridContainer.highlightedCells,
+          isNull,
+        ); // Initially no highlights
+        expect(
+          gridContainer.highlightColor,
+          isNull,
+        ); // Initially no highlight color
       });
     });
 
     group('widget moving', () {
-      testWidgets('accepts WidgetPlacement drags for moving widgets', (WidgetTester tester) async {
+      testWidgets('accepts WidgetPlacement drags for moving widgets', (
+        WidgetTester tester,
+      ) async {
         // Create a layout with an existing widget
         final existingPlacement = WidgetPlacement(
           id: 'existing',
@@ -358,16 +397,18 @@ void main() {
 
         // Verify DragTarget for WidgetPlacement exists
         expect(find.byType(DragTarget<WidgetPlacement>), findsOneWidget);
-        
+
         final dragTargetWidget = tester.widget<DragTarget<WidgetPlacement>>(
           find.byType(DragTarget<WidgetPlacement>),
         );
-        
+
         expect(dragTargetWidget.onWillAcceptWithDetails, isNotNull);
         expect(dragTargetWidget.onAcceptWithDetails, isNotNull);
       });
 
-      testWidgets('calls onWidgetMoved when widget is repositioned', (WidgetTester tester) async {
+      testWidgets('calls onWidgetMoved when widget is repositioned', (
+        WidgetTester tester,
+      ) async {
         // Create a layout with an existing widget
         final existingPlacement = WidgetPlacement(
           id: 'existing',
@@ -397,11 +438,13 @@ void main() {
         final dragTargetWidget = tester.widget<DragTarget<WidgetPlacement>>(
           find.byType(DragTarget<WidgetPlacement>),
         );
-        
+
         expect(dragTargetWidget.onAcceptWithDetails, isNotNull);
       });
 
-      testWidgets('excludes moved widget from overlap calculations', (WidgetTester tester) async {
+      testWidgets('excludes moved widget from overlap calculations', (
+        WidgetTester tester,
+      ) async {
         // Create a layout with multiple widgets
         final widget1 = WidgetPlacement(
           id: 'widget1',
@@ -419,7 +462,9 @@ void main() {
           width: 1,
           height: 1,
         );
-        final layoutWithWidgets = testLayoutState.addWidget(widget1).addWidget(widget2);
+        final layoutWithWidgets = testLayoutState
+            .addWidget(widget1)
+            .addWidget(widget2);
 
         await tester.pumpWidget(
           MaterialApp(
@@ -437,7 +482,9 @@ void main() {
         expect(find.byType(GridDragTarget), findsOneWidget);
       });
 
-      testWidgets('prevents moving widget outside grid boundaries', (WidgetTester tester) async {
+      testWidgets('prevents moving widget outside grid boundaries', (
+        WidgetTester tester,
+      ) async {
         // Create a layout with an existing widget
         final existingPlacement = WidgetPlacement(
           id: 'existing',
@@ -465,7 +512,9 @@ void main() {
         expect(find.byType(GridDragTarget), findsOneWidget);
       });
 
-      testWidgets('shows visual feedback during widget move', (WidgetTester tester) async {
+      testWidgets('shows visual feedback during widget move', (
+        WidgetTester tester,
+      ) async {
         // Create a layout with an existing widget
         final existingPlacement = WidgetPlacement(
           id: 'existing',
@@ -490,12 +539,22 @@ void main() {
         );
 
         // Verify visual feedback components are in place
-        final gridContainer = tester.widget<GridContainer>(find.byType(GridContainer));
-        expect(gridContainer.highlightedCells, isNull); // Initially no highlights
-        expect(gridContainer.highlightColor, isNull); // Initially no highlight color
+        final gridContainer = tester.widget<GridContainer>(
+          find.byType(GridContainer),
+        );
+        expect(
+          gridContainer.highlightedCells,
+          isNull,
+        ); // Initially no highlights
+        expect(
+          gridContainer.highlightColor,
+          isNull,
+        ); // Initially no highlight color
       });
 
-      testWidgets('handles both toolbox and widget drags simultaneously', (WidgetTester tester) async {
+      testWidgets('handles both toolbox and widget drags simultaneously', (
+        WidgetTester tester,
+      ) async {
         // Create a layout with an existing widget
         final existingPlacement = WidgetPlacement(
           id: 'existing',

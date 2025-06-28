@@ -18,13 +18,13 @@ class WidgetPlacement {
     required this.width,
     required this.height,
     Map<String, dynamic>? properties,
-  })  : properties = Map.unmodifiable(properties ?? {}),
-        assert(id.isNotEmpty, 'ID cannot be empty'),
-        assert(widgetName.isNotEmpty, 'Widget name cannot be empty'),
-        assert(column >= 0, 'Column must be non-negative'),
-        assert(row >= 0, 'Row must be non-negative'),
-        assert(width >= 1, 'Width must be at least 1'),
-        assert(height >= 1, 'Height must be at least 1');
+  }) : properties = Map.unmodifiable(properties ?? {}),
+       assert(id.isNotEmpty, 'ID cannot be empty'),
+       assert(widgetName.isNotEmpty, 'Widget name cannot be empty'),
+       assert(column >= 0, 'Column must be non-negative'),
+       assert(row >= 0, 'Row must be non-negative'),
+       assert(width >= 1, 'Width must be at least 1'),
+       assert(height >= 1, 'Height must be at least 1');
 
   Rectangle<int> get bounds {
     return Rectangle(column, row, width, height);
@@ -44,7 +44,7 @@ class WidgetPlacement {
     final thisBottom = row + height;
     final otherRight = other.column + other.width;
     final otherBottom = other.row + other.height;
-    
+
     // Check if one rectangle is to the left, right, above, or below the other
     return !(thisRight <= other.column ||
         otherRight <= column ||
@@ -137,7 +137,7 @@ class WidgetPlacement {
         properties = Map<String, dynamic>.from(propsData);
       }
     }
-    
+
     return WidgetPlacement(
       id: json['id'] as String,
       widgetName: json['widgetName'] as String,

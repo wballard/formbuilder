@@ -35,12 +35,16 @@ void main() {
 
       // Check semantic label
       expect(
-        find.bySemanticsLabel('Test Widget widget at column 2, row 2. Size: 2 by 2 cells'),
+        find.bySemanticsLabel(
+          'Test Widget widget at column 2, row 2. Size: 2 by 2 cells',
+        ),
         findsOneWidget,
       );
 
       // Check semantic hint for unselected widget
-      final semantics = tester.getSemantics(find.byType(AccessiblePlacedWidget));
+      final semantics = tester.getSemantics(
+        find.byType(AccessiblePlacedWidget),
+      );
       expect(semantics.hint, contains('Double tap to select'));
     });
 
@@ -57,7 +61,9 @@ void main() {
         ),
       );
 
-      final semantics = tester.getSemantics(find.byType(AccessiblePlacedWidget));
+      final semantics = tester.getSemantics(
+        find.byType(AccessiblePlacedWidget),
+      );
       expect(semantics.hint, contains('Double tap to deselect'));
       expect(semantics.hint, contains('Use arrow keys to move'));
       expect(semantics.hint, contains('Press Delete to remove'));
@@ -126,26 +132,29 @@ void main() {
       expect(find.byType(Container), findsWidgets);
 
       // Tap to focus the widget
-      await tester.tap(find.byType(AccessiblePlacedWidget), warnIfMissed: false);
+      await tester.tap(
+        find.byType(AccessiblePlacedWidget),
+        warnIfMissed: false,
+      );
       await tester.pump();
-      
+
       // Give it a moment to establish focus
       await tester.pumpAndSettle();
 
       // Focus indicator should be visible - find the AccessibleFocusIndicator itself
       final focusIndicatorWidget = find.byType(AccessibleFocusIndicator);
       expect(focusIndicatorWidget, findsOneWidget);
-      
+
       // Since AccessibleFocusIndicator returns a Container with decoration when focused,
       // let's find that specific container by looking for one with a border
       final containers = find.descendant(
         of: focusIndicatorWidget,
         matching: find.byType(Container),
       );
-      
+
       // Should find at least one container
       expect(containers, findsWidgets);
-      
+
       // Find the container with the focus border by checking for border decoration
       bool foundFocusBorder = false;
       final containerList = tester.widgetList<Container>(containers).toList();
@@ -159,11 +168,13 @@ void main() {
           }
         }
       }
-      
+
       expect(foundFocusBorder, isTrue);
     });
 
-    testWidgets('should be focusable and support proper focus management', (tester) async {
+    testWidgets('should be focusable and support proper focus management', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -179,7 +190,9 @@ void main() {
       expect(find.byType(AccessiblePlacedWidget), findsOneWidget);
     });
 
-    testWidgets('should not handle keyboard input when not selected', (tester) async {
+    testWidgets('should not handle keyboard input when not selected', (
+      tester,
+    ) async {
       MoveWidgetIntent? capturedIntent;
 
       await tester.pumpWidget(
@@ -217,7 +230,9 @@ void main() {
       expect(capturedIntent, isNull);
     });
 
-    testWidgets('should not handle keyboard input when cannot drag', (tester) async {
+    testWidgets('should not handle keyboard input when cannot drag', (
+      tester,
+    ) async {
       MoveWidgetIntent? capturedIntent;
 
       await tester.pumpWidget(

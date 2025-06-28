@@ -7,7 +7,7 @@ void main() {
     testWidgets('should throttle drag updates', (tester) async {
       int updateCount = 0;
       final List<Offset> capturedPositions = [];
-      
+
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -53,11 +53,11 @@ void main() {
           ),
         ),
       );
-      
+
       // Start drag
       await tester.press(find.text('Drag me'));
       await tester.pump();
-      
+
       // Simulate multiple drag events in quick succession
       for (int i = 0; i < 10; i++) {
         await tester.drag(
@@ -67,7 +67,7 @@ void main() {
         );
         await tester.pump(const Duration(milliseconds: 10));
       }
-      
+
       // Should have throttled the updates
       expect(updateCount, lessThan(10));
     });
@@ -91,7 +91,7 @@ void main() {
           ),
         ),
       );
-      
+
       expect(find.byType(Container), findsOneWidget);
     });
   });
@@ -120,13 +120,13 @@ void main() {
           ),
         ),
       );
-      
+
       expect(find.text('Drag me'), findsOneWidget);
-      
+
       // Start drag
       await tester.press(find.text('Drag me'));
       await tester.pump();
-      
+
       // Should render feedback during drag
       await tester.drag(find.text('Drag me'), const Offset(50, 50));
       await tester.pump();
@@ -135,7 +135,7 @@ void main() {
     testWidgets('should handle drag lifecycle callbacks', (tester) async {
       bool dragStarted = false;
       bool dragEnded = false;
-      
+
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -147,11 +147,7 @@ void main() {
               onDragEnd: (details) {
                 dragEnded = true;
               },
-              feedback: Container(
-                width: 100,
-                height: 100,
-                color: Colors.red,
-              ),
+              feedback: Container(width: 100, height: 100, color: Colors.red),
               child: Container(
                 width: 100,
                 height: 100,
@@ -162,11 +158,11 @@ void main() {
           ),
         ),
       );
-      
+
       // Start and complete drag
       await tester.drag(find.text('Drag me'), const Offset(100, 100));
       await tester.pumpAndSettle();
-      
+
       expect(dragStarted, isTrue);
       expect(dragEnded, isTrue);
     });
@@ -175,60 +171,60 @@ void main() {
   group('DragPerformanceOptimizer', () {
     test('should calculate optimal drag frequency', () {
       final optimizer = DragPerformanceOptimizer();
-      
+
       // Simulate good performance
       for (int i = 0; i < 10; i++) {
         optimizer.recordFrameTime(10.0); // 10ms = 100 FPS
       }
-      
+
       final goodFreq = optimizer.getOptimalDragFrequency();
       expect(goodFreq, greaterThanOrEqualTo(60));
-      
+
       // Reset and simulate poor performance
       optimizer.reset();
       for (int i = 0; i < 10; i++) {
         optimizer.recordFrameTime(50.0); // 50ms = 20 FPS
       }
-      
+
       final poorFreq = optimizer.getOptimalDragFrequency();
       expect(poorFreq, lessThan(30));
     });
 
     test('should suggest quality level based on performance', () {
       final optimizer = DragPerformanceOptimizer();
-      
+
       // Good performance - high quality
       for (int i = 0; i < 10; i++) {
         optimizer.recordFrameTime(8.0); // ~120 FPS
       }
-      
+
       expect(optimizer.getSuggestedQuality(), equals(DragQuality.high));
-      
+
       // Reset and test medium performance
       optimizer.reset();
       for (int i = 0; i < 10; i++) {
         optimizer.recordFrameTime(20.0); // 50 FPS
       }
-      
+
       expect(optimizer.getSuggestedQuality(), equals(DragQuality.medium));
-      
+
       // Reset and test poor performance
       optimizer.reset();
       for (int i = 0; i < 10; i++) {
         optimizer.recordFrameTime(60.0); // ~16 FPS
       }
-      
+
       expect(optimizer.getSuggestedQuality(), equals(DragQuality.low));
     });
 
     test('should adapt drag parameters', () {
       final optimizer = DragPerformanceOptimizer();
-      
+
       // Simulate poor performance
       for (int i = 0; i < 10; i++) {
         optimizer.recordFrameTime(40.0); // 25 FPS
       }
-      
+
       final params = optimizer.getOptimizedDragParams();
       expect(params.quality, equals(DragQuality.low));
       expect(params.throttleMs, greaterThan(30));
@@ -237,7 +233,9 @@ void main() {
   });
 
   group('DragDropPerformanceWrapper', () {
-    testWidgets('should optimize drag performance automatically', (tester) async {
+    testWidgets('should optimize drag performance automatically', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -276,10 +274,10 @@ void main() {
           ),
         ),
       );
-      
+
       expect(find.text('Item 1'), findsOneWidget);
       expect(find.text('Drop Zone'), findsOneWidget);
-      
+
       // Test drag operation
       await tester.drag(find.text('Item 1'), const Offset(0, 100));
       await tester.pumpAndSettle();

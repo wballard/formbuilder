@@ -33,13 +33,15 @@ void main() {
       );
     });
 
-    testWidgets('AddWidgetAction adds widget through controller', (tester) async {
+    testWidgets('AddWidgetAction adds widget through controller', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
             builder: (context) {
               controller = useFormLayout(_createInitialState());
-              
+
               return ElevatedButton(
                 onPressed: () {
                   final action = AddWidgetAction(controller);
@@ -57,10 +59,10 @@ void main() {
       );
 
       expect(controller.state.widgets.length, 0);
-      
+
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump();
-      
+
       expect(controller.state.widgets.length, 1);
       final widget = controller.state.widgets.first;
       expect(widget.widgetName, 'test_widget');
@@ -68,13 +70,15 @@ void main() {
       expect(widget.row, 2);
     });
 
-    testWidgets('RemoveWidgetAction removes widget through controller', (tester) async {
+    testWidgets('RemoveWidgetAction removes widget through controller', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
             builder: (context) {
               controller = useFormLayout(_createInitialState());
-              
+
               return ElevatedButton(
                 onPressed: () {
                   final action = RemoveWidgetAction(controller);
@@ -91,31 +95,35 @@ void main() {
       );
 
       // Add a widget first
-      controller.addWidget(WidgetPlacement(
-        id: 'widget_to_remove',
-        widgetName: 'test_widget',
-        column: 0,
-        row: 0,
-        width: 2,
-        height: 1,
-      ));
+      controller.addWidget(
+        WidgetPlacement(
+          id: 'widget_to_remove',
+          widgetName: 'test_widget',
+          column: 0,
+          row: 0,
+          width: 2,
+          height: 1,
+        ),
+      );
       await tester.pump();
 
       expect(controller.state.widgets.length, 1);
-      
+
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump();
-      
+
       expect(controller.state.widgets.length, 0);
     });
 
-    testWidgets('MoveWidgetAction moves widget through controller', (tester) async {
+    testWidgets('MoveWidgetAction moves widget through controller', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
             builder: (context) {
               controller = useFormLayout(_createInitialState());
-              
+
               return ElevatedButton(
                 onPressed: () {
                   final action = MoveWidgetAction(controller);
@@ -133,35 +141,39 @@ void main() {
       );
 
       // Add a widget first
-      controller.addWidget(WidgetPlacement(
-        id: 'widget_to_move',
-        widgetName: 'test_widget',
-        column: 0,
-        row: 0,
-        width: 2,
-        height: 1,
-      ));
+      controller.addWidget(
+        WidgetPlacement(
+          id: 'widget_to_move',
+          widgetName: 'test_widget',
+          column: 0,
+          row: 0,
+          width: 2,
+          height: 1,
+        ),
+      );
       await tester.pump();
 
       final widget = controller.state.widgets.first;
       expect(widget.column, 0);
       expect(widget.row, 0);
-      
+
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump();
-      
+
       final movedWidget = controller.state.widgets.first;
       expect(movedWidget.column, 2);
       expect(movedWidget.row, 3);
     });
 
-    testWidgets('ResizeWidgetAction resizes widget through controller', (tester) async {
+    testWidgets('ResizeWidgetAction resizes widget through controller', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
             builder: (context) {
               controller = useFormLayout(_createInitialState());
-              
+
               return ElevatedButton(
                 onPressed: () {
                   final action = ResizeWidgetAction(controller);
@@ -179,35 +191,39 @@ void main() {
       );
 
       // Add a widget first
-      controller.addWidget(WidgetPlacement(
-        id: 'widget_to_resize',
-        widgetName: 'test_widget',
-        column: 0,
-        row: 0,
-        width: 2,
-        height: 1,
-      ));
+      controller.addWidget(
+        WidgetPlacement(
+          id: 'widget_to_resize',
+          widgetName: 'test_widget',
+          column: 0,
+          row: 0,
+          width: 2,
+          height: 1,
+        ),
+      );
       await tester.pump();
 
       final widget = controller.state.widgets.first;
       expect(widget.width, 2);
       expect(widget.height, 1);
-      
+
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump();
-      
+
       final resizedWidget = controller.state.widgets.first;
       expect(resizedWidget.width, 3);
       expect(resizedWidget.height, 2);
     });
 
-    testWidgets('SelectWidgetAction selects widget through controller', (tester) async {
+    testWidgets('SelectWidgetAction selects widget through controller', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
             builder: (context) {
               controller = useFormLayout(_createInitialState());
-              
+
               return ElevatedButton(
                 onPressed: () {
                   final action = SelectWidgetAction(controller);
@@ -224,21 +240,23 @@ void main() {
       );
 
       // Add a widget first
-      controller.addWidget(WidgetPlacement(
-        id: 'widget_to_select',
-        widgetName: 'test_widget',
-        column: 0,
-        row: 0,
-        width: 2,
-        height: 1,
-      ));
+      controller.addWidget(
+        WidgetPlacement(
+          id: 'widget_to_select',
+          widgetName: 'test_widget',
+          column: 0,
+          row: 0,
+          width: 2,
+          height: 1,
+        ),
+      );
       await tester.pump();
 
       expect(controller.selectedWidgetId, isNull);
-      
+
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump();
-      
+
       expect(controller.selectedWidgetId, 'widget_to_select');
     });
 
@@ -248,7 +266,7 @@ void main() {
           home: HookBuilder(
             builder: (context) {
               controller = useFormLayout(_createInitialState());
-              
+
               return ElevatedButton(
                 onPressed: () {
                   final action = UndoAction(controller);
@@ -263,22 +281,24 @@ void main() {
       );
 
       // Add a widget to create history
-      controller.addWidget(WidgetPlacement(
-        id: 'widget_for_undo',
-        widgetName: 'test_widget',
-        column: 0,
-        row: 0,
-        width: 2,
-        height: 1,
-      ));
+      controller.addWidget(
+        WidgetPlacement(
+          id: 'widget_for_undo',
+          widgetName: 'test_widget',
+          column: 0,
+          row: 0,
+          width: 2,
+          height: 1,
+        ),
+      );
       await tester.pump();
 
       expect(controller.state.widgets.length, 1);
       expect(controller.canUndo, true);
-      
+
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump();
-      
+
       expect(controller.state.widgets.length, 0);
     });
 
@@ -288,7 +308,7 @@ void main() {
           home: HookBuilder(
             builder: (context) {
               controller = useFormLayout(_createInitialState());
-              
+
               return ElevatedButton(
                 onPressed: () {
                   final action = RedoAction(controller);
@@ -303,23 +323,25 @@ void main() {
       );
 
       // Add a widget and undo to create redo history
-      controller.addWidget(WidgetPlacement(
-        id: 'widget_for_redo',
-        widgetName: 'test_widget',
-        column: 0,
-        row: 0,
-        width: 2,
-        height: 1,
-      ));
+      controller.addWidget(
+        WidgetPlacement(
+          id: 'widget_for_redo',
+          widgetName: 'test_widget',
+          column: 0,
+          row: 0,
+          width: 2,
+          height: 1,
+        ),
+      );
       controller.undo();
       await tester.pump();
 
       expect(controller.state.widgets.length, 0);
       expect(controller.canRedo, true);
-      
+
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump();
-      
+
       expect(controller.state.widgets.length, 1);
     });
 
@@ -329,7 +351,7 @@ void main() {
           home: HookBuilder(
             builder: (context) {
               controller = useFormLayout(_createInitialState());
-              
+
               return ElevatedButton(
                 onPressed: () {
                   final action = TogglePreviewModeAction(controller);
@@ -344,25 +366,27 @@ void main() {
       );
 
       expect(controller.isPreviewMode, false);
-      
+
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump();
-      
+
       expect(controller.isPreviewMode, true);
-      
+
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump();
-      
+
       expect(controller.isPreviewMode, false);
     });
 
-    testWidgets('DuplicateWidgetAction duplicates widget at valid position', (tester) async {
+    testWidgets('DuplicateWidgetAction duplicates widget at valid position', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
             builder: (context) {
               controller = useFormLayout(_createInitialState());
-              
+
               return ElevatedButton(
                 onPressed: () {
                   final action = DuplicateWidgetAction(controller);
@@ -379,34 +403,38 @@ void main() {
       );
 
       // Add a widget to duplicate
-      controller.addWidget(WidgetPlacement(
-        id: 'widget_to_duplicate',
-        widgetName: 'test_widget',
-        column: 0,
-        row: 0,
-        width: 2,
-        height: 1,
-      ));
+      controller.addWidget(
+        WidgetPlacement(
+          id: 'widget_to_duplicate',
+          widgetName: 'test_widget',
+          column: 0,
+          row: 0,
+          width: 2,
+          height: 1,
+        ),
+      );
       await tester.pump();
 
       expect(controller.state.widgets.length, 1);
-      
+
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump();
-      
+
       expect(controller.state.widgets.length, 2);
       final duplicated = controller.state.widgets.last;
       expect(duplicated.widgetName, 'test_widget');
       expect(duplicated.id, contains('copy'));
     });
 
-    testWidgets('ResizeGridAction resizes grid through controller', (tester) async {
+    testWidgets('ResizeGridAction resizes grid through controller', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
             builder: (context) {
               controller = useFormLayout(_createInitialState());
-              
+
               return ElevatedButton(
                 onPressed: () {
                   final action = ResizeGridAction(controller);
@@ -424,23 +452,25 @@ void main() {
 
       expect(controller.state.dimensions.columns, 4);
       expect(controller.state.dimensions.rows, 5);
-      
+
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump();
-      
+
       expect(controller.state.dimensions.columns, 6);
       expect(controller.state.dimensions.rows, 8);
     });
 
-    testWidgets('ExportLayoutAction calls export callback with JSON string', (tester) async {
+    testWidgets('ExportLayoutAction calls export callback with JSON string', (
+      tester,
+    ) async {
       String? exportedData;
-      
+
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
             builder: (context) {
               controller = useFormLayout(_createInitialState());
-              
+
               return ElevatedButton(
                 onPressed: () {
                   final action = ExportLayoutAction(controller, (jsonString) {
@@ -457,20 +487,22 @@ void main() {
       );
 
       // Add a widget to the layout first
-      controller.addWidget(WidgetPlacement(
-        id: 'test_widget',
-        widgetName: 'button',
-        column: 0,
-        row: 0,
-        width: 2,
-        height: 1,
-        properties: {'text': 'Test Button'},
-      ));
+      controller.addWidget(
+        WidgetPlacement(
+          id: 'test_widget',
+          widgetName: 'button',
+          column: 0,
+          row: 0,
+          width: 2,
+          height: 1,
+          properties: {'text': 'Test Button'},
+        ),
+      );
       await tester.pump();
-      
+
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump();
-      
+
       expect(exportedData, isNotNull);
       expect(exportedData!, contains('"version"'));
       expect(exportedData!, contains('"widgets"'));
@@ -478,15 +510,17 @@ void main() {
       expect(exportedData!, contains('test_widget'));
     });
 
-    testWidgets('ExportLayoutAction returns false when no callback provided', (tester) async {
+    testWidgets('ExportLayoutAction returns false when no callback provided', (
+      tester,
+    ) async {
       bool actionResult = true;
-      
+
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
             builder: (context) {
               controller = useFormLayout(_createInitialState());
-              
+
               return ElevatedButton(
                 onPressed: () {
                   final action = ExportLayoutAction(controller, null);
@@ -499,30 +533,35 @@ void main() {
           ),
         ),
       );
-      
+
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump();
-      
+
       expect(actionResult, false);
     });
 
-    testWidgets('ImportLayoutAction imports valid layout and calls callback', (tester) async {
+    testWidgets('ImportLayoutAction imports valid layout and calls callback', (
+      tester,
+    ) async {
       LayoutState? importedLayout;
       String? importError;
-      
+
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
             builder: (context) {
               controller = useFormLayout(_createInitialState());
-              
+
               return ElevatedButton(
                 onPressed: () {
-                  final action = ImportLayoutAction(controller, (LayoutState? layout, String? error) {
+                  final action = ImportLayoutAction(controller, (
+                    LayoutState? layout,
+                    String? error,
+                  ) {
                     importedLayout = layout;
                     importError = error;
                   });
-                  
+
                   // Create valid JSON for import
                   const validJson = '''
                   {
@@ -545,7 +584,7 @@ void main() {
                     ]
                   }
                   ''';
-                  
+
                   final intent = ImportLayoutIntent(jsonString: validJson);
                   action.invoke(intent);
                 },
@@ -555,73 +594,82 @@ void main() {
           ),
         ),
       );
-      
+
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump();
-      
+
       expect(importedLayout, isNotNull);
       expect(importError, isNull);
       expect(importedLayout!.dimensions.columns, 3);
       expect(importedLayout!.dimensions.rows, 2);
       expect(importedLayout!.widgets.length, 1);
       expect(importedLayout!.widgets.first.id, 'imported_widget');
-      expect(importedLayout!.widgets.first.properties['placeholder'], 'Imported text');
-      
+      expect(
+        importedLayout!.widgets.first.properties['placeholder'],
+        'Imported text',
+      );
+
       // Verify the controller state was updated
       expect(controller.state.dimensions.columns, 3);
       expect(controller.state.dimensions.rows, 2);
       expect(controller.state.widgets.length, 1);
     });
 
-    testWidgets('ImportLayoutAction handles invalid JSON and calls error callback', (tester) async {
-      LayoutState? importedLayout;
-      String? importError;
-      
-      await tester.pumpWidget(
-        MaterialApp(
-          home: HookBuilder(
-            builder: (context) {
-              controller = useFormLayout(_createInitialState());
-              
-              return ElevatedButton(
-                onPressed: () {
-                  final action = ImportLayoutAction(controller, (LayoutState? layout, String? error) {
-                    importedLayout = layout;
-                    importError = error;
-                  });
-                  
-                  const invalidJson = '{"invalid": "json format"}';
-                  final intent = ImportLayoutIntent(jsonString: invalidJson);
-                  action.invoke(intent);
-                },
-                child: const Text('Import Layout'),
-              );
-            },
+    testWidgets(
+      'ImportLayoutAction handles invalid JSON and calls error callback',
+      (tester) async {
+        LayoutState? importedLayout;
+        String? importError;
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: HookBuilder(
+              builder: (context) {
+                controller = useFormLayout(_createInitialState());
+
+                return ElevatedButton(
+                  onPressed: () {
+                    final action = ImportLayoutAction(controller, (
+                      LayoutState? layout,
+                      String? error,
+                    ) {
+                      importedLayout = layout;
+                      importError = error;
+                    });
+
+                    const invalidJson = '{"invalid": "json format"}';
+                    final intent = ImportLayoutIntent(jsonString: invalidJson);
+                    action.invoke(intent);
+                  },
+                  child: const Text('Import Layout'),
+                );
+              },
+            ),
           ),
-        ),
-      );
-      
-      await tester.tap(find.byType(ElevatedButton));
-      await tester.pump();
-      
-      expect(importedLayout, isNull);
-      expect(importError, isNotNull);
-      expect(importError!, contains('Invalid layout data'));
-    });
+        );
+
+        await tester.tap(find.byType(ElevatedButton));
+        await tester.pump();
+
+        expect(importedLayout, isNull);
+        expect(importError, isNotNull);
+        expect(importError!, contains('Invalid layout data'));
+      },
+    );
 
     testWidgets('ImportLayoutAction works without callback', (tester) async {
       bool actionResult = false;
-      
+
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
             builder: (context) {
               controller = useFormLayout(_createInitialState());
-              
+
               return ElevatedButton(
                 onPressed: () {
                   final action = ImportLayoutAction(controller, null);
-                  
+
                   const validJson = '''
                   {
                     "version": "1.0.0",
@@ -629,7 +677,7 @@ void main() {
                     "widgets": []
                   }
                   ''';
-                  
+
                   final intent = ImportLayoutIntent(jsonString: validJson);
                   actionResult = action.invoke(intent);
                 },
@@ -639,10 +687,10 @@ void main() {
           ),
         ),
       );
-      
+
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump();
-      
+
       expect(actionResult, true);
       expect(controller.state.dimensions.columns, 2);
       expect(controller.state.dimensions.rows, 2);

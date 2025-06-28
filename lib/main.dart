@@ -31,10 +31,7 @@ class HomePage extends StatelessWidget {
         title: const Text('FormBuilder'),
       ),
       body: const Center(
-        child: Text(
-          'FormLayout Widget Demo',
-          style: TextStyle(fontSize: 24),
-        ),
+        child: Text('FormLayout Widget Demo', style: TextStyle(fontSize: 24)),
       ),
     );
   }

@@ -23,7 +23,7 @@ class LayoutSerializer {
 
     try {
       final dynamic jsonData = jsonDecode(jsonString);
-      
+
       if (jsonData is! Map<String, dynamic>) {
         return null;
       }
@@ -35,7 +35,7 @@ class LayoutSerializer {
 
       // Attempt to create LayoutState
       final layout = LayoutState.fromJson(jsonData);
-      
+
       // Validate the created layout for data integrity
       if (!_validateDataIntegrity(layout)) {
         return null;
@@ -54,12 +54,12 @@ class LayoutSerializer {
     if (!json.containsKey('dimensions')) {
       return false;
     }
-    
+
     final dimensions = json['dimensions'];
     if (dimensions is! Map<String, dynamic>) {
       return false;
     }
-    
+
     if (!dimensions.containsKey('columns') || !dimensions.containsKey('rows')) {
       return false;
     }
@@ -68,7 +68,7 @@ class LayoutSerializer {
     if (!json.containsKey('widgets')) {
       return false;
     }
-    
+
     if (json['widgets'] is! List) {
       return false;
     }
@@ -110,7 +110,7 @@ class LayoutSerializer {
   /// Export a layout state with additional metadata
   static Map<String, dynamic> exportLayout(LayoutState layout) {
     final json = layout.toJson();
-    
+
     // Add export-specific metadata
     json['exportMetadata'] = {
       'exportedAt': DateTime.now().toIso8601String(),
@@ -171,9 +171,12 @@ class LayoutSerializer {
         'version': jsonData['version'],
         'timestamp': jsonData['timestamp'],
         'widgetCount': metadata?['widgetCount'] ?? widgets?.length ?? 0,
-        'gridSize': metadata?['gridSize'] ?? 
-            (dimensions != null ? 
-                (dimensions['columns'] as int? ?? 0) * (dimensions['rows'] as int? ?? 0) : 0),
+        'gridSize':
+            metadata?['gridSize'] ??
+            (dimensions != null
+                ? (dimensions['columns'] as int? ?? 0) *
+                      (dimensions['rows'] as int? ?? 0)
+                : 0),
         'totalArea': metadata?['totalArea'] ?? 0,
       };
     } catch (e) {
@@ -185,7 +188,7 @@ class LayoutSerializer {
   static LayoutState? migrateLayout(String jsonString, String fromVersion) {
     // For now, we only support version 1.0.0, so migration is just validation
     // Future versions could implement actual migration logic here
-    
+
     try {
       final layout = fromJsonString(jsonString);
       if (layout != null) {

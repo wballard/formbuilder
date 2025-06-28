@@ -10,7 +10,8 @@ import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
 void main() {
   group('GridContainer Preview Mode', () {
     late LayoutState testLayoutState;
-    late Map<String, Widget Function(BuildContext, WidgetPlacement)> testWidgetBuilders;
+    late Map<String, Widget Function(BuildContext, WidgetPlacement)>
+    testWidgetBuilders;
 
     setUp(() {
       testLayoutState = LayoutState(
@@ -36,14 +37,14 @@ void main() {
       );
 
       testWidgetBuilders = {
-        'TestWidget': (context, placement) => Container(
-          color: Colors.blue,
-          child: const Text('Test Widget'),
-        ),
+        'TestWidget': (context, placement) =>
+            Container(color: Colors.blue, child: const Text('Test Widget')),
       };
     });
 
-    testWidgets('shows grid background in edit mode (default)', (WidgetTester tester) async {
+    testWidgets('shows grid background in edit mode (default)', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: GridContainer(
@@ -56,7 +57,9 @@ void main() {
       expect(find.byType(AccessibleGridWidget), findsOneWidget);
     });
 
-    testWidgets('hides grid background in preview mode', (WidgetTester tester) async {
+    testWidgets('hides grid background in preview mode', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: GridContainer(
@@ -84,7 +87,9 @@ void main() {
       expect(find.byType(PlacedWidget), findsNWidgets(2));
     });
 
-    testWidgets('uses simple Container in preview mode', (WidgetTester tester) async {
+    testWidgets('uses simple Container in preview mode', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: GridContainer(
@@ -99,7 +104,9 @@ void main() {
       expect(find.text('Test Widget'), findsNWidgets(2));
     });
 
-    testWidgets('applies gap spacing in preview mode', (WidgetTester tester) async {
+    testWidgets('applies gap spacing in preview mode', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: GridContainer(
@@ -115,7 +122,9 @@ void main() {
       expect(find.byType(GridContainer), findsOneWidget);
     });
 
-    testWidgets('does not apply gap spacing in edit mode', (WidgetTester tester) async {
+    testWidgets('does not apply gap spacing in edit mode', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: GridContainer(
@@ -131,7 +140,9 @@ void main() {
       expect(find.byType(GridContainer), findsOneWidget);
     });
 
-    testWidgets('widgets remain functional in preview mode', (WidgetTester tester) async {
+    testWidgets('widgets remain functional in preview mode', (
+      WidgetTester tester,
+    ) async {
       bool buttonPressed = false;
 
       final interactiveBuilders = {
@@ -159,7 +170,9 @@ void main() {
       expect(buttonPressed, isTrue);
     });
 
-    testWidgets('selection state is ignored in preview mode', (WidgetTester tester) async {
+    testWidgets('selection state is ignored in preview mode', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: GridContainer(
@@ -175,7 +188,9 @@ void main() {
       expect(find.byType(PlacedWidget), findsNothing);
     });
 
-    testWidgets('drag state is ignored in preview mode', (WidgetTester tester) async {
+    testWidgets('drag state is ignored in preview mode', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: GridContainer(
@@ -191,7 +206,9 @@ void main() {
       expect(find.byType(PlacedWidget), findsNothing);
     });
 
-    testWidgets('resize state is ignored in preview mode', (WidgetTester tester) async {
+    testWidgets('resize state is ignored in preview mode', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: GridContainer(
@@ -207,7 +224,9 @@ void main() {
       expect(find.byType(PlacedWidget), findsNothing);
     });
 
-    testWidgets('preserves widget content in both modes', (WidgetTester tester) async {
+    testWidgets('preserves widget content in both modes', (
+      WidgetTester tester,
+    ) async {
       // Test edit mode
       await tester.pumpWidget(
         MaterialApp(
@@ -235,7 +254,9 @@ void main() {
       expect(find.text('Test Widget'), findsNWidgets(2));
     });
 
-    testWidgets('handles empty layout in preview mode', (WidgetTester tester) async {
+    testWidgets('handles empty layout in preview mode', (
+      WidgetTester tester,
+    ) async {
       final emptyState = LayoutState(
         dimensions: const GridDimensions(columns: 2, rows: 2),
         widgets: [],
@@ -255,7 +276,9 @@ void main() {
       expect(find.byType(AccessibleGridWidget), findsNothing);
     });
 
-    testWidgets('callback parameters are ignored in preview mode', (WidgetTester tester) async {
+    testWidgets('callback parameters are ignored in preview mode', (
+      WidgetTester tester,
+    ) async {
       bool callbackCalled = false;
 
       await tester.pumpWidget(

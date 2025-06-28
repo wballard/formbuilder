@@ -5,31 +5,31 @@ import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
 import 'dart:math';
 
 List<Story> get gridWidgetStories => [
-      Story(
-        name: 'Widgets/GridWidget/Default',
-        builder: (context) => const GridWidgetDemo(),
-      ),
-      Story(
-        name: 'Widgets/GridWidget/Interactive',
-        builder: (context) => const InteractiveGridDemo(),
-      ),
-      Story(
-        name: 'Widgets/GridWidget/Custom Styling',
-        builder: (context) => const CustomStyledGridDemo(),
-      ),
-      Story(
-        name: 'Widgets/GridWidget/Different Sizes',
-        builder: (context) => const GridSizesDemo(),
-      ),
-      Story(
-        name: 'Widgets/GridWidget/Cell Highlighting',
-        builder: (context) => const CellHighlightingDemo(),
-      ),
-      Story(
-        name: 'Widgets/GridWidget/Interactive Highlighting',
-        builder: (context) => const InteractiveHighlightingDemo(),
-      ),
-    ];
+  Story(
+    name: 'Widgets/GridWidget/Default',
+    builder: (context) => const GridWidgetDemo(),
+  ),
+  Story(
+    name: 'Widgets/GridWidget/Interactive',
+    builder: (context) => const InteractiveGridDemo(),
+  ),
+  Story(
+    name: 'Widgets/GridWidget/Custom Styling',
+    builder: (context) => const CustomStyledGridDemo(),
+  ),
+  Story(
+    name: 'Widgets/GridWidget/Different Sizes',
+    builder: (context) => const GridSizesDemo(),
+  ),
+  Story(
+    name: 'Widgets/GridWidget/Cell Highlighting',
+    builder: (context) => const CellHighlightingDemo(),
+  ),
+  Story(
+    name: 'Widgets/GridWidget/Interactive Highlighting',
+    builder: (context) => const InteractiveHighlightingDemo(),
+  ),
+];
 
 class GridWidgetDemo extends StatelessWidget {
   const GridWidgetDemo({super.key});
@@ -70,40 +70,34 @@ class InteractiveGridDemo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final columns = context.knobs.slider(
-      label: 'Columns',
-      initial: 4,
-      min: 1,
-      max: 12,
-    ).toInt();
-    
-    final rows = context.knobs.slider(
-      label: 'Rows',
-      initial: 4,
-      min: 1,
-      max: 10,
-    ).toInt();
-    
+    final columns = context.knobs
+        .slider(label: 'Columns', initial: 4, min: 1, max: 12)
+        .toInt();
+
+    final rows = context.knobs
+        .slider(label: 'Rows', initial: 4, min: 1, max: 10)
+        .toInt();
+
     final gridLineWidth = context.knobs.slider(
       label: 'Grid Line Width',
       initial: 1.0,
       min: 0.5,
       max: 5.0,
     );
-    
+
     final useCustomColors = context.knobs.boolean(
       label: 'Use Custom Colors',
       initial: false,
     );
-    
+
     final gridLineColor = useCustomColors
         ? Colors.blue.shade300
         : Colors.grey.shade300;
-    
+
     final backgroundColor = useCustomColors
         ? Colors.blue.shade50
         : Colors.white;
-    
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -160,12 +154,18 @@ class CustomStyledGridDemo extends StatelessWidget {
                       children: [
                         const Text(
                           'Blue Theme',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         const SizedBox(height: 8),
                         Expanded(
                           child: GridWidget(
-                            dimensions: const GridDimensions(columns: 3, rows: 3),
+                            dimensions: const GridDimensions(
+                              columns: 3,
+                              rows: 3,
+                            ),
                             gridLineColor: Colors.blue.shade300,
                             gridLineWidth: 2.0,
                             backgroundColor: Colors.blue.shade50,
@@ -182,12 +182,18 @@ class CustomStyledGridDemo extends StatelessWidget {
                       children: [
                         const Text(
                           'Dark Theme',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         const SizedBox(height: 8),
                         Expanded(
                           child: GridWidget(
-                            dimensions: const GridDimensions(columns: 3, rows: 3),
+                            dimensions: const GridDimensions(
+                              columns: 3,
+                              rows: 3,
+                            ),
                             gridLineColor: Colors.grey.shade600,
                             gridLineWidth: 1.0,
                             backgroundColor: Colors.grey.shade900,
@@ -210,12 +216,18 @@ class CustomStyledGridDemo extends StatelessWidget {
                       children: [
                         const Text(
                           'Green Theme',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         const SizedBox(height: 8),
                         Expanded(
                           child: GridWidget(
-                            dimensions: const GridDimensions(columns: 3, rows: 3),
+                            dimensions: const GridDimensions(
+                              columns: 3,
+                              rows: 3,
+                            ),
                             gridLineColor: Colors.green.shade400,
                             gridLineWidth: 1.5,
                             backgroundColor: Colors.green.shade50,
@@ -232,12 +244,18 @@ class CustomStyledGridDemo extends StatelessWidget {
                       children: [
                         const Text(
                           'Minimal',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         const SizedBox(height: 8),
                         Expanded(
                           child: GridWidget(
-                            dimensions: const GridDimensions(columns: 3, rows: 3),
+                            dimensions: const GridDimensions(
+                              columns: 3,
+                              rows: 3,
+                            ),
                             gridLineColor: Colors.grey.shade200,
                             gridLineWidth: 0.5,
                             backgroundColor: Colors.white,
@@ -331,9 +349,7 @@ class GridSizesDemo extends StatelessWidget {
         const SizedBox(height: 8),
         SizedBox(
           height: height,
-          child: GridWidget(
-            dimensions: dimensions,
-          ),
+          child: GridWidget(dimensions: dimensions),
         ),
       ],
     );
@@ -365,12 +381,18 @@ class CellHighlightingDemo extends StatelessWidget {
                       children: [
                         const Text(
                           'Basic Highlighting',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         const SizedBox(height: 8),
                         Expanded(
                           child: GridWidget(
-                            dimensions: const GridDimensions(columns: 4, rows: 4),
+                            dimensions: const GridDimensions(
+                              columns: 4,
+                              rows: 4,
+                            ),
                             highlightedCells: {
                               const Point(0, 0),
                               const Point(1, 0),
@@ -389,12 +411,18 @@ class CellHighlightingDemo extends StatelessWidget {
                       children: [
                         const Text(
                           'Custom Colors',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         const SizedBox(height: 8),
                         Expanded(
                           child: GridWidget(
-                            dimensions: const GridDimensions(columns: 4, rows: 4),
+                            dimensions: const GridDimensions(
+                              columns: 4,
+                              rows: 4,
+                            ),
                             highlightedCells: {
                               const Point(2, 1),
                               const Point(3, 1),
@@ -423,7 +451,8 @@ class CellHighlightingDemo extends StatelessWidget {
                 highlightedCells: GridWidget.getCellsInRectangle(1, 1, 4, 2),
                 isCellValid: (cell) {
                   // Make cells at (2,1) and (3,2) invalid
-                  return !(cell == const Point(2, 1) || cell == const Point(3, 2));
+                  return !(cell == const Point(2, 1) ||
+                      cell == const Point(3, 2));
                 },
               ),
             ),
@@ -438,10 +467,12 @@ class InteractiveHighlightingDemo extends StatefulWidget {
   const InteractiveHighlightingDemo({super.key});
 
   @override
-  State<InteractiveHighlightingDemo> createState() => _InteractiveHighlightingDemoState();
+  State<InteractiveHighlightingDemo> createState() =>
+      _InteractiveHighlightingDemoState();
 }
 
-class _InteractiveHighlightingDemoState extends State<InteractiveHighlightingDemo> {
+class _InteractiveHighlightingDemoState
+    extends State<InteractiveHighlightingDemo> {
   final Set<Point<int>> _highlightedCells = {};
   final int _columns = 6;
   final int _rows = 6;
@@ -499,12 +530,17 @@ class _InteractiveHighlightingDemoState extends State<InteractiveHighlightingDem
                 builder: (context, constraints) {
                   final cellWidth = constraints.maxWidth / _columns;
                   final cellHeight = constraints.maxHeight / _rows;
-                  
+
                   return GestureDetector(
                     onTapDown: (details) {
-                      final col = (details.localPosition.dx / cellWidth).floor();
-                      final row = (details.localPosition.dy / cellHeight).floor();
-                      if (col >= 0 && col < _columns && row >= 0 && row < _rows) {
+                      final col = (details.localPosition.dx / cellWidth)
+                          .floor();
+                      final row = (details.localPosition.dy / cellHeight)
+                          .floor();
+                      if (col >= 0 &&
+                          col < _columns &&
+                          row >= 0 &&
+                          row < _rows) {
                         setState(() {
                           final cell = Point(col, row);
                           if (_highlightedCells.contains(cell)) {
@@ -516,7 +552,10 @@ class _InteractiveHighlightingDemoState extends State<InteractiveHighlightingDem
                       }
                     },
                     child: GridWidget(
-                      dimensions: GridDimensions(columns: _columns, rows: _rows),
+                      dimensions: GridDimensions(
+                        columns: _columns,
+                        rows: _rows,
+                      ),
                       highlightedCells: _highlightedCells,
                     ),
                   );

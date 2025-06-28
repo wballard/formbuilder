@@ -18,10 +18,10 @@ enum ResizeHandleType {
 class ResizeData {
   /// The ID of the widget being resized
   final String widgetId;
-  
+
   /// The type of resize handle being dragged
   final ResizeHandleType handleType;
-  
+
   /// The original placement before resize
   final WidgetPlacement startPlacement;
 
@@ -56,16 +56,16 @@ extension ResizeHandleTypeCursor on ResizeHandleType {
 class ResizeHandle extends StatefulWidget {
   /// The type of resize handle
   final ResizeHandleType type;
-  
+
   /// The widget placement data
   final WidgetPlacement placement;
-  
+
   /// Callback when resize starts
   final void Function(ResizeData)? onResizeStart;
-  
+
   /// Callback when resize updates
   final void Function(ResizeData, Offset delta)? onResizeUpdate;
-  
+
   /// Callback when resize ends
   final void Function()? onResizeEnd;
 
@@ -88,7 +88,7 @@ class _ResizeHandleState extends State<ResizeHandle> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return _buildPositionedHandle(theme);
   }
 
@@ -110,11 +110,13 @@ class _ResizeHandleState extends State<ResizeHandle> {
         feedback: _buildHandle(theme, isActive: true),
         childWhenDragging: _buildHandle(theme, isActive: true),
         onDragStarted: () {
-          widget.onResizeStart?.call(ResizeData(
-            widgetId: widget.placement.id,
-            handleType: widget.type,
-            startPlacement: widget.placement,
-          ));
+          widget.onResizeStart?.call(
+            ResizeData(
+              widgetId: widget.placement.id,
+              handleType: widget.type,
+              startPlacement: widget.placement,
+            ),
+          );
         },
         onDragUpdate: (details) {
           widget.onResizeUpdate?.call(
@@ -135,11 +137,7 @@ class _ResizeHandleState extends State<ResizeHandle> {
 
     switch (widget.type) {
       case ResizeHandleType.topLeft:
-        return Positioned(
-          top: -offset,
-          left: -offset,
-          child: handleWidget,
-        );
+        return Positioned(top: -offset, left: -offset, child: handleWidget);
       case ResizeHandleType.top:
         return Positioned(
           top: -offset,
@@ -148,11 +146,7 @@ class _ResizeHandleState extends State<ResizeHandle> {
           child: Center(child: handleWidget),
         );
       case ResizeHandleType.topRight:
-        return Positioned(
-          top: -offset,
-          right: -offset,
-          child: handleWidget,
-        );
+        return Positioned(top: -offset, right: -offset, child: handleWidget);
       case ResizeHandleType.left:
         return Positioned(
           top: 0,
@@ -168,11 +162,7 @@ class _ResizeHandleState extends State<ResizeHandle> {
           child: Center(child: handleWidget),
         );
       case ResizeHandleType.bottomLeft:
-        return Positioned(
-          bottom: -offset,
-          left: -offset,
-          child: handleWidget,
-        );
+        return Positioned(bottom: -offset, left: -offset, child: handleWidget);
       case ResizeHandleType.bottom:
         return Positioned(
           bottom: -offset,
@@ -181,11 +171,7 @@ class _ResizeHandleState extends State<ResizeHandle> {
           child: Center(child: handleWidget),
         );
       case ResizeHandleType.bottomRight:
-        return Positioned(
-          bottom: -offset,
-          right: -offset,
-          child: handleWidget,
-        );
+        return Positioned(bottom: -offset, right: -offset, child: handleWidget);
     }
   }
 
@@ -195,13 +181,10 @@ class _ResizeHandleState extends State<ResizeHandle> {
       width: 16,
       height: 16,
       decoration: BoxDecoration(
-        color: isActive 
-            ? theme.primaryColor 
+        color: isActive
+            ? theme.primaryColor
             : theme.primaryColor.withValues(alpha: 0.7),
-        border: Border.all(
-          color: Colors.white,
-          width: 2,
-        ),
+        border: Border.all(color: Colors.white, width: 2),
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(

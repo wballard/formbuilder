@@ -31,11 +31,12 @@ class FormLayoutTheme {
   final EdgeInsets defaultPadding;
 
   static FormLayoutTheme of(BuildContext context) {
-    final theme = context.dependOnInheritedWidgetOfExactType<_FormLayoutThemeInheritedWidget>();
+    final theme = context
+        .dependOnInheritedWidgetOfExactType<_FormLayoutThemeInheritedWidget>();
     if (theme != null) {
       return theme.theme;
     }
-    
+
     // Fall back to creating from Material theme
     final materialTheme = Theme.of(context);
     return FormLayoutTheme.fromThemeData(materialTheme);
@@ -44,7 +45,7 @@ class FormLayoutTheme {
   static FormLayoutTheme fromThemeData(ThemeData themeData) {
     final isDark = themeData.brightness == Brightness.dark;
     final colorScheme = themeData.colorScheme;
-    
+
     return FormLayoutTheme(
       gridLineColor: isDark ? Colors.grey[600]! : Colors.grey[300]!,
       gridBackgroundColor: colorScheme.surface,
@@ -134,7 +135,8 @@ class FormLayoutTheme {
       selectionBorderColor: selectionBorderColor ?? this.selectionBorderColor,
       dragHighlightColor: dragHighlightColor ?? this.dragHighlightColor,
       invalidDropColor: invalidDropColor ?? this.invalidDropColor,
-      toolboxBackgroundColor: toolboxBackgroundColor ?? this.toolboxBackgroundColor,
+      toolboxBackgroundColor:
+          toolboxBackgroundColor ?? this.toolboxBackgroundColor,
       labelStyle: labelStyle ?? this.labelStyle,
       widgetBorderRadius: widgetBorderRadius ?? this.widgetBorderRadius,
       elevations: elevations ?? this.elevations,
@@ -202,9 +204,6 @@ class FormLayoutThemeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _FormLayoutThemeInheritedWidget(
-      theme: theme,
-      child: child,
-    );
+    return _FormLayoutThemeInheritedWidget(theme: theme, child: child);
   }
 }

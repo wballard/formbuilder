@@ -8,7 +8,8 @@ import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
 void main() {
   group('FormPreview', () {
     late LayoutState testLayoutState;
-    late Map<String, Widget Function(BuildContext, WidgetPlacement)> testWidgetBuilders;
+    late Map<String, Widget Function(BuildContext, WidgetPlacement)>
+    testWidgetBuilders;
 
     setUp(() {
       testLayoutState = LayoutState(
@@ -42,17 +43,17 @@ void main() {
       );
 
       testWidgetBuilders = {
-        'TestButton': (context, placement) => ElevatedButton(
-          onPressed: () {},
-          child: const Text('Test Button'),
-        ),
+        'TestButton': (context, placement) =>
+            ElevatedButton(onPressed: () {}, child: const Text('Test Button')),
         'TestTextField': (context, placement) => const TextField(
           decoration: InputDecoration(labelText: 'Test Field'),
         ),
       };
     });
 
-    testWidgets('creates widget with required properties', (WidgetTester tester) async {
+    testWidgets('creates widget with required properties', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -67,7 +68,9 @@ void main() {
       expect(find.byType(FormPreview), findsOneWidget);
     });
 
-    testWidgets('shows preview mode indicator by default', (WidgetTester tester) async {
+    testWidgets('shows preview mode indicator by default', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -98,7 +101,9 @@ void main() {
       expect(find.text('Preview Mode'), findsNothing);
     });
 
-    testWidgets('renders all widgets from layout state', (WidgetTester tester) async {
+    testWidgets('renders all widgets from layout state', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -115,7 +120,9 @@ void main() {
       expect(find.text('Test Button'), findsOneWidget);
     });
 
-    testWidgets('shows error widget for unknown widget types', (WidgetTester tester) async {
+    testWidgets('shows error widget for unknown widget types', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -151,7 +158,9 @@ void main() {
       expect(decoration.color, equals(customColor));
     });
 
-    testWidgets('widgets remain interactive in preview mode', (WidgetTester tester) async {
+    testWidgets('widgets remain interactive in preview mode', (
+      WidgetTester tester,
+    ) async {
       bool buttonPressed = false;
 
       final interactiveWidgetBuilders = {

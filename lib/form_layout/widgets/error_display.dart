@@ -5,13 +5,13 @@ import 'package:formbuilder/form_layout/models/validation_result.dart';
 enum ErrorDisplayStrategy {
   /// Show as a SnackBar
   snackBar,
-  
+
   /// Show inline near the error location
   inline,
-  
+
   /// Show in a status bar
   statusBar,
-  
+
   /// Show in a dialog
   dialog,
 }
@@ -26,7 +26,7 @@ class ErrorDisplay {
     VoidCallback? onDismiss,
   }) {
     if (!result.hasMessage) return;
-    
+
     switch (strategy) {
       case ErrorDisplayStrategy.snackBar:
         _showSnackBar(context, result, onDismiss);
@@ -42,7 +42,7 @@ class ErrorDisplay {
         break;
     }
   }
-  
+
   static void _showSnackBar(
     BuildContext context,
     ValidationResult result,
@@ -50,11 +50,11 @@ class ErrorDisplay {
   ) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    
+
     Color backgroundColor;
     Color textColor;
     IconData icon;
-    
+
     switch (result.severity) {
       case ValidationSeverity.error:
         backgroundColor = isDark ? Colors.red.shade800 : Colors.red.shade600;
@@ -62,7 +62,9 @@ class ErrorDisplay {
         icon = Icons.error_outline;
         break;
       case ValidationSeverity.warning:
-        backgroundColor = isDark ? Colors.orange.shade800 : Colors.orange.shade600;
+        backgroundColor = isDark
+            ? Colors.orange.shade800
+            : Colors.orange.shade600;
         textColor = Colors.white;
         icon = Icons.warning_amber_outlined;
         break;
@@ -72,7 +74,7 @@ class ErrorDisplay {
         icon = Icons.info_outline;
         break;
     }
-    
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Row(
@@ -80,10 +82,7 @@ class ErrorDisplay {
             Icon(icon, color: textColor, size: 20),
             const SizedBox(width: 12),
             Expanded(
-              child: Text(
-                result.message!,
-                style: TextStyle(color: textColor),
-              ),
+              child: Text(result.message!, style: TextStyle(color: textColor)),
             ),
           ],
         ),
@@ -105,18 +104,18 @@ class ErrorDisplay {
       ),
     );
   }
-  
+
   static void _showDialog(
     BuildContext context,
     ValidationResult result,
     VoidCallback? onDismiss,
   ) {
     final theme = Theme.of(context);
-    
+
     IconData icon;
     Color iconColor;
     String title;
-    
+
     switch (result.severity) {
       case ValidationSeverity.error:
         icon = Icons.error_outline;
@@ -134,7 +133,7 @@ class ErrorDisplay {
         title = 'Information';
         break;
     }
-    
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -159,25 +158,21 @@ class ErrorDisplay {
 class InlineErrorDisplay extends StatelessWidget {
   final ValidationResult? result;
   final Widget child;
-  
-  const InlineErrorDisplay({
-    super.key,
-    this.result,
-    required this.child,
-  });
-  
+
+  const InlineErrorDisplay({super.key, this.result, required this.child});
+
   @override
   Widget build(BuildContext context) {
     if (result == null || !result!.hasMessage) {
       return child;
     }
-    
+
     final theme = Theme.of(context);
-    
+
     Color borderColor;
     Color backgroundColor;
     IconData icon;
-    
+
     switch (result!.severity) {
       case ValidationSeverity.error:
         borderColor = theme.colorScheme.error;
@@ -195,7 +190,7 @@ class InlineErrorDisplay extends StatelessWidget {
         icon = Icons.info_outline;
         break;
     }
-    
+
     return Stack(
       children: [
         Container(
@@ -217,11 +212,7 @@ class InlineErrorDisplay extends StatelessWidget {
                 color: borderColor,
                 shape: BoxShape.circle,
               ),
-              child: Icon(
-                icon,
-                color: Colors.white,
-                size: 16,
-              ),
+              child: Icon(icon, color: Colors.white, size: 16),
             ),
           ),
         ),
@@ -234,26 +225,22 @@ class InlineErrorDisplay extends StatelessWidget {
 class ErrorStatusBar extends StatelessWidget {
   final ValidationResult? result;
   final VoidCallback? onDismiss;
-  
-  const ErrorStatusBar({
-    super.key,
-    this.result,
-    this.onDismiss,
-  });
-  
+
+  const ErrorStatusBar({super.key, this.result, this.onDismiss});
+
   @override
   Widget build(BuildContext context) {
     if (result == null || !result!.hasMessage) {
       return const SizedBox.shrink();
     }
-    
+
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    
+
     Color backgroundColor;
     Color textColor;
     IconData icon;
-    
+
     switch (result!.severity) {
       case ValidationSeverity.error:
         backgroundColor = isDark ? Colors.red.shade900 : Colors.red.shade100;
@@ -261,7 +248,9 @@ class ErrorStatusBar extends StatelessWidget {
         icon = Icons.error_outline;
         break;
       case ValidationSeverity.warning:
-        backgroundColor = isDark ? Colors.orange.shade900 : Colors.orange.shade100;
+        backgroundColor = isDark
+            ? Colors.orange.shade900
+            : Colors.orange.shade100;
         textColor = isDark ? Colors.orange.shade100 : Colors.orange.shade900;
         icon = Icons.warning_amber_outlined;
         break;
@@ -271,7 +260,7 @@ class ErrorStatusBar extends StatelessWidget {
         icon = Icons.info_outline;
         break;
     }
-    
+
     return Material(
       color: backgroundColor,
       child: SafeArea(

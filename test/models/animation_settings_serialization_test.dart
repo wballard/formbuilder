@@ -6,9 +6,9 @@ void main() {
   group('AnimationSettings Serialization', () {
     test('should serialize default settings to JSON correctly', () {
       const settings = AnimationSettings();
-      
+
       final json = settings.toJson();
-      
+
       expect(json, {
         'enabled': true,
         'shortDuration': 150,
@@ -24,9 +24,9 @@ void main() {
 
     test('should serialize disabled settings to JSON correctly', () {
       const settings = AnimationSettings.noAnimations();
-      
+
       final json = settings.toJson();
-      
+
       expect(json, {
         'enabled': false,
         'shortDuration': 0,
@@ -52,9 +52,9 @@ void main() {
         'dragStartScale': 1.1,
         'entranceScale': 0.9,
       };
-      
+
       final settings = AnimationSettings.fromJson(json);
-      
+
       expect(settings.enabled, true);
       expect(settings.shortDuration, const Duration(milliseconds: 100));
       expect(settings.mediumDuration, const Duration(milliseconds: 200));
@@ -73,10 +73,10 @@ void main() {
         defaultCurve: Curves.easeInOut,
         dragStartScale: 1.2,
       );
-      
+
       final json = original.toJson();
       final deserialized = AnimationSettings.fromJson(json);
-      
+
       expect(deserialized.enabled, original.enabled);
       expect(deserialized.shortDuration, original.shortDuration);
       expect(deserialized.mediumDuration, original.mediumDuration);
@@ -89,12 +89,18 @@ void main() {
         'enabled': false,
         // Other fields missing
       };
-      
+
       final settings = AnimationSettings.fromJson(incompleteJson);
-      
+
       expect(settings.enabled, false);
-      expect(settings.shortDuration, const Duration(milliseconds: 150)); // Default
-      expect(settings.mediumDuration, const Duration(milliseconds: 250)); // Default
+      expect(
+        settings.shortDuration,
+        const Duration(milliseconds: 150),
+      ); // Default
+      expect(
+        settings.mediumDuration,
+        const Duration(milliseconds: 250),
+      ); // Default
     });
 
     test('should handle unknown curve names gracefully', () {
@@ -103,11 +109,14 @@ void main() {
         'defaultCurve': 'unknownCurve',
         'entranceCurve': 'anotherUnknownCurve',
       };
-      
+
       final settings = AnimationSettings.fromJson(json);
-      
+
       expect(settings.defaultCurve, Curves.easeInOut); // Fallback to default
-      expect(settings.entranceCurve, Curves.easeInOut); // Fallback to default from _stringToCurve
+      expect(
+        settings.entranceCurve,
+        Curves.easeInOut,
+      ); // Fallback to default from _stringToCurve
     });
 
     test('should serialize and deserialize all curve types', () {
@@ -127,7 +136,7 @@ void main() {
         final settings = AnimationSettings(defaultCurve: curve);
         final json = settings.toJson();
         final deserialized = AnimationSettings.fromJson(json);
-        
+
         expect(deserialized.defaultCurve, curve);
       }
     });

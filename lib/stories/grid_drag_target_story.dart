@@ -57,14 +57,18 @@ class _BasicDragDropDemoState extends State<BasicDragDropDemo> {
     setState(() {
       _layoutState = _layoutState.addWidget(placement);
     });
-    _addEvent('Dropped ${placement.widgetName} at (${placement.column}, ${placement.row})');
+    _addEvent(
+      'Dropped ${placement.widgetName} at (${placement.column}, ${placement.row})',
+    );
   }
 
   void _onWidgetMoved(String widgetId, WidgetPlacement newPlacement) {
     setState(() {
       _layoutState = _layoutState.updateWidget(widgetId, newPlacement);
     });
-    _addEvent('Moved $widgetId to (${newPlacement.column}, ${newPlacement.row})');
+    _addEvent(
+      'Moved $widgetId to (${newPlacement.column}, ${newPlacement.row})',
+    );
   }
 
   void _onWidgetTap(String widgetId) {
@@ -85,7 +89,8 @@ class _BasicDragDropDemoState extends State<BasicDragDropDemo> {
     _addEvent('Cleared grid');
   }
 
-  Map<String, Widget Function(BuildContext, WidgetPlacement)> get _widgetBuilders => {
+  Map<String, Widget Function(BuildContext, WidgetPlacement)>
+  get _widgetBuilders => {
     'text_input': (context, placement) => Container(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
@@ -115,10 +120,7 @@ class _BasicDragDropDemoState extends State<BasicDragDropDemo> {
     ),
     'label': (context, placement) => Container(
       padding: const EdgeInsets.all(8),
-      child: const Text(
-        'Label',
-        style: TextStyle(fontWeight: FontWeight.bold),
-      ),
+      child: const Text('Label', style: TextStyle(fontWeight: FontWeight.bold)),
     ),
     'checkbox': (context, placement) => Container(
       padding: const EdgeInsets.all(8),
@@ -204,8 +206,8 @@ class _BasicDragDropDemoState extends State<BasicDragDropDemo> {
                     child: Text(
                       'Toolbox',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   Expanded(
@@ -232,8 +234,8 @@ class _BasicDragDropDemoState extends State<BasicDragDropDemo> {
                   Text(
                     'Form Grid (${_layoutState.dimensions.columns}x${_layoutState.dimensions.rows})',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Expanded(
@@ -266,8 +268,8 @@ class _BasicDragDropDemoState extends State<BasicDragDropDemo> {
                   Text(
                     'Instructions',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Card(
@@ -296,8 +298,8 @@ class _BasicDragDropDemoState extends State<BasicDragDropDemo> {
                   Text(
                     'Event Log',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Expanded(
@@ -347,7 +349,7 @@ class _ComplexLayoutDemoState extends State<ComplexLayoutDemo> {
   @override
   void initState() {
     super.initState();
-    
+
     // Create a pre-populated layout
     final widgets = [
       WidgetPlacement(
@@ -390,7 +392,8 @@ class _ComplexLayoutDemoState extends State<ComplexLayoutDemo> {
     );
   }
 
-  Map<String, Widget Function(BuildContext, WidgetPlacement)> get _widgetBuilders => {
+  Map<String, Widget Function(BuildContext, WidgetPlacement)>
+  get _widgetBuilders => {
     'text_input': (context, placement) => Container(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
@@ -448,13 +451,11 @@ class _ComplexLayoutDemoState extends State<ComplexLayoutDemo> {
                     child: Text(
                       'Add More Widgets',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  Expanded(
-                    child: ToolboxWidget(toolbox: _toolbox),
-                  ),
+                  Expanded(child: ToolboxWidget(toolbox: _toolbox)),
                 ],
               ),
             ),
@@ -467,8 +468,8 @@ class _ComplexLayoutDemoState extends State<ComplexLayoutDemo> {
                   Text(
                     'Contact Form Layout',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Expanded(
@@ -484,7 +485,9 @@ class _ComplexLayoutDemoState extends State<ComplexLayoutDemo> {
                         selectedWidgetId: _selectedWidgetId,
                         onWidgetTap: (id) {
                           setState(() {
-                            _selectedWidgetId = _selectedWidgetId == id ? null : id;
+                            _selectedWidgetId = _selectedWidgetId == id
+                                ? null
+                                : id;
                           });
                         },
                         onWidgetDropped: (placement) {
@@ -496,7 +499,10 @@ class _ComplexLayoutDemoState extends State<ComplexLayoutDemo> {
                         },
                         onWidgetMoved: (widgetId, newPlacement) {
                           setState(() {
-                            _layoutState = _layoutState.updateWidget(widgetId, newPlacement);
+                            _layoutState = _layoutState.updateWidget(
+                              widgetId,
+                              newPlacement,
+                            );
                           });
                         },
                       ),
@@ -526,7 +532,7 @@ class _ValidationDemoState extends State<ValidationDemo> {
   @override
   void initState() {
     super.initState();
-    
+
     // Create a layout with some blocking widgets to test validation
     final widgets = [
       WidgetPlacement(
@@ -553,7 +559,8 @@ class _ValidationDemoState extends State<ValidationDemo> {
     );
   }
 
-  Map<String, Widget Function(BuildContext, WidgetPlacement)> get _widgetBuilders => {
+  Map<String, Widget Function(BuildContext, WidgetPlacement)>
+  get _widgetBuilders => {
     'text_input': (context, placement) => Container(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
@@ -599,9 +606,8 @@ class _ValidationDemoState extends State<ValidationDemo> {
                     children: [
                       Text(
                         'Validation Rules',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 12),
                       const Text('✅ Green = Valid placement'),
@@ -611,7 +617,9 @@ class _ValidationDemoState extends State<ValidationDemo> {
                       const Text('• Overlaps existing widgets'),
                       const Text('• Extends beyond grid bounds'),
                       const SizedBox(height: 12),
-                      const Text('Try dragging widgets to different positions to see validation in action.'),
+                      const Text(
+                        'Try dragging widgets to different positions to see validation in action.',
+                      ),
                     ],
                   ),
                 ),
@@ -626,8 +634,8 @@ class _ValidationDemoState extends State<ValidationDemo> {
                   Text(
                     'Validation Grid (4x4)',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Expanded(
@@ -649,7 +657,10 @@ class _ValidationDemoState extends State<ValidationDemo> {
                         },
                         onWidgetMoved: (widgetId, newPlacement) {
                           setState(() {
-                            _layoutState = _layoutState.updateWidget(widgetId, newPlacement);
+                            _layoutState = _layoutState.updateWidget(
+                              widgetId,
+                              newPlacement,
+                            );
                           });
                         },
                       ),
@@ -675,13 +686,11 @@ class _ValidationDemoState extends State<ValidationDemo> {
                     child: Text(
                       'Toolbox',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  Expanded(
-                    child: ToolboxWidget(toolbox: _toolbox),
-                  ),
+                  Expanded(child: ToolboxWidget(toolbox: _toolbox)),
                 ],
               ),
             ),

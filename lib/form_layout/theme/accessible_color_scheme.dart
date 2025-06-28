@@ -14,15 +14,19 @@ class AccessibleColorScheme {
     // Ensure primary color has sufficient contrast with white
     final effectivePrimary = primary ?? Colors.blue.shade700;
     final primaryColor = _ensureContrast(effectivePrimary, Colors.white, 4.5);
-    
+
     // Ensure secondary color has sufficient contrast
     final effectiveSecondary = secondary ?? Colors.teal.shade700;
-    final secondaryColor = _ensureContrast(effectiveSecondary, Colors.white, 4.5);
-    
+    final secondaryColor = _ensureContrast(
+      effectiveSecondary,
+      Colors.white,
+      4.5,
+    );
+
     // Ensure error color has sufficient contrast
     final effectiveError = error ?? Colors.red.shade700;
     final errorColor = _ensureContrast(effectiveError, Colors.white, 4.5);
-    
+
     return ColorScheme.light(
       primary: primaryColor,
       onPrimary: Colors.white,
@@ -53,16 +57,28 @@ class AccessibleColorScheme {
   }) {
     // Ensure primary color has sufficient contrast with dark background
     final effectivePrimary = primary ?? Colors.blue.shade300;
-    final primaryColor = _ensureContrast(effectivePrimary, Colors.grey.shade900, 4.5);
-    
+    final primaryColor = _ensureContrast(
+      effectivePrimary,
+      Colors.grey.shade900,
+      4.5,
+    );
+
     // Ensure secondary color has sufficient contrast
     final effectiveSecondary = secondary ?? Colors.teal.shade300;
-    final secondaryColor = _ensureContrast(effectiveSecondary, Colors.grey.shade900, 4.5);
-    
+    final secondaryColor = _ensureContrast(
+      effectiveSecondary,
+      Colors.grey.shade900,
+      4.5,
+    );
+
     // Ensure error color has sufficient contrast
     final effectiveError = error ?? Colors.red.shade300;
-    final errorColor = _ensureContrast(effectiveError, Colors.grey.shade900, 4.5);
-    
+    final errorColor = _ensureContrast(
+      effectiveError,
+      Colors.grey.shade900,
+      4.5,
+    );
+
     return ColorScheme.dark(
       primary: primaryColor,
       onPrimary: Colors.black,
@@ -134,22 +150,24 @@ class AccessibleColorScheme {
   }
 
   /// Ensure a color has sufficient contrast against a background
-  static Color _ensureContrast(Color foreground, Color background, double minRatio) {
+  static Color _ensureContrast(
+    Color foreground,
+    Color background,
+    double minRatio,
+  ) {
     if (AccessibilityUtils.meetsContrastRatio(foreground, background)) {
       return foreground;
     }
-    
+
     // If contrast is insufficient, darken or lighten the color
-    final isDarkBackground = ThemeData.estimateBrightnessForColor(background) == Brightness.dark;
-    
+    final isDarkBackground =
+        ThemeData.estimateBrightnessForColor(background) == Brightness.dark;
+
     HSLColor hsl = HSLColor.fromColor(foreground);
     const step = 0.05;
-    
+
     // Adjust lightness until we meet contrast requirements
-    while (!AccessibilityUtils.meetsContrastRatio(
-      hsl.toColor(),
-      background,
-    )) {
+    while (!AccessibilityUtils.meetsContrastRatio(hsl.toColor(), background)) {
       if (isDarkBackground) {
         // Lighten the color for dark backgrounds
         hsl = hsl.withLightness((hsl.lightness + step).clamp(0.0, 1.0));
@@ -160,7 +178,7 @@ class AccessibleColorScheme {
         if (hsl.lightness <= 0.0) break;
       }
     }
-    
+
     return hsl.toColor();
   }
 
@@ -178,8 +196,16 @@ class AccessibleColorScheme {
           : highContrastDark();
     } else {
       return brightness == Brightness.light
-          ? lightColorScheme(primary: primary, secondary: secondary, error: error)
-          : darkColorScheme(primary: primary, secondary: secondary, error: error);
+          ? lightColorScheme(
+              primary: primary,
+              secondary: secondary,
+              error: error,
+            )
+          : darkColorScheme(
+              primary: primary,
+              secondary: secondary,
+              error: error,
+            );
     }
   }
 }

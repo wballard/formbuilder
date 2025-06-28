@@ -8,14 +8,11 @@ import 'package:formbuilder/form_layout/models/widget_placement.dart';
 class ToolboxCategory {
   /// The name of this category
   final String name;
-  
+
   /// The items in this category
   final List<ToolboxItem> items;
 
-  const ToolboxCategory({
-    required this.name,
-    required this.items,
-  });
+  const ToolboxCategory({required this.name, required this.items});
 
   @override
   bool operator ==(Object other) =>
@@ -35,9 +32,7 @@ class CategorizedToolbox {
   /// The categories in this toolbox
   final List<ToolboxCategory> categories;
 
-  const CategorizedToolbox({
-    required this.categories,
-  });
+  const CategorizedToolbox({required this.categories});
 
   /// Gets all items from all categories as a flat list
   List<ToolboxItem> get allItems {
@@ -45,7 +40,8 @@ class CategorizedToolbox {
   }
 
   /// Gets widget builders for all items
-  Map<String, Widget Function(BuildContext, WidgetPlacement)> get widgetBuilders {
+  Map<String, Widget Function(BuildContext, WidgetPlacement)>
+  get widgetBuilders {
     final builders = <String, Widget Function(BuildContext, WidgetPlacement)>{};
     for (final category in categories) {
       for (final item in category.items) {
@@ -58,7 +54,9 @@ class CategorizedToolbox {
   /// Finds an item by name across all categories
   ToolboxItem? findItem(String name) {
     for (final category in categories) {
-      final item = category.items.where((item) => item.name == name).firstOrNull;
+      final item = category.items
+          .where((item) => item.name == name)
+          .firstOrNull;
       if (item != null) return item;
     }
     return null;

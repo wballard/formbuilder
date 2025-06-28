@@ -26,10 +26,7 @@ class StorybookApp extends StatelessWidget {
               children: [
                 Text(
                   'FormLayout Storybook',
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 16),
                 Text(

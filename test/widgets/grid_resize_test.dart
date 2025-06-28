@@ -11,7 +11,8 @@ void main() {
   group('Grid Resize Functionality', () {
     late LayoutState testLayoutState;
     late Toolbox testToolbox;
-    late Map<String, Widget Function(BuildContext, WidgetPlacement)> testWidgetBuilders;
+    late Map<String, Widget Function(BuildContext, WidgetPlacement)>
+    testWidgetBuilders;
 
     setUp(() {
       testLayoutState = LayoutState(
@@ -27,24 +28,28 @@ void main() {
           ),
         ],
       );
-      
-      testToolbox = Toolbox(items: [
-        ToolboxItem(
-          name: 'TestWidget',
-          displayName: 'Test Widget',
-          defaultWidth: 1,
-          defaultHeight: 1,
-          toolboxBuilder: (context) => Container(color: Colors.blue),
-          gridBuilder: (context, placement) => Container(color: Colors.blue),
-        ),
-      ]);
-      
+
+      testToolbox = Toolbox(
+        items: [
+          ToolboxItem(
+            name: 'TestWidget',
+            displayName: 'Test Widget',
+            defaultWidth: 1,
+            defaultHeight: 1,
+            toolboxBuilder: (context) => Container(color: Colors.blue),
+            gridBuilder: (context, placement) => Container(color: Colors.blue),
+          ),
+        ],
+      );
+
       testWidgetBuilders = {
         'TestWidget': (context, placement) => Container(color: Colors.blue),
       };
     });
 
-    testWidgets('GridDragTarget accepts onWidgetResize callback', (WidgetTester tester) async {
+    testWidgets('GridDragTarget accepts onWidgetResize callback', (
+      WidgetTester tester,
+    ) async {
       bool resizeCalled = false;
 
       await tester.pumpWidget(
@@ -65,12 +70,14 @@ void main() {
 
       // Verify widget is rendered
       expect(find.byType(GridDragTarget), findsOneWidget);
-      
+
       // The callback should be set up but not called yet
       expect(resizeCalled, isFalse);
     });
 
-    testWidgets('GridContainer shows resize handles for selected widgets', (WidgetTester tester) async {
+    testWidgets('GridContainer shows resize handles for selected widgets', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -88,25 +95,30 @@ void main() {
       expect(find.byType(ResizeHandle), findsNWidgets(8));
     });
 
-    testWidgets('GridContainer does not show resize handles for non-selected widgets', (WidgetTester tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: GridDragTarget(
-              layoutState: testLayoutState,
-              widgetBuilders: testWidgetBuilders,
-              toolbox: testToolbox,
-              selectedWidgetId: null, // No widget selected
+    testWidgets(
+      'GridContainer does not show resize handles for non-selected widgets',
+      (WidgetTester tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: GridDragTarget(
+                layoutState: testLayoutState,
+                widgetBuilders: testWidgetBuilders,
+                toolbox: testToolbox,
+                selectedWidgetId: null, // No widget selected
+              ),
             ),
           ),
-        ),
-      );
+        );
 
-      // Should not find any resize handles
-      expect(find.byType(ResizeHandle), findsNothing);
-    });
+        // Should not find any resize handles
+        expect(find.byType(ResizeHandle), findsNothing);
+      },
+    );
 
-    testWidgets('Resize calculations respect minimum dimensions', (WidgetTester tester) async {
+    testWidgets('Resize calculations respect minimum dimensions', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -131,13 +143,15 @@ void main() {
       // Simulate resize drag that would make widget smaller than 1x1
       // This should be clamped to minimum size
       final resizeHandleWidget = tester.widget<ResizeHandle>(resizeHandle);
-      
+
       // Verify minimum dimensions are enforced in calculation
       expect(resizeHandleWidget.placement.width, greaterThanOrEqualTo(1));
       expect(resizeHandleWidget.placement.height, greaterThanOrEqualTo(1));
     });
 
-    testWidgets('Resize calculations respect grid boundaries', (WidgetTester tester) async {
+    testWidgets('Resize calculations respect grid boundaries', (
+      WidgetTester tester,
+    ) async {
       final largeLayoutState = LayoutState(
         dimensions: const GridDimensions(columns: 4, rows: 4),
         widgets: [
@@ -171,14 +185,16 @@ void main() {
 
       // Find resize handles
       expect(find.byType(ResizeHandle), findsNWidgets(8));
-      
+
       // Widget should be constrained within grid bounds
       final placement = largeLayoutState.widgets.first;
       expect(placement.column + placement.width, lessThanOrEqualTo(4));
       expect(placement.row + placement.height, lessThanOrEqualTo(4));
     });
 
-    testWidgets('Resize operations prevent overlaps with other widgets', (WidgetTester tester) async {
+    testWidgets('Resize operations prevent overlaps with other widgets', (
+      WidgetTester tester,
+    ) async {
       final layoutWithMultipleWidgets = LayoutState(
         dimensions: const GridDimensions(columns: 4, rows: 4),
         widgets: [
@@ -220,14 +236,16 @@ void main() {
 
       // Should show resize handles for selected widget
       expect(find.byType(ResizeHandle), findsNWidgets(8));
-      
+
       // Verify widgets don't overlap
       final widget1 = layoutWithMultipleWidgets.widgets[0];
       final widget2 = layoutWithMultipleWidgets.widgets[1];
       expect(widget1.overlaps(widget2), isFalse);
     });
 
-    testWidgets('ResizeData contains correct information', (WidgetTester tester) async {
+    testWidgets('ResizeData contains correct information', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -244,7 +262,7 @@ void main() {
       // Find a resize handle
       final resizeHandle = find.byType(ResizeHandle).first;
       final resizeHandleWidget = tester.widget<ResizeHandle>(resizeHandle);
-      
+
       expect(resizeHandleWidget.placement.id, equals('widget1'));
       expect(resizeHandleWidget.placement.widgetName, equals('TestWidget'));
       expect(resizeHandleWidget.placement.width, equals(2));
@@ -252,7 +270,9 @@ void main() {
     });
 
     group('Resize handle types', () {
-      testWidgets('All 8 resize handle types are present', (WidgetTester tester) async {
+      testWidgets('All 8 resize handle types are present', (
+        WidgetTester tester,
+      ) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -268,10 +288,12 @@ void main() {
 
         // Should find all 8 resize handles
         expect(find.byType(ResizeHandle), findsNWidgets(8));
-        
-        final handles = tester.widgetList<ResizeHandle>(find.byType(ResizeHandle)).toList();
+
+        final handles = tester
+            .widgetList<ResizeHandle>(find.byType(ResizeHandle))
+            .toList();
         final handleTypes = handles.map((h) => h.type).toSet();
-        
+
         // Verify all handle types are present
         expect(handleTypes, contains(ResizeHandleType.topLeft));
         expect(handleTypes, contains(ResizeHandleType.top));
@@ -285,7 +307,9 @@ void main() {
     });
 
     group('Visual feedback', () {
-      testWidgets('Selected widgets show resize handles', (WidgetTester tester) async {
+      testWidgets('Selected widgets show resize handles', (
+        WidgetTester tester,
+      ) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -303,7 +327,9 @@ void main() {
         expect(find.byType(ResizeHandle), findsNWidgets(8));
       });
 
-      testWidgets('Non-selected widgets do not show resize handles', (WidgetTester tester) async {
+      testWidgets('Non-selected widgets do not show resize handles', (
+        WidgetTester tester,
+      ) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(

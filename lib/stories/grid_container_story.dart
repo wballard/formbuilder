@@ -8,23 +8,23 @@ import 'package:formbuilder/form_layout/models/widget_placement.dart';
 import 'dart:math';
 
 List<Story> get gridContainerStories => [
-      Story(
-        name: 'Widgets/GridContainer/Basic Layout',
-        builder: (context) => const BasicGridContainerDemo(),
-      ),
-      Story(
-        name: 'Widgets/GridContainer/Interactive Selection',
-        builder: (context) => const InteractiveGridContainerDemo(),
-      ),
-      Story(
-        name: 'Widgets/GridContainer/Different Sizes',
-        builder: (context) => const GridContainerSizesDemo(),
-      ),
-      Story(
-        name: 'Widgets/GridContainer/Form Example',
-        builder: (context) => const FormExampleDemo(),
-      ),
-    ];
+  Story(
+    name: 'Widgets/GridContainer/Basic Layout',
+    builder: (context) => const BasicGridContainerDemo(),
+  ),
+  Story(
+    name: 'Widgets/GridContainer/Interactive Selection',
+    builder: (context) => const InteractiveGridContainerDemo(),
+  ),
+  Story(
+    name: 'Widgets/GridContainer/Different Sizes',
+    builder: (context) => const GridContainerSizesDemo(),
+  ),
+  Story(
+    name: 'Widgets/GridContainer/Form Example',
+    builder: (context) => const FormExampleDemo(),
+  ),
+];
 
 class BasicGridContainerDemo extends StatelessWidget {
   const BasicGridContainerDemo({super.key});
@@ -61,31 +61,30 @@ class BasicGridContainerDemo extends StatelessWidget {
       ],
     );
 
-    final widgetBuilders = <String, Widget Function(BuildContext, WidgetPlacement)>{
-      'HeaderText': (context, placement) => Container(
-        color: Colors.blue.shade50,
-        child: const Center(
-          child: Text(
-            'Form Header',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.blue,
+    final widgetBuilders =
+        <String, Widget Function(BuildContext, WidgetPlacement)>{
+          'HeaderText': (context, placement) => Container(
+            color: Colors.blue.shade50,
+            child: const Center(
+              child: Text(
+                'Form Header',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue,
+                ),
+              ),
             ),
           ),
-        ),
-      ),
-      'TextInput': (context, placement) => const TextField(
-        decoration: InputDecoration(
-          hintText: 'Enter your name',
-          border: OutlineInputBorder(),
-        ),
-      ),
-      'Button': (context, placement) => ElevatedButton(
-        onPressed: () {},
-        child: const Text('Submit'),
-      ),
-    };
+          'TextInput': (context, placement) => const TextField(
+            decoration: InputDecoration(
+              hintText: 'Enter your name',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          'Button': (context, placement) =>
+              ElevatedButton(onPressed: () {}, child: const Text('Submit')),
+        };
 
     return Scaffold(
       body: Padding(
@@ -120,21 +119,24 @@ class InteractiveGridContainerDemo extends StatefulWidget {
   const InteractiveGridContainerDemo({super.key});
 
   @override
-  State<InteractiveGridContainerDemo> createState() => _InteractiveGridContainerDemoState();
+  State<InteractiveGridContainerDemo> createState() =>
+      _InteractiveGridContainerDemoState();
 }
 
-class _InteractiveGridContainerDemoState extends State<InteractiveGridContainerDemo> {
+class _InteractiveGridContainerDemoState
+    extends State<InteractiveGridContainerDemo> {
   String? _selectedWidgetId;
   final Set<String> _draggingWidgetIds = {};
   Set<Point<int>>? _highlightedCells;
-  
+
   late LayoutState _layoutState;
-  late Map<String, Widget Function(BuildContext, WidgetPlacement)> _widgetBuilders;
+  late Map<String, Widget Function(BuildContext, WidgetPlacement)>
+  _widgetBuilders;
 
   @override
   void initState() {
     super.initState();
-    
+
     _layoutState = LayoutState(
       dimensions: const GridDimensions(columns: 6, rows: 4),
       widgets: [
@@ -254,20 +256,22 @@ class _InteractiveGridContainerDemoState extends State<InteractiveGridContainerD
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       const SizedBox(height: 16),
-                      
+
                       Text(
                         'Selected Widget: ${_selectedWidgetId ?? 'None'}',
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 16),
-                      
+
                       const Text('Widget List:'),
                       const SizedBox(height: 8),
-                      
+
                       ..._layoutState.widgets.map((placement) {
                         final isSelected = _selectedWidgetId == placement.id;
-                        final isDragging = _draggingWidgetIds.contains(placement.id);
-                        
+                        final isDragging = _draggingWidgetIds.contains(
+                          placement.id,
+                        );
+
                         return ListTile(
                           dense: true,
                           title: Text(placement.id),
@@ -287,18 +291,23 @@ class _InteractiveGridContainerDemoState extends State<InteractiveGridContainerD
                                   });
                                 },
                               ),
-                              const Text('Drag', style: TextStyle(fontSize: 12)),
+                              const Text(
+                                'Drag',
+                                style: TextStyle(fontSize: 12),
+                              ),
                             ],
                           ),
                           tileColor: isSelected ? Colors.blue.shade50 : null,
                           onTap: () {
                             setState(() {
-                              _selectedWidgetId = isSelected ? null : placement.id;
+                              _selectedWidgetId = isSelected
+                                  ? null
+                                  : placement.id;
                             });
                           },
                         );
                       }),
-                      
+
                       const SizedBox(height: 16),
                       ElevatedButton(
                         onPressed: () {
@@ -310,13 +319,18 @@ class _InteractiveGridContainerDemoState extends State<InteractiveGridContainerD
                         },
                         child: const Text('Clear All'),
                       ),
-                      
+
                       const SizedBox(height: 16),
                       ElevatedButton(
                         onPressed: () {
                           setState(() {
                             // Highlight a 2x2 area
-                            _highlightedCells = GridWidget.getCellsInRectangle(4, 0, 2, 2);
+                            _highlightedCells = GridWidget.getCellsInRectangle(
+                              4,
+                              0,
+                              2,
+                              2,
+                            );
                           });
                         },
                         child: const Text('Highlight Area'),
@@ -326,9 +340,9 @@ class _InteractiveGridContainerDemoState extends State<InteractiveGridContainerD
                 ),
               ),
             ),
-            
+
             const SizedBox(width: 24),
-            
+
             // Grid Container
             Expanded(
               child: Column(
@@ -353,7 +367,9 @@ class _InteractiveGridContainerDemoState extends State<InteractiveGridContainerD
                       highlightedCells: _highlightedCells,
                       onWidgetTap: (widgetId) {
                         setState(() {
-                          _selectedWidgetId = _selectedWidgetId == widgetId ? null : widgetId;
+                          _selectedWidgetId = _selectedWidgetId == widgetId
+                              ? null
+                              : widgetId;
                         });
                       },
                     ),
@@ -394,9 +410,7 @@ class GridContainerSizesDemo extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            Expanded(
-              child: _buildSizeExample('Large (8x5)', 8, 5),
-            ),
+            Expanded(child: _buildSizeExample('Large (8x5)', 8, 5)),
           ],
         ),
       ),
@@ -427,14 +441,13 @@ class GridContainerSizesDemo extends StatelessWidget {
       ],
     );
 
-    final widgetBuilders = <String, Widget Function(BuildContext, WidgetPlacement)>{
-      'Widget': (context, placement) => Container(
-        color: Colors.green.shade100,
-        child: const Center(
-          child: Text('Widget'),
-        ),
-      ),
-    };
+    final widgetBuilders =
+        <String, Widget Function(BuildContext, WidgetPlacement)>{
+          'Widget': (context, placement) => Container(
+            color: Colors.green.shade100,
+            child: const Center(child: Text('Widget')),
+          ),
+        };
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -472,7 +485,7 @@ class FormExampleDemo extends StatelessWidget {
           width: 8,
           height: 1,
         ),
-        
+
         // Personal Info Section
         WidgetPlacement(
           id: 'personal-label',
@@ -514,7 +527,7 @@ class FormExampleDemo extends StatelessWidget {
           width: 2,
           height: 1,
         ),
-        
+
         // Address Section
         WidgetPlacement(
           id: 'address-label',
@@ -556,7 +569,7 @@ class FormExampleDemo extends StatelessWidget {
           width: 3,
           height: 1,
         ),
-        
+
         // Actions
         WidgetPlacement(
           id: 'cancel',
@@ -577,94 +590,93 @@ class FormExampleDemo extends StatelessWidget {
       ],
     );
 
-    final widgetBuilders = <String, Widget Function(BuildContext, WidgetPlacement)>{
-      'Title': (context, placement) => Container(
-        color: Colors.indigo.shade50,
-        child: const Center(
-          child: Text(
-            'Registration Form',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.indigo,
+    final widgetBuilders =
+        <String, Widget Function(BuildContext, WidgetPlacement)>{
+          'Title': (context, placement) => Container(
+            color: Colors.indigo.shade50,
+            child: const Center(
+              child: Text(
+                'Registration Form',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.indigo,
+                ),
+              ),
             ),
           ),
-        ),
-      ),
-      'SectionLabel': (context, placement) => Container(
-        color: Colors.grey.shade100,
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: const Text(
-          'Personal Information',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Colors.grey,
+          'SectionLabel': (context, placement) => Container(
+            color: Colors.grey.shade100,
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: const Text(
+              'Personal Information',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.grey,
+              ),
+            ),
           ),
-        ),
-      ),
-      'SectionLabel2': (context, placement) => Container(
-        color: Colors.grey.shade100,
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: const Text(
-          'Address',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Colors.grey,
+          'SectionLabel2': (context, placement) => Container(
+            color: Colors.grey.shade100,
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: const Text(
+              'Address',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.grey,
+              ),
+            ),
           ),
-        ),
-      ),
-      'TextInput': (context, placement) => const TextField(
-        decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        ),
-      ),
-      'EmailInput': (context, placement) => const TextField(
-        decoration: InputDecoration(
-          hintText: 'email@example.com',
-          border: OutlineInputBorder(),
-          prefixIcon: Icon(Icons.email),
-          contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        ),
-      ),
-      'PhoneInput': (context, placement) => const TextField(
-        decoration: InputDecoration(
-          hintText: '(555) 123-4567',
-          border: OutlineInputBorder(),
-          prefixIcon: Icon(Icons.phone),
-          contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        ),
-      ),
-      'Dropdown': (context, placement) => DropdownButtonFormField<String>(
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        ),
-        value: 'US',
-        items: const [
-          DropdownMenuItem(value: 'US', child: Text('United States')),
-          DropdownMenuItem(value: 'CA', child: Text('Canada')),
-          DropdownMenuItem(value: 'MX', child: Text('Mexico')),
-        ],
-        onChanged: (_) {},
-      ),
-      'PrimaryButton': (context, placement) => ElevatedButton(
-        onPressed: () {},
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.indigo,
-          foregroundColor: Colors.white,
-        ),
-        child: const Text('Submit'),
-      ),
-      'SecondaryButton': (context, placement) => OutlinedButton(
-        onPressed: () {},
-        child: const Text('Cancel'),
-      ),
-    };
+          'TextInput': (context, placement) => const TextField(
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            ),
+          ),
+          'EmailInput': (context, placement) => const TextField(
+            decoration: InputDecoration(
+              hintText: 'email@example.com',
+              border: OutlineInputBorder(),
+              prefixIcon: Icon(Icons.email),
+              contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            ),
+          ),
+          'PhoneInput': (context, placement) => const TextField(
+            decoration: InputDecoration(
+              hintText: '(555) 123-4567',
+              border: OutlineInputBorder(),
+              prefixIcon: Icon(Icons.phone),
+              contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            ),
+          ),
+          'Dropdown': (context, placement) => DropdownButtonFormField<String>(
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            ),
+            value: 'US',
+            items: const [
+              DropdownMenuItem(value: 'US', child: Text('United States')),
+              DropdownMenuItem(value: 'CA', child: Text('Canada')),
+              DropdownMenuItem(value: 'MX', child: Text('Mexico')),
+            ],
+            onChanged: (_) {},
+          ),
+          'PrimaryButton': (context, placement) => ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.indigo,
+              foregroundColor: Colors.white,
+            ),
+            child: const Text('Submit'),
+          ),
+          'SecondaryButton': (context, placement) =>
+              OutlinedButton(onPressed: () {}, child: const Text('Cancel')),
+        };
 
     return Scaffold(
       body: Padding(

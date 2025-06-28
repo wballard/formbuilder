@@ -8,14 +8,14 @@ void main() {
   group('OptimizedGridWidget', () {
     test('should support const constructor', () {
       const dimensions = GridDimensions(columns: 4, rows: 4);
-      
+
       // This test verifies that the widget can be created as const
       const widget = OptimizedGridWidget(
         dimensions: dimensions,
         lineColor: Colors.grey,
         backgroundColor: Colors.white,
       );
-      
+
       expect(widget.dimensions, equals(dimensions));
       expect(widget.lineColor, equals(Colors.grey));
       expect(widget.backgroundColor, equals(Colors.white));
@@ -23,17 +23,13 @@ void main() {
 
     testWidgets('should use RepaintBoundary', (tester) async {
       const dimensions = GridDimensions(columns: 4, rows: 4);
-      
+
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: OptimizedGridWidget(
-              dimensions: dimensions,
-            ),
-          ),
+          home: Scaffold(body: OptimizedGridWidget(dimensions: dimensions)),
         ),
       );
-      
+
       // Should contain RepaintBoundary as a descendant of OptimizedGridWidget
       final optimizedGridFinder = find.byType(OptimizedGridWidget);
       final repaintBoundaryFinder = find.descendant(
@@ -46,10 +42,10 @@ void main() {
     testWidgets('should only repaint when necessary', (tester) async {
       const dimensions = GridDimensions(columns: 4, rows: 4);
       final highlightedCells = ValueNotifier<Set<Point<int>>>({});
-      
+
       // Create a custom painter with debug key to track paint counts
       final testPaintCount = <String, int>{};
-      
+
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -80,15 +76,15 @@ void main() {
           ),
         ),
       );
-      
+
       await tester.pump();
       final initialPaintCount = testPaintCount['test'] ?? 0;
       expect(initialPaintCount, greaterThan(0));
-      
+
       // Update highlighted cells
       highlightedCells.value = {const Point(1, 1)};
       await tester.pump();
-      
+
       // Should have repainted
       final newPaintCount = testPaintCount['test'] ?? 0;
       expect(newPaintCount, greaterThan(initialPaintCount));
@@ -99,7 +95,7 @@ void main() {
       final highlightedCells = ValueNotifier<Set<Point<int>>>({});
       final unrelatedNotifier = ValueNotifier<int>(0);
       final testPaintCount = <String, int>{};
-      
+
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -136,15 +132,15 @@ void main() {
           ),
         ),
       );
-      
+
       await tester.pump();
       final initialPaintCount = testPaintCount['grid-test'] ?? 0;
       expect(initialPaintCount, greaterThan(0));
-      
+
       // Update unrelated value
       unrelatedNotifier.value = 1;
       await tester.pump();
-      
+
       // Grid should not have repainted
       final newPaintCount = testPaintCount['grid-test'] ?? 0;
       expect(newPaintCount, equals(initialPaintCount));
@@ -152,8 +148,10 @@ void main() {
 
     testWidgets('should use efficient shouldRepaint', (tester) async {
       const dimensions = GridDimensions(columns: 4, rows: 4);
-      final highlightedCells = ValueNotifier<Set<Point<int>>>({const Point(1, 1)});
-      
+      final highlightedCells = ValueNotifier<Set<Point<int>>>({
+        const Point(1, 1),
+      });
+
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -164,7 +162,7 @@ void main() {
           ),
         ),
       );
-      
+
       // Find the CustomPaint within OptimizedGridWidget
       final optimizedGridFinder = find.byType(OptimizedGridWidget);
       final customPaintFinder = find.descendant(
@@ -173,10 +171,10 @@ void main() {
       );
       final customPaint = tester.widget<CustomPaint>(customPaintFinder);
       final painter = customPaint.painter as OptimizedGridPainter;
-      
+
       // Same painter should not need repaint
       expect(painter.shouldRepaint(painter), isFalse);
-      
+
       // Different highlighted cells should need repaint
       final newPainter = OptimizedGridPainter(
         dimensions: dimensions,
@@ -187,7 +185,7 @@ void main() {
         highlightColor: painter.highlightColor,
       );
       expect(painter.shouldRepaint(newPainter), isTrue);
-      
+
       // Same highlighted cells should not need repaint
       final samePainter = OptimizedGridPainter(
         dimensions: dimensions,
@@ -202,7 +200,7 @@ void main() {
 
     testWidgets('should render correctly', (tester) async {
       const dimensions = GridDimensions(columns: 2, rows: 2);
-      
+
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -214,7 +212,7 @@ void main() {
           ),
         ),
       );
-      
+
       expect(find.byType(OptimizedGridWidget), findsOneWidget);
     });
   });
@@ -223,7 +221,7 @@ void main() {
 /// Testable version of OptimizedGridPainter that uses an external paint count map
 class TestableOptimizedGridPainter extends OptimizedGridPainter {
   final Map<String, int> paintCounts;
-  
+
   TestableOptimizedGridPainter({
     required super.dimensions,
     required super.lineColor,
@@ -234,16 +232,16 @@ class TestableOptimizedGridPainter extends OptimizedGridPainter {
     required this.paintCounts,
     required String debugKey,
   }) : super(debugKey: debugKey);
-  
+
   @override
   void paint(Canvas canvas, Size size) {
     // Increment paint count
     paintCounts[debugKey] = (paintCounts[debugKey] ?? 0) + 1;
-    
+
     // Call parent paint method
     super.paint(canvas, size);
   }
-  
+
   @override
   int get debugPaintCount => paintCounts[debugKey] ?? 0;
 }

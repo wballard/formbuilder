@@ -12,14 +12,14 @@ class FormLayoutController extends ChangeNotifier {
   final Set<String> _draggingWidgetIds = <String>{};
   final Set<String> _resizingWidgetIds = <String>{};
   bool _isPreviewMode = false;
-  
+
   // Manual undo/redo implementation
   final List<LayoutState> _undoStack = [];
   final List<LayoutState> _redoStack = [];
   final int _undoLimit;
 
-  FormLayoutController(this._state, {int undoLimit = 50}) 
-      : _undoLimit = undoLimit;
+  FormLayoutController(this._state, {int undoLimit = 50})
+    : _undoLimit = undoLimit;
 
   /// Current layout state
   LayoutState get state => _state;
@@ -46,15 +46,15 @@ class FormLayoutController extends ChangeNotifier {
   void _executeCommand(FormLayoutCommand command) {
     // Save current state to undo stack
     _undoStack.add(_state);
-    
+
     // Limit undo stack size
     if (_undoStack.length > _undoLimit) {
       _undoStack.removeAt(0);
     }
-    
+
     // Clear redo stack when new command is executed
     _redoStack.clear();
-    
+
     try {
       final newState = command.execute(_state);
       _state = newState;
@@ -78,15 +78,15 @@ class FormLayoutController extends ChangeNotifier {
     if (widget == null) {
       throw ArgumentError('Widget with ID "$widgetId" does not exist');
     }
-    
+
     final command = RemoveWidgetCommand(widgetId, widget);
     _executeCommand(command);
-    
+
     // Clear selection if the removed widget was selected
     if (_selectedWidgetId == widgetId) {
       _selectedWidgetId = null;
     }
-    
+
     // Clear drag/resize state for the removed widget
     _draggingWidgetIds.remove(widgetId);
     _resizingWidgetIds.remove(widgetId);
@@ -98,7 +98,7 @@ class FormLayoutController extends ChangeNotifier {
     if (oldWidget == null) {
       throw ArgumentError('Widget with ID "$widgetId" does not exist');
     }
-    
+
     final command = UpdateWidgetCommand(widgetId, oldWidget, placement);
     _executeCommand(command);
   }
@@ -109,7 +109,7 @@ class FormLayoutController extends ChangeNotifier {
     if (widget == null) {
       throw ArgumentError('Widget with ID "$widgetId" does not exist');
     }
-    
+
     final newPlacement = widget.copyWith(column: newColumn, row: newRow);
     final command = MoveWidgetCommand(widgetId, widget, newPlacement);
     _executeCommand(command);
@@ -121,7 +121,7 @@ class FormLayoutController extends ChangeNotifier {
     if (widget == null) {
       throw ArgumentError('Widget with ID "$widgetId" does not exist');
     }
-    
+
     final newPlacement = widget.copyWith(width: newWidth, height: newHeight);
     final command = ResizeWidgetCommand(widgetId, widget, newPlacement);
     _executeCommand(command);
@@ -168,7 +168,7 @@ class FormLayoutController extends ChangeNotifier {
     if (_undoStack.isNotEmpty) {
       // Save current state to redo stack
       _redoStack.add(_state);
-      
+
       // Restore previous state
       _state = _undoStack.removeLast();
       notifyListeners();
@@ -180,12 +180,12 @@ class FormLayoutController extends ChangeNotifier {
     if (_redoStack.isNotEmpty) {
       // Save current state to undo stack
       _undoStack.add(_state);
-      
+
       // Limit undo stack size
       if (_undoStack.length > _undoLimit) {
         _undoStack.removeAt(0);
       }
-      
+
       // Restore next state
       _state = _redoStack.removeLast();
       notifyListeners();
@@ -229,29 +229,32 @@ class FormLayoutController extends ChangeNotifier {
   void loadLayout(LayoutState newLayout) {
     // Save current state to undo stack
     _undoStack.add(_state);
-    
+
     // Limit undo stack size
     if (_undoStack.length > _undoLimit) {
       _undoStack.removeAt(0);
     }
-    
+
     // Clear redo stack when new layout is loaded
     _redoStack.clear();
-    
+
     // Set the new layout
     _state = newLayout;
-    
+
     // Clear selection and interaction states
     _selectedWidgetId = null;
     _draggingWidgetIds.clear();
     _resizingWidgetIds.clear();
-    
+
     notifyListeners();
   }
 }
 
 /// Custom hook for managing form layout state
-FormLayoutController useFormLayout(LayoutState initialState, {int undoLimit = 50}) {
+FormLayoutController useFormLayout(
+  LayoutState initialState, {
+  int undoLimit = 50,
+}) {
   return use(_FormLayoutHook(initialState, undoLimit));
 }
 
@@ -262,16 +265,21 @@ class _FormLayoutHook extends Hook<FormLayoutController> {
   final int undoLimit;
 
   @override
-  HookState<FormLayoutController, Hook<FormLayoutController>> createState() => _FormLayoutHookState();
+  HookState<FormLayoutController, Hook<FormLayoutController>> createState() =>
+      _FormLayoutHookState();
 }
 
-class _FormLayoutHookState extends HookState<FormLayoutController, _FormLayoutHook> {
+class _FormLayoutHookState
+    extends HookState<FormLayoutController, _FormLayoutHook> {
   late FormLayoutController _controller;
 
   @override
   void initHook() {
     super.initHook();
-    _controller = FormLayoutController(hook.initialState, undoLimit: hook.undoLimit);
+    _controller = FormLayoutController(
+      hook.initialState,
+      undoLimit: hook.undoLimit,
+    );
     _controller.addListener(_onControllerChanged);
   }
 

@@ -20,9 +20,9 @@ void main() {
           ),
         ],
       );
-      
+
       final json = layout.toJson();
-      
+
       expect(json['version'], isA<String>());
       expect(json['timestamp'], isA<String>());
       expect(json['dimensions'], isA<Map<String, dynamic>>());
@@ -34,10 +34,7 @@ void main() {
       final json = {
         'version': '1.0.0',
         'timestamp': DateTime.now().toIso8601String(),
-        'dimensions': {
-          'columns': 4,
-          'rows': 3,
-        },
+        'dimensions': {'columns': 4, 'rows': 3},
         'widgets': [
           {
             'id': 'widget1',
@@ -50,9 +47,9 @@ void main() {
           },
         ],
       };
-      
+
       final layout = LayoutState.fromJson(json);
-      
+
       expect(layout.dimensions.columns, 4);
       expect(layout.dimensions.rows, 3);
       expect(layout.widgets.length, 1);
@@ -63,10 +60,7 @@ void main() {
     test('should handle missing version gracefully', () {
       final json = {
         // version missing - should assume legacy format
-        'dimensions': {
-          'columns': 4,
-          'rows': 3,
-        },
+        'dimensions': {'columns': 4, 'rows': 3},
         'widgets': [
           {
             'id': 'widget1',
@@ -79,19 +73,16 @@ void main() {
           },
         ],
       };
-      
+
       final layout = LayoutState.fromJson(json);
-      
+
       expect(layout.dimensions.columns, 4);
       expect(layout.widgets.length, 1);
     });
 
     test('should handle legacy format without properties', () {
       final json = {
-        'dimensions': {
-          'columns': 4,
-          'rows': 3,
-        },
+        'dimensions': {'columns': 4, 'rows': 3},
         'widgets': [
           {
             'id': 'widget1',
@@ -104,9 +95,9 @@ void main() {
           },
         ],
       };
-      
+
       final layout = LayoutState.fromJson(json);
-      
+
       expect(layout.widgets.first.properties, isEmpty);
     });
 
@@ -114,10 +105,7 @@ void main() {
       final json = {
         'version': '2.0.0', // Future version
         'timestamp': DateTime.now().toIso8601String(),
-        'dimensions': {
-          'columns': 4,
-          'rows': 3,
-        },
+        'dimensions': {'columns': 4, 'rows': 3},
         'widgets': [
           {
             'id': 'widget1',
@@ -131,10 +119,10 @@ void main() {
         ],
         'unknownField': 'should be ignored',
       };
-      
+
       // Should not throw even with unknown version/fields
       expect(() => LayoutState.fromJson(json), isNot(throwsA(anything)));
-      
+
       final layout = LayoutState.fromJson(json);
       expect(layout.widgets.length, 1);
     });
@@ -144,14 +132,14 @@ void main() {
         dimensions: const GridDimensions(columns: 2, rows: 2),
         widgets: [],
       );
-      
+
       final json = layout.toJson();
-      
+
       // Should have metadata
       expect(json.containsKey('version'), true);
       expect(json.containsKey('timestamp'), true);
       expect(json.containsKey('metadata'), true);
-      
+
       final metadata = json['metadata'] as Map<String, dynamic>;
       expect(metadata['widgetCount'], 0);
       expect(metadata['gridSize'], 4); // 2x2 grid
@@ -172,10 +160,10 @@ void main() {
           ),
         ],
       );
-      
+
       final json = original.toJson();
       final deserialized = LayoutState.fromJson(json);
-      
+
       expect(deserialized.dimensions, original.dimensions);
       expect(deserialized.widgets.length, original.widgets.length);
       expect(deserialized.widgets.first.properties['text'], 'Button');

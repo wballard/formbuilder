@@ -31,7 +31,9 @@ void main() {
       expect(foundTheme!.gridBackgroundColor, Colors.white);
     });
 
-    testWidgets('falls back to default theme when not provided', (tester) async {
+    testWidgets('falls back to default theme when not provided', (
+      tester,
+    ) async {
       FormLayoutTheme? foundTheme;
 
       await tester.pumpWidget(
@@ -103,9 +105,7 @@ void main() {
         gridBackgroundColor: Colors.blue,
       );
 
-      final updated = original.copyWith(
-        gridLineColor: Colors.green,
-      );
+      final updated = original.copyWith(gridLineColor: Colors.green);
 
       expect(updated.gridLineColor, Colors.green);
       expect(updated.gridBackgroundColor, Colors.blue);

@@ -78,16 +78,13 @@ class LayoutState {
 
   LayoutState removeWidget(String widgetId) {
     final newWidgets = widgets.where((w) => w.id != widgetId).toList();
-    
+
     // Return same instance if nothing was removed
     if (newWidgets.length == widgets.length) {
       return this;
     }
 
-    return LayoutState(
-      dimensions: dimensions,
-      widgets: newWidgets,
-    );
+    return LayoutState(dimensions: dimensions, widgets: newWidgets);
   }
 
   LayoutState updateWidget(String widgetId, WidgetPlacement newPlacement) {
@@ -105,7 +102,7 @@ class LayoutState {
     // Create temporary state without the widget to check if new placement is valid
     final tempWidgets = [...widgets];
     tempWidgets.removeAt(existingIndex);
-    
+
     // Check if new placement fits
     if (!newPlacement.fitsInGrid(dimensions)) {
       throw ArgumentError('New placement does not fit in grid');
@@ -122,10 +119,7 @@ class LayoutState {
     final newWidgets = [...widgets];
     newWidgets[existingIndex] = newPlacement;
 
-    return LayoutState(
-      dimensions: dimensions,
-      widgets: newWidgets,
-    );
+    return LayoutState(dimensions: dimensions, widgets: newWidgets);
   }
 
   WidgetPlacement? getWidget(String widgetId) {
@@ -142,10 +136,7 @@ class LayoutState {
         .where((widget) => widget.fitsInGrid(newDimensions))
         .toList();
 
-    return LayoutState(
-      dimensions: newDimensions,
-      widgets: fittingWidgets,
-    );
+    return LayoutState(dimensions: newDimensions, widgets: fittingWidgets);
   }
 
   List<WidgetPlacement> getWidgetsInArea(Rectangle<int> area) {
@@ -161,7 +152,10 @@ class LayoutState {
       'metadata': {
         'widgetCount': widgets.length,
         'gridSize': dimensions.columns * dimensions.rows,
-        'totalArea': widgets.fold<int>(0, (sum, widget) => sum + widget.width * widget.height),
+        'totalArea': widgets.fold<int>(
+          0,
+          (sum, widget) => sum + widget.width * widget.height,
+        ),
       },
       'dimensions': dimensions.toJson(),
       'widgets': widgets.map((widget) => widget.toJson()).toList(),
@@ -172,7 +166,7 @@ class LayoutState {
     // Handle both new and legacy formats
     final dimensionsData = json['dimensions'] as Map<String, dynamic>;
     final GridDimensions dimensions;
-    
+
     if (dimensionsData.containsKey('columns')) {
       // Direct format or GridDimensions.toJson format
       dimensions = GridDimensions.fromJson(dimensionsData);
@@ -202,10 +196,7 @@ class LayoutState {
       }
     }).toList();
 
-    return LayoutState(
-      dimensions: dimensions,
-      widgets: widgets,
-    );
+    return LayoutState(dimensions: dimensions, widgets: widgets);
   }
 
   LayoutState copyWith({

@@ -39,7 +39,7 @@ void main() {
           home: HookBuilder(
             builder: (context) {
               controller = useFormLayout(_createInitialState());
-              
+
               return FormLayoutActionDispatcher(
                 controller: controller,
                 child: Builder(
@@ -65,10 +65,10 @@ void main() {
       );
 
       expect(controller.state.widgets.length, 0);
-      
+
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump();
-      
+
       expect(controller.state.widgets.length, 1);
       final widget = controller.state.widgets.first;
       expect(widget.widgetName, 'test_widget');
@@ -78,13 +78,13 @@ void main() {
 
     testWidgets('context extension methods work correctly', (tester) async {
       bool invoked = false;
-      
+
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
             builder: (context) {
               controller = useFormLayout(_createInitialState());
-              
+
               return FormLayoutActionDispatcher(
                 controller: controller,
                 child: Builder(
@@ -106,33 +106,37 @@ void main() {
       );
 
       // Add a widget for testing
-      controller.addWidget(WidgetPlacement(
-        id: 'test_widget_id',
-        widgetName: 'test_widget',
-        column: 0,
-        row: 0,
-        width: 2,
-        height: 1,
-      ));
+      controller.addWidget(
+        WidgetPlacement(
+          id: 'test_widget_id',
+          widgetName: 'test_widget',
+          column: 0,
+          row: 0,
+          width: 2,
+          height: 1,
+        ),
+      );
       await tester.pump();
 
       expect(controller.state.widgets.length, 1);
       expect(invoked, false);
-      
+
       await tester.tap(find.byType(ElevatedButton));
       await tester.pump();
-      
+
       expect(controller.state.widgets.length, 0);
       expect(invoked, true);
     });
 
-    testWidgets('FormLayoutIntentInvoker mixin provides convenience methods', (tester) async {
+    testWidgets('FormLayoutIntentInvoker mixin provides convenience methods', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
             builder: (context) {
               controller = useFormLayout(_createInitialState());
-              
+
               return FormLayoutActionDispatcher(
                 controller: controller,
                 child: _TestWidget(),
@@ -143,18 +147,18 @@ void main() {
       );
 
       expect(controller.state.widgets.length, 0);
-      
+
       // Test add widget
       await tester.tap(find.byKey(const Key('add_button')));
       await tester.pump();
       expect(controller.state.widgets.length, 1);
-      
+
       // Test select widget
       expect(controller.selectedWidgetId, isNull);
       await tester.tap(find.byKey(const Key('select_button')));
       await tester.pump();
       expect(controller.selectedWidgetId, isNotNull);
-      
+
       // Test move widget
       final widgetBefore = controller.state.widgets.first;
       expect(widgetBefore.column, 1);
@@ -164,7 +168,7 @@ void main() {
       final widgetAfter = controller.state.widgets.first;
       expect(widgetAfter.column, 2);
       expect(widgetAfter.row, 3);
-      
+
       // Test remove widget
       await tester.tap(find.byKey(const Key('remove_button')));
       await tester.pump();
@@ -173,13 +177,13 @@ void main() {
 
     testWidgets('all actions are available through dispatcher', (tester) async {
       final invokedIntents = <Type>[];
-      
+
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
             builder: (context) {
               controller = useFormLayout(_createInitialState());
-              
+
               return FormLayoutActionDispatcher(
                 controller: controller,
                 child: Builder(
@@ -189,7 +193,10 @@ void main() {
                         ElevatedButton(
                           key: const Key('undo'),
                           onPressed: () {
-                            final result = Actions.maybeInvoke<UndoIntent>(context, const UndoIntent());
+                            final result = Actions.maybeInvoke<UndoIntent>(
+                              context,
+                              const UndoIntent(),
+                            );
                             if (result != null) {
                               invokedIntents.add(UndoIntent);
                             }
@@ -199,7 +206,11 @@ void main() {
                         ElevatedButton(
                           key: const Key('toggle_preview'),
                           onPressed: () {
-                            final result = Actions.maybeInvoke<TogglePreviewModeIntent>(context, const TogglePreviewModeIntent());
+                            final result =
+                                Actions.maybeInvoke<TogglePreviewModeIntent>(
+                                  context,
+                                  const TogglePreviewModeIntent(),
+                                );
                             if (result != null) {
                               invokedIntents.add(TogglePreviewModeIntent);
                             }
@@ -209,10 +220,16 @@ void main() {
                         ElevatedButton(
                           key: const Key('resize_grid'),
                           onPressed: () {
-                            final result = Actions.maybeInvoke<ResizeGridIntent>(
-                              context, 
-                              const ResizeGridIntent(newDimensions: GridDimensions(columns: 6, rows: 8))
-                            );
+                            final result =
+                                Actions.maybeInvoke<ResizeGridIntent>(
+                                  context,
+                                  const ResizeGridIntent(
+                                    newDimensions: GridDimensions(
+                                      columns: 6,
+                                      rows: 8,
+                                    ),
+                                  ),
+                                );
                             if (result != null) {
                               invokedIntents.add(ResizeGridIntent);
                             }
@@ -228,28 +245,30 @@ void main() {
           ),
         ),
       );
-      
+
       // Prepare state for testing - add widget after initial build
-      controller.addWidget(WidgetPlacement(
-        id: 'test_widget',
-        widgetName: 'test_widget',
-        column: 0,
-        row: 0,
-        width: 2,
-        height: 1,
-      ));
+      controller.addWidget(
+        WidgetPlacement(
+          id: 'test_widget',
+          widgetName: 'test_widget',
+          column: 0,
+          row: 0,
+          width: 2,
+          height: 1,
+        ),
+      );
       await tester.pump();
-      
+
       // Test undo action
       await tester.tap(find.byKey(const Key('undo')));
       await tester.pump();
       expect(invokedIntents.contains(UndoIntent), true);
-      
+
       // Test toggle preview action
       await tester.tap(find.byKey(const Key('toggle_preview')));
       await tester.pump();
       expect(invokedIntents.contains(TogglePreviewModeIntent), true);
-      
+
       // Test resize grid action
       await tester.tap(find.byKey(const Key('resize_grid')));
       await tester.pump();
@@ -265,7 +284,6 @@ class _TestWidget extends StatefulWidget {
 }
 
 class _TestWidgetState extends State<_TestWidget> with FormLayoutIntentInvoker {
-  
   @override
   Widget build(BuildContext context) {
     final testItem = ToolboxItem(
@@ -276,7 +294,7 @@ class _TestWidgetState extends State<_TestWidget> with FormLayoutIntentInvoker {
       defaultWidth: 2,
       defaultHeight: 1,
     );
-    
+
     return Column(
       children: [
         ElevatedButton(
@@ -291,7 +309,9 @@ class _TestWidgetState extends State<_TestWidget> with FormLayoutIntentInvoker {
           onPressed: () {
             // Select the first widget if any exist
             final context = this.context;
-            final ancestorContext = context.findAncestorWidgetOfExactType<FormLayoutActionDispatcher>()!.controller;
+            final ancestorContext = context
+                .findAncestorWidgetOfExactType<FormLayoutActionDispatcher>()!
+                .controller;
             if (ancestorContext.state.widgets.isNotEmpty) {
               selectWidget(ancestorContext.state.widgets.first.id);
             }
@@ -303,9 +323,14 @@ class _TestWidgetState extends State<_TestWidget> with FormLayoutIntentInvoker {
           onPressed: () {
             // Move the first widget if any exist
             final context = this.context;
-            final ancestorContext = context.findAncestorWidgetOfExactType<FormLayoutActionDispatcher>()!.controller;
+            final ancestorContext = context
+                .findAncestorWidgetOfExactType<FormLayoutActionDispatcher>()!
+                .controller;
             if (ancestorContext.state.widgets.isNotEmpty) {
-              moveWidget(ancestorContext.state.widgets.first.id, const Point(2, 3));
+              moveWidget(
+                ancestorContext.state.widgets.first.id,
+                const Point(2, 3),
+              );
             }
           },
           child: const Text('Move'),
@@ -315,7 +340,9 @@ class _TestWidgetState extends State<_TestWidget> with FormLayoutIntentInvoker {
           onPressed: () {
             // Remove the first widget if any exist
             final context = this.context;
-            final ancestorContext = context.findAncestorWidgetOfExactType<FormLayoutActionDispatcher>()!.controller;
+            final ancestorContext = context
+                .findAncestorWidgetOfExactType<FormLayoutActionDispatcher>()!
+                .controller;
             if (ancestorContext.state.widgets.isNotEmpty) {
               removeWidget(ancestorContext.state.widgets.first.id);
             }

@@ -10,10 +10,10 @@ import 'dart:math';
 class KeyboardHandler extends StatefulWidget {
   /// The form layout controller
   final FormLayoutController controller;
-  
+
   /// The child widget to wrap
   final Widget child;
-  
+
   /// Whether to show a focus indicator when focused
   final bool showFocusIndicator;
 
@@ -66,16 +66,19 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
       return KeyEventResult.ignored;
     }
 
-    final isCtrlPressed = event.logicalKey == LogicalKeyboardKey.control ||
+    final isCtrlPressed =
+        event.logicalKey == LogicalKeyboardKey.control ||
         HardwareKeyboard.instance.isControlPressed;
-    final isCmdPressed = event.logicalKey == LogicalKeyboardKey.meta ||
+    final isCmdPressed =
+        event.logicalKey == LogicalKeyboardKey.meta ||
         HardwareKeyboard.instance.isMetaPressed;
-    final isShiftPressed = event.logicalKey == LogicalKeyboardKey.shift ||
+    final isShiftPressed =
+        event.logicalKey == LogicalKeyboardKey.shift ||
         HardwareKeyboard.instance.isShiftPressed;
-    
+
     // Use Cmd on macOS, Ctrl on other platforms
-    final isModifierPressed = defaultTargetPlatform == TargetPlatform.macOS 
-        ? isCmdPressed 
+    final isModifierPressed = defaultTargetPlatform == TargetPlatform.macOS
+        ? isCmdPressed
         : isCtrlPressed;
 
     try {
@@ -101,7 +104,11 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
     return KeyEventResult.ignored;
   }
 
-  bool _handleNavigationKeys(KeyEvent event, bool isShiftPressed, bool isModifierPressed) {
+  bool _handleNavigationKeys(
+    KeyEvent event,
+    bool isShiftPressed,
+    bool isModifierPressed,
+  ) {
     switch (event.logicalKey) {
       case LogicalKeyboardKey.tab:
         if (isShiftPressed) {
@@ -145,7 +152,11 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
     }
   }
 
-  bool _handleOperationShortcuts(KeyEvent event, bool isModifierPressed, bool isShiftPressed) {
+  bool _handleOperationShortcuts(
+    KeyEvent event,
+    bool isModifierPressed,
+    bool isShiftPressed,
+  ) {
     // Delete selected widget
     if (event.logicalKey == LogicalKeyboardKey.delete ||
         event.logicalKey == LogicalKeyboardKey.backspace) {
@@ -197,10 +208,14 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
         // Ctrl/Cmd+A = Select all (future feature)
         // For now, just select the first widget
         if (widget.controller.state.widgets.isNotEmpty) {
-          widget.controller.selectWidget(widget.controller.state.widgets.first.id);
+          widget.controller.selectWidget(
+            widget.controller.state.widgets.first.id,
+          );
           Actions.maybeInvoke<SelectWidgetIntent>(
             context,
-            SelectWidgetIntent(widgetId: widget.controller.state.widgets.first.id),
+            SelectWidgetIntent(
+              widgetId: widget.controller.state.widgets.first.id,
+            ),
           );
         }
         return true;
@@ -219,7 +234,11 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
     }
   }
 
-  bool _handleWidgetManipulation(KeyEvent event, bool isModifierPressed, bool isShiftPressed) {
+  bool _handleWidgetManipulation(
+    KeyEvent event,
+    bool isModifierPressed,
+    bool isShiftPressed,
+  ) {
     final selectedId = widget.controller.selectedWidgetId;
     if (selectedId == null) return false;
 
@@ -325,7 +344,9 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
       return;
     }
 
-    final previousIndex = currentIndex == 0 ? widgets.length - 1 : currentIndex - 1;
+    final previousIndex = currentIndex == 0
+        ? widgets.length - 1
+        : currentIndex - 1;
     // Call the direct method and also invoke the intent
     widget.controller.selectWidget(widgets[previousIndex].id);
     Actions.maybeInvoke<SelectWidgetIntent>(
@@ -339,10 +360,14 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
     if (currentId == null) {
       // No selection, select first widget
       if (widget.controller.state.widgets.isNotEmpty) {
-        widget.controller.selectWidget(widget.controller.state.widgets.first.id);
+        widget.controller.selectWidget(
+          widget.controller.state.widgets.first.id,
+        );
         Actions.maybeInvoke<SelectWidgetIntent>(
           context,
-          SelectWidgetIntent(widgetId: widget.controller.state.widgets.first.id),
+          SelectWidgetIntent(
+            widgetId: widget.controller.state.widgets.first.id,
+          ),
         );
       }
       return;
@@ -394,10 +419,12 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
   }
 
   void _moveWidget(WidgetPlacement placement, int deltaColumn, int deltaRow) {
-    final newColumn = (placement.column + deltaColumn).clamp(0, 
-        widget.controller.state.dimensions.columns - placement.width).toInt();
-    final newRow = (placement.row + deltaRow).clamp(0, 
-        widget.controller.state.dimensions.rows - placement.height).toInt();
+    final newColumn = (placement.column + deltaColumn)
+        .clamp(0, widget.controller.state.dimensions.columns - placement.width)
+        .toInt();
+    final newRow = (placement.row + deltaRow)
+        .clamp(0, widget.controller.state.dimensions.rows - placement.height)
+        .toInt();
 
     if (newColumn != placement.column || newRow != placement.row) {
       widget.controller.moveWidget(placement.id, newColumn, newRow);
@@ -411,20 +438,26 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
     }
   }
 
-  void _resizeWidget(WidgetPlacement placement, int deltaWidth, int deltaHeight) {
+  void _resizeWidget(
+    WidgetPlacement placement,
+    int deltaWidth,
+    int deltaHeight,
+  ) {
     final gridDimensions = widget.controller.state.dimensions;
-    
+
     int newWidth = placement.width;
     int newHeight = placement.height;
 
     if (deltaWidth != 0) {
-      newWidth = (placement.width + deltaWidth).clamp(1, 
-          gridDimensions.columns - placement.column).toInt();
+      newWidth = (placement.width + deltaWidth)
+          .clamp(1, gridDimensions.columns - placement.column)
+          .toInt();
     }
 
     if (deltaHeight != 0) {
-      newHeight = (placement.height + deltaHeight).clamp(1, 
-          gridDimensions.rows - placement.row).toInt();
+      newHeight = (placement.height + deltaHeight)
+          .clamp(1, gridDimensions.rows - placement.row)
+          .toInt();
     }
 
     if (newWidth != placement.width || newHeight != placement.height) {
@@ -447,25 +480,30 @@ class _KeyboardHandlerState extends State<KeyboardHandler> {
 
       // Try to place the duplicate next to the original
       final gridDimensions = widget.controller.state.dimensions;
-      
+
       // Try different positions around the original widget
       final positions = [
         // Right of original
         Point(selectedWidget.column + selectedWidget.width, selectedWidget.row),
         // Below original
-        Point(selectedWidget.column, selectedWidget.row + selectedWidget.height),
+        Point(
+          selectedWidget.column,
+          selectedWidget.row + selectedWidget.height,
+        ),
         // Left of original
         Point(selectedWidget.column - selectedWidget.width, selectedWidget.row),
         // Above original
-        Point(selectedWidget.column, selectedWidget.row - selectedWidget.height),
+        Point(
+          selectedWidget.column,
+          selectedWidget.row - selectedWidget.height,
+        ),
       ];
 
       for (final position in positions) {
-        if (position.x >= 0 && 
-            position.y >= 0 && 
+        if (position.x >= 0 &&
+            position.y >= 0 &&
             position.x + selectedWidget.width <= gridDimensions.columns &&
             position.y + selectedWidget.height <= gridDimensions.rows) {
-          
           final duplicateWidget = WidgetPlacement(
             id: '${selectedWidget.id}_copy_${DateTime.now().millisecondsSinceEpoch}',
             widgetName: selectedWidget.widgetName,

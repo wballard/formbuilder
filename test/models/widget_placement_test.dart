@@ -13,7 +13,7 @@ void main() {
         width: 2,
         height: 1,
       );
-      
+
       expect(placement.id, equals('widget1'));
       expect(placement.widgetName, equals('TextInput'));
       expect(placement.column, equals(2));
@@ -31,7 +31,7 @@ void main() {
         width: 1,
         height: 1,
       );
-      
+
       expect(placement.column, equals(0));
       expect(placement.row, equals(0));
     });
@@ -130,7 +130,7 @@ void main() {
           width: 4,
           height: 2,
         );
-        
+
         final bounds = placement.bounds;
         expect(bounds.left, equals(2));
         expect(bounds.top, equals(3));
@@ -149,7 +149,7 @@ void main() {
           width: 1,
           height: 1,
         );
-        
+
         final bounds = placement.bounds;
         expect(bounds.left, equals(0));
         expect(bounds.top, equals(0));
@@ -171,7 +171,7 @@ void main() {
           height: 2,
         );
         const dimensions = GridDimensions(columns: 4, rows: 4);
-        
+
         expect(placement.fitsInGrid(dimensions), isTrue);
       });
 
@@ -185,7 +185,7 @@ void main() {
           height: 4,
         );
         const dimensions = GridDimensions(columns: 4, rows: 4);
-        
+
         expect(placement.fitsInGrid(dimensions), isTrue);
       });
 
@@ -199,7 +199,7 @@ void main() {
           height: 1,
         );
         const dimensions = GridDimensions(columns: 4, rows: 4);
-        
+
         expect(placement.fitsInGrid(dimensions), isFalse);
       });
 
@@ -213,7 +213,7 @@ void main() {
           height: 2,
         );
         const dimensions = GridDimensions(columns: 4, rows: 4);
-        
+
         expect(placement.fitsInGrid(dimensions), isFalse);
       });
 
@@ -227,7 +227,7 @@ void main() {
           height: 1,
         );
         const dimensions = GridDimensions(columns: 4, rows: 4);
-        
+
         expect(placement.fitsInGrid(dimensions), isFalse);
       });
     });
@@ -250,7 +250,7 @@ void main() {
           width: 2,
           height: 2,
         );
-        
+
         expect(placement1.overlaps(placement2), isTrue);
         expect(placement2.overlaps(placement1), isTrue);
       });
@@ -272,7 +272,7 @@ void main() {
           width: 2,
           height: 2,
         );
-        
+
         expect(placement1.overlaps(placement2), isTrue);
         expect(placement2.overlaps(placement1), isTrue);
       });
@@ -294,7 +294,7 @@ void main() {
           width: 2,
           height: 2,
         );
-        
+
         expect(placement1.overlaps(placement2), isFalse);
         expect(placement2.overlaps(placement1), isFalse);
       });
@@ -316,7 +316,7 @@ void main() {
           width: 2,
           height: 2,
         );
-        
+
         expect(placement1.overlaps(placement2), isFalse);
         expect(placement2.overlaps(placement1), isFalse);
       });
@@ -338,7 +338,7 @@ void main() {
           width: 2,
           height: 2,
         );
-        
+
         expect(placement1.overlaps(placement2), isFalse);
         expect(placement2.overlaps(placement1), isFalse);
       });
@@ -360,7 +360,7 @@ void main() {
           width: 1,
           height: 1,
         );
-        
+
         expect(placement1.overlaps(placement2), isTrue);
         expect(placement2.overlaps(placement1), isTrue);
       });
@@ -377,7 +377,7 @@ void main() {
           height: 1,
         );
         final copied = original.copyWith(id: 'widget2');
-        
+
         expect(copied.id, equals('widget2'));
         expect(copied.widgetName, equals('TextInput'));
         expect(copied.column, equals(2));
@@ -396,7 +396,7 @@ void main() {
           height: 1,
         );
         final copied = original.copyWith(widgetName: 'Button');
-        
+
         expect(copied.id, equals('widget1'));
         expect(copied.widgetName, equals('Button'));
       });
@@ -411,7 +411,7 @@ void main() {
           height: 1,
         );
         final copied = original.copyWith(column: 5, row: 7);
-        
+
         expect(copied.column, equals(5));
         expect(copied.row, equals(7));
       });
@@ -426,7 +426,7 @@ void main() {
           height: 1,
         );
         final copied = original.copyWith(width: 4, height: 3);
-        
+
         expect(copied.width, equals(4));
         expect(copied.height, equals(3));
       });
@@ -441,7 +441,7 @@ void main() {
           height: 1,
         );
         final copied = original.copyWith();
-        
+
         expect(copied.id, equals('widget1'));
         expect(copied.widgetName, equals('TextInput'));
         expect(copied.column, equals(2));
@@ -459,21 +459,18 @@ void main() {
           width: 2,
           height: 1,
         );
-        
+
         expect(
           () => original.copyWith(column: -1),
           throwsA(isA<AssertionError>()),
         );
-        
+
         expect(
           () => original.copyWith(width: 0),
           throwsA(isA<AssertionError>()),
         );
-        
-        expect(
-          () => original.copyWith(id: ''),
-          throwsA(isA<AssertionError>()),
-        );
+
+        expect(() => original.copyWith(id: ''), throwsA(isA<AssertionError>()));
       });
     });
 
@@ -495,7 +492,7 @@ void main() {
           width: 2,
           height: 1,
         );
-        
+
         expect(placement1, equals(placement2));
         expect(placement1.hashCode, equals(placement2.hashCode));
       });
@@ -517,7 +514,7 @@ void main() {
           width: 2,
           height: 1,
         );
-        
+
         expect(placement1, isNot(equals(placement2)));
       });
 
@@ -538,7 +535,7 @@ void main() {
           width: 2,
           height: 1,
         );
-        
+
         expect(placement1, isNot(equals(placement2)));
       });
     });
@@ -553,7 +550,7 @@ void main() {
         height: 1,
       );
       final stringRep = placement.toString();
-      
+
       expect(stringRep, contains('WidgetPlacement'));
       expect(stringRep, contains('widget1'));
       expect(stringRep, contains('TextInput'));

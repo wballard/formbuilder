@@ -53,7 +53,7 @@ void main() {
         );
 
         final result = LayoutValidator.validateAddWidget(emptyState, placement);
-        
+
         expect(result.isValid, isTrue);
         expect(result.message, isNull);
       });
@@ -69,11 +69,17 @@ void main() {
         );
 
         final result = LayoutValidator.validateAddWidget(emptyState, placement);
-        
+
         expect(result.isValid, isFalse);
         expect(result.severity, equals(ValidationSeverity.error));
-        expect(result.message, contains('Widget would extend beyond grid boundary'));
-        expect(result.message, contains('column 5 but grid only has 4 columns'));
+        expect(
+          result.message,
+          contains('Widget would extend beyond grid boundary'),
+        );
+        expect(
+          result.message,
+          contains('column 5 but grid only has 4 columns'),
+        );
         expect(result.context?['widgetEndColumn'], equals(5));
       });
 
@@ -88,10 +94,13 @@ void main() {
         );
 
         final result = LayoutValidator.validateAddWidget(emptyState, placement);
-        
+
         expect(result.isValid, isFalse);
         expect(result.severity, equals(ValidationSeverity.error));
-        expect(result.message, contains('Widget would extend beyond grid boundary'));
+        expect(
+          result.message,
+          contains('Widget would extend beyond grid boundary'),
+        );
         expect(result.message, contains('row 5 but grid only has 4 rows'));
         expect(result.context?['widgetEndRow'], equals(5));
       });
@@ -106,8 +115,11 @@ void main() {
           height: 2,
         );
 
-        final result = LayoutValidator.validateAddWidget(stateWithWidgets, placement);
-        
+        final result = LayoutValidator.validateAddWidget(
+          stateWithWidgets,
+          placement,
+        );
+
         expect(result.isValid, isFalse);
         expect(result.severity, equals(ValidationSeverity.error));
         expect(result.message, contains('Space is occupied by another widget'));
@@ -125,11 +137,17 @@ void main() {
           height: 1,
         );
 
-        final result = LayoutValidator.validateAddWidget(stateWithWidgets, placement);
-        
+        final result = LayoutValidator.validateAddWidget(
+          stateWithWidgets,
+          placement,
+        );
+
         expect(result.isValid, isFalse);
         expect(result.severity, equals(ValidationSeverity.error));
-        expect(result.message, contains('A widget with ID "widget1" already exists'));
+        expect(
+          result.message,
+          contains('A widget with ID "widget1" already exists'),
+        );
       });
 
       test('reports multiple overlapping widgets', () {
@@ -142,8 +160,11 @@ void main() {
           height: 4,
         );
 
-        final result = LayoutValidator.validateAddWidget(stateWithWidgets, placement);
-        
+        final result = LayoutValidator.validateAddWidget(
+          stateWithWidgets,
+          placement,
+        );
+
         expect(result.isValid, isFalse);
         expect(result.message, contains('Overlaps with widgets: 1, 2'));
       });
@@ -156,7 +177,7 @@ void main() {
           'widget1',
           const Point(2, 0),
         );
-        
+
         expect(result.isValid, isTrue);
       });
 
@@ -166,9 +187,12 @@ void main() {
           'non-existent',
           const Point(0, 0),
         );
-        
+
         expect(result.isValid, isFalse);
-        expect(result.message, contains('Widget with ID "non-existent" not found'));
+        expect(
+          result.message,
+          contains('Widget with ID "non-existent" not found'),
+        );
       });
 
       test('fails when new position extends beyond grid', () {
@@ -177,9 +201,12 @@ void main() {
           'widget1',
           const Point(3, 3),
         );
-        
+
         expect(result.isValid, isFalse);
-        expect(result.message, contains('Widget would extend beyond grid boundary'));
+        expect(
+          result.message,
+          contains('Widget would extend beyond grid boundary'),
+        );
       });
 
       test('fails when new position overlaps another widget', () {
@@ -188,9 +215,12 @@ void main() {
           'widget1',
           const Point(2, 2),
         );
-        
+
         expect(result.isValid, isFalse);
-        expect(result.message, contains('New position would overlap with existing widgets'));
+        expect(
+          result.message,
+          contains('New position would overlap with existing widgets'),
+        );
       });
 
       test('allows moving to same position', () {
@@ -199,7 +229,7 @@ void main() {
           'widget1',
           const Point(0, 0),
         );
-        
+
         expect(result.isValid, isTrue);
       });
     });
@@ -211,7 +241,7 @@ void main() {
           'widget1',
           const Size(1, 1),
         );
-        
+
         expect(result.isValid, isTrue);
       });
 
@@ -221,9 +251,12 @@ void main() {
           'non-existent',
           const Size(2, 2),
         );
-        
+
         expect(result.isValid, isFalse);
-        expect(result.message, contains('Widget with ID "non-existent" not found'));
+        expect(
+          result.message,
+          contains('Widget with ID "non-existent" not found'),
+        );
       });
 
       test('fails when size is less than 1x1', () {
@@ -232,7 +265,7 @@ void main() {
           'widget1',
           const Size(0, 1),
         );
-        
+
         expect(result.isValid, isFalse);
         expect(result.message, contains('Widget size must be at least 1x1'));
       });
@@ -243,9 +276,12 @@ void main() {
           'widget1',
           const Size(5, 2),
         );
-        
+
         expect(result.isValid, isFalse);
-        expect(result.message, contains('Widget would extend beyond grid boundary'));
+        expect(
+          result.message,
+          contains('Widget would extend beyond grid boundary'),
+        );
       });
 
       test('fails when new size overlaps another widget', () {
@@ -254,51 +290,60 @@ void main() {
           'widget1',
           const Size(3, 3),
         );
-        
+
         expect(result.isValid, isFalse);
-        expect(result.message, contains('New size would overlap with existing widgets'));
+        expect(
+          result.message,
+          contains('New size would overlap with existing widgets'),
+        );
       });
     });
 
     group('validateResizeGrid', () {
       test('succeeds when no widgets are affected', () {
         const newDimensions = GridDimensions(columns: 5, rows: 5);
-        
+
         final result = LayoutValidator.validateResizeGrid(
           stateWithWidgets,
           newDimensions,
         );
-        
+
         expect(result.isValid, isTrue);
         expect(result.message, isNull);
       });
 
       test('warns when widgets would be removed', () {
         const newDimensions = GridDimensions(columns: 3, rows: 3);
-        
+
         final result = LayoutValidator.validateResizeGrid(
           stateWithWidgets,
           newDimensions,
         );
-        
+
         expect(result.isValid, isTrue);
         expect(result.severity, equals(ValidationSeverity.warning));
-        expect(result.message, contains('Resizing the grid will remove 1 widget'));
+        expect(
+          result.message,
+          contains('Resizing the grid will remove 1 widget'),
+        );
         expect(result.message, contains('Widget 2 at (2, 2)'));
         expect(result.context?['affectedWidgets'], hasLength(1));
       });
 
       test('warns about multiple widgets being removed', () {
         const newDimensions = GridDimensions(columns: 2, rows: 2);
-        
+
         final result = LayoutValidator.validateResizeGrid(
           stateWithWidgets,
           newDimensions,
         );
-        
+
         expect(result.isValid, isTrue);
         expect(result.severity, equals(ValidationSeverity.warning));
-        expect(result.message, contains('Resizing the grid will remove 1 widget'));
+        expect(
+          result.message,
+          contains('Resizing the grid will remove 1 widget'),
+        );
         expect(result.context?['affectedWidgets'], hasLength(1));
       });
     });
@@ -309,7 +354,7 @@ void main() {
           stateWithWidgets,
           'widget1',
         );
-        
+
         expect(result.isValid, isTrue);
       });
 
@@ -318,9 +363,12 @@ void main() {
           stateWithWidgets,
           'non-existent',
         );
-        
+
         expect(result.isValid, isFalse);
-        expect(result.message, contains('Widget with ID "non-existent" not found'));
+        expect(
+          result.message,
+          contains('Widget with ID "non-existent" not found'),
+        );
       });
     });
 
@@ -335,9 +383,9 @@ void main() {
           height: 2,
         );
         const dimensions = GridDimensions(columns: 4, rows: 4);
-        
+
         final result = LayoutValidator.validateBounds(placement, dimensions);
-        
+
         expect(result.isValid, isTrue);
       });
 
@@ -366,11 +414,14 @@ void main() {
           height: 2,
         );
         const dimensions = GridDimensions(columns: 4, rows: 4);
-        
+
         final result = LayoutValidator.validateBounds(placement, dimensions);
-        
+
         expect(result.isValid, isFalse);
-        expect(result.message, contains('Widget extends beyond grid boundaries'));
+        expect(
+          result.message,
+          contains('Widget extends beyond grid boundaries'),
+        );
       });
     });
 
@@ -392,9 +443,9 @@ void main() {
           width: 2,
           height: 2,
         );
-        
+
         final result = LayoutValidator.validateNoOverlap(widget1, widget2);
-        
+
         expect(result.isValid, isTrue);
       });
 
@@ -415,9 +466,9 @@ void main() {
           width: 2,
           height: 2,
         );
-        
+
         final result = LayoutValidator.validateNoOverlap(widget1, widget2);
-        
+
         expect(result.isValid, isFalse);
         expect(result.message, contains('Widgets overlap each other'));
       });

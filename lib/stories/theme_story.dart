@@ -37,18 +37,9 @@ Widget buildThemeStories() {
             theme: null, // Uses default Material theme
             darkMode: true,
           ),
-          _ThemeDemo(
-            title: 'Cupertino Theme',
-            theme: 'cupertino',
-          ),
-          _ThemeDemo(
-            title: 'High Contrast Theme',
-            theme: 'highContrast',
-          ),
-          _ThemeDemo(
-            title: 'Custom Theme',
-            theme: 'custom',
-          ),
+          _ThemeDemo(title: 'Cupertino Theme', theme: 'cupertino'),
+          _ThemeDemo(title: 'High Contrast Theme', theme: 'highContrast'),
+          _ThemeDemo(title: 'Custom Theme', theme: 'custom'),
         ],
       ),
     ),
@@ -60,11 +51,7 @@ class _ThemeDemo extends StatelessWidget {
   final String? theme;
   final bool darkMode;
 
-  const _ThemeDemo({
-    required this.title,
-    this.theme,
-    this.darkMode = false,
-  });
+  const _ThemeDemo({required this.title, this.theme, this.darkMode = false});
 
   FormLayoutTheme _getTheme(BuildContext context) {
     switch (theme) {
@@ -90,9 +77,7 @@ class _ThemeDemo extends StatelessWidget {
           defaultPadding: EdgeInsets.all(16.0),
         );
       default:
-        final materialTheme = darkMode 
-            ? ThemeData.dark() 
-            : ThemeData.light();
+        final materialTheme = darkMode ? ThemeData.dark() : ThemeData.light();
         return FormLayoutTheme.fromThemeData(materialTheme);
     }
   }
@@ -100,10 +85,8 @@ class _ThemeDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formTheme = _getTheme(context);
-    final materialTheme = darkMode 
-        ? ThemeData.dark() 
-        : ThemeData.light();
-    
+    final materialTheme = darkMode ? ThemeData.dark() : ThemeData.light();
+
     return Theme(
       data: materialTheme,
       child: FormLayoutThemeWidget(
@@ -139,7 +122,7 @@ class _ThemeDemo extends StatelessWidget {
                     ),
                   ),
                 ),
-                
+
                 // Theme properties display
                 Card(
                   margin: const EdgeInsets.only(bottom: 16),
@@ -148,18 +131,38 @@ class _ThemeDemo extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Theme Properties', style: formTheme.labelStyle.copyWith(fontWeight: FontWeight.bold)),
+                        Text(
+                          'Theme Properties',
+                          style: formTheme.labelStyle.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         const SizedBox(height: 8),
-                        _PropertyRow('Grid Line Color', formTheme.gridLineColor),
-                        _PropertyRow('Selection Border', formTheme.selectionBorderColor),
-                        _PropertyRow('Drag Highlight', formTheme.dragHighlightColor),
-                        _PropertyRow('Invalid Drop', formTheme.invalidDropColor),
-                        _PropertyRow('Toolbox Background', formTheme.toolboxBackgroundColor),
+                        _PropertyRow(
+                          'Grid Line Color',
+                          formTheme.gridLineColor,
+                        ),
+                        _PropertyRow(
+                          'Selection Border',
+                          formTheme.selectionBorderColor,
+                        ),
+                        _PropertyRow(
+                          'Drag Highlight',
+                          formTheme.dragHighlightColor,
+                        ),
+                        _PropertyRow(
+                          'Invalid Drop',
+                          formTheme.invalidDropColor,
+                        ),
+                        _PropertyRow(
+                          'Toolbox Background',
+                          formTheme.toolboxBackgroundColor,
+                        ),
                       ],
                     ),
                   ),
                 ),
-                
+
                 // Live demo
                 Expanded(
                   child: Row(
@@ -172,38 +175,51 @@ class _ThemeDemo extends StatelessWidget {
                             children: [
                               Padding(
                                 padding: formTheme.defaultPadding,
-                                child: Text('Toolbox', style: formTheme.labelStyle),
+                                child: Text(
+                                  'Toolbox',
+                                  style: formTheme.labelStyle,
+                                ),
                               ),
                               Expanded(
                                 child: ToolboxWidget(
-                                  toolbox: Toolbox(items: [
-                                    ToolboxItem(
-                                      name: 'button',
-                                      displayName: 'Button',
-                                      defaultWidth: 1,
-                                      defaultHeight: 1,
-                                      toolboxBuilder: (context) => ElevatedButton(
-                                        onPressed: () {},
-                                        child: const Text('Button'),
+                                  toolbox: Toolbox(
+                                    items: [
+                                      ToolboxItem(
+                                        name: 'button',
+                                        displayName: 'Button',
+                                        defaultWidth: 1,
+                                        defaultHeight: 1,
+                                        toolboxBuilder: (context) =>
+                                            ElevatedButton(
+                                              onPressed: () {},
+                                              child: const Text('Button'),
+                                            ),
+                                        gridBuilder: (context, placement) =>
+                                            ElevatedButton(
+                                              onPressed: () {},
+                                              child: const Text('Button'),
+                                            ),
                                       ),
-                                      gridBuilder: (context, placement) => ElevatedButton(
-                                        onPressed: () {},
-                                        child: const Text('Button'),
+                                      ToolboxItem(
+                                        name: 'text',
+                                        displayName: 'Text Field',
+                                        defaultWidth: 2,
+                                        defaultHeight: 1,
+                                        toolboxBuilder: (context) =>
+                                            const TextField(
+                                              decoration: InputDecoration(
+                                                hintText: 'Text',
+                                              ),
+                                            ),
+                                        gridBuilder: (context, placement) =>
+                                            const TextField(
+                                              decoration: InputDecoration(
+                                                hintText: 'Text',
+                                              ),
+                                            ),
                                       ),
-                                    ),
-                                    ToolboxItem(
-                                      name: 'text',
-                                      displayName: 'Text Field',
-                                      defaultWidth: 2,
-                                      defaultHeight: 1,
-                                      toolboxBuilder: (context) => const TextField(
-                                        decoration: InputDecoration(hintText: 'Text'),
-                                      ),
-                                      gridBuilder: (context, placement) => const TextField(
-                                        decoration: InputDecoration(hintText: 'Text'),
-                                      ),
-                                    ),
-                                  ]),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
@@ -211,7 +227,7 @@ class _ThemeDemo extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 16),
-                      
+
                       // Grid with placed widgets
                       Expanded(
                         child: Card(
@@ -219,14 +235,23 @@ class _ThemeDemo extends StatelessWidget {
                             children: [
                               Padding(
                                 padding: formTheme.defaultPadding,
-                                child: Text('Form Builder', style: formTheme.labelStyle),
+                                child: Text(
+                                  'Form Builder',
+                                  style: formTheme.labelStyle,
+                                ),
                               ),
                               Expanded(
                                 child: Stack(
                                   children: [
                                     GridWidget(
-                                      dimensions: const GridDimensions(columns: 4, rows: 3),
-                                      highlightedCells: {const Point(1, 1), const Point(2, 1)},
+                                      dimensions: const GridDimensions(
+                                        columns: 4,
+                                        rows: 3,
+                                      ),
+                                      highlightedCells: {
+                                        const Point(1, 1),
+                                        const Point(2, 1),
+                                      },
                                     ),
                                     Positioned(
                                       left: 100,
@@ -260,7 +285,9 @@ class _ThemeDemo extends StatelessWidget {
                                           height: 1,
                                         ),
                                         child: const TextField(
-                                          decoration: InputDecoration(hintText: 'Normal'),
+                                          decoration: InputDecoration(
+                                            hintText: 'Normal',
+                                          ),
                                         ),
                                       ),
                                     ),

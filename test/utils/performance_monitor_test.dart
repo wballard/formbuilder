@@ -15,12 +15,12 @@ void main() {
 
     test('should track frame times', () async {
       monitor.startFrame();
-      
+
       // Simulate some work
       await Future.delayed(const Duration(milliseconds: 10));
-      
+
       monitor.endFrame();
-      
+
       final stats = monitor.getStats();
       expect(stats.frameCount, equals(1));
       expect(stats.averageFrameTime, greaterThan(0));
@@ -34,7 +34,7 @@ void main() {
         await Future.delayed(const Duration(milliseconds: 16)); // ~60 FPS
         monitor.endFrame();
       }
-      
+
       final stats = monitor.getStats();
       expect(stats.frameCount, equals(10));
       expect(stats.currentFps, greaterThan(50));
@@ -45,11 +45,11 @@ void main() {
       monitor.startOperation('widget_build');
       await Future.delayed(const Duration(milliseconds: 5));
       monitor.endOperation('widget_build');
-      
+
       monitor.startOperation('state_update');
       await Future.delayed(const Duration(milliseconds: 3));
       monitor.endOperation('state_update');
-      
+
       final operationStats = monitor.getOperationStats();
       expect(operationStats['widget_build']?.count, equals(1));
       expect(operationStats['widget_build']?.totalTime, greaterThan(0));
@@ -59,7 +59,7 @@ void main() {
 
     test('should track memory usage', () async {
       monitor.recordMemoryUsage();
-      
+
       final stats = monitor.getStats();
       expect(stats.currentMemoryUsage, greaterThan(0));
       expect(stats.peakMemoryUsage, greaterThan(0));
@@ -71,7 +71,7 @@ void main() {
         monitor.startFrame();
         monitor.endFrame();
       }
-      
+
       final stats = monitor.getStats();
       expect(stats.frameCount, equals(150));
       // Internal history should be limited
@@ -82,9 +82,9 @@ void main() {
       monitor.startFrame();
       monitor.endFrame();
       monitor.recordMemoryUsage();
-      
+
       monitor.reset();
-      
+
       final stats = monitor.getStats();
       expect(stats.frameCount, equals(0));
       expect(stats.averageFrameTime, equals(0));
@@ -96,7 +96,7 @@ void main() {
       monitor.startFrame();
       await Future.delayed(const Duration(milliseconds: 50)); // Slow frame
       monitor.endFrame();
-      
+
       final stats = monitor.getStats();
       expect(stats.slowFrameCount, equals(1));
       expect(stats.hasPerformanceIssues, isTrue);
@@ -109,9 +109,9 @@ void main() {
         await Future.delayed(const Duration(milliseconds: 10));
         monitor.endFrame();
       }
-      
+
       expect(monitor.getPerformanceLevel(), equals(PerformanceLevel.high));
-      
+
       // Poor performance
       monitor.reset();
       for (int i = 0; i < 10; i++) {
@@ -119,7 +119,7 @@ void main() {
         await Future.delayed(const Duration(milliseconds: 40));
         monitor.endFrame();
       }
-      
+
       expect(monitor.getPerformanceLevel(), equals(PerformanceLevel.low));
     });
   });

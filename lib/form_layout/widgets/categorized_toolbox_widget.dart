@@ -8,19 +8,19 @@ import 'package:formbuilder/form_layout/widgets/animated_drag_feedback.dart';
 class CategorizedToolboxWidget extends StatefulWidget {
   /// The categorized toolbox to display
   final CategorizedToolbox toolbox;
-  
+
   /// The scroll direction for the toolbox
   final Axis scrollDirection;
-  
+
   /// Padding around the toolbox
   final EdgeInsets padding;
-  
+
   /// Spacing between categories
   final double categorySpacing;
-  
+
   /// Spacing between items
   final double itemSpacing;
-  
+
   /// Animation settings
   final AnimationSettings animationSettings;
 
@@ -35,7 +35,8 @@ class CategorizedToolboxWidget extends StatefulWidget {
   });
 
   @override
-  State<CategorizedToolboxWidget> createState() => _CategorizedToolboxWidgetState();
+  State<CategorizedToolboxWidget> createState() =>
+      _CategorizedToolboxWidgetState();
 }
 
 class _CategorizedToolboxWidgetState extends State<CategorizedToolboxWidget> {
@@ -52,7 +53,6 @@ class _CategorizedToolboxWidgetState extends State<CategorizedToolboxWidget> {
 
   @override
   Widget build(BuildContext context) {
-    
     if (widget.scrollDirection == Axis.vertical) {
       return ListView(
         padding: widget.padding,
@@ -72,27 +72,37 @@ class _CategorizedToolboxWidgetState extends State<CategorizedToolboxWidget> {
 
   List<Widget> _buildCategories(BuildContext context) {
     final widgets = <Widget>[];
-    
+
     for (int i = 0; i < widget.toolbox.categories.length; i++) {
       final category = widget.toolbox.categories[i];
       final isExpanded = _expandedCategories.contains(category.name);
-      
+
       if (i > 0) {
-        widgets.add(SizedBox(
-          width: widget.scrollDirection == Axis.horizontal ? widget.categorySpacing : null,
-          height: widget.scrollDirection == Axis.vertical ? widget.categorySpacing : null,
-        ));
+        widgets.add(
+          SizedBox(
+            width: widget.scrollDirection == Axis.horizontal
+                ? widget.categorySpacing
+                : null,
+            height: widget.scrollDirection == Axis.vertical
+                ? widget.categorySpacing
+                : null,
+          ),
+        );
       }
-      
+
       widgets.add(_buildCategory(context, category, isExpanded));
     }
-    
+
     return widgets;
   }
 
-  Widget _buildCategory(BuildContext context, ToolboxCategory category, bool isExpanded) {
+  Widget _buildCategory(
+    BuildContext context,
+    ToolboxCategory category,
+    bool isExpanded,
+  ) {
     final theme = Theme.of(context);
-    
+
     if (widget.scrollDirection == Axis.vertical) {
       return Card(
         child: Column(
@@ -117,10 +127,7 @@ class _CategorizedToolboxWidgetState extends State<CategorizedToolboxWidget> {
                       size: 20,
                     ),
                     const SizedBox(width: 8),
-                    Text(
-                      category.name,
-                      style: theme.textTheme.titleSmall,
-                    ),
+                    Text(category.name, style: theme.textTheme.titleSmall),
                   ],
                 ),
               ),
@@ -132,7 +139,9 @@ class _CategorizedToolboxWidgetState extends State<CategorizedToolboxWidget> {
                 child: Wrap(
                   spacing: widget.itemSpacing,
                   runSpacing: widget.itemSpacing,
-                  children: category.items.map((item) => _buildItem(context, item)).toList(),
+                  children: category.items
+                      .map((item) => _buildItem(context, item))
+                      .toList(),
                 ),
               ),
             ],
@@ -147,18 +156,17 @@ class _CategorizedToolboxWidgetState extends State<CategorizedToolboxWidget> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                category.name,
-                style: theme.textTheme.titleSmall,
-              ),
+              Text(category.name, style: theme.textTheme.titleSmall),
               const SizedBox(height: 8),
               Row(
-                children: category.items.map((item) => 
-                  Padding(
-                    padding: EdgeInsets.only(right: widget.itemSpacing),
-                    child: _buildItem(context, item),
-                  ),
-                ).toList(),
+                children: category.items
+                    .map(
+                      (item) => Padding(
+                        padding: EdgeInsets.only(right: widget.itemSpacing),
+                        child: _buildItem(context, item),
+                      ),
+                    )
+                    .toList(),
               ),
             ],
           ),
@@ -207,7 +215,10 @@ class _CategorizedToolboxWidgetState extends State<CategorizedToolboxWidget> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 4,
+                    vertical: 2,
+                  ),
                   child: Text(
                     item.displayName,
                     style: Theme.of(context).textTheme.bodySmall,

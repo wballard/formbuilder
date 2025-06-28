@@ -6,7 +6,7 @@ void main() {
     group('factory constructors', () {
       test('success creates valid result with no message', () {
         const result = ValidationResult.success();
-        
+
         expect(result.isValid, isTrue);
         expect(result.message, isNull);
         expect(result.severity, equals(ValidationSeverity.info));
@@ -19,7 +19,7 @@ void main() {
           'Test error',
           context: {'key': 'value'},
         );
-        
+
         expect(result.isValid, isFalse);
         expect(result.message, equals('Test error'));
         expect(result.severity, equals(ValidationSeverity.error));
@@ -33,7 +33,7 @@ void main() {
           'Test warning',
           context: {'count': 3},
         );
-        
+
         expect(result.isValid, isTrue);
         expect(result.message, equals('Test warning'));
         expect(result.severity, equals(ValidationSeverity.warning));
@@ -47,7 +47,7 @@ void main() {
           'Test info',
           context: {'data': 'test'},
         );
-        
+
         expect(result.isValid, isTrue);
         expect(result.message, equals('Test info'));
         expect(result.severity, equals(ValidationSeverity.info));
@@ -62,7 +62,7 @@ void main() {
         const warningResult = ValidationResult.warning('Warning');
         const infoResult = ValidationResult.info('Info');
         const successResult = ValidationResult.success();
-        
+
         expect(errorResult.isError, isTrue);
         expect(warningResult.isError, isFalse);
         expect(infoResult.isError, isFalse);
@@ -74,7 +74,7 @@ void main() {
         const warningResult = ValidationResult.warning('Warning');
         const infoResult = ValidationResult.info('Info');
         const successResult = ValidationResult.success();
-        
+
         expect(errorResult.isWarning, isFalse);
         expect(warningResult.isWarning, isTrue);
         expect(infoResult.isWarning, isFalse);
@@ -86,7 +86,7 @@ void main() {
       test('equal results have same hashCode', () {
         const result1 = ValidationResult.error('Same error');
         const result2 = ValidationResult.error('Same error');
-        
+
         expect(result1, equals(result2));
         expect(result1.hashCode, equals(result2.hashCode));
       });
@@ -95,7 +95,7 @@ void main() {
         const result1 = ValidationResult.error('Error 1');
         const result2 = ValidationResult.error('Error 2');
         const result3 = ValidationResult.warning('Error 1');
-        
+
         expect(result1, isNot(equals(result2)));
         expect(result1, isNot(equals(result3)));
       });
@@ -103,7 +103,7 @@ void main() {
       test('results with different contexts are not equal', () {
         const result1 = ValidationResult.error('Error', context: {'a': 1});
         const result2 = ValidationResult.error('Error', context: {'a': 2});
-        
+
         expect(result1, isNot(equals(result2)));
       });
     });
@@ -111,10 +111,12 @@ void main() {
     group('toString', () {
       test('provides readable string representation', () {
         const result = ValidationResult.error('Test error');
-        
+
         expect(
           result.toString(),
-          equals('ValidationResult(isValid: false, severity: ValidationSeverity.error, message: Test error)'),
+          equals(
+            'ValidationResult(isValid: false, severity: ValidationSeverity.error, message: Test error)',
+          ),
         );
       });
     });
@@ -123,7 +125,7 @@ void main() {
   group('ValidationResultList extension', () {
     test('combine returns success for empty list', () {
       final result = <ValidationResult>[].combine();
-      
+
       expect(result.isValid, isTrue);
       expect(result.message, isNull);
     });
@@ -135,9 +137,9 @@ void main() {
         const ValidationResult.warning('Warning 1'),
         const ValidationResult.error('Error 2'),
       ];
-      
+
       final combined = results.combine();
-      
+
       expect(combined.isValid, isFalse);
       expect(combined.severity, equals(ValidationSeverity.error));
       expect(combined.message, equals('Error 1\nError 2'));
@@ -150,9 +152,9 @@ void main() {
         const ValidationResult.info('Info 1'),
         const ValidationResult.warning('Warning 2'),
       ];
-      
+
       final combined = results.combine();
-      
+
       expect(combined.isValid, isTrue);
       expect(combined.severity, equals(ValidationSeverity.warning));
       expect(combined.message, equals('Warning 1\nWarning 2'));
@@ -164,9 +166,9 @@ void main() {
         const ValidationResult.info('Info 1'),
         const ValidationResult.info('Info 2'),
       ];
-      
+
       final combined = results.combine();
-      
+
       expect(combined.isValid, isTrue);
       expect(combined.severity, equals(ValidationSeverity.info));
       expect(combined.message, equals('Info 1\nInfo 2'));
@@ -178,9 +180,9 @@ void main() {
         const ValidationResult.success(),
         const ValidationResult.success(),
       ];
-      
+
       final combined = results.combine();
-      
+
       expect(combined.isValid, isTrue);
       expect(combined.message, isNull);
     });

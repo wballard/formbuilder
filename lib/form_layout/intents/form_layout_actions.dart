@@ -23,7 +23,7 @@ class AddWidgetAction extends Action<AddWidgetIntent> {
         width: intent.item.defaultWidth,
         height: intent.item.defaultHeight,
       );
-      
+
       controller.addWidget(placement);
       return true;
     } catch (e) {
@@ -195,25 +195,30 @@ class DuplicateWidgetAction extends Action<DuplicateWidgetIntent> {
 
       // Try to place the duplicate next to the original
       final gridDimensions = controller.state.dimensions;
-      
+
       // Try different positions around the original widget
       final positions = [
         // Right of original
         Point(selectedWidget.column + selectedWidget.width, selectedWidget.row),
         // Below original
-        Point(selectedWidget.column, selectedWidget.row + selectedWidget.height),
+        Point(
+          selectedWidget.column,
+          selectedWidget.row + selectedWidget.height,
+        ),
         // Left of original
         Point(selectedWidget.column - selectedWidget.width, selectedWidget.row),
         // Above original
-        Point(selectedWidget.column, selectedWidget.row - selectedWidget.height),
+        Point(
+          selectedWidget.column,
+          selectedWidget.row - selectedWidget.height,
+        ),
       ];
 
       for (final position in positions) {
-        if (position.x >= 0 && 
-            position.y >= 0 && 
+        if (position.x >= 0 &&
+            position.y >= 0 &&
             position.x + selectedWidget.width <= gridDimensions.columns &&
             position.y + selectedWidget.height <= gridDimensions.rows) {
-          
           final duplicateWidget = WidgetPlacement(
             id: '${selectedWidget.id}_copy_${DateTime.now().millisecondsSinceEpoch}',
             widgetName: selectedWidget.widgetName,
@@ -233,7 +238,7 @@ class DuplicateWidgetAction extends Action<DuplicateWidgetIntent> {
           }
         }
       }
-      
+
       return false; // Could not find a valid position
     } catch (e) {
       debugPrint('Failed to duplicate widget: $e');
@@ -346,7 +351,7 @@ class ExportLayoutAction extends Action<ExportLayoutIntent> {
         debugPrint('Export callback not provided');
         return false;
       }
-      
+
       final jsonString = LayoutSerializer.toJsonString(controller.state);
       onExportLayout!(jsonString);
       return true;
@@ -368,7 +373,7 @@ class ImportLayoutAction extends Action<ImportLayoutIntent> {
   bool invoke(ImportLayoutIntent intent) {
     try {
       final layout = LayoutSerializer.fromJsonString(intent.jsonString);
-      
+
       if (layout != null) {
         // Successfully imported, update the controller state
         controller.loadLayout(layout);

@@ -6,11 +6,7 @@ void main() {
   group('FormLayoutError', () {
     testWidgets('renders child normally when no error', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: FormLayoutError(
-            child: Text('Normal child'),
-          ),
-        ),
+        const MaterialApp(home: FormLayoutError(child: Text('Normal child'))),
       );
 
       expect(find.text('Normal child'), findsOneWidget);
@@ -25,7 +21,10 @@ void main() {
               builder: (context) {
                 // Trigger error after build
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  FormLayoutError.triggerError(context, Exception('Test error'));
+                  FormLayoutError.triggerError(
+                    context,
+                    Exception('Test error'),
+                  );
                 });
                 return const Text('Child widget');
               },
@@ -36,10 +35,10 @@ void main() {
 
       // Initially shows child
       expect(find.text('Child widget'), findsOneWidget);
-      
+
       // After error is triggered
       await tester.pump();
-      
+
       expect(find.text('Oops! Something went wrong'), findsOneWidget);
       expect(find.byIcon(Icons.error_outline), findsOneWidget);
       expect(find.text('Try to Recover'), findsOneWidget);
@@ -53,7 +52,10 @@ void main() {
             child: Builder(
               builder: (context) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  FormLayoutError.triggerError(context, Exception('Debug test error'));
+                  FormLayoutError.triggerError(
+                    context,
+                    Exception('Debug test error'),
+                  );
                 });
                 return const SizedBox();
               },
@@ -69,7 +71,9 @@ void main() {
       expect(find.text('Stack Trace:'), findsOneWidget);
     });
 
-    testWidgets('hides error details when showDebugInfo is false', (tester) async {
+    testWidgets('hides error details when showDebugInfo is false', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: FormLayoutError(
@@ -77,7 +81,10 @@ void main() {
             child: Builder(
               builder: (context) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  FormLayoutError.triggerError(context, Exception('Hidden error'));
+                  FormLayoutError.triggerError(
+                    context,
+                    Exception('Hidden error'),
+                  );
                 });
                 return const SizedBox();
               },
@@ -107,7 +114,7 @@ void main() {
               builder: (context) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   FormLayoutError.triggerError(
-                    context, 
+                    context,
                     Exception('Callback test error'),
                     StackTrace.current,
                   );
@@ -131,14 +138,15 @@ void main() {
         MaterialApp(
           home: FormLayoutError(
             errorBuilder: (context, error, stackTrace) {
-              return Center(
-                child: Text('Custom error: $error'),
-              );
+              return Center(child: Text('Custom error: $error'));
             },
             child: Builder(
               builder: (context) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  FormLayoutError.triggerError(context, Exception('Custom builder error'));
+                  FormLayoutError.triggerError(
+                    context,
+                    Exception('Custom builder error'),
+                  );
                 });
                 return const SizedBox();
               },
@@ -149,7 +157,10 @@ void main() {
 
       await tester.pump();
 
-      expect(find.text('Custom error: Exception: Custom builder error'), findsOneWidget);
+      expect(
+        find.text('Custom error: Exception: Custom builder error'),
+        findsOneWidget,
+      );
       expect(find.text('Oops! Something went wrong'), findsNothing);
     });
 
@@ -160,7 +171,10 @@ void main() {
             child: Builder(
               builder: (context) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  FormLayoutError.triggerError(context, Exception('Test error'));
+                  FormLayoutError.triggerError(
+                    context,
+                    Exception('Test error'),
+                  );
                 });
                 return const Text('Normal content');
               },
@@ -192,7 +206,10 @@ void main() {
             child: Builder(
               builder: (context) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  FormLayoutError.triggerError(context, Exception('Dark theme error'));
+                  FormLayoutError.triggerError(
+                    context,
+                    Exception('Dark theme error'),
+                  );
                 });
                 return const SizedBox();
               },
@@ -211,34 +228,38 @@ void main() {
   group('ErrorBoundaryExtension', () {
     testWidgets('withErrorBoundary wraps widget correctly', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: const Text('Test widget').withErrorBoundary(),
-        ),
+        MaterialApp(home: const Text('Test widget').withErrorBoundary()),
       );
 
       expect(find.byType(FormLayoutError), findsOneWidget);
       expect(find.text('Test widget'), findsOneWidget);
     });
 
-    testWidgets('withErrorBoundary passes parameters correctly', (tester) async {
+    testWidgets('withErrorBoundary passes parameters correctly', (
+      tester,
+    ) async {
       var errorCalled = false;
 
       await tester.pumpWidget(
         MaterialApp(
-          home: Builder(
-            builder: (context) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                FormLayoutError.triggerError(context, Exception('Extension error'));
-              });
-              return const SizedBox();
-            },
-          ).withErrorBoundary(
-            showDebugInfo: false,
-            onError: (error, stackTrace) => errorCalled = true,
-            errorBuilder: (context, error, stackTrace) {
-              return const Text('Custom error widget');
-            },
-          ),
+          home:
+              Builder(
+                builder: (context) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    FormLayoutError.triggerError(
+                      context,
+                      Exception('Extension error'),
+                    );
+                  });
+                  return const SizedBox();
+                },
+              ).withErrorBoundary(
+                showDebugInfo: false,
+                onError: (error, stackTrace) => errorCalled = true,
+                errorBuilder: (context, error, stackTrace) {
+                  return const Text('Custom error widget');
+                },
+              ),
         ),
       );
 

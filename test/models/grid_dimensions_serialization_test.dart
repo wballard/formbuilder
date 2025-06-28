@@ -5,33 +5,27 @@ void main() {
   group('GridDimensions Serialization', () {
     test('should serialize to JSON correctly', () {
       const dimensions = GridDimensions(columns: 5, rows: 8);
-      
+
       final json = dimensions.toJson();
-      
-      expect(json, {
-        'columns': 5,
-        'rows': 8,
-      });
+
+      expect(json, {'columns': 5, 'rows': 8});
     });
 
     test('should deserialize from JSON correctly', () {
-      const json = {
-        'columns': 5,
-        'rows': 8,
-      };
-      
+      const json = {'columns': 5, 'rows': 8};
+
       final dimensions = GridDimensions.fromJson(json);
-      
+
       expect(dimensions.columns, 5);
       expect(dimensions.rows, 8);
     });
 
     test('should handle round-trip serialization', () {
       const original = GridDimensions(columns: 3, rows: 6);
-      
+
       final json = original.toJson();
       final deserialized = GridDimensions.fromJson(json);
-      
+
       expect(deserialized, equals(original));
     });
 
@@ -40,7 +34,7 @@ void main() {
         'columns': 0, // Invalid: below minimum
         'rows': 5,
       };
-      
+
       expect(
         () => GridDimensions.fromJson(invalidJson),
         throwsA(isA<ArgumentError>()),
@@ -52,7 +46,7 @@ void main() {
         'columns': 4,
         // rows missing
       };
-      
+
       expect(
         () => GridDimensions.fromJson(incompleteJson),
         throwsA(isA<TypeError>()),
@@ -64,7 +58,7 @@ void main() {
         'columns': 15, // Above maximum
         'rows': 10,
       };
-      
+
       expect(
         () => GridDimensions.fromJson(outOfRangeJson),
         throwsA(isA<ArgumentError>()),

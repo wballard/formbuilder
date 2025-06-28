@@ -59,7 +59,9 @@ void main() {
       );
     }
 
-    testWidgets('creates widget with required properties', (WidgetTester tester) async {
+    testWidgets('creates widget with required properties', (
+      WidgetTester tester,
+    ) async {
       final controller = FormLayoutController(testLayoutState);
 
       await tester.pumpWidget(buildTestWidget(controller));
@@ -77,7 +79,12 @@ void main() {
       await tester.tap(find.byKey(const ValueKey('test-container')));
       await tester.pump();
 
-      expect(Focus.of(tester.element(find.byKey(const ValueKey('test-container')))).hasFocus, isTrue);
+      expect(
+        Focus.of(
+          tester.element(find.byKey(const ValueKey('test-container'))),
+        ).hasFocus,
+        isTrue,
+      );
     });
 
     group('Navigation Keys', () {
@@ -97,7 +104,9 @@ void main() {
         expect(controller.selectedWidgetId, isNotNull);
       });
 
-      testWidgets('Shift+Tab selects previous widget', (WidgetTester tester) async {
+      testWidgets('Shift+Tab selects previous widget', (
+        WidgetTester tester,
+      ) async {
         final controller = FormLayoutController(testLayoutState);
         controller.selectWidget('widget2');
 
@@ -135,7 +144,9 @@ void main() {
         expect(controller.selectedWidgetId, isNull);
       });
 
-      testWidgets('Arrow keys navigate between widgets', (WidgetTester tester) async {
+      testWidgets('Arrow keys navigate between widgets', (
+        WidgetTester tester,
+      ) async {
         final controller = FormLayoutController(testLayoutState);
         controller.selectWidget('widget1'); // Start at (0,0)
 
@@ -160,7 +171,9 @@ void main() {
     });
 
     group('Operation Shortcuts', () {
-      testWidgets('Delete key removes selected widget', (WidgetTester tester) async {
+      testWidgets('Delete key removes selected widget', (
+        WidgetTester tester,
+      ) async {
         final controller = FormLayoutController(testLayoutState);
         controller.selectWidget('widget1');
 
@@ -181,7 +194,9 @@ void main() {
         expect(controller.selectedWidgetId, isNull);
       });
 
-      testWidgets('Backspace key removes selected widget', (WidgetTester tester) async {
+      testWidgets('Backspace key removes selected widget', (
+        WidgetTester tester,
+      ) async {
         final controller = FormLayoutController(testLayoutState);
         controller.selectWidget('widget2');
 
@@ -203,7 +218,7 @@ void main() {
 
       testWidgets('Ctrl+Z undoes last operation', (WidgetTester tester) async {
         final controller = FormLayoutController(testLayoutState);
-        
+
         // Add a widget first to have something to undo
         final newWidget = WidgetPlacement(
           id: 'widget4',
@@ -235,7 +250,7 @@ void main() {
 
       testWidgets('Cmd+Z undoes on macOS', (WidgetTester tester) async {
         final controller = FormLayoutController(testLayoutState);
-        
+
         // Add a widget first to have something to undo
         final newWidget = WidgetPlacement(
           id: 'widget4',
@@ -266,7 +281,7 @@ void main() {
 
       testWidgets('Ctrl+Y redoes last operation', (WidgetTester tester) async {
         final controller = FormLayoutController(testLayoutState);
-        
+
         // Add and undo a widget to have something to redo
         final newWidget = WidgetPlacement(
           id: 'widget4',
@@ -297,9 +312,11 @@ void main() {
         expect(controller.state.getWidget('widget4'), isNotNull);
       });
 
-      testWidgets('Ctrl+Shift+Z redoes last operation', (WidgetTester tester) async {
+      testWidgets('Ctrl+Shift+Z redoes last operation', (
+        WidgetTester tester,
+      ) async {
         final controller = FormLayoutController(testLayoutState);
-        
+
         // Add and undo a widget to have something to redo
         final newWidget = WidgetPlacement(
           id: 'widget4',
@@ -331,7 +348,9 @@ void main() {
         expect(controller.state.widgets.length, equals(4));
       });
 
-      testWidgets('Ctrl+D duplicates selected widget', (WidgetTester tester) async {
+      testWidgets('Ctrl+D duplicates selected widget', (
+        WidgetTester tester,
+      ) async {
         final controller = FormLayoutController(testLayoutState);
         controller.selectWidget('widget1');
 
@@ -350,17 +369,25 @@ void main() {
         await tester.pump();
 
         expect(controller.state.widgets.length, equals(4));
-        
+
         // Should have a new widget near the original
-        final duplicatedWidgets = controller.state.widgets.where((w) => 
-          w.widgetName == 'TestWidget' && w.id != 'widget1' && w.id != 'widget2' && w.id != 'widget3'
-        ).toList();
+        final duplicatedWidgets = controller.state.widgets
+            .where(
+              (w) =>
+                  w.widgetName == 'TestWidget' &&
+                  w.id != 'widget1' &&
+                  w.id != 'widget2' &&
+                  w.id != 'widget3',
+            )
+            .toList();
         expect(duplicatedWidgets, hasLength(1));
       });
     });
 
     group('Widget Manipulation', () {
-      testWidgets('Shift+Arrow moves widget by one cell', (WidgetTester tester) async {
+      testWidgets('Shift+Arrow moves widget by one cell', (
+        WidgetTester tester,
+      ) async {
         final controller = FormLayoutController(testLayoutState);
         controller.selectWidget('widget1');
 
@@ -433,7 +460,9 @@ void main() {
     });
 
     group('Focus Management', () {
-      testWidgets('maintains focus within keyboard handler', (WidgetTester tester) async {
+      testWidgets('maintains focus within keyboard handler', (
+        WidgetTester tester,
+      ) async {
         final controller = FormLayoutController(testLayoutState);
 
         await tester.pumpWidget(buildTestWidget(controller));
@@ -442,16 +471,28 @@ void main() {
         await tester.tap(find.byKey(const ValueKey('test-container')));
         await tester.pump();
 
-        expect(Focus.of(tester.element(find.byKey(const ValueKey('test-container')))).hasFocus, isTrue);
+        expect(
+          Focus.of(
+            tester.element(find.byKey(const ValueKey('test-container'))),
+          ).hasFocus,
+          isTrue,
+        );
 
         // Press any key - focus should remain
         await tester.sendKeyEvent(LogicalKeyboardKey.arrowRight);
         await tester.pump();
 
-        expect(Focus.of(tester.element(find.byKey(const ValueKey('test-container')))).hasFocus, isTrue);
+        expect(
+          Focus.of(
+            tester.element(find.byKey(const ValueKey('test-container'))),
+          ).hasFocus,
+          isTrue,
+        );
       });
 
-      testWidgets('shows focus indicator when focused', (WidgetTester tester) async {
+      testWidgets('shows focus indicator when focused', (
+        WidgetTester tester,
+      ) async {
         final controller = FormLayoutController(testLayoutState);
 
         await tester.pumpWidget(buildTestWidget(controller));
@@ -464,12 +505,19 @@ void main() {
         await tester.pump();
 
         // Should show focus indicator
-        expect(Focus.of(tester.element(find.byKey(const ValueKey('test-container')))).hasFocus, isTrue);
+        expect(
+          Focus.of(
+            tester.element(find.byKey(const ValueKey('test-container'))),
+          ).hasFocus,
+          isTrue,
+        );
       });
     });
 
     group('Platform-specific shortcuts', () {
-      testWidgets('uses Cmd key on macOS for shortcuts', (WidgetTester tester) async {
+      testWidgets('uses Cmd key on macOS for shortcuts', (
+        WidgetTester tester,
+      ) async {
         // This test would be enhanced with platform detection
         final controller = FormLayoutController(testLayoutState);
         controller.selectWidget('widget1');
@@ -519,7 +567,9 @@ void main() {
         expect(controller.isPreviewMode, isFalse);
       });
 
-      testWidgets('Cmd+P toggles preview mode on macOS', (WidgetTester tester) async {
+      testWidgets('Cmd+P toggles preview mode on macOS', (
+        WidgetTester tester,
+      ) async {
         final controller = FormLayoutController(testLayoutState);
 
         await tester.pumpWidget(buildTestWidget(controller));
@@ -561,7 +611,9 @@ void main() {
         expect(controller.isPreviewMode, isFalse);
       });
 
-      testWidgets('Escape deselects widget when not in preview mode', (WidgetTester tester) async {
+      testWidgets('Escape deselects widget when not in preview mode', (
+        WidgetTester tester,
+      ) async {
         final controller = FormLayoutController(testLayoutState);
         controller.selectWidget('widget1');
 
@@ -606,7 +658,9 @@ void main() {
     });
 
     group('Edge cases', () {
-      testWidgets('handles no widget selected gracefully', (WidgetTester tester) async {
+      testWidgets('handles no widget selected gracefully', (
+        WidgetTester tester,
+      ) async {
         final controller = FormLayoutController(testLayoutState);
 
         await tester.pumpWidget(buildTestWidget(controller));
@@ -627,7 +681,9 @@ void main() {
         expect(controller.selectedWidgetId, isNull);
       });
 
-      testWidgets('prevents moves outside grid bounds', (WidgetTester tester) async {
+      testWidgets('prevents moves outside grid bounds', (
+        WidgetTester tester,
+      ) async {
         final controller = FormLayoutController(testLayoutState);
         controller.selectWidget('widget1'); // At (0,0)
 
@@ -647,9 +703,11 @@ void main() {
         expect(widget.column, equals(0)); // Should not move
       });
 
-      testWidgets('prevents resize beyond grid bounds', (WidgetTester tester) async {
+      testWidgets('prevents resize beyond grid bounds', (
+        WidgetTester tester,
+      ) async {
         final controller = FormLayoutController(testLayoutState);
-        
+
         // Select widget at right edge
         controller.selectWidget('widget2'); // At (2,0)
 
@@ -663,9 +721,13 @@ void main() {
         await tester.sendKeyDownEvent(LogicalKeyboardKey.control);
         await tester.sendKeyEvent(LogicalKeyboardKey.arrowRight);
         await tester.pump();
-        await tester.sendKeyEvent(LogicalKeyboardKey.arrowRight); // Should expand to width 2
+        await tester.sendKeyEvent(
+          LogicalKeyboardKey.arrowRight,
+        ); // Should expand to width 2
         await tester.pump();
-        await tester.sendKeyEvent(LogicalKeyboardKey.arrowRight); // Should not expand beyond grid
+        await tester.sendKeyEvent(
+          LogicalKeyboardKey.arrowRight,
+        ); // Should not expand beyond grid
         await tester.pump();
         await tester.sendKeyUpEvent(LogicalKeyboardKey.control);
         await tester.pump();

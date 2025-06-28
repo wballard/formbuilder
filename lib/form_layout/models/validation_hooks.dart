@@ -7,48 +7,50 @@ import 'dart:math';
 import 'dart:ui';
 
 /// Type definitions for validation callbacks
-typedef ValidateAddWidget = Future<ValidationResult> Function(
-  LayoutState state,
-  WidgetPlacement placement,
-);
+typedef ValidateAddWidget =
+    Future<ValidationResult> Function(
+      LayoutState state,
+      WidgetPlacement placement,
+    );
 
-typedef ValidateMoveWidget = Future<ValidationResult> Function(
-  LayoutState state,
-  String widgetId,
-  Point<int> newPosition,
-);
+typedef ValidateMoveWidget =
+    Future<ValidationResult> Function(
+      LayoutState state,
+      String widgetId,
+      Point<int> newPosition,
+    );
 
-typedef ValidateResizeWidget = Future<ValidationResult> Function(
-  LayoutState state,
-  String widgetId,
-  Size newSize,
-);
+typedef ValidateResizeWidget =
+    Future<ValidationResult> Function(
+      LayoutState state,
+      String widgetId,
+      Size newSize,
+    );
 
-typedef ValidateRemoveWidget = Future<ValidationResult> Function(
-  LayoutState state,
-  String widgetId,
-);
+typedef ValidateRemoveWidget =
+    Future<ValidationResult> Function(LayoutState state, String widgetId);
 
-typedef ValidateResizeGrid = Future<ValidationResult> Function(
-  LayoutState state,
-  GridDimensions newDimensions,
-);
+typedef ValidateResizeGrid =
+    Future<ValidationResult> Function(
+      LayoutState state,
+      GridDimensions newDimensions,
+    );
 
 /// Validation hooks for form layout operations
 @immutable
 class ValidationHooks {
   /// Hook called before adding a widget
   final ValidateAddWidget? beforeAddWidget;
-  
+
   /// Hook called before moving a widget
   final ValidateMoveWidget? beforeMoveWidget;
-  
+
   /// Hook called before resizing a widget
   final ValidateResizeWidget? beforeResizeWidget;
-  
+
   /// Hook called before removing a widget
   final ValidateRemoveWidget? beforeRemoveWidget;
-  
+
   /// Hook called before resizing the grid
   final ValidateResizeGrid? beforeResizeGrid;
 
@@ -83,11 +85,26 @@ class ValidationHooks {
   /// Combines multiple validation hooks
   ValidationHooks combine(ValidationHooks other) {
     return ValidationHooks(
-      beforeAddWidget: _combineValidators(beforeAddWidget, other.beforeAddWidget),
-      beforeMoveWidget: _combineMoveValidators(beforeMoveWidget, other.beforeMoveWidget),
-      beforeResizeWidget: _combineResizeValidators(beforeResizeWidget, other.beforeResizeWidget),
-      beforeRemoveWidget: _combineRemoveValidators(beforeRemoveWidget, other.beforeRemoveWidget),
-      beforeResizeGrid: _combineGridValidators(beforeResizeGrid, other.beforeResizeGrid),
+      beforeAddWidget: _combineValidators(
+        beforeAddWidget,
+        other.beforeAddWidget,
+      ),
+      beforeMoveWidget: _combineMoveValidators(
+        beforeMoveWidget,
+        other.beforeMoveWidget,
+      ),
+      beforeResizeWidget: _combineResizeValidators(
+        beforeResizeWidget,
+        other.beforeResizeWidget,
+      ),
+      beforeRemoveWidget: _combineRemoveValidators(
+        beforeRemoveWidget,
+        other.beforeRemoveWidget,
+      ),
+      beforeResizeGrid: _combineGridValidators(
+        beforeResizeGrid,
+        other.beforeResizeGrid,
+      ),
     );
   }
 
@@ -97,11 +114,11 @@ class ValidationHooks {
   ) {
     if (first == null) return second;
     if (second == null) return first;
-    
+
     return (state, placement) async {
       final result1 = await first(state, placement);
       if (!result1.isValid) return result1;
-      
+
       final result2 = await second(state, placement);
       return result2;
     };
@@ -113,11 +130,11 @@ class ValidationHooks {
   ) {
     if (first == null) return second;
     if (second == null) return first;
-    
+
     return (state, widgetId, newPosition) async {
       final result1 = await first(state, widgetId, newPosition);
       if (!result1.isValid) return result1;
-      
+
       final result2 = await second(state, widgetId, newPosition);
       return result2;
     };
@@ -129,11 +146,11 @@ class ValidationHooks {
   ) {
     if (first == null) return second;
     if (second == null) return first;
-    
+
     return (state, widgetId, newSize) async {
       final result1 = await first(state, widgetId, newSize);
       if (!result1.isValid) return result1;
-      
+
       final result2 = await second(state, widgetId, newSize);
       return result2;
     };
@@ -145,11 +162,11 @@ class ValidationHooks {
   ) {
     if (first == null) return second;
     if (second == null) return first;
-    
+
     return (state, widgetId) async {
       final result1 = await first(state, widgetId);
       if (!result1.isValid) return result1;
-      
+
       final result2 = await second(state, widgetId);
       return result2;
     };
@@ -161,11 +178,11 @@ class ValidationHooks {
   ) {
     if (first == null) return second;
     if (second == null) return first;
-    
+
     return (state, newDimensions) async {
       final result1 = await first(state, newDimensions);
       if (!result1.isValid) return result1;
-      
+
       final result2 = await second(state, newDimensions);
       return result2;
     };

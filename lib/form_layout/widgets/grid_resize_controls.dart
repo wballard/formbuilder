@@ -5,22 +5,22 @@ import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
 class GridResizeControls extends StatefulWidget {
   /// Current grid dimensions
   final GridDimensions dimensions;
-  
+
   /// Callback when grid is resized
   final void Function(GridDimensions)? onGridResize;
-  
+
   /// Child widget to wrap with resize controls
   final Widget child;
-  
+
   /// Minimum number of columns
   final int minColumns;
-  
+
   /// Maximum number of columns
   final int maxColumns;
-  
+
   /// Minimum number of rows
   final int minRows;
-  
+
   /// Maximum number of rows
   final int maxRows;
 
@@ -44,54 +44,58 @@ class _GridResizeControlsState extends State<GridResizeControls> {
   bool _isResizingRows = false;
   bool _isHoveringColumnResize = false;
   bool _isHoveringRowResize = false;
-  
+
   /// Handle column resize drag
   void _onColumnResizePanUpdate(DragUpdateDetails details) {
     if (!_isResizingColumns) return;
-    
+
     // Calculate new column count based on drag delta
     final containerWidth = context.size?.width ?? 400;
     final currentColumns = widget.dimensions.columns;
     final columnWidth = containerWidth / currentColumns;
     final deltaColumns = (details.delta.dx / columnWidth).round();
-    
+
     if (deltaColumns != 0) {
-      final newColumns = (currentColumns + deltaColumns)
-          .clamp(widget.minColumns, widget.maxColumns);
-      
+      final newColumns = (currentColumns + deltaColumns).clamp(
+        widget.minColumns,
+        widget.maxColumns,
+      );
+
       if (newColumns != currentColumns) {
         _updateDimensions(columns: newColumns);
       }
     }
   }
-  
+
   /// Handle row resize drag
   void _onRowResizePanUpdate(DragUpdateDetails details) {
     if (!_isResizingRows) return;
-    
+
     // Calculate new row count based on drag delta
     final containerHeight = context.size?.height ?? 300;
     final currentRows = widget.dimensions.rows;
     final rowHeight = containerHeight / currentRows;
     final deltaRows = (details.delta.dy / rowHeight).round();
-    
+
     if (deltaRows != 0) {
-      final newRows = (currentRows + deltaRows)
-          .clamp(widget.minRows, widget.maxRows);
-      
+      final newRows = (currentRows + deltaRows).clamp(
+        widget.minRows,
+        widget.maxRows,
+      );
+
       if (newRows != currentRows) {
         _updateDimensions(rows: newRows);
       }
     }
   }
-  
+
   /// Update grid dimensions
   void _updateDimensions({int? columns, int? rows}) {
     final newDimensions = GridDimensions(
       columns: columns ?? widget.dimensions.columns,
       rows: rows ?? widget.dimensions.rows,
     );
-    
+
     widget.onGridResize?.call(newDimensions);
   }
 
@@ -101,16 +105,16 @@ class _GridResizeControlsState extends State<GridResizeControls> {
       children: [
         // Main content
         widget.child,
-        
+
         // Column resize control (right edge)
         _buildColumnResizeControl(),
-        
+
         // Row resize control (bottom edge)
         _buildRowResizeControl(),
       ],
     );
   }
-  
+
   /// Build the column resize control on the right edge
   Widget _buildColumnResizeControl() {
     return Positioned(
@@ -169,14 +173,18 @@ class _GridResizeControlsState extends State<GridResizeControls> {
                     _buildResizeButton(
                       icon: Icons.add,
                       onPressed: widget.dimensions.columns < widget.maxColumns
-                          ? () => _updateDimensions(columns: widget.dimensions.columns + 1)
+                          ? () => _updateDimensions(
+                              columns: widget.dimensions.columns + 1,
+                            )
                           : null,
                     ),
                     const SizedBox(height: 4),
                     _buildResizeButton(
                       icon: Icons.remove,
                       onPressed: widget.dimensions.columns > widget.minColumns
-                          ? () => _updateDimensions(columns: widget.dimensions.columns - 1)
+                          ? () => _updateDimensions(
+                              columns: widget.dimensions.columns - 1,
+                            )
                           : null,
                     ),
                   ],
@@ -188,7 +196,7 @@ class _GridResizeControlsState extends State<GridResizeControls> {
       ),
     );
   }
-  
+
   /// Build the row resize control on the bottom edge
   Widget _buildRowResizeControl() {
     return Positioned(
@@ -247,14 +255,18 @@ class _GridResizeControlsState extends State<GridResizeControls> {
                     _buildResizeButton(
                       icon: Icons.add,
                       onPressed: widget.dimensions.rows < widget.maxRows
-                          ? () => _updateDimensions(rows: widget.dimensions.rows + 1)
+                          ? () => _updateDimensions(
+                              rows: widget.dimensions.rows + 1,
+                            )
                           : null,
                     ),
                     const SizedBox(width: 4),
                     _buildResizeButton(
                       icon: Icons.remove,
                       onPressed: widget.dimensions.rows > widget.minRows
-                          ? () => _updateDimensions(rows: widget.dimensions.rows - 1)
+                          ? () => _updateDimensions(
+                              rows: widget.dimensions.rows - 1,
+                            )
                           : null,
                     ),
                   ],
@@ -266,7 +278,7 @@ class _GridResizeControlsState extends State<GridResizeControls> {
       ),
     );
   }
-  
+
   /// Build a small resize button
   Widget _buildResizeButton({
     required IconData icon,
@@ -279,17 +291,11 @@ class _GridResizeControlsState extends State<GridResizeControls> {
         onPressed: onPressed,
         padding: EdgeInsets.zero,
         iconSize: 14,
-        icon: Icon(
-          icon,
-          color: onPressed != null ? Colors.blue : Colors.grey,
-        ),
+        icon: Icon(icon, color: onPressed != null ? Colors.blue : Colors.grey),
         style: IconButton.styleFrom(
           backgroundColor: Colors.white.withValues(alpha: 0.8),
           foregroundColor: Colors.blue,
-          side: BorderSide(
-            color: Colors.grey.withValues(alpha: 0.3),
-            width: 1,
-          ),
+          side: BorderSide(color: Colors.grey.withValues(alpha: 0.3), width: 1),
         ),
       ),
     );

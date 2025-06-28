@@ -6,7 +6,7 @@ import 'package:formbuilder/form_layout/utils/accessibility_utils.dart';
 class AccessibleToolbar extends StatelessWidget {
   /// The form layout controller
   final FormLayoutController controller;
-  
+
   /// Whether undo/redo is enabled
   final bool enableUndo;
 
@@ -19,7 +19,7 @@ class AccessibleToolbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Semantics(
       label: 'Form builder toolbar',
       container: true,
@@ -27,11 +27,7 @@ class AccessibleToolbar extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: theme.colorScheme.surface,
-          border: Border(
-            bottom: BorderSide(
-              color: theme.dividerColor,
-            ),
-          ),
+          border: Border(bottom: BorderSide(color: theme.dividerColor)),
         ),
         child: Row(
           children: [
@@ -39,7 +35,9 @@ class AccessibleToolbar extends StatelessWidget {
             if (enableUndo) ...[
               Semantics(
                 label: 'Undo',
-                hint: controller.canUndo ? 'Undo last action' : 'No actions to undo',
+                hint: controller.canUndo
+                    ? 'Undo last action'
+                    : 'No actions to undo',
                 button: true,
                 enabled: controller.canUndo,
                 child: AccessibleTouchTarget(
@@ -48,8 +46,8 @@ class AccessibleToolbar extends StatelessWidget {
                     message: 'Undo (Ctrl+Z)',
                     child: Icon(
                       Icons.undo,
-                      color: controller.canUndo 
-                          ? theme.iconTheme.color 
+                      color: controller.canUndo
+                          ? theme.iconTheme.color
                           : theme.disabledColor,
                     ),
                   ),
@@ -58,7 +56,9 @@ class AccessibleToolbar extends StatelessWidget {
               const SizedBox(width: 8),
               Semantics(
                 label: 'Redo',
-                hint: controller.canRedo ? 'Redo last undone action' : 'No actions to redo',
+                hint: controller.canRedo
+                    ? 'Redo last undone action'
+                    : 'No actions to redo',
                 button: true,
                 enabled: controller.canRedo,
                 child: AccessibleTouchTarget(
@@ -67,8 +67,8 @@ class AccessibleToolbar extends StatelessWidget {
                     message: 'Redo (Ctrl+Shift+Z)',
                     child: Icon(
                       Icons.redo,
-                      color: controller.canRedo 
-                          ? theme.iconTheme.color 
+                      color: controller.canRedo
+                          ? theme.iconTheme.color
                           : theme.disabledColor,
                     ),
                   ),
@@ -78,10 +78,12 @@ class AccessibleToolbar extends StatelessWidget {
               const VerticalDivider(),
               const SizedBox(width: 8),
             ],
-            
+
             // Preview mode toggle
             Semantics(
-              label: controller.isPreviewMode ? 'Exit preview mode' : 'Enter preview mode',
+              label: controller.isPreviewMode
+                  ? 'Exit preview mode'
+                  : 'Enter preview mode',
               hint: 'Toggle between edit and preview modes',
               button: true,
               toggled: controller.isPreviewMode,
@@ -90,31 +92,35 @@ class AccessibleToolbar extends StatelessWidget {
                   controller.togglePreviewMode();
                   AccessibilityUtils.announceStatus(
                     context,
-                    controller.isPreviewMode 
-                        ? 'Entered preview mode' 
+                    controller.isPreviewMode
+                        ? 'Entered preview mode'
                         : 'Entered edit mode',
                   );
                 },
                 child: Tooltip(
                   message: 'Toggle Preview Mode (Ctrl+P)',
                   child: Icon(
-                    controller.isPreviewMode 
-                        ? Icons.visibility_off 
+                    controller.isPreviewMode
+                        ? Icons.visibility_off
                         : Icons.visibility,
                   ),
                 ),
               ),
             ),
-            
+
             const Spacer(),
-            
+
             // Grid size indicator
             Semantics(
               label: 'Grid size indicator',
-              value: '${controller.state.dimensions.columns} columns by ${controller.state.dimensions.rows} rows',
+              value:
+                  '${controller.state.dimensions.columns} columns by ${controller.state.dimensions.rows} rows',
               readOnly: true,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.surfaceContainerHighest,
                   borderRadius: BorderRadius.circular(4),

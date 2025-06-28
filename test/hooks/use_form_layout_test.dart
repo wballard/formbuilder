@@ -14,7 +14,9 @@ void main() {
       initialState = LayoutState.empty();
     });
 
-    testWidgets('creates controller with initial state', (WidgetTester tester) async {
+    testWidgets('creates controller with initial state', (
+      WidgetTester tester,
+    ) async {
       late FormLayoutController controller;
 
       await tester.pumpWidget(
@@ -294,7 +296,9 @@ void main() {
       expect(controller.resizingWidgetIds, isNot(contains('widget1')));
     });
 
-    testWidgets('validates widget addition - prevents overlaps', (WidgetTester tester) async {
+    testWidgets('validates widget addition - prevents overlaps', (
+      WidgetTester tester,
+    ) async {
       late FormLayoutController controller;
       final placement1 = WidgetPlacement(
         id: 'widget1',
@@ -325,10 +329,15 @@ void main() {
         ),
       );
 
-      expect(() => controller.addWidget(placement2), throwsA(isA<ArgumentError>()));
+      expect(
+        () => controller.addWidget(placement2),
+        throwsA(isA<ArgumentError>()),
+      );
     });
 
-    testWidgets('validates widget addition - prevents out of bounds', (WidgetTester tester) async {
+    testWidgets('validates widget addition - prevents out of bounds', (
+      WidgetTester tester,
+    ) async {
       late FormLayoutController controller;
       final placement = WidgetPlacement(
         id: 'widget1',
@@ -350,10 +359,15 @@ void main() {
         ),
       );
 
-      expect(() => controller.addWidget(placement), throwsA(isA<ArgumentError>()));
+      expect(
+        () => controller.addWidget(placement),
+        throwsA(isA<ArgumentError>()),
+      );
     });
 
-    testWidgets('validates widget move - prevents overlaps', (WidgetTester tester) async {
+    testWidgets('validates widget move - prevents overlaps', (
+      WidgetTester tester,
+    ) async {
       late FormLayoutController controller;
       final placement1 = WidgetPlacement(
         id: 'widget1',
@@ -371,7 +385,9 @@ void main() {
         width: 1,
         height: 1,
       );
-      final stateWithWidgets = initialState.addWidget(placement1).addWidget(placement2);
+      final stateWithWidgets = initialState
+          .addWidget(placement1)
+          .addWidget(placement2);
 
       await tester.pumpWidget(
         MaterialApp(
@@ -384,10 +400,15 @@ void main() {
         ),
       );
 
-      expect(() => controller.moveWidget('widget1', 2, 2), throwsA(isA<ArgumentError>()));
+      expect(
+        () => controller.moveWidget('widget1', 2, 2),
+        throwsA(isA<ArgumentError>()),
+      );
     });
 
-    testWidgets('validates widget resize - prevents overlaps', (WidgetTester tester) async {
+    testWidgets('validates widget resize - prevents overlaps', (
+      WidgetTester tester,
+    ) async {
       late FormLayoutController controller;
       final placement1 = WidgetPlacement(
         id: 'widget1',
@@ -405,7 +426,9 @@ void main() {
         width: 1,
         height: 1,
       );
-      final stateWithWidgets = initialState.addWidget(placement1).addWidget(placement2);
+      final stateWithWidgets = initialState
+          .addWidget(placement1)
+          .addWidget(placement2);
 
       await tester.pumpWidget(
         MaterialApp(
@@ -418,10 +441,15 @@ void main() {
         ),
       );
 
-      expect(() => controller.resizeWidget('widget1', 4, 4), throwsA(isA<ArgumentError>()));
+      expect(
+        () => controller.resizeWidget('widget1', 4, 4),
+        throwsA(isA<ArgumentError>()),
+      );
     });
 
-    testWidgets('handles nonexistent widget operations gracefully', (WidgetTester tester) async {
+    testWidgets('handles nonexistent widget operations gracefully', (
+      WidgetTester tester,
+    ) async {
       late FormLayoutController controller;
 
       await tester.pumpWidget(
@@ -435,20 +463,37 @@ void main() {
         ),
       );
 
-      expect(() => controller.removeWidget('nonexistent'), throwsA(isA<ArgumentError>()));
-      expect(() => controller.updateWidget('nonexistent', WidgetPlacement(
-        id: 'test',
-        widgetName: 'Test',
-        column: 0,
-        row: 0,
-        width: 1,
-        height: 1,
-      )), throwsA(isA<ArgumentError>()));
-      expect(() => controller.moveWidget('nonexistent', 0, 0), throwsA(isA<ArgumentError>()));
-      expect(() => controller.resizeWidget('nonexistent', 1, 1), throwsA(isA<ArgumentError>()));
+      expect(
+        () => controller.removeWidget('nonexistent'),
+        throwsA(isA<ArgumentError>()),
+      );
+      expect(
+        () => controller.updateWidget(
+          'nonexistent',
+          WidgetPlacement(
+            id: 'test',
+            widgetName: 'Test',
+            column: 0,
+            row: 0,
+            width: 1,
+            height: 1,
+          ),
+        ),
+        throwsA(isA<ArgumentError>()),
+      );
+      expect(
+        () => controller.moveWidget('nonexistent', 0, 0),
+        throwsA(isA<ArgumentError>()),
+      );
+      expect(
+        () => controller.resizeWidget('nonexistent', 1, 1),
+        throwsA(isA<ArgumentError>()),
+      );
     });
 
-    testWidgets('widget rebuilds on state changes', (WidgetTester tester) async {
+    testWidgets('widget rebuilds on state changes', (
+      WidgetTester tester,
+    ) async {
       late FormLayoutController controller;
       int buildCount = 0;
 
@@ -483,7 +528,9 @@ void main() {
       expect(find.text('Build count: 2'), findsOneWidget);
     });
 
-    testWidgets('preserves controller identity across rebuilds', (WidgetTester tester) async {
+    testWidgets('preserves controller identity across rebuilds', (
+      WidgetTester tester,
+    ) async {
       late FormLayoutController controller1;
       late FormLayoutController controller2;
 
@@ -517,10 +564,10 @@ void main() {
     test('equality comparison works correctly', () {
       final state1 = LayoutState.empty();
       final state2 = LayoutState.empty();
-      
+
       final controller1 = FormLayoutController(state1);
       final controller2 = FormLayoutController(state2);
-      
+
       expect(controller1.state, equals(controller2.state));
     });
   });

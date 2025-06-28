@@ -11,7 +11,8 @@ import 'dart:math';
 void main() {
   group('GridContainer', () {
     late LayoutState testLayoutState;
-    late Map<String, Widget Function(BuildContext, WidgetPlacement)> testWidgetBuilders;
+    late Map<String, Widget Function(BuildContext, WidgetPlacement)>
+    testWidgetBuilders;
 
     setUp(() {
       const dimensions = GridDimensions(columns: 4, rows: 4);
@@ -31,20 +32,18 @@ void main() {
         width: 2,
         height: 1,
       );
-      
+
       testLayoutState = LayoutState(
         dimensions: dimensions,
         widgets: [placement1, placement2],
       );
-      
+
       testWidgetBuilders = {
         'TextInput': (context, placement) => const TextField(
           decoration: InputDecoration(hintText: 'Enter text'),
         ),
-        'Button': (context, placement) => ElevatedButton(
-          onPressed: () {},
-          child: const Text('Submit'),
-        ),
+        'Button': (context, placement) =>
+            ElevatedButton(onPressed: () {}, child: const Text('Submit')),
       };
     });
 
@@ -59,10 +58,10 @@ void main() {
           ),
         ),
       );
-      
+
       // Should find the grid container
       expect(find.byType(GridContainer), findsOneWidget);
-      
+
       // Should find placed widgets
       expect(find.byType(TextField), findsOneWidget);
       expect(find.byType(ElevatedButton), findsOneWidget);
@@ -81,7 +80,7 @@ void main() {
           ),
         ),
       );
-      
+
       // Should have one selected widget
       final placedWidgets = tester.widgetList(find.byType(PlacedWidget));
       int selectedCount = 0;
@@ -105,7 +104,7 @@ void main() {
           ),
         ),
       );
-      
+
       // Should have one dragging widget
       final placedWidgets = tester.widgetList(find.byType(PlacedWidget));
       int draggingCount = 0;
@@ -117,12 +116,11 @@ void main() {
       expect(draggingCount, equals(1));
     });
 
-    testWidgets('passes through grid highlighting', (WidgetTester tester) async {
-      final highlightedCells = {
-        const Point(0, 2),
-        const Point(1, 2),
-      };
-      
+    testWidgets('passes through grid highlighting', (
+      WidgetTester tester,
+    ) async {
+      final highlightedCells = {const Point(0, 2), const Point(1, 2)};
+
       await tester.pumpWidget(
         MaterialApp(
           theme: ThemeData(primarySwatch: Colors.blue),
@@ -135,13 +133,17 @@ void main() {
           ),
         ),
       );
-      
+
       // Find the AccessibleGridWidget and check its highlighting
-      final gridWidget = tester.widget<AccessibleGridWidget>(find.byType(AccessibleGridWidget));
+      final gridWidget = tester.widget<AccessibleGridWidget>(
+        find.byType(AccessibleGridWidget),
+      );
       expect(gridWidget.highlightedCells, equals(highlightedCells));
     });
 
-    testWidgets('passes tap callback to placed widgets', (WidgetTester tester) async {
+    testWidgets('passes tap callback to placed widgets', (
+      WidgetTester tester,
+    ) async {
       // Test that the GridContainer correctly passes the tap callback to PlacedWidgets
       await tester.pumpWidget(
         MaterialApp(
@@ -160,13 +162,17 @@ void main() {
       );
 
       // Verify that PlacedWidgets are created with tap callback
-      final placedWidgets = tester.widgetList<PlacedWidget>(find.byType(PlacedWidget));
+      final placedWidgets = tester.widgetList<PlacedWidget>(
+        find.byType(PlacedWidget),
+      );
       for (final widget in placedWidgets) {
         expect(widget.onTap, isNotNull);
       }
     });
 
-    testWidgets('shows error for missing widget builder', (WidgetTester tester) async {
+    testWidgets('shows error for missing widget builder', (
+      WidgetTester tester,
+    ) async {
       // Create layout with widget that has no builder
       const dimensions = GridDimensions(columns: 4, rows: 4);
       final placement = WidgetPlacement(
@@ -181,7 +187,7 @@ void main() {
         dimensions: dimensions,
         widgets: [placement],
       );
-      
+
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -192,13 +198,15 @@ void main() {
           ),
         ),
       );
-      
+
       // Should show error container
       expect(find.text('UnknownWidget'), findsOneWidget);
       expect(find.byIcon(Icons.error_outline), findsOneWidget);
     });
 
-    testWidgets('updates when layout state changes', (WidgetTester tester) async {
+    testWidgets('updates when layout state changes', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -209,10 +217,10 @@ void main() {
           ),
         ),
       );
-      
+
       // Initially should have 2 widgets
       expect(find.byType(PlacedWidget), findsNWidgets(2));
-      
+
       // Update with new layout state
       final newPlacement = WidgetPlacement(
         id: 'widget3',
@@ -223,7 +231,7 @@ void main() {
         height: 1,
       );
       final newLayoutState = testLayoutState.addWidget(newPlacement);
-      
+
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -234,18 +242,20 @@ void main() {
           ),
         ),
       );
-      
+
       // Should now have 3 widgets
       expect(find.byType(PlacedWidget), findsNWidgets(3));
     });
 
-    testWidgets('passes highlight validation function', (WidgetTester tester) async {
+    testWidgets('passes highlight validation function', (
+      WidgetTester tester,
+    ) async {
       bool validationCalled = false;
       bool isCellValid(Point<int> cell) {
         validationCalled = true;
         return cell.x > 0;
       }
-      
+
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -258,18 +268,22 @@ void main() {
           ),
         ),
       );
-      
+
       // Find the AccessibleGridWidget and check validation function was passed
-      final gridWidget = tester.widget<AccessibleGridWidget>(find.byType(AccessibleGridWidget));
+      final gridWidget = tester.widget<AccessibleGridWidget>(
+        find.byType(AccessibleGridWidget),
+      );
       expect(gridWidget.isCellValid, equals(isCellValid));
-      
+
       // Verify the validation function can be called
       expect(isCellValid(const Point(0, 0)), isFalse);
       expect(isCellValid(const Point(1, 0)), isTrue);
       expect(validationCalled, isTrue);
     });
 
-    testWidgets('handles multiple selected and dragging widgets', (WidgetTester tester) async {
+    testWidgets('handles multiple selected and dragging widgets', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -282,17 +296,19 @@ void main() {
           ),
         ),
       );
-      
+
       // Widget1 should be both selected and dragging
-      final placedWidgets = tester.widgetList<PlacedWidget>(find.byType(PlacedWidget));
+      final placedWidgets = tester.widgetList<PlacedWidget>(
+        find.byType(PlacedWidget),
+      );
       PlacedWidget? widget1;
       PlacedWidget? widget2;
-      
+
       for (final widget in placedWidgets) {
         if (widget.placement.id == 'widget1') widget1 = widget;
         if (widget.placement.id == 'widget2') widget2 = widget;
       }
-      
+
       expect(widget1?.isSelected, isTrue);
       expect(widget1?.isDragging, isTrue);
       expect(widget2?.isSelected, isFalse);

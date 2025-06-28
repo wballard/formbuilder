@@ -23,7 +23,7 @@ class OptimizedValueListenableBuilder<T> extends StatefulWidget {
 class _OptimizedValueListenableBuilderState<T>
     extends State<OptimizedValueListenableBuilder<T>> {
   late T _value;
-  
+
   @override
   void initState() {
     super.initState();
@@ -65,10 +65,8 @@ class _OptimizedValueListenableBuilderState<T>
 
 /// A ValueNotifier that debounces changes to reduce unnecessary updates
 class DebouncedValueNotifier<T> extends ValueNotifier<T> {
-  DebouncedValueNotifier({
-    required T initialValue,
-    required this.debounceTime,
-  }) : super(initialValue);
+  DebouncedValueNotifier({required T initialValue, required this.debounceTime})
+    : super(initialValue);
 
   final Duration debounceTime;
   Timer? _debounceTimer;
@@ -160,21 +158,21 @@ class _SelectiveStateBuilderState<TState, TSelected>
 /// Utility mixin for state classes to provide change notifications
 mixin ChangeNotifierState<T extends StatefulWidget> on State<T> {
   final List<VoidCallback> _listeners = [];
-  
+
   void addListener(VoidCallback listener) {
     _listeners.add(listener);
   }
-  
+
   void removeListener(VoidCallback listener) {
     _listeners.remove(listener);
   }
-  
+
   void notifyListeners() {
     for (final listener in _listeners) {
       listener();
     }
   }
-  
+
   @override
   void dispose() {
     _listeners.clear();
@@ -184,10 +182,8 @@ mixin ChangeNotifierState<T extends StatefulWidget> on State<T> {
 
 /// A throttled version of ValueNotifier that limits update frequency
 class ThrottledValueNotifier<T> extends ValueNotifier<T> {
-  ThrottledValueNotifier({
-    required T initialValue,
-    required this.throttleTime,
-  }) : super(initialValue);
+  ThrottledValueNotifier({required T initialValue, required this.throttleTime})
+    : super(initialValue);
 
   final Duration throttleTime;
   DateTime? _lastUpdate;
@@ -198,8 +194,8 @@ class ThrottledValueNotifier<T> extends ValueNotifier<T> {
   set value(T newValue) {
     final now = DateTime.now();
     _pendingValue = newValue;
-    
-    if (_lastUpdate == null || 
+
+    if (_lastUpdate == null ||
         now.difference(_lastUpdate!).compareTo(throttleTime) >= 0) {
       // Update immediately
       _updateValue(newValue);

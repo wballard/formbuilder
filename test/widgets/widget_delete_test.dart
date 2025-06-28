@@ -12,7 +12,8 @@ void main() {
   group('Widget Delete Functionality', () {
     late LayoutState testLayoutState;
     late Toolbox testToolbox;
-    late Map<String, Widget Function(BuildContext, WidgetPlacement)> testWidgetBuilders;
+    late Map<String, Widget Function(BuildContext, WidgetPlacement)>
+    testWidgetBuilders;
 
     setUp(() {
       testLayoutState = LayoutState(
@@ -36,24 +37,28 @@ void main() {
           ),
         ],
       );
-      
-      testToolbox = Toolbox(items: [
-        ToolboxItem(
-          name: 'TestWidget',
-          displayName: 'Test Widget',
-          defaultWidth: 1,
-          defaultHeight: 1,
-          toolboxBuilder: (context) => Container(color: Colors.blue),
-          gridBuilder: (context, placement) => Container(color: Colors.blue),
-        ),
-      ]);
-      
+
+      testToolbox = Toolbox(
+        items: [
+          ToolboxItem(
+            name: 'TestWidget',
+            displayName: 'Test Widget',
+            defaultWidth: 1,
+            defaultHeight: 1,
+            toolboxBuilder: (context) => Container(color: Colors.blue),
+            gridBuilder: (context, placement) => Container(color: Colors.blue),
+          ),
+        ],
+      );
+
       testWidgetBuilders = {
         'TestWidget': (context, placement) => Container(color: Colors.blue),
       };
     });
 
-    testWidgets('PlacedWidget shows delete button when selected', (WidgetTester tester) async {
+    testWidgets('PlacedWidget shows delete button when selected', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -72,7 +77,9 @@ void main() {
       expect(find.byTooltip('Delete widget'), findsOneWidget);
     });
 
-    testWidgets('PlacedWidget does not show delete button when not selected', (WidgetTester tester) async {
+    testWidgets('PlacedWidget does not show delete button when not selected', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -91,7 +98,9 @@ void main() {
       expect(find.byTooltip('Delete widget'), findsNothing);
     });
 
-    testWidgets('Delete button calls onDelete callback when tapped', (WidgetTester tester) async {
+    testWidgets('Delete button calls onDelete callback when tapped', (
+      WidgetTester tester,
+    ) async {
       bool deleteCalled = false;
 
       await tester.pumpWidget(
@@ -118,7 +127,9 @@ void main() {
       expect(deleteCalled, isTrue);
     });
 
-    testWidgets('GridDragTarget passes delete callback to GridContainer', (WidgetTester tester) async {
+    testWidgets('GridDragTarget passes delete callback to GridContainer', (
+      WidgetTester tester,
+    ) async {
       bool deleteCalled = false;
       String? deletedWidgetId;
 
@@ -146,22 +157,22 @@ void main() {
         ),
       );
 
-      // Let the widget build completely  
+      // Let the widget build completely
       await tester.pump();
 
       // Should find the delete button for selected widget
       expect(find.byIcon(Icons.close), findsOneWidget);
-      
+
       // Try to directly invoke the delete callback instead of tapping
       // This tests the callback functionality without relying on precise positioning
       final deleteButtonFinder = find.byIcon(Icons.close);
-      
+
       // Find the InkWell parent that should handle the tap
       final inkWellFinder = find.ancestor(
         of: deleteButtonFinder,
         matching: find.byType(InkWell),
       );
-      
+
       if (inkWellFinder.evaluate().isNotEmpty) {
         final inkWell = tester.widget<InkWell>(inkWellFinder);
         if (inkWell.onTap != null) {
@@ -175,7 +186,9 @@ void main() {
       expect(deletedWidgetId, equals('widget1'));
     });
 
-    testWidgets('Multiple widgets show correct delete buttons', (WidgetTester tester) async {
+    testWidgets('Multiple widgets show correct delete buttons', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -199,7 +212,9 @@ void main() {
       expect(find.byIcon(Icons.close), findsOneWidget);
     });
 
-    testWidgets('Keyboard Delete key triggers delete for selected widget', (WidgetTester tester) async {
+    testWidgets('Keyboard Delete key triggers delete for selected widget', (
+      WidgetTester tester,
+    ) async {
       bool deleteCalled = false;
       String? deletedWidgetId;
 
@@ -236,7 +251,9 @@ void main() {
       expect(deletedWidgetId, equals('widget1'));
     });
 
-    testWidgets('Keyboard Backspace key triggers delete for selected widget', (WidgetTester tester) async {
+    testWidgets('Keyboard Backspace key triggers delete for selected widget', (
+      WidgetTester tester,
+    ) async {
       bool deleteCalled = false;
       String? deletedWidgetId;
 
@@ -272,7 +289,9 @@ void main() {
       expect(deletedWidgetId, equals('widget1'));
     });
 
-    testWidgets('Keyboard delete does nothing when no widget is selected', (WidgetTester tester) async {
+    testWidgets('Keyboard delete does nothing when no widget is selected', (
+      WidgetTester tester,
+    ) async {
       bool deleteCalled = false;
 
       await tester.pumpWidget(
@@ -305,7 +324,9 @@ void main() {
       expect(deleteCalled, isFalse);
     });
 
-    testWidgets('Other keyboard keys do not trigger delete', (WidgetTester tester) async {
+    testWidgets('Other keyboard keys do not trigger delete', (
+      WidgetTester tester,
+    ) async {
       bool deleteCalled = false;
 
       await tester.pumpWidget(
@@ -340,7 +361,9 @@ void main() {
       expect(deleteCalled, isFalse);
     });
 
-    testWidgets('Delete button has correct styling', (WidgetTester tester) async {
+    testWidgets('Delete button has correct styling', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -370,7 +393,9 @@ void main() {
       expect(material.elevation, equals(2));
     });
 
-    testWidgets('Delete button is positioned correctly', (WidgetTester tester) async {
+    testWidgets('Delete button is positioned correctly', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -403,31 +428,36 @@ void main() {
     });
 
     group('Delete button state management', () {
-      testWidgets('Delete button shows when widget is selected but not dragging or resizing', (WidgetTester tester) async {
-        await tester.pumpWidget(
-          MaterialApp(
-            home: Scaffold(
-              body: SizedBox(
-                width: 400,
-                height: 400,
-                child: GridDragTarget(
-                  layoutState: testLayoutState,
-                  widgetBuilders: testWidgetBuilders,
-                  toolbox: testToolbox,
-                  selectedWidgetId: 'widget1',
+      testWidgets(
+        'Delete button shows when widget is selected but not dragging or resizing',
+        (WidgetTester tester) async {
+          await tester.pumpWidget(
+            MaterialApp(
+              home: Scaffold(
+                body: SizedBox(
+                  width: 400,
+                  height: 400,
+                  child: GridDragTarget(
+                    layoutState: testLayoutState,
+                    widgetBuilders: testWidgetBuilders,
+                    toolbox: testToolbox,
+                    selectedWidgetId: 'widget1',
+                  ),
                 ),
               ),
             ),
-          ),
-        );
+          );
 
-        await tester.pump();
+          await tester.pump();
 
-        // Should show delete button when selected and not dragging/resizing
-        expect(find.byIcon(Icons.close), findsOneWidget);
-      });
+          // Should show delete button when selected and not dragging/resizing
+          expect(find.byIcon(Icons.close), findsOneWidget);
+        },
+      );
 
-      testWidgets('Delete button does not show when widget is dragging', (WidgetTester tester) async {
+      testWidgets('Delete button does not show when widget is dragging', (
+        WidgetTester tester,
+      ) async {
         final draggingLayoutState = LayoutState(
           dimensions: const GridDimensions(columns: 4, rows: 4),
           widgets: [testLayoutState.widgets.first],

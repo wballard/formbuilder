@@ -11,22 +11,22 @@ import 'dart:math';
 class AccessibleCategorizedToolbox extends StatefulWidget {
   /// The categorized toolbox to display
   final CategorizedToolbox toolbox;
-  
+
   /// The scroll direction for the toolbox
   final Axis scrollDirection;
-  
+
   /// Padding around the toolbox
   final EdgeInsets padding;
-  
+
   /// Spacing between categories
   final double categorySpacing;
-  
+
   /// Spacing between items
   final double itemSpacing;
-  
+
   /// Animation settings
   final AnimationSettings animationSettings;
-  
+
   /// Callback when an item is activated via keyboard
   final void Function(ToolboxItem, Point<int>)? onItemActivated;
 
@@ -42,15 +42,17 @@ class AccessibleCategorizedToolbox extends StatefulWidget {
   });
 
   @override
-  State<AccessibleCategorizedToolbox> createState() => _AccessibleCategorizedToolboxState();
+  State<AccessibleCategorizedToolbox> createState() =>
+      _AccessibleCategorizedToolboxState();
 }
 
-class _AccessibleCategorizedToolboxState extends State<AccessibleCategorizedToolbox> {
+class _AccessibleCategorizedToolboxState
+    extends State<AccessibleCategorizedToolbox> {
   final FocusNode _toolboxFocusNode = FocusNode();
   int _selectedCategoryIndex = 0;
   int _selectedItemIndex = 0;
   final Set<String> _expandedCategories = {};
-  
+
   // Focus nodes for keyboard navigation
   final Map<String, FocusNode> _itemFocusNodes = {};
 
@@ -61,7 +63,7 @@ class _AccessibleCategorizedToolboxState extends State<AccessibleCategorizedTool
     if (widget.toolbox.categories.isNotEmpty) {
       _expandedCategories.add(widget.toolbox.categories.first.name);
     }
-    
+
     // Create focus nodes for all items
     for (final category in widget.toolbox.categories) {
       for (final item in category.items) {
@@ -82,30 +84,33 @@ class _AccessibleCategorizedToolboxState extends State<AccessibleCategorizedTool
   /// Handle keyboard navigation
   KeyEventResult _handleKeyEvent(KeyEvent event) {
     if (event is! KeyDownEvent) return KeyEventResult.ignored;
-    
+
     final key = event.logicalKey;
-    
+
     // Navigation keys
-    if (key == LogicalKeyboardKey.arrowDown || key == LogicalKeyboardKey.arrowRight) {
+    if (key == LogicalKeyboardKey.arrowDown ||
+        key == LogicalKeyboardKey.arrowRight) {
       _navigateNext();
       return KeyEventResult.handled;
-    } else if (key == LogicalKeyboardKey.arrowUp || key == LogicalKeyboardKey.arrowLeft) {
+    } else if (key == LogicalKeyboardKey.arrowUp ||
+        key == LogicalKeyboardKey.arrowLeft) {
       _navigatePrevious();
       return KeyEventResult.handled;
     }
-    
+
     // Enter/Space to activate
     if (key == LogicalKeyboardKey.enter || key == LogicalKeyboardKey.space) {
       _activateCurrentItem();
       return KeyEventResult.handled;
     }
-    
+
     // Tab to expand/collapse category
-    if (key == LogicalKeyboardKey.tab && !HardwareKeyboard.instance.isShiftPressed) {
+    if (key == LogicalKeyboardKey.tab &&
+        !HardwareKeyboard.instance.isShiftPressed) {
       _toggleCurrentCategory();
       return KeyEventResult.handled;
     }
-    
+
     return KeyEventResult.ignored;
   }
 
@@ -114,7 +119,7 @@ class _AccessibleCategorizedToolboxState extends State<AccessibleCategorizedTool
       if (_selectedCategoryIndex < widget.toolbox.categories.length - 1) {
         _selectedCategoryIndex++;
         _selectedItemIndex = 0;
-      } else if (_selectedItemIndex < 
+      } else if (_selectedItemIndex <
           widget.toolbox.categories[_selectedCategoryIndex].items.length - 1) {
         _selectedItemIndex++;
       }
@@ -128,7 +133,7 @@ class _AccessibleCategorizedToolboxState extends State<AccessibleCategorizedTool
         _selectedItemIndex--;
       } else if (_selectedCategoryIndex > 0) {
         _selectedCategoryIndex--;
-        _selectedItemIndex = 
+        _selectedItemIndex =
             widget.toolbox.categories[_selectedCategoryIndex].items.length - 1;
       }
     });
@@ -140,7 +145,7 @@ class _AccessibleCategorizedToolboxState extends State<AccessibleCategorizedTool
     if (_selectedItemIndex < category.items.length) {
       final item = category.items[_selectedItemIndex];
       _itemFocusNodes[item.name]?.requestFocus();
-      
+
       AccessibilityUtils.announceStatus(
         context,
         'Selected ${item.displayName} in ${category.name}',
@@ -157,7 +162,7 @@ class _AccessibleCategorizedToolboxState extends State<AccessibleCategorizedTool
         _expandedCategories.add(category.name);
       }
     });
-    
+
     AccessibilityUtils.announceStatus(
       context,
       '${category.name} ${_expandedCategories.contains(category.name) ? "expanded" : "collapsed"}',
@@ -168,12 +173,12 @@ class _AccessibleCategorizedToolboxState extends State<AccessibleCategorizedTool
     final category = widget.toolbox.categories[_selectedCategoryIndex];
     if (_selectedItemIndex < category.items.length) {
       final item = category.items[_selectedItemIndex];
-      
+
       // If we have a keyboard activation callback, use it
       if (widget.onItemActivated != null) {
         // Default to placing at grid position 0,0
         widget.onItemActivated!(item, const Point(0, 0));
-        
+
         AccessibilityUtils.announceStatus(
           context,
           'Activated ${item.displayName}. Use arrow keys to position on grid.',
@@ -190,20 +195,25 @@ class _AccessibleCategorizedToolboxState extends State<AccessibleCategorizedTool
       autofocus: false,
       child: Semantics(
         label: 'Widget toolbox',
-        hint: 'Use arrow keys to navigate, Enter to select, Tab to expand categories',
+        hint:
+            'Use arrow keys to navigate, Enter to select, Tab to expand categories',
         child: ListView.separated(
           padding: widget.padding,
           scrollDirection: widget.scrollDirection,
           itemCount: widget.toolbox.categories.length,
           separatorBuilder: (context, index) => SizedBox(
-            width: widget.scrollDirection == Axis.horizontal ? widget.categorySpacing : null,
-            height: widget.scrollDirection == Axis.vertical ? widget.categorySpacing : null,
+            width: widget.scrollDirection == Axis.horizontal
+                ? widget.categorySpacing
+                : null,
+            height: widget.scrollDirection == Axis.vertical
+                ? widget.categorySpacing
+                : null,
           ),
           itemBuilder: (context, categoryIndex) {
             final category = widget.toolbox.categories[categoryIndex];
             final isExpanded = _expandedCategories.contains(category.name);
             final isSelected = _selectedCategoryIndex == categoryIndex;
-            
+
             return _buildAccessibleCategory(
               context,
               category,
@@ -225,10 +235,12 @@ class _AccessibleCategorizedToolboxState extends State<AccessibleCategorizedTool
     bool isSelected,
   ) {
     final theme = Theme.of(context);
-    
+
     return Semantics(
       label: '${category.name} category',
-      hint: isExpanded ? 'Expanded. Tab to collapse' : 'Collapsed. Tab to expand',
+      hint: isExpanded
+          ? 'Expanded. Tab to collapse'
+          : 'Collapsed. Tab to expand',
       selected: isSelected,
       child: Card(
         elevation: isSelected ? 4 : 1,
@@ -255,7 +267,9 @@ class _AccessibleCategorizedToolboxState extends State<AccessibleCategorizedTool
                         child: Row(
                           children: [
                             Icon(
-                              isExpanded ? Icons.expand_less : Icons.expand_more,
+                              isExpanded
+                                  ? Icons.expand_less
+                                  : Icons.expand_more,
                               size: 20,
                               semanticLabel: isExpanded ? 'Collapse' : 'Expand',
                             ),
@@ -264,7 +278,9 @@ class _AccessibleCategorizedToolboxState extends State<AccessibleCategorizedTool
                               child: Text(
                                 category.name,
                                 style: theme.textTheme.titleSmall?.copyWith(
-                                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                                  fontWeight: isSelected
+                                      ? FontWeight.bold
+                                      : FontWeight.normal,
                                 ),
                               ),
                             ),
@@ -272,7 +288,7 @@ class _AccessibleCategorizedToolboxState extends State<AccessibleCategorizedTool
                         ),
                       ),
                     ),
-                    
+
                     // Category items
                     if (isExpanded) ...[
                       const Divider(height: 1),
@@ -284,8 +300,9 @@ class _AccessibleCategorizedToolboxState extends State<AccessibleCategorizedTool
                           children: category.items.asMap().entries.map((entry) {
                             final itemIndex = entry.key;
                             final item = entry.value;
-                            final isItemSelected = isSelected && _selectedItemIndex == itemIndex;
-                            
+                            final isItemSelected =
+                                isSelected && _selectedItemIndex == itemIndex;
+
                             return _buildAccessibleItem(
                               context,
                               item,
@@ -326,14 +343,16 @@ class _AccessibleCategorizedToolboxState extends State<AccessibleCategorizedTool
                           Text(
                             category.name,
                             style: theme.textTheme.titleSmall?.copyWith(
-                              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                              fontWeight: isSelected
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
                             ),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  
+
                   // Category items
                   if (isExpanded) ...[
                     const Divider(height: 1),
@@ -345,8 +364,9 @@ class _AccessibleCategorizedToolboxState extends State<AccessibleCategorizedTool
                         children: category.items.asMap().entries.map((entry) {
                           final itemIndex = entry.key;
                           final item = entry.value;
-                          final isItemSelected = isSelected && _selectedItemIndex == itemIndex;
-                          
+                          final isItemSelected =
+                              isSelected && _selectedItemIndex == itemIndex;
+
                           return _buildAccessibleItem(
                             context,
                             item,
@@ -372,7 +392,7 @@ class _AccessibleCategorizedToolboxState extends State<AccessibleCategorizedTool
       item.defaultWidth,
       item.defaultHeight,
     );
-    
+
     return Focus(
       focusNode: _itemFocusNodes[item.name],
       child: Semantics(
@@ -410,7 +430,11 @@ class _AccessibleCategorizedToolboxState extends State<AccessibleCategorizedTool
                   onTap: () {
                     setState(() {
                       // Find the item's category and index
-                      for (int i = 0; i < widget.toolbox.categories.length; i++) {
+                      for (
+                        int i = 0;
+                        i < widget.toolbox.categories.length;
+                        i++
+                      ) {
                         final cat = widget.toolbox.categories[i];
                         final idx = cat.items.indexOf(item);
                         if (idx != -1) {
@@ -432,7 +456,10 @@ class _AccessibleCategorizedToolboxState extends State<AccessibleCategorizedTool
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 4,
+                          vertical: 2,
+                        ),
                         child: Text(
                           item.displayName,
                           style: Theme.of(context).textTheme.bodySmall,

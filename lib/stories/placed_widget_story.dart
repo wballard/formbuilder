@@ -4,23 +4,23 @@ import 'package:formbuilder/form_layout/widgets/placed_widget.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
 
 List<Story> get placedWidgetStories => [
-      Story(
-        name: 'Widgets/PlacedWidget/States',
-        builder: (context) => const PlacedWidgetStatesDemo(),
-      ),
-      Story(
-        name: 'Widgets/PlacedWidget/Different Children',
-        builder: (context) => const PlacedWidgetChildrenDemo(),
-      ),
-      Story(
-        name: 'Widgets/PlacedWidget/Interactive',
-        builder: (context) => const InteractivePlacedWidgetDemo(),
-      ),
-      Story(
-        name: 'Widgets/PlacedWidget/Resize Handles',
-        builder: (context) => const PlacedWidgetResizeDemo(),
-      ),
-    ];
+  Story(
+    name: 'Widgets/PlacedWidget/States',
+    builder: (context) => const PlacedWidgetStatesDemo(),
+  ),
+  Story(
+    name: 'Widgets/PlacedWidget/Different Children',
+    builder: (context) => const PlacedWidgetChildrenDemo(),
+  ),
+  Story(
+    name: 'Widgets/PlacedWidget/Interactive',
+    builder: (context) => const InteractivePlacedWidgetDemo(),
+  ),
+  Story(
+    name: 'Widgets/PlacedWidget/Resize Handles',
+    builder: (context) => const PlacedWidgetResizeDemo(),
+  ),
+];
 
 class PlacedWidgetStatesDemo extends StatelessWidget {
   const PlacedWidgetStatesDemo({super.key});
@@ -122,7 +122,9 @@ class PlacedWidgetStatesDemo extends StatelessWidget {
                     const SizedBox(height: 8),
                     const Text('• Hover over widgets to see elevation change'),
                     const Text('• Mouse cursor changes to "move" on hover'),
-                    const Text('• Click widgets with tap handlers to see ripple effect'),
+                    const Text(
+                      '• Click widgets with tap handlers to see ripple effect',
+                    ),
                   ],
                 ),
               ),
@@ -138,10 +140,7 @@ class _StateExample extends StatelessWidget {
   final String label;
   final Widget child;
 
-  const _StateExample({
-    required this.label,
-    required this.child,
-  });
+  const _StateExample({required this.label, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -153,11 +152,7 @@ class _StateExample extends StatelessWidget {
           style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
-        SizedBox(
-          width: 200,
-          height: 80,
-          child: child,
-        ),
+        SizedBox(width: 200, height: 80, child: child),
       ],
     );
   }
@@ -174,10 +169,7 @@ class _DemoContent extends StatelessWidget {
           children: [
             Icon(Icons.widgets, color: Colors.blue),
             SizedBox(height: 4),
-            Text(
-              'Widget Content',
-              style: TextStyle(fontSize: 12),
-            ),
+            Text('Widget Content', style: TextStyle(fontSize: 12)),
           ],
         ),
       ),
@@ -337,10 +329,7 @@ class _ChildExample extends StatelessWidget {
         SizedBox(
           width: 250,
           height: 80,
-          child: PlacedWidget(
-            placement: placement,
-            child: child,
-          ),
+          child: PlacedWidget(placement: placement, child: child),
         ),
       ],
     );
@@ -351,10 +340,12 @@ class InteractivePlacedWidgetDemo extends StatefulWidget {
   const InteractivePlacedWidgetDemo({super.key});
 
   @override
-  State<InteractivePlacedWidgetDemo> createState() => _InteractivePlacedWidgetDemoState();
+  State<InteractivePlacedWidgetDemo> createState() =>
+      _InteractivePlacedWidgetDemoState();
 }
 
-class _InteractivePlacedWidgetDemoState extends State<InteractivePlacedWidgetDemo> {
+class _InteractivePlacedWidgetDemoState
+    extends State<InteractivePlacedWidgetDemo> {
   bool _isSelected = false;
   bool _isDragging = false;
   EdgeInsets _padding = const EdgeInsets.all(8);
@@ -571,7 +562,9 @@ class _PlacedWidgetResizeDemoState extends State<PlacedWidgetResizeDemo> {
                           const SizedBox(height: 8),
                           Text('Width: ${_placement.width} cells'),
                           Text('Height: ${_placement.height} cells'),
-                          Text('Position: (${_placement.column}, ${_placement.row})'),
+                          Text(
+                            'Position: (${_placement.column}, ${_placement.row})',
+                          ),
                           const SizedBox(height: 16),
                           Text(
                             'Last Action: $_lastAction',
@@ -636,12 +629,14 @@ class _PlacedWidgetResizeDemoState extends State<PlacedWidgetResizeDemo> {
                                 showResizeHandles: _showResizeHandles,
                                 onResizeStart: (data) {
                                   setState(() {
-                                    _lastAction = 'Resize started: ${data.handleType.name}';
+                                    _lastAction =
+                                        'Resize started: ${data.handleType.name}';
                                   });
                                 },
                                 onResizeUpdate: (data, delta) {
                                   setState(() {
-                                    _lastAction = 'Resizing: ${data.handleType.name} (${delta.dx.toStringAsFixed(1)}, ${delta.dy.toStringAsFixed(1)})';
+                                    _lastAction =
+                                        'Resizing: ${data.handleType.name} (${delta.dx.toStringAsFixed(1)}, ${delta.dy.toStringAsFixed(1)})';
                                   });
                                 },
                                 onResizeEnd: () {
@@ -652,7 +647,10 @@ class _PlacedWidgetResizeDemoState extends State<PlacedWidgetResizeDemo> {
                                 child: Container(
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
-                                      colors: [Colors.purple.shade200, Colors.blue.shade200],
+                                      colors: [
+                                        Colors.purple.shade200,
+                                        Colors.blue.shade200,
+                                      ],
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
                                     ),
@@ -680,7 +678,9 @@ class _PlacedWidgetResizeDemoState extends State<PlacedWidgetResizeDemo> {
                                         '${_placement.width}×${_placement.height}',
                                         style: TextStyle(
                                           fontSize: 12,
-                                          color: Colors.white.withValues(alpha: 0.8),
+                                          color: Colors.white.withValues(
+                                            alpha: 0.8,
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -703,11 +703,19 @@ class _PlacedWidgetResizeDemoState extends State<PlacedWidgetResizeDemo> {
                                 style: Theme.of(context).textTheme.titleSmall,
                               ),
                               const SizedBox(height: 8),
-                              const Text('• Toggle "Show Resize Handles" to see the resize handles'),
-                              const Text('• Hover over resize handles to see cursor changes'),
+                              const Text(
+                                '• Toggle "Show Resize Handles" to see the resize handles',
+                              ),
+                              const Text(
+                                '• Hover over resize handles to see cursor changes',
+                              ),
                               const Text('• Drag handles to resize the widget'),
-                              const Text('• 8 resize handles: 4 corners + 4 edges'),
-                              const Text('• Watch the dimensions and actions update'),
+                              const Text(
+                                '• 8 resize handles: 4 corners + 4 edges',
+                              ),
+                              const Text(
+                                '• Watch the dimensions and actions update',
+                              ),
                             ],
                           ),
                         ),
@@ -742,23 +750,15 @@ class _GridPainter extends CustomPainter {
       ..strokeWidth = 1;
 
     const cellSize = 50.0;
-    
+
     // Draw vertical lines
     for (double x = 0; x <= size.width; x += cellSize) {
-      canvas.drawLine(
-        Offset(x, 0),
-        Offset(x, size.height),
-        paint,
-      );
+      canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
     }
-    
+
     // Draw horizontal lines
     for (double y = 0; y <= size.height; y += cellSize) {
-      canvas.drawLine(
-        Offset(0, y),
-        Offset(size.width, y),
-        paint,
-      );
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
     }
   }
 

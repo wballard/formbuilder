@@ -15,14 +15,17 @@ void main() {
         width: 2,
         height: 1,
       );
-      
+
       final label = AccessibilityUtils.getWidgetSemanticLabel(placement);
       expect(label, 'Text Field widget at column 3, row 4. Size: 2 by 1 cells');
     });
 
     test('should create semantic hint for selected widget', () {
       final hint = AccessibilityUtils.getWidgetSemanticHint(true);
-      expect(hint, 'Double tap to deselect. Use arrow keys to move. Press Delete to remove.');
+      expect(
+        hint,
+        'Double tap to deselect. Use arrow keys to move. Press Delete to remove.',
+      );
     });
 
     test('should create semantic hint for unselected widget', () {
@@ -33,14 +36,17 @@ void main() {
     test('should create semantic label for grid cell', () {
       final label = AccessibilityUtils.getGridCellLabel(0, 0);
       expect(label, 'Grid cell at column 1, row 1');
-      
+
       final label2 = AccessibilityUtils.getGridCellLabel(3, 2);
       expect(label2, 'Grid cell at column 4, row 3');
     });
 
     test('should create semantic label for toolbox item', () {
       final label = AccessibilityUtils.getToolboxItemLabel('Button', 2, 1);
-      expect(label, 'Button. Default size: 2 by 1 cells. Double tap to place on grid.');
+      expect(
+        label,
+        'Button. Default size: 2 by 1 cells. Double tap to place on grid.',
+      );
     });
 
     group('Color contrast', () {
@@ -50,7 +56,7 @@ void main() {
           AccessibilityUtils.meetsContrastRatio(Colors.black, Colors.white),
           true,
         );
-        
+
         // White on white should have ratio of 1:1
         expect(
           AccessibilityUtils.meetsContrastRatio(Colors.white, Colors.white),
@@ -67,7 +73,7 @@ void main() {
           ),
           true,
         );
-        
+
         expect(
           AccessibilityUtils.meetsContrastRatio(
             const Color(0xFF969696), // Light gray
@@ -92,25 +98,33 @@ void main() {
   });
 
   group('AccessibleTouchTarget', () {
-    testWidgets('should enforce minimum touch target size', (WidgetTester tester) async {
+    testWidgets('should enforce minimum touch target size', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: AccessibleTouchTarget(
-              child: Icon(Icons.close, size: 16),
-            ),
+            body: AccessibleTouchTarget(child: Icon(Icons.close, size: 16)),
           ),
         ),
       );
 
       final touchTarget = tester.getSize(find.byType(AccessibleTouchTarget));
-      expect(touchTarget.width, greaterThanOrEqualTo(AccessibilityUtils.minTouchTargetSize));
-      expect(touchTarget.height, greaterThanOrEqualTo(AccessibilityUtils.minTouchTargetSize));
+      expect(
+        touchTarget.width,
+        greaterThanOrEqualTo(AccessibilityUtils.minTouchTargetSize),
+      );
+      expect(
+        touchTarget.height,
+        greaterThanOrEqualTo(AccessibilityUtils.minTouchTargetSize),
+      );
     });
 
-    testWidgets('should apply semantic properties', (WidgetTester tester) async {
+    testWidgets('should apply semantic properties', (
+      WidgetTester tester,
+    ) async {
       bool tapped = false;
-      
+
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -135,7 +149,9 @@ void main() {
   });
 
   group('AccessibleFocusIndicator', () {
-    testWidgets('should show focus indicator when focused', (WidgetTester tester) async {
+    testWidgets('should show focus indicator when focused', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -153,14 +169,19 @@ void main() {
           matching: find.byType(Container),
         ),
       );
-      
+
       expect(container.decoration, isA<BoxDecoration>());
       final decoration = container.decoration as BoxDecoration;
       expect(decoration.border, isNotNull);
-      expect(decoration.border!.top.width, AccessibilityUtils.focusIndicatorWidth);
+      expect(
+        decoration.border!.top.width,
+        AccessibilityUtils.focusIndicatorWidth,
+      );
     });
 
-    testWidgets('should not show focus indicator when not focused', (WidgetTester tester) async {
+    testWidgets('should not show focus indicator when not focused', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(

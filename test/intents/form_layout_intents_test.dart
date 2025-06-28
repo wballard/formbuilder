@@ -23,10 +23,7 @@ void main() {
     group('AddWidgetIntent', () {
       test('creates intent with required properties', () {
         const position = Point(1, 2);
-        final intent = AddWidgetIntent(
-          item: testItem,
-          position: position,
-        );
+        final intent = AddWidgetIntent(item: testItem, position: position);
 
         expect(intent.item, equals(testItem));
         expect(intent.position, equals(position));
@@ -60,10 +57,7 @@ void main() {
       test('creates intent with widget ID and new size', () {
         const widgetId = 'widget123';
         const newSize = Size(3, 2);
-        const intent = ResizeWidgetIntent(
-          widgetId: widgetId,
-          newSize: newSize,
-        );
+        const intent = ResizeWidgetIntent(widgetId: widgetId, newSize: newSize);
 
         expect(intent.widgetId, equals(widgetId));
         expect(intent.newSize, equals(newSize));

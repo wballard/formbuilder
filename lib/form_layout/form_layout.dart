@@ -18,40 +18,40 @@ import 'package:formbuilder/form_layout/hooks/use_form_layout.dart';
 class FormLayout extends HookWidget {
   /// The toolbox containing available widgets
   final CategorizedToolbox toolbox;
-  
+
   /// Initial layout state, if any
   final LayoutState? initialLayout;
-  
+
   /// Callback when layout changes
   final void Function(LayoutState)? onLayoutChanged;
-  
+
   /// Whether to show the toolbox
   final bool showToolbox;
-  
+
   /// Position of the toolbox (horizontal = left, vertical = top)
   final Axis toolboxPosition;
-  
+
   /// Width of the toolbox when in horizontal layout
   final double? toolboxWidth;
-  
+
   /// Height of the toolbox when in vertical layout
   final double? toolboxHeight;
-  
+
   /// Whether undo/redo is enabled
   final bool enableUndo;
-  
+
   /// Maximum number of undo states to keep
   final int undoLimit;
-  
+
   /// Custom theme for the form layout
   final ThemeData? theme;
-  
+
   /// Animation settings for the form layout
   final AnimationSettings? animationSettings;
-  
+
   /// Callback when layout export is requested
   final void Function(String jsonString)? onExportLayout;
-  
+
   /// Callback when layout import is requested
   final void Function(LayoutState? layout, String? error)? onImportLayout;
 
@@ -75,15 +75,16 @@ class FormLayout extends HookWidget {
   @override
   Widget build(BuildContext context) {
     // Get animation settings, respecting accessibility preferences
-    final effectiveAnimationSettings = animationSettings ?? 
-        AnimationSettings.fromMediaQuery(context);
-    
+    final effectiveAnimationSettings =
+        animationSettings ?? AnimationSettings.fromMediaQuery(context);
+
     // Initialize the form layout controller
     final controller = useFormLayout(
-      initialLayout ?? LayoutState(
-        dimensions: const GridDimensions(columns: 4, rows: 5),
-        widgets: const [],
-      ),
+      initialLayout ??
+          LayoutState(
+            dimensions: const GridDimensions(columns: 4, rows: 5),
+            widgets: const [],
+          ),
       undoLimit: undoLimit,
     );
 
@@ -91,13 +92,14 @@ class FormLayout extends HookWidget {
     useEffect(() {
       if (onLayoutChanged != null) {
         // Debounce to avoid excessive callbacks
-        final debounceTimer = Stream.periodic(
-          const Duration(milliseconds: 100),
-          (_) => controller.state,
-        ).distinct().listen((state) {
-          onLayoutChanged!(state);
-        });
-        
+        final debounceTimer =
+            Stream.periodic(
+              const Duration(milliseconds: 100),
+              (_) => controller.state,
+            ).distinct().listen((state) {
+              onLayoutChanged!(state);
+            });
+
         return debounceTimer.cancel;
       }
       return null;
@@ -106,7 +108,7 @@ class FormLayout extends HookWidget {
     // Determine responsive layout
     final isSmallScreen = MediaQuery.of(context).size.width < 600;
     final effectivePosition = isSmallScreen ? Axis.vertical : toolboxPosition;
-    
+
     // Build the main content
     Widget content = FormLayoutActionDispatcher(
       controller: controller,
@@ -125,10 +127,7 @@ class FormLayout extends HookWidget {
 
     // Apply theme if provided
     if (theme != null) {
-      content = Theme(
-        data: theme!,
-        child: content,
-      );
+      content = Theme(data: theme!, child: content);
     }
 
     return content;
@@ -149,10 +148,7 @@ class FormLayout extends HookWidget {
               // Handle keyboard activation of toolbox items
               Actions.maybeInvoke<AddWidgetIntent>(
                 context,
-                AddWidgetIntent(
-                  item: item,
-                  position: position,
-                ),
+                AddWidgetIntent(item: item, position: position),
               );
             },
           )
@@ -177,7 +173,9 @@ class FormLayout extends HookWidget {
               editChild: GridDragTarget(
                 layoutState: controller.state,
                 widgetBuilders: _getWidgetBuilders(toolbox),
-                toolbox: CategorizedToolbox(categories: toolbox.categories).toSimpleToolbox(),
+                toolbox: CategorizedToolbox(
+                  categories: toolbox.categories,
+                ).toSimpleToolbox(),
                 selectedWidgetId: controller.selectedWidgetId,
                 onWidgetTap: (id) => controller.selectWidget(id),
                 animationSettings: animationSettings,
@@ -185,7 +183,9 @@ class FormLayout extends HookWidget {
               previewChild: GridDragTarget(
                 layoutState: controller.state,
                 widgetBuilders: _getWidgetBuilders(toolbox),
-                toolbox: CategorizedToolbox(categories: toolbox.categories).toSimpleToolbox(),
+                toolbox: CategorizedToolbox(
+                  categories: toolbox.categories,
+                ).toSimpleToolbox(),
                 selectedWidgetId: null,
                 onWidgetTap: null,
                 animationSettings: animationSettings,
@@ -201,10 +201,7 @@ class FormLayout extends HookWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (toolboxWidget != null) ...[
-            SizedBox(
-              width: toolboxWidth ?? 250,
-              child: toolboxWidget,
-            ),
+            SizedBox(width: toolboxWidth ?? 250, child: toolboxWidget),
             const VerticalDivider(width: 1),
           ],
           gridWidget,
@@ -214,10 +211,7 @@ class FormLayout extends HookWidget {
       return Column(
         children: [
           if (toolboxWidget != null) ...[
-            SizedBox(
-              height: toolboxHeight ?? 150,
-              child: toolboxWidget,
-            ),
+            SizedBox(height: toolboxHeight ?? 150, child: toolboxWidget),
             const Divider(height: 1),
           ],
           gridWidget,
@@ -226,8 +220,8 @@ class FormLayout extends HookWidget {
     }
   }
 
-
-  Map<String, Widget Function(BuildContext, WidgetPlacement)> _getWidgetBuilders(CategorizedToolbox toolbox) {
+  Map<String, Widget Function(BuildContext, WidgetPlacement)>
+  _getWidgetBuilders(CategorizedToolbox toolbox) {
     final builders = <String, Widget Function(BuildContext, WidgetPlacement)>{};
     for (final category in toolbox.categories) {
       for (final item in category.items) {

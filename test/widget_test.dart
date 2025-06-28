@@ -9,7 +9,7 @@ void main() {
 
     // Verify that the app shows the title
     expect(find.text('FormBuilder'), findsOneWidget);
-    
+
     // Verify that the demo text is shown
     expect(find.text('FormLayout Widget Demo'), findsOneWidget);
   });

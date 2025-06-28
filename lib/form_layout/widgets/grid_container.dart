@@ -12,61 +12,63 @@ import 'dart:math';
 class GridContainer extends StatelessWidget {
   /// The current layout state
   final LayoutState layoutState;
-  
+
   /// Map of widget builders by widget name
-  final Map<String, Widget Function(BuildContext, WidgetPlacement)> widgetBuilders;
-  
+  final Map<String, Widget Function(BuildContext, WidgetPlacement)>
+  widgetBuilders;
+
   /// ID of the currently selected widget
   final String? selectedWidgetId;
-  
+
   /// IDs of widgets being dragged
   final Set<String> draggingWidgetIds;
-  
+
   /// IDs of widgets being resized
   final Set<String> resizingWidgetIds;
-  
+
   /// Cells to highlight on the grid
   final Set<Point<int>>? highlightedCells;
-  
+
   /// Color for highlighted cells
   final Color? highlightColor;
-  
+
   /// Function to determine if a cell is valid
   final bool Function(Point<int>)? isCellValid;
-  
+
   /// Callback when a widget is tapped
   final void Function(String widgetId)? onWidgetTap;
-  
+
   /// Whether widgets can be dragged
   final bool canDragWidgets;
-  
+
   /// Callback when a widget drag starts
   final void Function(WidgetPlacement)? onWidgetDragStarted;
-  
+
   /// Callback when a widget drag ends
   final VoidCallback? onWidgetDragEnd;
-  
+
   /// Callback when a widget drag is completed
   final void Function(DraggableDetails)? onWidgetDragCompleted;
-  
+
   /// Callback when a widget resize starts
   final void Function(ResizeData)? onWidgetResizeStart;
-  
+
   /// Callback when a widget resize updates
   final void Function(ResizeData, Offset delta)? onWidgetResizeUpdate;
-  
+
   /// Callback when a widget resize ends
   final VoidCallback? onWidgetResizeEnd;
-  
+
   /// Callback when a widget is resized
-  final void Function(String widgetId, WidgetPlacement newPlacement)? onWidgetResize;
-  
+  final void Function(String widgetId, WidgetPlacement newPlacement)?
+  onWidgetResize;
+
   /// Callback when a widget should be deleted
   final void Function(String widgetId)? onWidgetDelete;
 
   /// Whether the form is in preview mode (hides editing UI)
   final bool isPreviewMode;
-  
+
   /// Animation settings
   final AnimationSettings animationSettings;
 
@@ -112,22 +114,19 @@ class GridContainer extends StatelessWidget {
               animationSettings: animationSettings,
               showGridLines: true,
             ),
-        // Placed widgets overlay
-        LayoutGrid(
-          areas: _generateAreas(),
-          columnSizes: List.generate(
-            layoutState.dimensions.columns,
-            (_) => 1.fr,
+          // Placed widgets overlay
+          LayoutGrid(
+            areas: _generateAreas(),
+            columnSizes: List.generate(
+              layoutState.dimensions.columns,
+              (_) => 1.fr,
+            ),
+            rowSizes: List.generate(layoutState.dimensions.rows, (_) => 1.fr),
+            columnGap: isPreviewMode ? 8 : 0,
+            rowGap: isPreviewMode ? 8 : 0,
+            children: _buildPlacedWidgets(context),
           ),
-          rowSizes: List.generate(
-            layoutState.dimensions.rows,
-            (_) => 1.fr,
-          ),
-          columnGap: isPreviewMode ? 8 : 0,
-          rowGap: isPreviewMode ? 8 : 0,
-          children: _buildPlacedWidgets(context),
-        ),
-      ],
+        ],
       ),
     );
   }
@@ -150,16 +149,16 @@ class GridContainer extends StatelessWidget {
     return layoutState.widgets.map((placement) {
       // Get the widget builder
       final widgetBuilder = widgetBuilders[placement.widgetName];
-      
+
       // Create child widget or error widget
-      final child = widgetBuilder != null 
+      final child = widgetBuilder != null
           ? widgetBuilder(context, placement)
           : _buildErrorWidget(placement.widgetName);
-      
+
       final isSelected = selectedWidgetId == placement.id;
       final isDragging = draggingWidgetIds.contains(placement.id);
       final isResizing = resizingWidgetIds.contains(placement.id);
-      
+
       // Wrap in PlacedWidget (or simple container in preview mode)
       if (isPreviewMode) {
         return Container(
@@ -176,7 +175,9 @@ class GridContainer extends StatelessWidget {
           showDeleteButton: isSelected && !isDragging && !isResizing,
           animationSettings: animationSettings,
           onTap: onWidgetTap != null ? () => onWidgetTap!(placement.id) : null,
-          onDelete: onWidgetDelete != null ? () => onWidgetDelete!(placement.id) : null,
+          onDelete: onWidgetDelete != null
+              ? () => onWidgetDelete!(placement.id)
+              : null,
           child: child,
         ).inGridArea(_getAreaName(placement));
       }
@@ -189,11 +190,19 @@ class GridContainer extends StatelessWidget {
     if (placement.width == 1 && placement.height == 1) {
       return 'cell_${placement.row}_${placement.column}';
     }
-    
+
     // For multi-cell widgets, we need to specify all cells
     final cells = <String>[];
-    for (int row = placement.row; row < placement.row + placement.height; row++) {
-      for (int col = placement.column; col < placement.column + placement.width; col++) {
+    for (
+      int row = placement.row;
+      row < placement.row + placement.height;
+      row++
+    ) {
+      for (
+        int col = placement.column;
+        col < placement.column + placement.width;
+        col++
+      ) {
         cells.add('cell_${row}_$col');
       }
     }
@@ -212,11 +221,7 @@ class GridContainer extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              Icons.error_outline,
-              color: Colors.red.shade700,
-              size: 24,
-            ),
+            Icon(Icons.error_outline, color: Colors.red.shade700, size: 24),
             const SizedBox(height: 4),
             Text(
               widgetName,

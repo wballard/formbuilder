@@ -13,9 +13,7 @@ class StorybookApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Storybook(
       initialStory: 'Form Layout/Default',
-      stories: [
-        ...getFormLayoutStories(),
-      ],
+      stories: [...getFormLayoutStories()],
     );
   }
 }

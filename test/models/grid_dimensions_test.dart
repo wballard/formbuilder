@@ -53,7 +53,7 @@ void main() {
       test('copies with new columns value', () {
         const original = GridDimensions(columns: 4, rows: 6);
         final copied = original.copyWith(columns: 8);
-        
+
         expect(copied.columns, equals(8));
         expect(copied.rows, equals(6));
         expect(identical(original, copied), isFalse);
@@ -62,7 +62,7 @@ void main() {
       test('copies with new rows value', () {
         const original = GridDimensions(columns: 4, rows: 6);
         final copied = original.copyWith(rows: 10);
-        
+
         expect(copied.columns, equals(4));
         expect(copied.rows, equals(10));
         expect(identical(original, copied), isFalse);
@@ -71,7 +71,7 @@ void main() {
       test('copies with both values changed', () {
         const original = GridDimensions(columns: 4, rows: 6);
         final copied = original.copyWith(columns: 6, rows: 8);
-        
+
         expect(copied.columns, equals(6));
         expect(copied.rows, equals(8));
         expect(identical(original, copied), isFalse);
@@ -80,19 +80,19 @@ void main() {
       test('returns same values when no parameters provided', () {
         const original = GridDimensions(columns: 4, rows: 6);
         final copied = original.copyWith();
-        
+
         expect(copied.columns, equals(4));
         expect(copied.rows, equals(6));
       });
 
       test('validates new values in copyWith', () {
         const original = GridDimensions(columns: 4, rows: 6);
-        
+
         expect(
           () => original.copyWith(columns: 0),
           throwsA(isA<ArgumentError>()),
         );
-        
+
         expect(
           () => original.copyWith(rows: 25),
           throwsA(isA<ArgumentError>()),
@@ -104,7 +104,7 @@ void main() {
       test('two instances with same values are equal', () {
         const dimensions1 = GridDimensions(columns: 4, rows: 6);
         const dimensions2 = GridDimensions(columns: 4, rows: 6);
-        
+
         expect(dimensions1, equals(dimensions2));
         expect(dimensions1.hashCode, equals(dimensions2.hashCode));
       });
@@ -112,14 +112,14 @@ void main() {
       test('two instances with different columns are not equal', () {
         const dimensions1 = GridDimensions(columns: 4, rows: 6);
         const dimensions2 = GridDimensions(columns: 5, rows: 6);
-        
+
         expect(dimensions1, isNot(equals(dimensions2)));
       });
 
       test('two instances with different rows are not equal', () {
         const dimensions1 = GridDimensions(columns: 4, rows: 6);
         const dimensions2 = GridDimensions(columns: 4, rows: 7);
-        
+
         expect(dimensions1, isNot(equals(dimensions2)));
       });
     });
@@ -127,7 +127,7 @@ void main() {
     test('toString returns readable representation', () {
       const dimensions = GridDimensions(columns: 4, rows: 6);
       final stringRep = dimensions.toString();
-      
+
       expect(stringRep, contains('GridDimensions'));
       expect(stringRep, contains('4'));
       expect(stringRep, contains('6'));

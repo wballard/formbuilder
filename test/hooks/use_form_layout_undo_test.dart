@@ -32,7 +32,9 @@ void main() {
       expect(controller.canRedo, isFalse);
     });
 
-    testWidgets('tracks undo state after widget addition', (WidgetTester tester) async {
+    testWidgets('tracks undo state after widget addition', (
+      WidgetTester tester,
+    ) async {
       late FormLayoutController controller;
       final placement = WidgetPlacement(
         id: 'widget1',
@@ -86,7 +88,7 @@ void main() {
 
       controller.addWidget(placement);
       await tester.pump();
-      
+
       controller.undo();
       await tester.pump();
 
@@ -119,10 +121,10 @@ void main() {
 
       controller.addWidget(placement);
       await tester.pump();
-      
+
       controller.undo();
       await tester.pump();
-      
+
       controller.redo();
       await tester.pump();
 
@@ -131,7 +133,9 @@ void main() {
       expect(controller.canRedo, isFalse);
     });
 
-    testWidgets('tracks multiple operations in undo history', (WidgetTester tester) async {
+    testWidgets('tracks multiple operations in undo history', (
+      WidgetTester tester,
+    ) async {
       late FormLayoutController controller;
       final widget1 = WidgetPlacement(
         id: 'widget1',
@@ -163,7 +167,7 @@ void main() {
 
       controller.addWidget(widget1);
       await tester.pump();
-      
+
       controller.addWidget(widget2);
       await tester.pump();
 
@@ -341,7 +345,7 @@ void main() {
           id: 'widget$i',
           widgetName: 'TestWidget',
           column: i % 4, // Spread across columns to avoid conflicts
-          row: i ~/ 4,   // Move to next row when columns are full
+          row: i ~/ 4, // Move to next row when columns are full
           width: 1,
           height: 1,
         );
@@ -363,7 +367,9 @@ void main() {
       expect(controller.state.widgets.length, equals(2)); // 5 - 3 = 2
     });
 
-    testWidgets('clears redo history on new operation', (WidgetTester tester) async {
+    testWidgets('clears redo history on new operation', (
+      WidgetTester tester,
+    ) async {
       late FormLayoutController controller;
       final widget1 = WidgetPlacement(
         id: 'widget1',
@@ -395,10 +401,10 @@ void main() {
 
       controller.addWidget(widget1);
       await tester.pump();
-      
+
       controller.undo();
       await tester.pump();
-      
+
       expect(controller.canRedo, isTrue);
 
       // New operation should clear redo history
@@ -432,7 +438,7 @@ void main() {
 
       controller.addWidget(placement);
       await tester.pump();
-      
+
       expect(controller.canUndo, isTrue);
 
       controller.clearHistory();
@@ -442,88 +448,91 @@ void main() {
       expect(controller.canRedo, isFalse);
     });
 
-    testWidgets('maintains state consistency during complex undo/redo sequence', (WidgetTester tester) async {
-      late FormLayoutController controller;
-      final widget1 = WidgetPlacement(
-        id: 'widget1',
-        widgetName: 'TestWidget',
-        column: 0,
-        row: 0,
-        width: 1,
-        height: 1,
-      );
+    testWidgets(
+      'maintains state consistency during complex undo/redo sequence',
+      (WidgetTester tester) async {
+        late FormLayoutController controller;
+        final widget1 = WidgetPlacement(
+          id: 'widget1',
+          widgetName: 'TestWidget',
+          column: 0,
+          row: 0,
+          width: 1,
+          height: 1,
+        );
 
-      await tester.pumpWidget(
-        MaterialApp(
-          home: HookBuilder(
-            builder: (context) {
-              controller = useFormLayout(initialState);
-              return Container();
-            },
+        await tester.pumpWidget(
+          MaterialApp(
+            home: HookBuilder(
+              builder: (context) {
+                controller = useFormLayout(initialState);
+                return Container();
+              },
+            ),
           ),
-        ),
-      );
+        );
 
-      // Add widget
-      controller.addWidget(widget1);
-      await tester.pump();
-      
-      // Move widget
-      controller.moveWidget('widget1', 2, 2);
-      await tester.pump();
-      
-      // Resize widget
-      controller.resizeWidget('widget1', 2, 2);
-      await tester.pump();
+        // Add widget
+        controller.addWidget(widget1);
+        await tester.pump();
 
-      final finalWidget = controller.state.getWidget('widget1');
-      expect(finalWidget?.column, equals(2));
-      expect(finalWidget?.row, equals(2));
-      expect(finalWidget?.width, equals(2));
-      expect(finalWidget?.height, equals(2));
+        // Move widget
+        controller.moveWidget('widget1', 2, 2);
+        await tester.pump();
 
-      // Undo resize
-      controller.undo();
-      await tester.pump();
-      
-      var widget = controller.state.getWidget('widget1');
-      expect(widget?.width, equals(1));
-      expect(widget?.height, equals(1));
-      expect(widget?.column, equals(2));
-      expect(widget?.row, equals(2));
+        // Resize widget
+        controller.resizeWidget('widget1', 2, 2);
+        await tester.pump();
 
-      // Undo move
-      controller.undo();
-      await tester.pump();
-      
-      widget = controller.state.getWidget('widget1');
-      expect(widget?.column, equals(0));
-      expect(widget?.row, equals(0));
-      expect(widget?.width, equals(1));
-      expect(widget?.height, equals(1));
+        final finalWidget = controller.state.getWidget('widget1');
+        expect(finalWidget?.column, equals(2));
+        expect(finalWidget?.row, equals(2));
+        expect(finalWidget?.width, equals(2));
+        expect(finalWidget?.height, equals(2));
 
-      // Undo add
-      controller.undo();
-      await tester.pump();
-      
-      expect(controller.state.widgets, isEmpty);
+        // Undo resize
+        controller.undo();
+        await tester.pump();
 
-      // Redo all operations
-      controller.redo();
-      await tester.pump();
-      expect(controller.state.widgets.length, equals(1));
-      
-      controller.redo();
-      await tester.pump();
-      widget = controller.state.getWidget('widget1');
-      expect(widget?.column, equals(2));
-      expect(widget?.row, equals(2));
-      
-      controller.redo();
-      await tester.pump();
-      widget = controller.state.getWidget('widget1');
-      expect(widget?.width, equals(2));
-      expect(widget?.height, equals(2));
-    });
+        var widget = controller.state.getWidget('widget1');
+        expect(widget?.width, equals(1));
+        expect(widget?.height, equals(1));
+        expect(widget?.column, equals(2));
+        expect(widget?.row, equals(2));
+
+        // Undo move
+        controller.undo();
+        await tester.pump();
+
+        widget = controller.state.getWidget('widget1');
+        expect(widget?.column, equals(0));
+        expect(widget?.row, equals(0));
+        expect(widget?.width, equals(1));
+        expect(widget?.height, equals(1));
+
+        // Undo add
+        controller.undo();
+        await tester.pump();
+
+        expect(controller.state.widgets, isEmpty);
+
+        // Redo all operations
+        controller.redo();
+        await tester.pump();
+        expect(controller.state.widgets.length, equals(1));
+
+        controller.redo();
+        await tester.pump();
+        widget = controller.state.getWidget('widget1');
+        expect(widget?.column, equals(2));
+        expect(widget?.row, equals(2));
+
+        controller.redo();
+        await tester.pump();
+        widget = controller.state.getWidget('widget1');
+        expect(widget?.width, equals(2));
+        expect(widget?.height, equals(2));
+      },
+    );
   });
 }

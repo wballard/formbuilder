@@ -44,7 +44,9 @@ class ToolboxWidget extends StatelessWidget {
         direction: direction,
         spacing: spacing,
         runSpacing: spacing,
-        children: toolbox.items.map((item) => _buildToolboxItem(context, item)).toList(),
+        children: toolbox.items
+            .map((item) => _buildToolboxItem(context, item))
+            .toList(),
       ),
     );
   }
@@ -52,7 +54,7 @@ class ToolboxWidget extends StatelessWidget {
   /// Builds a single toolbox item with themed styling
   Widget _buildToolboxItem(BuildContext context, ToolboxItem item) {
     final formTheme = FormLayoutTheme.of(context);
-    
+
     final widget = _HoverableCard(
       child: Tooltip(
         message: item.displayName,
@@ -109,10 +111,7 @@ class ToolboxWidget extends StatelessWidget {
           ),
         ),
       ),
-      childWhenDragging: Opacity(
-        opacity: 0.3,
-        child: widget,
-      ),
+      childWhenDragging: Opacity(opacity: 0.3, child: widget),
       onDragStarted: () => onDragStarted?.call(item),
       onDragEnd: (_) => onDragEnd?.call(),
       onDragCompleted: onDragCompleted,
@@ -137,14 +136,16 @@ class _HoverableCardState extends State<_HoverableCard> {
   @override
   Widget build(BuildContext context) {
     final formTheme = FormLayoutTheme.of(context);
-    
+
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         child: Card(
-          elevation: _isHovered ? formTheme.elevations * 2 : formTheme.elevations,
+          elevation: _isHovered
+              ? formTheme.elevations * 2
+              : formTheme.elevations,
           shape: RoundedRectangleBorder(
             borderRadius: formTheme.widgetBorderRadius,
           ),

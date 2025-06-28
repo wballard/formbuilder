@@ -11,49 +11,49 @@ import 'package:formbuilder/form_layout/theme/form_layout_theme.dart';
 class PlacedWidget extends StatefulWidget {
   /// The placement information for this widget
   final WidgetPlacement placement;
-  
+
   /// The child widget to display
   final Widget child;
-  
+
   /// Callback when the widget is tapped
   final VoidCallback? onTap;
-  
+
   /// Whether this widget is currently selected
   final bool isSelected;
-  
+
   /// Whether this widget is being dragged
   final bool isDragging;
-  
+
   /// Padding around the content
   final EdgeInsets contentPadding;
-  
+
   /// Whether this widget can be dragged
   final bool canDrag;
-  
+
   /// Callback when drag starts
   final void Function(WidgetPlacement)? onDragStarted;
-  
+
   /// Callback when drag ends
   final VoidCallback? onDragEnd;
-  
+
   /// Callback when drag is completed
   final void Function(DraggableDetails)? onDragCompleted;
-  
+
   /// Whether to show resize handles
   final bool showResizeHandles;
-  
+
   /// Callback when resize starts
   final void Function(ResizeData)? onResizeStart;
-  
+
   /// Callback when resize updates
   final void Function(ResizeData, Offset delta)? onResizeUpdate;
-  
+
   /// Callback when resize ends
   final VoidCallback? onResizeEnd;
-  
+
   /// Callback when the widget should be deleted
   final VoidCallback? onDelete;
-  
+
   /// Whether to show the delete button
   final bool showDeleteButton;
 
@@ -81,7 +81,7 @@ class PlacedWidget extends StatefulWidget {
   State<PlacedWidget> createState() => _PlacedWidgetState();
 }
 
-class _PlacedWidgetState extends State<PlacedWidget> 
+class _PlacedWidgetState extends State<PlacedWidget>
     with SingleTickerProviderStateMixin {
   bool _isHovering = false;
   late AnimationController _scaleController;
@@ -97,10 +97,7 @@ class _PlacedWidgetState extends State<PlacedWidget>
     _scaleAnimation = Tween<double>(
       begin: 1.0,
       end: 1.05,
-    ).animate(CurvedAnimation(
-      parent: _scaleController,
-      curve: Curves.easeOut,
-    ));
+    ).animate(CurvedAnimation(parent: _scaleController, curve: Curves.easeOut));
   }
 
   @override
@@ -112,24 +109,24 @@ class _PlacedWidgetState extends State<PlacedWidget>
   @override
   Widget build(BuildContext context) {
     final formTheme = FormLayoutTheme.of(context);
-    final isDesktop = !kIsWeb && (
-      defaultTargetPlatform == TargetPlatform.macOS ||
-      defaultTargetPlatform == TargetPlatform.windows ||
-      defaultTargetPlatform == TargetPlatform.linux
-    );
-    
+    final isDesktop =
+        !kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.macOS ||
+            defaultTargetPlatform == TargetPlatform.windows ||
+            defaultTargetPlatform == TargetPlatform.linux);
+
     // Calculate elevation based on state
     double elevation = formTheme.elevations;
     if (_isHovering && isDesktop) {
       elevation = formTheme.elevations * 2;
     }
-    
+
     // Build the content
     Widget content = Padding(
       padding: widget.contentPadding,
       child: widget.child,
     );
-    
+
     // Wrap in Material for elevation and ink effects
     content = Material(
       elevation: elevation,
@@ -141,10 +138,7 @@ class _PlacedWidgetState extends State<PlacedWidget>
         child: Container(
           decoration: BoxDecoration(
             border: widget.isSelected
-                ? Border.all(
-                    color: formTheme.selectionBorderColor,
-                    width: 2.0,
-                  )
+                ? Border.all(color: formTheme.selectionBorderColor, width: 2.0)
                 : null,
             borderRadius: formTheme.widgetBorderRadius,
           ),
@@ -152,39 +146,35 @@ class _PlacedWidgetState extends State<PlacedWidget>
         ),
       ),
     );
-    
+
     // Apply dragging opacity
     if (widget.isDragging) {
-      content = Opacity(
-        opacity: 0.5,
-        child: content,
-      );
+      content = Opacity(opacity: 0.5, child: content);
     }
-    
+
     // Add mouse region for desktop hover effects
     if (isDesktop) {
       content = MouseRegion(
-        cursor: widget.canDrag ? SystemMouseCursors.grab : SystemMouseCursors.move,
+        cursor: widget.canDrag
+            ? SystemMouseCursors.grab
+            : SystemMouseCursors.move,
         onEnter: (_) => setState(() => _isHovering = true),
         onExit: (_) => setState(() => _isHovering = false),
         child: content,
       );
     }
-    
+
     // Apply scale animation when draggable
     if (widget.canDrag) {
       final contentForAnimation = content;
       content = AnimatedBuilder(
         animation: _scaleAnimation,
         builder: (context, child) {
-          return Transform.scale(
-            scale: _scaleAnimation.value,
-            child: child,
-          );
+          return Transform.scale(scale: _scaleAnimation.value, child: child);
         },
         child: contentForAnimation,
       );
-      
+
       // Wrap with Draggable
       content = Draggable<WidgetPlacement>(
         data: widget.placement,
@@ -202,33 +192,32 @@ class _PlacedWidgetState extends State<PlacedWidget>
           _scaleController.reverse();
           widget.onDragEnd?.call();
         },
-        onDragCompleted: () => widget.onDragCompleted?.call(DraggableDetails(
-          wasAccepted: true,
-          velocity: Velocity.zero,
-          offset: Offset.zero,
-        )),
+        onDragCompleted: () => widget.onDragCompleted?.call(
+          DraggableDetails(
+            wasAccepted: true,
+            velocity: Velocity.zero,
+            offset: Offset.zero,
+          ),
+        ),
         child: content,
       );
     }
-    
+
     // Add resize handles and/or delete button if enabled
     if (widget.showResizeHandles || widget.showDeleteButton) {
       final overlayChildren = <Widget>[content];
-      
+
       if (widget.showResizeHandles) {
         overlayChildren.addAll(_buildResizeHandles());
       }
-      
+
       if (widget.showDeleteButton) {
         overlayChildren.add(_buildDeleteButton());
       }
-      
-      content = Stack(
-        clipBehavior: Clip.none,
-        children: overlayChildren,
-      );
+
+      content = Stack(clipBehavior: Clip.none, children: overlayChildren);
     }
-    
+
     return content;
   }
 
@@ -293,7 +282,7 @@ class _PlacedWidgetState extends State<PlacedWidget>
       ),
     ];
   }
-  
+
   /// Build the delete button
   Widget _buildDeleteButton() {
     return Positioned(
@@ -309,10 +298,10 @@ class _PlacedWidgetState extends State<PlacedWidget>
             onTap: () {
               // Call the direct callback if provided
               widget.onDelete?.call();
-              
+
               // Also invoke the intent for action handling
               Actions.maybeInvoke<RemoveWidgetIntent>(
-                context, 
+                context,
                 RemoveWidgetIntent(widgetId: widget.placement.id),
               );
             },
@@ -322,16 +311,9 @@ class _PlacedWidgetState extends State<PlacedWidget>
               height: 24,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(
-                  color: Colors.white,
-                  width: 1.5,
-                ),
+                border: Border.all(color: Colors.white, width: 1.5),
               ),
-              child: const Icon(
-                Icons.close,
-                size: 16,
-                color: Colors.white,
-              ),
+              child: const Icon(Icons.close, size: 16, color: Colors.white),
             ),
           ),
         ),
@@ -344,13 +326,13 @@ class _PlacedWidgetState extends State<PlacedWidget>
 class DraggingPlacedWidget extends StatelessWidget {
   /// The placement information for this widget
   final WidgetPlacement placement;
-  
+
   /// The child widget to display
   final Widget child;
-  
+
   /// Padding around the content
   final EdgeInsets contentPadding;
-  
+
   /// Animation settings
   final AnimationSettings animationSettings;
 
@@ -365,11 +347,8 @@ class DraggingPlacedWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Build the content
-    Widget content = Padding(
-      padding: contentPadding,
-      child: child,
-    );
-    
+    Widget content = Padding(padding: contentPadding, child: child);
+
     // Wrap in Material for elevation and shadow
     content = Material(
       elevation: 8.0,
@@ -377,13 +356,11 @@ class DraggingPlacedWidget extends StatelessWidget {
       color: Colors.white,
       shadowColor: Colors.black.withValues(alpha: 0.3),
       child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4),
-        ),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(4)),
         child: content,
       ),
     );
-    
+
     // Wrap with animated drag feedback
     return AnimatedDragFeedback(
       animationSettings: animationSettings,

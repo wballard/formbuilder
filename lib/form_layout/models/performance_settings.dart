@@ -8,10 +8,10 @@ enum QualityLevel {
   high('High Quality', 'Prioritizes visual quality over performance');
 
   const QualityLevel(this.displayName, this.description);
-  
+
   final String displayName;
   final String description;
-  
+
   /// Animation duration for this quality level
   Duration get animationDuration {
     switch (this) {
@@ -23,7 +23,7 @@ enum QualityLevel {
         return const Duration(milliseconds: 300);
     }
   }
-  
+
   /// Render scale factor for this quality level
   double get renderScale {
     switch (this) {
@@ -35,7 +35,7 @@ enum QualityLevel {
         return 1.0;
     }
   }
-  
+
   /// Whether to use anti-aliasing
   bool get useAntiAliasing {
     switch (this) {
@@ -64,7 +64,10 @@ class PerformanceSettings {
     this.cacheSize = 100,
     this.enableBackgroundProcessing = true,
   }) : assert(maxHistorySize > 0, 'Max history size must be greater than 0'),
-       assert(dragUpdateFrequency > 0, 'Drag update frequency must be greater than 0'),
+       assert(
+         dragUpdateFrequency > 0,
+         'Drag update frequency must be greater than 0',
+       ),
        assert(cacheSize >= 0, 'Cache size must be non-negative');
 
   final QualityLevel qualityLevel;
@@ -83,55 +86,55 @@ class PerformanceSettings {
 
   /// Create settings optimized for low-performance devices
   const PerformanceSettings.lowPerformance()
-      : qualityLevel = QualityLevel.low,
-        enableAnimations = false,
-        enableVirtualScrolling = true,
-        maxHistorySize = 20,
-        dragUpdateFrequency = 30,
-        enableMemoryOptimization = true,
-        enableDebugMode = false,
-        autoAdaptPerformance = false,
-        cacheSize = 50,
-        enableBackgroundProcessing = false;
+    : qualityLevel = QualityLevel.low,
+      enableAnimations = false,
+      enableVirtualScrolling = true,
+      maxHistorySize = 20,
+      dragUpdateFrequency = 30,
+      enableMemoryOptimization = true,
+      enableDebugMode = false,
+      autoAdaptPerformance = false,
+      cacheSize = 50,
+      enableBackgroundProcessing = false;
 
   /// Create settings optimized for high-performance devices
   const PerformanceSettings.highPerformance()
-      : qualityLevel = QualityLevel.high,
-        enableAnimations = true,
-        enableVirtualScrolling = true,
-        maxHistorySize = 100,
-        dragUpdateFrequency = 120,
-        enableMemoryOptimization = false,
-        enableDebugMode = false,
-        autoAdaptPerformance = false,
-        cacheSize = 200,
-        enableBackgroundProcessing = true;
+    : qualityLevel = QualityLevel.high,
+      enableAnimations = true,
+      enableVirtualScrolling = true,
+      maxHistorySize = 100,
+      dragUpdateFrequency = 120,
+      enableMemoryOptimization = false,
+      enableDebugMode = false,
+      autoAdaptPerformance = false,
+      cacheSize = 200,
+      enableBackgroundProcessing = true;
 
   /// Create settings optimized for battery saving
   const PerformanceSettings.batterySaver()
-      : qualityLevel = QualityLevel.low,
-        enableAnimations = false,
-        enableVirtualScrolling = true,
-        maxHistorySize = 15,
-        dragUpdateFrequency = 20,
-        enableMemoryOptimization = true,
-        enableDebugMode = false,
-        autoAdaptPerformance = false,
-        cacheSize = 30,
-        enableBackgroundProcessing = false;
+    : qualityLevel = QualityLevel.low,
+      enableAnimations = false,
+      enableVirtualScrolling = true,
+      maxHistorySize = 15,
+      dragUpdateFrequency = 20,
+      enableMemoryOptimization = true,
+      enableDebugMode = false,
+      autoAdaptPerformance = false,
+      cacheSize = 30,
+      enableBackgroundProcessing = false;
 
   /// Create settings with auto-adaptation enabled
   const PerformanceSettings.auto()
-      : qualityLevel = QualityLevel.balanced,
-        enableAnimations = true,
-        enableVirtualScrolling = true,
-        maxHistorySize = 50,
-        dragUpdateFrequency = 60,
-        enableMemoryOptimization = true,
-        enableDebugMode = false,
-        autoAdaptPerformance = true,
-        cacheSize = 100,
-        enableBackgroundProcessing = true;
+    : qualityLevel = QualityLevel.balanced,
+      enableAnimations = true,
+      enableVirtualScrolling = true,
+      maxHistorySize = 50,
+      dragUpdateFrequency = 60,
+      enableMemoryOptimization = true,
+      enableDebugMode = false,
+      autoAdaptPerformance = true,
+      cacheSize = 100,
+      enableBackgroundProcessing = true;
 
   /// Create a copy with modified values
   PerformanceSettings copyWith({
@@ -149,14 +152,17 @@ class PerformanceSettings {
     return PerformanceSettings(
       qualityLevel: qualityLevel ?? this.qualityLevel,
       enableAnimations: enableAnimations ?? this.enableAnimations,
-      enableVirtualScrolling: enableVirtualScrolling ?? this.enableVirtualScrolling,
+      enableVirtualScrolling:
+          enableVirtualScrolling ?? this.enableVirtualScrolling,
       maxHistorySize: maxHistorySize ?? this.maxHistorySize,
       dragUpdateFrequency: dragUpdateFrequency ?? this.dragUpdateFrequency,
-      enableMemoryOptimization: enableMemoryOptimization ?? this.enableMemoryOptimization,
+      enableMemoryOptimization:
+          enableMemoryOptimization ?? this.enableMemoryOptimization,
       enableDebugMode: enableDebugMode ?? this.enableDebugMode,
       autoAdaptPerformance: autoAdaptPerformance ?? this.autoAdaptPerformance,
       cacheSize: cacheSize ?? this.cacheSize,
-      enableBackgroundProcessing: enableBackgroundProcessing ?? this.enableBackgroundProcessing,
+      enableBackgroundProcessing:
+          enableBackgroundProcessing ?? this.enableBackgroundProcessing,
     );
   }
 
@@ -322,9 +328,11 @@ class PerformanceProfiler {
       );
     }
 
-    final avgFrameTime = _frameTimes.reduce((a, b) => a + b) / _frameTimes.length;
+    final avgFrameTime =
+        _frameTimes.reduce((a, b) => a + b) / _frameTimes.length;
     final avgFps = 1000 / avgFrameTime;
-    final avgMemory = _memoryUsages.reduce((a, b) => a + b) ~/ _memoryUsages.length;
+    final avgMemory =
+        _memoryUsages.reduce((a, b) => a + b) ~/ _memoryUsages.length;
     final peakMemory = _memoryUsages.reduce((a, b) => a > b ? a : b);
 
     return PerformanceMetrics(
@@ -346,12 +354,12 @@ class PerformanceProfiler {
     if (deviceRam >= 6 * 1024 && cpuCores >= 6 && gpuMemory >= 2 * 1024) {
       return const PerformanceSettings.highPerformance();
     }
-    
+
     // Low-end device criteria
     if (deviceRam <= 3 * 1024 || cpuCores <= 4 || gpuMemory <= 1024) {
       return const PerformanceSettings.lowPerformance();
     }
-    
+
     // Medium-end device - use balanced settings
     return const PerformanceSettings();
   }
@@ -363,10 +371,11 @@ class PerformanceProfiler {
     }
 
     final metrics = getPerformanceMetrics();
-    
+
     return _currentSettings.getEffectiveSettings(
       currentFps: metrics.averageFps,
-      memoryUsage: metrics.averageMemoryUsage ~/ (1024 * 1024), // Convert bytes to MB
+      memoryUsage:
+          metrics.averageMemoryUsage ~/ (1024 * 1024), // Convert bytes to MB
     );
   }
 

@@ -95,7 +95,9 @@ void main() {
       expect(controller.isPreviewMode, isFalse);
     });
 
-    testWidgets('clears selection when entering preview mode', (WidgetTester tester) async {
+    testWidgets('clears selection when entering preview mode', (
+      WidgetTester tester,
+    ) async {
       late FormLayoutController controller;
 
       await tester.pumpWidget(
@@ -123,31 +125,36 @@ void main() {
       expect(controller.selectedWidgetId, isNull);
     });
 
-    testWidgets('maintains selection when exiting preview mode if widget was selected before', (WidgetTester tester) async {
-      late FormLayoutController controller;
+    testWidgets(
+      'maintains selection when exiting preview mode if widget was selected before',
+      (WidgetTester tester) async {
+        late FormLayoutController controller;
 
-      await tester.pumpWidget(
-        MaterialApp(
-          home: HookBuilder(
-            builder: (context) {
-              controller = useFormLayout(initialState);
-              return Container();
-            },
+        await tester.pumpWidget(
+          MaterialApp(
+            home: HookBuilder(
+              builder: (context) {
+                controller = useFormLayout(initialState);
+                return Container();
+              },
+            ),
           ),
-        ),
-      );
+        );
 
-      // Exit preview mode without prior selection
-      controller.setPreviewMode(true);
-      await tester.pump();
-      
-      controller.setPreviewMode(false);
-      await tester.pump();
+        // Exit preview mode without prior selection
+        controller.setPreviewMode(true);
+        await tester.pump();
 
-      expect(controller.selectedWidgetId, isNull);
-    });
+        controller.setPreviewMode(false);
+        await tester.pump();
 
-    testWidgets('notifies listeners when preview mode changes', (WidgetTester tester) async {
+        expect(controller.selectedWidgetId, isNull);
+      },
+    );
+
+    testWidgets('notifies listeners when preview mode changes', (
+      WidgetTester tester,
+    ) async {
       late FormLayoutController controller;
       int notificationCount = 0;
 
@@ -180,7 +187,9 @@ void main() {
       expect(notificationCount, greaterThan(countAfterSetTrue));
     });
 
-    testWidgets('does not notify listeners when setting same preview mode', (WidgetTester tester) async {
+    testWidgets('does not notify listeners when setting same preview mode', (
+      WidgetTester tester,
+    ) async {
       late FormLayoutController controller;
       int notificationCount = 0;
 

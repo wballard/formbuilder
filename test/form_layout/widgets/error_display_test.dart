@@ -203,10 +203,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: InlineErrorDisplay(
-              result: null,
-              child: Text('Child'),
-            ),
+            body: InlineErrorDisplay(result: null, child: Text('Child')),
           ),
         ),
       );
@@ -229,16 +226,21 @@ void main() {
 
       expect(find.text('Child'), findsOneWidget);
       expect(find.byIcon(Icons.error_outline), findsOneWidget);
-      
+
       final container = tester.widget<Container>(
         find.descendant(
           of: find.byType(Stack),
           matching: find.byType(Container).first,
         ),
       );
-      
+
       final decoration = container.decoration as BoxDecoration;
-      expect(decoration.border?.top.color, equals(Theme.of(tester.element(find.byType(Scaffold))).colorScheme.error));
+      expect(
+        decoration.border?.top.color,
+        equals(
+          Theme.of(tester.element(find.byType(Scaffold))).colorScheme.error,
+        ),
+      );
     });
 
     testWidgets('shows warning styling for warning result', (tester) async {
@@ -254,14 +256,14 @@ void main() {
       );
 
       expect(find.byIcon(Icons.warning_amber_outlined), findsOneWidget);
-      
+
       final container = tester.widget<Container>(
         find.descendant(
           of: find.byType(Stack),
           matching: find.byType(Container).first,
         ),
       );
-      
+
       final decoration = container.decoration as BoxDecoration;
       expect(decoration.border?.top.color, equals(Colors.orange));
     });
@@ -286,20 +288,17 @@ void main() {
   group('ErrorStatusBar', () {
     testWidgets('hides when no result', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: ErrorStatusBar(
-              result: null,
-            ),
-          ),
-        ),
+        const MaterialApp(home: Scaffold(body: ErrorStatusBar(result: null))),
       );
 
       expect(find.byType(ErrorStatusBar), findsOneWidget);
-      expect(find.descendant(
-        of: find.byType(ErrorStatusBar),
-        matching: find.byType(Material),
-      ), findsNothing);
+      expect(
+        find.descendant(
+          of: find.byType(ErrorStatusBar),
+          matching: find.byType(Material),
+        ),
+        findsNothing,
+      );
     });
 
     testWidgets('shows error status bar with correct styling', (tester) async {
@@ -320,15 +319,16 @@ void main() {
 
       final errorStatusBar = find.byType(ErrorStatusBar);
       final material = tester.widget<Material>(
-        find.descendant(
-          of: errorStatusBar,
-          matching: find.byType(Material),
-        ).first,
+        find
+            .descendant(of: errorStatusBar, matching: find.byType(Material))
+            .first,
       );
       expect(material.color, equals(Colors.red.shade100));
     });
 
-    testWidgets('shows warning status bar with correct styling', (tester) async {
+    testWidgets('shows warning status bar with correct styling', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -345,10 +345,9 @@ void main() {
 
       final errorStatusBar = find.byType(ErrorStatusBar);
       final material = tester.widget<Material>(
-        find.descendant(
-          of: errorStatusBar,
-          matching: find.byType(Material),
-        ).first,
+        find
+            .descendant(of: errorStatusBar, matching: find.byType(Material))
+            .first,
       );
       expect(material.color, equals(Colors.orange.shade100));
     });
@@ -357,9 +356,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: ErrorStatusBar(
-              result: ValidationResult.error('Error'),
-            ),
+            body: ErrorStatusBar(result: ValidationResult.error('Error')),
           ),
         ),
       );
@@ -392,19 +389,16 @@ void main() {
         MaterialApp(
           theme: ThemeData.dark(),
           home: Scaffold(
-            body: ErrorStatusBar(
-              result: const ValidationResult.error('Error'),
-            ),
+            body: ErrorStatusBar(result: const ValidationResult.error('Error')),
           ),
         ),
       );
 
       final errorStatusBar = find.byType(ErrorStatusBar);
       final material = tester.widget<Material>(
-        find.descendant(
-          of: errorStatusBar,
-          matching: find.byType(Material),
-        ).first,
+        find
+            .descendant(of: errorStatusBar, matching: find.byType(Material))
+            .first,
       );
       expect(material.color, equals(Colors.red.shade900));
     });

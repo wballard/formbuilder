@@ -5,7 +5,9 @@ import 'package:formbuilder/form_layout/models/animation_settings.dart';
 
 void main() {
   group('AnimatedModeSwitcher', () {
-    testWidgets('should show edit child when not in preview mode', (WidgetTester tester) async {
+    testWidgets('should show edit child when not in preview mode', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: AnimatedModeSwitcher(
@@ -20,7 +22,9 @@ void main() {
       expect(find.text('Preview Mode'), findsNothing);
     });
 
-    testWidgets('should show preview child when in preview mode', (WidgetTester tester) async {
+    testWidgets('should show preview child when in preview mode', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: AnimatedModeSwitcher(
@@ -35,7 +39,9 @@ void main() {
       expect(find.text('Preview Mode'), findsOneWidget);
     });
 
-    testWidgets('should animate transition between modes', (WidgetTester tester) async {
+    testWidgets('should animate transition between modes', (
+      WidgetTester tester,
+    ) async {
       // Start in edit mode
       await tester.pumpWidget(
         const MaterialApp(
@@ -73,9 +79,11 @@ void main() {
       expect(find.text('Preview Mode'), findsOneWidget);
     });
 
-    testWidgets('should not animate when animations are disabled', (WidgetTester tester) async {
+    testWidgets('should not animate when animations are disabled', (
+      WidgetTester tester,
+    ) async {
       const noAnimations = AnimationSettings.noAnimations();
-      
+
       await tester.pumpWidget(
         const MaterialApp(
           home: AnimatedModeSwitcher(
@@ -109,7 +117,9 @@ void main() {
   });
 
   group('AnimatedToolbar', () {
-    testWidgets('should show toolbar when visible', (WidgetTester tester) async {
+    testWidgets('should show toolbar when visible', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: AnimatedToolbar(
@@ -122,7 +132,9 @@ void main() {
       expect(find.text('Toolbar Content'), findsOneWidget);
     });
 
-    testWidgets('should hide toolbar when not visible', (WidgetTester tester) async {
+    testWidgets('should hide toolbar when not visible', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: AnimatedToolbar(
@@ -136,11 +148,15 @@ void main() {
       await tester.pumpAndSettle();
 
       // Toolbar should be hidden (opacity 0)
-      final opacity = tester.widget<AnimatedOpacity>(find.byType(AnimatedOpacity));
+      final opacity = tester.widget<AnimatedOpacity>(
+        find.byType(AnimatedOpacity),
+      );
       expect(opacity.opacity, 0.0);
     });
 
-    testWidgets('should animate visibility changes', (WidgetTester tester) async {
+    testWidgets('should animate visibility changes', (
+      WidgetTester tester,
+    ) async {
       // Start with visible toolbar
       await tester.pumpWidget(
         const MaterialApp(
@@ -152,9 +168,11 @@ void main() {
       );
 
       await tester.pumpAndSettle();
-      
+
       // Check initial opacity
-      var opacity = tester.widget<AnimatedOpacity>(find.byType(AnimatedOpacity));
+      var opacity = tester.widget<AnimatedOpacity>(
+        find.byType(AnimatedOpacity),
+      );
       expect(opacity.opacity, 1.0);
 
       // Hide toolbar
@@ -169,7 +187,7 @@ void main() {
 
       // During animation - pump a short duration to catch mid-animation
       await tester.pump(const Duration(milliseconds: 50));
-      
+
       // The animation might be fast, so just check that it's animating
       // by verifying the AnimatedOpacity widget exists and is configured correctly
       opacity = tester.widget<AnimatedOpacity>(find.byType(AnimatedOpacity));
@@ -182,7 +200,9 @@ void main() {
       expect(opacity.opacity, 0.0);
     });
 
-    testWidgets('should slide from specified direction', (WidgetTester tester) async {
+    testWidgets('should slide from specified direction', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: AnimatedToolbar(
@@ -213,7 +233,9 @@ void main() {
       await tester.pumpAndSettle();
 
       // Check slide offset when visible (should be at origin)
-      final visibleSlide = tester.widget<AnimatedSlide>(find.byType(AnimatedSlide));
+      final visibleSlide = tester.widget<AnimatedSlide>(
+        find.byType(AnimatedSlide),
+      );
       expect(visibleSlide.offset, Offset.zero);
     });
   });

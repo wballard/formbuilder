@@ -12,9 +12,9 @@ void main() {
         width: 2,
         height: 1,
       );
-      
+
       final json = placement.toJson();
-      
+
       expect(json, {
         'id': 'widget1',
         'widgetName': 'button',
@@ -41,9 +41,9 @@ void main() {
           'fontSize': 16,
         },
       );
-      
+
       final json = placement.toJson();
-      
+
       expect(json, {
         'id': 'widget1',
         'widgetName': 'button',
@@ -68,14 +68,11 @@ void main() {
         'row': 3,
         'width': 2,
         'height': 1,
-        'properties': {
-          'text': 'Click me',
-          'color': '#FF0000',
-        },
+        'properties': {'text': 'Click me', 'color': '#FF0000'},
       };
-      
+
       final placement = WidgetPlacement.fromJson(json);
-      
+
       expect(placement.id, 'widget1');
       expect(placement.widgetName, 'button');
       expect(placement.column, 2);
@@ -100,10 +97,10 @@ void main() {
           'required': true,
         },
       );
-      
+
       final json = original.toJson();
       final deserialized = WidgetPlacement.fromJson(json);
-      
+
       expect(deserialized, equals(original));
     });
 
@@ -117,9 +114,9 @@ void main() {
         'height': 1,
         // properties missing
       };
-      
+
       final placement = WidgetPlacement.fromJson(json);
-      
+
       expect(placement.properties, isEmpty);
     });
 
@@ -132,7 +129,7 @@ void main() {
         'width': 2,
         'height': 1,
       };
-      
+
       expect(
         () => WidgetPlacement.fromJson(invalidJson),
         throwsA(isA<TypeError>()),
@@ -148,7 +145,7 @@ void main() {
         'width': 2,
         'height': 1,
       };
-      
+
       expect(
         () => WidgetPlacement.fromJson(invalidJson),
         throwsA(isA<AssertionError>()),
@@ -165,9 +162,9 @@ void main() {
         'height': 1,
         'properties': null,
       };
-      
+
       final placement = WidgetPlacement.fromJson(json);
-      
+
       expect(placement.properties, isEmpty);
     });
   });

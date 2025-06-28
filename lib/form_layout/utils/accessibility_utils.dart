@@ -33,7 +33,11 @@ class AccessibilityUtils {
   }
 
   /// Create a semantic label for a toolbox item
-  static String getToolboxItemLabel(String itemName, int defaultWidth, int defaultHeight) {
+  static String getToolboxItemLabel(
+    String itemName,
+    int defaultWidth,
+    int defaultHeight,
+  ) {
     return '$itemName. Default size: $defaultWidth by $defaultHeight cells. Double tap to place on grid.';
   }
 
@@ -43,7 +47,11 @@ class AccessibilityUtils {
   }
 
   /// Check if color contrast meets WCAG AA standards
-  static bool meetsContrastRatio(Color foreground, Color background, {bool isLargeText = false}) {
+  static bool meetsContrastRatio(
+    Color foreground,
+    Color background, {
+    bool isLargeText = false,
+  }) {
     final double ratio = _calculateContrastRatio(foreground, background);
     return isLargeText ? ratio >= 3.0 : ratio >= 4.5;
   }
@@ -67,7 +75,9 @@ class AccessibilityUtils {
 
   /// Convert sRGB to linear RGB
   static double _toLinearRGB(double value) {
-    return value <= 0.03928 ? value / 12.92 : pow((value + 0.055) / 1.055, 2.4).toDouble();
+    return value <= 0.03928
+        ? value / 12.92
+        : pow((value + 0.055) / 1.055, 2.4).toDouble();
   }
 }
 
@@ -75,16 +85,16 @@ class AccessibilityUtils {
 class AccessibleTouchTarget extends StatelessWidget {
   /// The child widget
   final Widget child;
-  
+
   /// The tap callback
   final VoidCallback? onTap;
-  
+
   /// Minimum size for the touch target
   final double minSize;
-  
+
   /// Semantic label
   final String? semanticLabel;
-  
+
   /// Semantic hint
   final String? semanticHint;
 
@@ -107,10 +117,7 @@ class AccessibleTouchTarget extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(4),
         child: ConstrainedBox(
-          constraints: BoxConstraints(
-            minWidth: minSize,
-            minHeight: minSize,
-          ),
+          constraints: BoxConstraints(minWidth: minSize, minHeight: minSize),
           child: Center(child: child),
         ),
       ),
@@ -122,13 +129,13 @@ class AccessibleTouchTarget extends StatelessWidget {
 class AccessibleFocusIndicator extends StatelessWidget {
   /// Whether the widget is focused
   final bool isFocused;
-  
+
   /// The child widget
   final Widget child;
-  
+
   /// Focus indicator color
   final Color? focusColor;
-  
+
   /// Border radius
   final BorderRadius? borderRadius;
 
@@ -144,11 +151,11 @@ class AccessibleFocusIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final effectiveFocusColor = focusColor ?? theme.colorScheme.primary;
-    
+
     if (!isFocused) {
       return child;
     }
-    
+
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -166,10 +173,10 @@ class AccessibleFocusIndicator extends StatelessWidget {
 class SkipLink extends StatelessWidget {
   /// The label for the skip link
   final String label;
-  
+
   /// The callback when activated
   final VoidCallback onSkip;
-  
+
   /// The child widget
   final Widget child;
 
@@ -196,9 +203,7 @@ class SkipLink extends StatelessWidget {
                 padding: const EdgeInsets.all(8),
                 child: Text(
                   label,
-                  style: const TextStyle(
-                    decoration: TextDecoration.underline,
-                  ),
+                  style: const TextStyle(decoration: TextDecoration.underline),
                 ),
               ),
             ),

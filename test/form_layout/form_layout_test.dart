@@ -41,23 +41,19 @@ void main() {
     testWidgets('renders with default configuration', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: FormLayout(
-              toolbox: testToolbox,
-            ),
-          ),
+          home: Scaffold(body: FormLayout(toolbox: testToolbox)),
         ),
       );
 
       // Check that toolbox is visible
       expect(find.text('Test Widgets'), findsOneWidget);
       expect(find.text('Test Widget'), findsOneWidget);
-      
+
       // Check that toolbar is visible
       expect(find.byIcon(Icons.undo), findsOneWidget);
       expect(find.byIcon(Icons.redo), findsOneWidget);
       expect(find.byIcon(Icons.visibility), findsOneWidget);
-      
+
       // Check grid size indicator
       expect(find.text('4 × 5'), findsOneWidget);
     });
@@ -66,10 +62,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: FormLayout(
-              toolbox: testToolbox,
-              showToolbox: false,
-            ),
+            body: FormLayout(toolbox: testToolbox, showToolbox: false),
           ),
         ),
       );
@@ -77,7 +70,7 @@ void main() {
       // Check that toolbox is not visible
       expect(find.text('Test Widgets'), findsNothing);
       expect(find.text('Test Widget'), findsNothing);
-      
+
       // But toolbar should still be visible
       expect(find.byIcon(Icons.undo), findsOneWidget);
     });
@@ -110,14 +103,14 @@ void main() {
 
       // Check grid size indicator shows custom size
       expect(find.text('6 × 8'), findsOneWidget);
-      
+
       // Check that initial widget is rendered
       expect(find.text('widget1'), findsOneWidget);
     });
 
     testWidgets('calls onLayoutChanged callback', (tester) async {
       LayoutState? lastState;
-      
+
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -133,7 +126,7 @@ void main() {
 
       // Wait for any initial callbacks
       await tester.pump(const Duration(milliseconds: 200));
-      
+
       // The callback should have been called with initial state
       expect(lastState, isNotNull);
       expect(lastState!.dimensions.columns, 4);
@@ -144,10 +137,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: FormLayout(
-              toolbox: testToolbox,
-              enableUndo: false,
-            ),
+            body: FormLayout(toolbox: testToolbox, enableUndo: false),
           ),
         ),
       );
@@ -160,22 +150,18 @@ void main() {
     testWidgets('toggles preview mode', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: FormLayout(
-              toolbox: testToolbox,
-            ),
-          ),
+          home: Scaffold(body: FormLayout(toolbox: testToolbox)),
         ),
       );
 
       // Initially should show visibility icon (not in preview mode)
       expect(find.byIcon(Icons.visibility), findsOneWidget);
       expect(find.byIcon(Icons.visibility_off), findsNothing);
-      
+
       // Toggle preview mode
       await tester.tap(find.byIcon(Icons.visibility));
       await tester.pump();
-      
+
       // Should now show visibility_off icon (in preview mode)
       expect(find.byIcon(Icons.visibility), findsNothing);
       expect(find.byIcon(Icons.visibility_off), findsOneWidget);
@@ -188,21 +174,17 @@ void main() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
-      
+
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: FormLayout(
-              toolbox: testToolbox,
-            ),
-          ),
+          home: Scaffold(body: FormLayout(toolbox: testToolbox)),
         ),
       );
 
       // Get positions of toolbox and grid
       final toolboxPosition = tester.getCenter(find.text('Test Widget'));
       final gridPosition = tester.getCenter(find.byType(GridDragTarget));
-      
+
       // Toolbox should be to the left of grid
       expect(toolboxPosition.dx < gridPosition.dx, isTrue);
       // Y positions can differ significantly due to toolbar above grid
@@ -224,7 +206,7 @@ void main() {
       // Get positions of toolbox and grid
       final toolboxPosition = tester.getCenter(find.text('Test Widget'));
       final gridPosition = tester.getCenter(find.byType(GridDragTarget));
-      
+
       // Toolbox should be above grid
       expect(toolboxPosition.dy < gridPosition.dy, isTrue);
       // X positions can differ significantly in vertical layout
@@ -235,25 +217,26 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: FormLayout(
-              toolbox: testToolbox,
-              toolboxWidth: 300,
-            ),
+            body: FormLayout(toolbox: testToolbox, toolboxWidth: 300),
           ),
         ),
       );
 
       // Find the toolbox SizedBox container (should be the outermost one with custom width)
-      final toolboxContainer = find.ancestor(
-        of: find.text('Test Widget'),
-        matching: find.byType(SizedBox),
-      ).last; // Use .last to get the outermost SizedBox
-      
+      final toolboxContainer = find
+          .ancestor(
+            of: find.text('Test Widget'),
+            matching: find.byType(SizedBox),
+          )
+          .last; // Use .last to get the outermost SizedBox
+
       final size = tester.getSize(toolboxContainer);
       expect(size.width, 300);
     });
 
-    testWidgets('uses custom toolbox height in vertical layout', (tester) async {
+    testWidgets('uses custom toolbox height in vertical layout', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -267,11 +250,13 @@ void main() {
       );
 
       // Find the toolbox SizedBox container (should be the outermost one with custom height)
-      final toolboxContainer = find.ancestor(
-        of: find.text('Test Widget'),
-        matching: find.byType(SizedBox),
-      ).last; // Use .last to get the outermost SizedBox
-      
+      final toolboxContainer = find
+          .ancestor(
+            of: find.text('Test Widget'),
+            matching: find.byType(SizedBox),
+          )
+          .last; // Use .last to get the outermost SizedBox
+
       final size = tester.getSize(toolboxContainer);
       expect(size.height, 200);
     });
@@ -288,10 +273,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: FormLayout(
-              toolbox: testToolbox,
-              theme: customTheme,
-            ),
+            body: FormLayout(toolbox: testToolbox, theme: customTheme),
           ),
         ),
       );
@@ -301,9 +283,9 @@ void main() {
         of: find.byType(FormLayout),
         matching: find.byType(Theme),
       );
-      
+
       expect(themeFinder, findsOneWidget);
-      
+
       final themeWidget = tester.widget<Theme>(themeFinder);
       expect(themeWidget.data.colorScheme.primary, Colors.purple);
     });
@@ -312,7 +294,7 @@ void main() {
       // Set a small screen size
       tester.view.physicalSize = const Size(400, 800);
       tester.view.devicePixelRatio = 1.0;
-      
+
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -327,16 +309,18 @@ void main() {
       // Get positions of toolbox and grid
       final toolboxPosition = tester.getCenter(find.text('Test Widget'));
       final gridPosition = tester.getCenter(find.byType(GridDragTarget));
-      
+
       // Should be vertical layout due to small screen
       expect(toolboxPosition.dy < gridPosition.dy, isTrue);
-      
+
       // Reset to default size
       tester.view.resetPhysicalSize();
       tester.view.resetDevicePixelRatio();
     });
 
-    testWidgets('passes export callback to FormLayoutActionDispatcher', (tester) async {
+    testWidgets('passes export callback to FormLayoutActionDispatcher', (
+      tester,
+    ) async {
       // Create a simple test to verify the callback is passed through
       await tester.pumpWidget(
         MaterialApp(
@@ -369,11 +353,13 @@ void main() {
 
       // Verify the FormLayout renders properly with export callback
       expect(find.byType(FormLayout), findsOneWidget);
-      
+
       // Test passes if the widget builds correctly with the callback
     });
 
-    testWidgets('passes import callback to FormLayoutActionDispatcher', (tester) async {
+    testWidgets('passes import callback to FormLayoutActionDispatcher', (
+      tester,
+    ) async {
       // Create a simple test to verify the callback is passed through
       await tester.pumpWidget(
         MaterialApp(
@@ -392,11 +378,13 @@ void main() {
 
       // Verify the FormLayout renders properly with import callback
       expect(find.byType(FormLayout), findsOneWidget);
-      
+
       // Test passes if the widget builds correctly with the callback
     });
 
-    testWidgets('builds correctly without import/export callbacks', (tester) async {
+    testWidgets('builds correctly without import/export callbacks', (
+      tester,
+    ) async {
       // Test that FormLayout builds correctly without callbacks
       await tester.pumpWidget(
         MaterialApp(
@@ -413,7 +401,7 @@ void main() {
 
       // Verify the FormLayout renders properly without callbacks
       expect(find.byType(FormLayout), findsOneWidget);
-      
+
       // Test passes if the widget builds correctly without callbacks
     });
   });
