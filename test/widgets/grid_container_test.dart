@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 import 'package:formbuilder/form_layout/widgets/grid_container.dart';
 import 'package:formbuilder/form_layout/widgets/accessible_grid_widget.dart';
-import 'package:formbuilder/form_layout/widgets/placed_widget.dart';
+import 'package:formbuilder/form_layout/widgets/accessible_placed_widget.dart';
 import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
@@ -82,10 +82,10 @@ void main() {
       );
 
       // Should have one selected widget
-      final placedWidgets = tester.widgetList(find.byType(PlacedWidget));
+      final placedWidgets = tester.widgetList(find.byType(AccessiblePlacedWidget));
       int selectedCount = 0;
       for (final widget in placedWidgets) {
-        if ((widget as PlacedWidget).isSelected) {
+        if ((widget as AccessiblePlacedWidget).isSelected) {
           selectedCount++;
         }
       }
@@ -106,10 +106,10 @@ void main() {
       );
 
       // Should have one dragging widget
-      final placedWidgets = tester.widgetList(find.byType(PlacedWidget));
+      final placedWidgets = tester.widgetList(find.byType(AccessiblePlacedWidget));
       int draggingCount = 0;
       for (final widget in placedWidgets) {
-        if ((widget as PlacedWidget).isDragging) {
+        if ((widget as AccessiblePlacedWidget).isDragging) {
           draggingCount++;
         }
       }
@@ -162,8 +162,8 @@ void main() {
       );
 
       // Verify that PlacedWidgets are created with tap callback
-      final placedWidgets = tester.widgetList<PlacedWidget>(
-        find.byType(PlacedWidget),
+      final placedWidgets = tester.widgetList<AccessiblePlacedWidget>(
+        find.byType(AccessiblePlacedWidget),
       );
       for (final widget in placedWidgets) {
         expect(widget.onTap, isNotNull);
@@ -219,7 +219,7 @@ void main() {
       );
 
       // Initially should have 2 widgets
-      expect(find.byType(PlacedWidget), findsNWidgets(2));
+      expect(find.byType(AccessiblePlacedWidget), findsNWidgets(2));
 
       // Update with new layout state
       final newPlacement = WidgetPlacement(
@@ -244,7 +244,7 @@ void main() {
       );
 
       // Should now have 3 widgets
-      expect(find.byType(PlacedWidget), findsNWidgets(3));
+      expect(find.byType(AccessiblePlacedWidget), findsNWidgets(3));
     });
 
     testWidgets('passes highlight validation function', (
@@ -298,11 +298,11 @@ void main() {
       );
 
       // Widget1 should be both selected and dragging
-      final placedWidgets = tester.widgetList<PlacedWidget>(
-        find.byType(PlacedWidget),
+      final placedWidgets = tester.widgetList<AccessiblePlacedWidget>(
+        find.byType(AccessiblePlacedWidget),
       );
-      PlacedWidget? widget1;
-      PlacedWidget? widget2;
+      AccessiblePlacedWidget? widget1;
+      AccessiblePlacedWidget? widget2;
 
       for (final widget in placedWidgets) {
         if (widget.placement.id == 'widget1') widget1 = widget;

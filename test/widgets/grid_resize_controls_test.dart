@@ -6,11 +6,12 @@ import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
 import 'package:formbuilder/form_layout/models/toolbox_item.dart';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
+import 'package:formbuilder/form_layout/models/toolbox.dart';
 
 void main() {
   group('Grid Resize Controls', () {
     late LayoutState testLayoutState;
-    late Toolbox testToolbox;
+    late CategorizedToolbox testToolbox;
     late Map<String, Widget Function(BuildContext, WidgetPlacement)>
     testWidgetBuilders;
 
@@ -29,8 +30,11 @@ void main() {
         ],
       );
 
-      testToolbox = Toolbox(
-        items: [
+      testToolbox = CategorizedToolbox(
+        categories: [
+          ToolboxCategory(
+            name: 'Test',
+            items: [
           ToolboxItem(
             name: 'TestWidget',
             displayName: 'Test Widget',
@@ -38,6 +42,8 @@ void main() {
             defaultHeight: 1,
             toolboxBuilder: (context) => Container(color: Colors.blue),
             gridBuilder: (context, placement) => Container(color: Colors.blue),
+              ),
+            ],
           ),
         ],
       );
@@ -372,7 +378,7 @@ void main() {
                 child: GridDragTarget(
                   layoutState: testLayoutState,
                   widgetBuilders: testWidgetBuilders,
-                  toolbox: testToolbox,
+                  toolbox: testToolbox.toSimpleToolbox(),
                 ),
               ),
             ),
@@ -403,7 +409,7 @@ void main() {
                 child: GridDragTarget(
                   layoutState: testLayoutState,
                   widgetBuilders: testWidgetBuilders,
-                  toolbox: testToolbox,
+                  toolbox: testToolbox.toSimpleToolbox(),
                   onGridResize: (dimensions) {
                     resizedDimensions = dimensions;
                   },

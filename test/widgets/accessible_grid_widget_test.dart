@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
 import 'package:formbuilder/form_layout/widgets/accessible_grid_widget.dart';
 import 'dart:math';
+import 'package:formbuilder/form_layout/models/layout_state.dart';
 
 void main() {
   group('AccessibleGridWidget', () {
@@ -13,7 +14,9 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AccessibleGridWidget(dimensions: testDimensions),
+            body: AccessibleGridWidget(
+            dimensions: const GridDimensions(columns: 12, rows: 12),
+          ),
           ),
         ),
       );
@@ -33,7 +36,9 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AccessibleGridWidget(dimensions: testDimensions),
+            body: AccessibleGridWidget(
+            dimensions: const GridDimensions(columns: 12, rows: 12),
+          ),
           ),
         ),
       );
@@ -66,7 +71,9 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AccessibleGridWidget(dimensions: testDimensions),
+            body: AccessibleGridWidget(
+            dimensions: const GridDimensions(columns: 12, rows: 12),
+          ),
           ),
         ),
       );
@@ -97,8 +104,8 @@ void main() {
               width: 300,
               height: 300,
               child: AccessibleGridWidget(
-                dimensions: testDimensions,
-                onCellSelected: (cell) {
+            dimensions: const GridDimensions(columns: 12, rows: 12),
+            onCellSelected: (cell) {
                   selectedCell = cell;
                 },
               ),
@@ -137,8 +144,8 @@ void main() {
               width: 300,
               height: 300,
               child: AccessibleGridWidget(
-                dimensions: testDimensions,
-                onCellSelected: (cell) {
+            dimensions: const GridDimensions(columns: 12, rows: 12),
+            onCellSelected: (cell) {
                   selectedCell = cell;
                 },
               ),
@@ -171,7 +178,9 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AccessibleGridWidget(dimensions: testDimensions),
+            body: AccessibleGridWidget(
+            dimensions: const GridDimensions(columns: 12, rows: 12),
+          ),
           ),
         ),
       );
@@ -194,9 +203,8 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: AccessibleGridWidget(
-              dimensions: testDimensions,
-              highlightedCells: highlightedCells,
-            ),
+            dimensions: const GridDimensions(columns: 12, rows: 12),
+          ),
           ),
         ),
       );
@@ -211,8 +219,8 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: AccessibleGridWidget(
-              dimensions: testDimensions,
-              isCellValid: (cell) =>
+            dimensions: const GridDimensions(columns: 12, rows: 12),
+          ) =>
                   cell.x != 1 || cell.y != 1, // Cell (1,1) is invalid
             ),
           ),
@@ -238,10 +246,12 @@ void main() {
           home: Scaffold(
             body: Column(
               children: [
-                AccessibleGridWidget(dimensions: testDimensions),
+                AccessibleGridWidget(
+            dimensions: const GridDimensions(columns: 12, rows: 12),
+          ),
                 ElevatedButton(
                   onPressed: () {},
-                  child: const Text('Other Widget'),
+                  child: const Text('Other Widget')),
                 ),
               ],
             ),
@@ -265,7 +275,9 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AccessibleGridWidget(dimensions: testDimensions),
+            body: AccessibleGridWidget(
+            dimensions: const GridDimensions(columns: 12, rows: 12),
+          ),
           ),
         ),
       );

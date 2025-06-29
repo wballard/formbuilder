@@ -52,7 +52,7 @@ void main() {
           defaultHeight: 1,
         ),
         throwsA(isA<AssertionError>()),
-      );
+        );
     });
 
     test('throws AssertionError when displayName is empty', () {
@@ -66,7 +66,7 @@ void main() {
           defaultHeight: 1,
         ),
         throwsA(isA<AssertionError>()),
-      );
+        );
     });
 
     test('throws AssertionError when defaultWidth is less than 1', () {
@@ -80,7 +80,7 @@ void main() {
           defaultHeight: 1,
         ),
         throwsA(isA<AssertionError>()),
-      );
+        );
     });
 
     test('throws AssertionError when defaultHeight is less than 1', () {
@@ -94,7 +94,7 @@ void main() {
           defaultHeight: 0,
         ),
         throwsA(isA<AssertionError>()),
-      );
+        );
     });
 
     group('equality', () {
@@ -165,7 +165,7 @@ void main() {
         name: name,
         displayName: displayName,
         toolboxBuilder: (context) => Container(),
-        gridBuilder: (context, placement) => Container(),
+        gridBuilder: (context, placement) => const Icon(Icons.widgets),
         defaultWidth: 2,
         defaultHeight: 1,
       );
@@ -195,7 +195,7 @@ void main() {
       expect(
         () => Toolbox(items: [item1, item2]),
         throwsA(isA<ArgumentError>()),
-      );
+        );
     });
 
     group('getItem', () {
@@ -224,7 +224,7 @@ void main() {
       expect(
         () => toolbox.items.add(createItem('button', 'Button')),
         throwsA(isA<UnsupportedError>()),
-      );
+        );
     });
 
     group('predefined items', () {

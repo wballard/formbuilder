@@ -2,9 +2,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
-import 'package:formbuilder/form_layout/widgets/placed_widget.dart';
+import 'package:formbuilder/form_layout/widgets/accessible_placed_widget.dart';
 import 'package:formbuilder/form_layout/widgets/resize_handle.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
+import 'package:formbuilder/form_layout/widgets/placed_widget.dart';
 
 void main() {
   group('PlacedWidget', () {
@@ -36,7 +37,7 @@ void main() {
       );
 
       expect(find.text(childText), findsOneWidget);
-      expect(find.byType(PlacedWidget), findsOneWidget);
+      expect(find.byType(AccessiblePlacedWidget), findsOneWidget);
     });
 
     testWidgets('shows border when selected', (WidgetTester tester) async {
@@ -88,7 +89,7 @@ void main() {
       // Find the Opacity widget
       final opacity = tester.widget<Opacity>(
         find.descendant(
-          of: find.byType(PlacedWidget),
+          of: find.byType(AccessiblePlacedWidget),
           matching: find.byType(Opacity),
         ),
       );
@@ -115,7 +116,7 @@ void main() {
       final paddingWidgets = tester
           .widgetList<Padding>(
             find.descendant(
-              of: find.byType(PlacedWidget),
+              of: find.byType(AccessiblePlacedWidget),
               matching: find.byType(Padding),
             ),
           )
@@ -136,14 +137,14 @@ void main() {
           home: Scaffold(
             body: PlacedWidget(
               placement: testPlacement,
-              onTap: () => tapped = true,
+              onTap: () { tapped = true; },
               child: Container(),
             ),
           ),
         ),
       );
 
-      await tester.tap(find.byType(PlacedWidget));
+      await tester.tap(find.byType(AccessiblePlacedWidget));
       await tester.pump();
 
       expect(tapped, isTrue);
@@ -155,7 +156,6 @@ void main() {
           home: Scaffold(
             body: PlacedWidget(
               placement: testPlacement,
-              onTap: () {},
               child: Container(),
             ),
           ),
@@ -166,7 +166,7 @@ void main() {
       expect(find.byType(InkWell), findsOneWidget);
 
       // Tap and verify ink response
-      await tester.tap(find.byType(PlacedWidget));
+      await tester.tap(find.byType(AccessiblePlacedWidget));
       await tester.pump(); // Start animation
       await tester.pump(const Duration(milliseconds: 100)); // Halfway
 
@@ -191,7 +191,7 @@ void main() {
         // Find MouseRegion
         final mouseRegion = tester.widget<MouseRegion>(
           find.descendant(
-            of: find.byType(PlacedWidget),
+            of: find.byType(AccessiblePlacedWidget),
             matching: find.byType(MouseRegion),
           ),
         );
@@ -200,9 +200,7 @@ void main() {
       }
     });
 
-    testWidgets('default values are applied correctly', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('default values are applied correctly', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -211,16 +209,14 @@ void main() {
         ),
       );
 
-      final widget = tester.widget<PlacedWidget>(find.byType(PlacedWidget));
+      final widget = tester.widget<AccessiblePlacedWidget>(find.byType(AccessiblePlacedWidget));
       expect(widget.isSelected, isFalse);
       expect(widget.isDragging, isFalse);
       expect(widget.contentPadding, equals(const EdgeInsets.all(8)));
       expect(widget.onTap, isNull);
     });
 
-    testWidgets('elevation changes on hover (desktop)', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('elevation changes on hover (desktop)', (WidgetTester tester) async {
       // Only test on desktop platforms
       if (!kIsWeb &&
           (defaultTargetPlatform == TargetPlatform.macOS ||
@@ -246,7 +242,7 @@ void main() {
         // Find the initial Material widget
         Material getMaterial() => tester.widget<Material>(
           find.descendant(
-            of: find.byType(PlacedWidget),
+            of: find.byType(AccessiblePlacedWidget),
             matching: find.byType(Material).first,
           ),
         );
@@ -261,7 +257,7 @@ void main() {
         await gesture.addPointer(location: Offset.zero);
         addTearDown(gesture.removePointer);
         await tester.pump();
-        await gesture.moveTo(tester.getCenter(find.byType(PlacedWidget)));
+        await gesture.moveTo(tester.getCenter(find.byType(AccessiblePlacedWidget)));
         await tester.pumpAndSettle();
 
         // Elevation should increase on hover
@@ -269,9 +265,7 @@ void main() {
       }
     });
 
-    testWidgets('combines selected and dragging states', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('combines selected and dragging states', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           theme: ThemeData(primarySwatch: Colors.blue),
@@ -289,7 +283,7 @@ void main() {
       // Should have both border and opacity
       final opacity = tester.widget<Opacity>(
         find.descendant(
-          of: find.byType(PlacedWidget),
+          of: find.byType(AccessiblePlacedWidget),
           matching: find.byType(Opacity),
         ),
       );
@@ -309,9 +303,7 @@ void main() {
     });
 
     group('draggable functionality', () {
-      testWidgets('wraps content with Draggable when canDrag is true', (
-        WidgetTester tester,
-      ) async {
+      testWidgets('wraps content with Draggable when canDrag is true', (WidgetTester tester) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -332,9 +324,7 @@ void main() {
         expect(draggable.data, equals(testPlacement));
       });
 
-      testWidgets('does not wrap with Draggable when canDrag is false', (
-        WidgetTester tester,
-      ) async {
+      testWidgets('does not wrap with Draggable when canDrag is false', (WidgetTester tester) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -350,9 +340,7 @@ void main() {
         expect(find.byType(Draggable<WidgetPlacement>), findsNothing);
       });
 
-      testWidgets('uses default canDrag value of false', (
-        WidgetTester tester,
-      ) async {
+      testWidgets('uses default canDrag value of false', (WidgetTester tester) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -365,9 +353,7 @@ void main() {
         expect(find.byType(Draggable<WidgetPlacement>), findsNothing);
       });
 
-      testWidgets('shows grab cursor when canDrag is true and hovering', (
-        WidgetTester tester,
-      ) async {
+      testWidgets('shows grab cursor when canDrag is true and hovering', (WidgetTester tester) async {
         if (!kIsWeb &&
             (defaultTargetPlatform == TargetPlatform.macOS ||
                 defaultTargetPlatform == TargetPlatform.windows ||
@@ -386,7 +372,7 @@ void main() {
 
           final mouseRegion = tester.widget<MouseRegion>(
             find.descendant(
-              of: find.byType(PlacedWidget),
+              of: find.byType(AccessiblePlacedWidget),
               matching: find.byType(MouseRegion),
             ),
           );
@@ -395,9 +381,7 @@ void main() {
         }
       });
 
-      testWidgets('shows move cursor when canDrag is false', (
-        WidgetTester tester,
-      ) async {
+      testWidgets('shows move cursor when canDrag is false', (WidgetTester tester) async {
         if (!kIsWeb &&
             (defaultTargetPlatform == TargetPlatform.macOS ||
                 defaultTargetPlatform == TargetPlatform.windows ||
@@ -416,7 +400,7 @@ void main() {
 
           final mouseRegion = tester.widget<MouseRegion>(
             find.descendant(
-              of: find.byType(PlacedWidget),
+              of: find.byType(AccessiblePlacedWidget),
               matching: find.byType(MouseRegion),
             ),
           );
@@ -425,9 +409,7 @@ void main() {
         }
       });
 
-      testWidgets('calls onDragStarted when drag begins', (
-        WidgetTester tester,
-      ) async {
+      testWidgets('calls onDragStarted when drag begins', (WidgetTester tester) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -450,9 +432,7 @@ void main() {
         expect(draggable.onDragStarted, isNotNull);
       });
 
-      testWidgets('calls onDragEnd when drag ends', (
-        WidgetTester tester,
-      ) async {
+      testWidgets('calls onDragEnd when drag ends', (WidgetTester tester) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -475,9 +455,7 @@ void main() {
         expect(draggable.onDragEnd, isNotNull);
       });
 
-      testWidgets('calls onDragCompleted with details', (
-        WidgetTester tester,
-      ) async {
+      testWidgets('calls onDragCompleted with details', (WidgetTester tester) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -500,9 +478,7 @@ void main() {
         expect(draggable.onDragCompleted, isNotNull);
       });
 
-      testWidgets('provides correct drag feedback', (
-        WidgetTester tester,
-      ) async {
+      testWidgets('provides correct drag feedback', (WidgetTester tester) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -523,9 +499,7 @@ void main() {
         expect(draggable.feedback, isNotNull);
       });
 
-      testWidgets('shows empty container as child when dragging', (
-        WidgetTester tester,
-      ) async {
+      testWidgets('shows empty container as child when dragging', (WidgetTester tester) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -548,9 +522,7 @@ void main() {
     });
 
     group('resize functionality', () {
-      testWidgets('shows resize handles when showResizeHandles is true', (
-        WidgetTester tester,
-      ) async {
+      testWidgets('shows resize handles when showResizeHandles is true', (WidgetTester tester) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -574,9 +546,7 @@ void main() {
         expect(handleTypes.length, equals(8)); // All 8 types should be present
       });
 
-      testWidgets(
-        'does not show resize handles when showResizeHandles is false',
-        (WidgetTester tester) async {
+      testWidgets('does not show resize handles when showResizeHandles is false', (WidgetTester tester) async {
           await tester.pumpWidget(
             MaterialApp(
               home: Scaffold(
@@ -593,9 +563,7 @@ void main() {
         },
       );
 
-      testWidgets('uses default showResizeHandles value of false', (
-        WidgetTester tester,
-      ) async {
+      testWidgets('uses default showResizeHandles value of false', (WidgetTester tester) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -607,9 +575,7 @@ void main() {
         expect(find.byType(ResizeHandle), findsNothing);
       });
 
-      testWidgets('passes resize callbacks to ResizeHandle widgets', (
-        WidgetTester tester,
-      ) async {
+      testWidgets('passes resize callbacks to ResizeHandle widgets', (WidgetTester tester) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -639,9 +605,7 @@ void main() {
         expect(resizeHandle.onResizeEnd, isNotNull);
       });
 
-      testWidgets('wraps content in Stack when resize handles are shown', (
-        WidgetTester tester,
-      ) async {
+      testWidgets('wraps content in Stack when resize handles are shown', (WidgetTester tester) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -658,9 +622,7 @@ void main() {
         expect(find.byType(Stack), findsWidgets);
       });
 
-      testWidgets(
-        'does not wrap content in Stack when resize handles are hidden',
-        (WidgetTester tester) async {
+      testWidgets('does not wrap content in Stack when resize handles are hidden', (WidgetTester tester) async {
           await tester.pumpWidget(
             MaterialApp(
               home: Scaffold(

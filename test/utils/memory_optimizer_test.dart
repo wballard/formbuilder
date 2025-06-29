@@ -220,7 +220,7 @@ void main() {
       // Remove widget
       await tester.pumpWidget(
         const MaterialApp(home: Text('Different Widget')),
-      );
+        );
 
       expect(find.text('Test Widget'), findsNothing);
     });

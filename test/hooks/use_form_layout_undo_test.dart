@@ -15,8 +15,8 @@ void main() {
     });
 
     testWidgets('provides undo/redo capabilities', (WidgetTester tester) async {
-      late FormLayoutController controller;
-
+        late FormLayoutController controller;
+        
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
@@ -32,10 +32,9 @@ void main() {
       expect(controller.canRedo, isFalse);
     });
 
-    testWidgets('tracks undo state after widget addition', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('tracks undo state after widget addition', (WidgetTester tester) async {
       late FormLayoutController controller;
+
       final placement = WidgetPlacement(
         id: 'widget1',
         widgetName: 'TestWidget',
@@ -65,7 +64,9 @@ void main() {
     });
 
     testWidgets('undoes widget addition', (WidgetTester tester) async {
-      late FormLayoutController controller;
+        late FormLayoutController controller;
+        
+
       final placement = WidgetPlacement(
         id: 'widget1',
         widgetName: 'TestWidget',
@@ -98,7 +99,9 @@ void main() {
     });
 
     testWidgets('redoes widget addition', (WidgetTester tester) async {
-      late FormLayoutController controller;
+        late FormLayoutController controller;
+        
+
       final placement = WidgetPlacement(
         id: 'widget1',
         widgetName: 'TestWidget',
@@ -133,10 +136,9 @@ void main() {
       expect(controller.canRedo, isFalse);
     });
 
-    testWidgets('tracks multiple operations in undo history', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('tracks multiple operations in undo history', (WidgetTester tester) async {
       late FormLayoutController controller;
+
       final widget1 = WidgetPlacement(
         id: 'widget1',
         widgetName: 'TestWidget',
@@ -189,7 +191,9 @@ void main() {
     });
 
     testWidgets('undoes widget removal', (WidgetTester tester) async {
-      late FormLayoutController controller;
+        late FormLayoutController controller;
+        
+
       final placement = WidgetPlacement(
         id: 'widget1',
         widgetName: 'TestWidget',
@@ -224,7 +228,9 @@ void main() {
     });
 
     testWidgets('undoes widget move', (WidgetTester tester) async {
-      late FormLayoutController controller;
+        late FormLayoutController controller;
+        
+
       final placement = WidgetPlacement(
         id: 'widget1',
         widgetName: 'TestWidget',
@@ -262,7 +268,9 @@ void main() {
     });
 
     testWidgets('undoes widget resize', (WidgetTester tester) async {
-      late FormLayoutController controller;
+        late FormLayoutController controller;
+        
+
       final placement = WidgetPlacement(
         id: 'widget1',
         widgetName: 'TestWidget',
@@ -300,8 +308,8 @@ void main() {
     });
 
     testWidgets('undoes grid resize', (WidgetTester tester) async {
-      late FormLayoutController controller;
-
+        late FormLayoutController controller;
+        
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
@@ -326,8 +334,8 @@ void main() {
     });
 
     testWidgets('respects undo history limit', (WidgetTester tester) async {
-      late FormLayoutController controller;
-
+        late FormLayoutController controller;
+        
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
@@ -367,10 +375,9 @@ void main() {
       expect(controller.state.widgets.length, equals(2)); // 5 - 3 = 2
     });
 
-    testWidgets('clears redo history on new operation', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('clears redo history on new operation', (WidgetTester tester) async {
       late FormLayoutController controller;
+
       final widget1 = WidgetPlacement(
         id: 'widget1',
         widgetName: 'TestWidget',
@@ -415,7 +422,9 @@ void main() {
     });
 
     testWidgets('clears history', (WidgetTester tester) async {
-      late FormLayoutController controller;
+        late FormLayoutController controller;
+        
+
       final placement = WidgetPlacement(
         id: 'widget1',
         widgetName: 'TestWidget',
@@ -448,10 +457,9 @@ void main() {
       expect(controller.canRedo, isFalse);
     });
 
-    testWidgets(
-      'maintains state consistency during complex undo/redo sequence',
-      (WidgetTester tester) async {
-        late FormLayoutController controller;
+    testWidgets('maintains state consistency during complex undo/redo sequence', (WidgetTester tester) async {
+      late FormLayoutController controller;
+
         final widget1 = WidgetPlacement(
           id: 'widget1',
           widgetName: 'TestWidget',

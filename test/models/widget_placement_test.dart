@@ -47,7 +47,7 @@ void main() {
           height: 1,
         ),
         throwsA(isA<AssertionError>()),
-      );
+        );
     });
 
     test('throws AssertionError when row is negative', () {
@@ -61,7 +61,7 @@ void main() {
           height: 1,
         ),
         throwsA(isA<AssertionError>()),
-      );
+        );
     });
 
     test('throws AssertionError when width is less than 1', () {
@@ -75,7 +75,7 @@ void main() {
           height: 1,
         ),
         throwsA(isA<AssertionError>()),
-      );
+        );
     });
 
     test('throws AssertionError when height is less than 1', () {
@@ -89,7 +89,7 @@ void main() {
           height: 0,
         ),
         throwsA(isA<AssertionError>()),
-      );
+        );
     });
 
     test('throws AssertionError when id is empty', () {
@@ -103,7 +103,7 @@ void main() {
           height: 1,
         ),
         throwsA(isA<AssertionError>()),
-      );
+        );
     });
 
     test('throws AssertionError when widgetName is empty', () {
@@ -117,7 +117,7 @@ void main() {
           height: 1,
         ),
         throwsA(isA<AssertionError>()),
-      );
+        );
     });
 
     group('bounds', () {

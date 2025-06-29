@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formbuilder/form_layout/form_layout.dart';
-import 'package:formbuilder/form_layout/models/toolbox.dart';
 import 'package:formbuilder/form_layout/models/toolbox_item.dart';
+import 'package:formbuilder/form_layout/models/toolbox.dart';
 import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
@@ -26,7 +26,7 @@ void main() {
                   child: const Center(child: Text('Test')),
                 ),
                 gridBuilder: (context, placement) => Container(
-                  color: Colors.blue.withValues(alpha: 0.5),
+                  color: Colors.blue.withOpacity(0.5),
                   child: Center(child: Text(placement.id)),
                 ),
                 defaultWidth: 2,

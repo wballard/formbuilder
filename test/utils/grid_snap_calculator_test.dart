@@ -23,15 +23,15 @@ void main() {
       expect(
         calculator.snapPosition(Point(45.0, 35.0), cellSize, settings),
         equals(Point(0.0, 0.0)),
-      );
+        );
       expect(
         calculator.snapPosition(Point(55.0, 45.0), cellSize, settings),
         equals(Point(100.0, 80.0)),
-      );
+        );
       expect(
         calculator.snapPosition(Point(150.0, 120.0), cellSize, settings),
         equals(Point(200.0, 160.0)),
-      );
+        );
     });
 
     test('should snap to half cells with half subdivision', () {

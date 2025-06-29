@@ -19,7 +19,7 @@ LayoutState _createInitialState() {
 
 void main() {
   group('FormLayout Actions', () {
-    late FormLayoutController controller;
+
     late ToolboxItem testItem;
 
     setUp(() {
@@ -27,15 +27,14 @@ void main() {
         name: 'test_widget',
         displayName: 'Test Widget',
         toolboxBuilder: (context) => Container(),
-        gridBuilder: (context, placement) => Container(),
+        gridBuilder: (context, placement) => const Icon(Icons.widgets),
         defaultWidth: 2,
         defaultHeight: 1,
       );
     });
 
-    testWidgets('AddWidgetAction adds widget through controller', (
-      tester,
-    ) async {
+    testWidgets('AddWidgetAction adds widget through controller', (tester) async {
+      late FormLayoutController controller;
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
@@ -70,9 +69,8 @@ void main() {
       expect(widget.row, 2);
     });
 
-    testWidgets('RemoveWidgetAction removes widget through controller', (
-      tester,
-    ) async {
+    testWidgets('RemoveWidgetAction removes widget through controller', (tester) async {
+      late FormLayoutController controller;
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
@@ -115,9 +113,8 @@ void main() {
       expect(controller.state.widgets.length, 0);
     });
 
-    testWidgets('MoveWidgetAction moves widget through controller', (
-      tester,
-    ) async {
+    testWidgets('MoveWidgetAction moves widget through controller', (tester) async {
+      late FormLayoutController controller;
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
@@ -165,9 +162,8 @@ void main() {
       expect(movedWidget.row, 3);
     });
 
-    testWidgets('ResizeWidgetAction resizes widget through controller', (
-      tester,
-    ) async {
+    testWidgets('ResizeWidgetAction resizes widget through controller', (tester) async {
+      late FormLayoutController controller;
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
@@ -215,9 +211,8 @@ void main() {
       expect(resizedWidget.height, 2);
     });
 
-    testWidgets('SelectWidgetAction selects widget through controller', (
-      tester,
-    ) async {
+    testWidgets('SelectWidgetAction selects widget through controller', (tester) async {
+      late FormLayoutController controller;
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
@@ -261,6 +256,8 @@ void main() {
     });
 
     testWidgets('UndoAction performs undo through controller', (tester) async {
+      late FormLayoutController controller;
+      
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
@@ -303,6 +300,8 @@ void main() {
     });
 
     testWidgets('RedoAction performs redo through controller', (tester) async {
+      late FormLayoutController controller;
+      
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
@@ -346,6 +345,8 @@ void main() {
     });
 
     testWidgets('TogglePreviewModeAction toggles preview mode', (tester) async {
+      late FormLayoutController controller;
+      
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
@@ -378,9 +379,8 @@ void main() {
       expect(controller.isPreviewMode, false);
     });
 
-    testWidgets('DuplicateWidgetAction duplicates widget at valid position', (
-      tester,
-    ) async {
+    testWidgets('DuplicateWidgetAction duplicates widget at valid position', (tester) async {
+      late FormLayoutController controller;
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
@@ -426,9 +426,8 @@ void main() {
       expect(duplicated.id, contains('copy'));
     });
 
-    testWidgets('ResizeGridAction resizes grid through controller', (
-      tester,
-    ) async {
+    testWidgets('ResizeGridAction resizes grid through controller', (tester) async {
+      late FormLayoutController controller;
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
@@ -460,9 +459,8 @@ void main() {
       expect(controller.state.dimensions.rows, 8);
     });
 
-    testWidgets('ExportLayoutAction calls export callback with JSON string', (
-      tester,
-    ) async {
+    testWidgets('ExportLayoutAction calls export callback with JSON string', (tester) async {
+      late FormLayoutController controller;
       String? exportedData;
 
       await tester.pumpWidget(
@@ -510,9 +508,8 @@ void main() {
       expect(exportedData!, contains('test_widget'));
     });
 
-    testWidgets('ExportLayoutAction returns false when no callback provided', (
-      tester,
-    ) async {
+    testWidgets('ExportLayoutAction returns false when no callback provided', (tester) async {
+      late FormLayoutController controller;
       bool actionResult = true;
 
       await tester.pumpWidget(
@@ -540,9 +537,8 @@ void main() {
       expect(actionResult, false);
     });
 
-    testWidgets('ImportLayoutAction imports valid layout and calls callback', (
-      tester,
-    ) async {
+    testWidgets('ImportLayoutAction imports valid layout and calls callback', (tester) async {
+      late FormLayoutController controller;
       LayoutState? importedLayout;
       String? importError;
 
@@ -615,13 +611,12 @@ void main() {
       expect(controller.state.widgets.length, 1);
     });
 
-    testWidgets(
-      'ImportLayoutAction handles invalid JSON and calls error callback',
-      (tester) async {
-        LayoutState? importedLayout;
-        String? importError;
+    testWidgets('ImportLayoutAction handles invalid JSON and calls error callback', (tester) async {
+      late FormLayoutController controller;
+      LayoutState? importedLayout;
+      String? importError;
 
-        await tester.pumpWidget(
+      await tester.pumpWidget(
           MaterialApp(
             home: HookBuilder(
               builder: (context) {
@@ -658,6 +653,8 @@ void main() {
     );
 
     testWidgets('ImportLayoutAction works without callback', (tester) async {
+      late FormLayoutController controller;
+      
       bool actionResult = false;
 
       await tester.pumpWidget(

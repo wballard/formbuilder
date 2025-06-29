@@ -9,6 +9,7 @@ import 'package:formbuilder/form_layout/widgets/optimized_drag_operations.dart';
 import 'package:formbuilder/form_layout/widgets/virtual_grid.dart';
 import 'package:formbuilder/form_layout/utils/memory_optimizer.dart';
 import 'package:formbuilder/form_layout/models/performance_settings.dart';
+import 'package:formbuilder/form_layout/models/layout_state.dart';
 
 void main() {
   group('Performance Integration Tests', () {
@@ -287,7 +288,7 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: OptimizedGridWidget(
-              dimensions: const GridDimensions(columns: 4, rows: 4),
+              dimensions: const GridDimensions(columns: 12, rows: 12),
               lineColor: Colors.black,
               backgroundColor: Colors.white,
               lineWidth: 1.0,

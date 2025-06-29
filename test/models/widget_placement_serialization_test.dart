@@ -133,7 +133,7 @@ void main() {
       expect(
         () => WidgetPlacement.fromJson(invalidJson),
         throwsA(isA<TypeError>()),
-      );
+        );
     });
 
     test('should validate placement constraints', () {
@@ -149,7 +149,7 @@ void main() {
       expect(
         () => WidgetPlacement.fromJson(invalidJson),
         throwsA(isA<AssertionError>()),
-      );
+        );
     });
 
     test('should handle null properties gracefully', () {

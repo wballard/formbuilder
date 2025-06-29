@@ -38,7 +38,7 @@ void main() {
       expect(
         () => GridDimensions.fromJson(invalidJson),
         throwsA(isA<ArgumentError>()),
-      );
+        );
     });
 
     test('should handle missing fields with validation', () {
@@ -50,7 +50,7 @@ void main() {
       expect(
         () => GridDimensions.fromJson(incompleteJson),
         throwsA(isA<TypeError>()),
-      );
+        );
     });
 
     test('should handle out-of-range values', () {
@@ -62,7 +62,7 @@ void main() {
       expect(
         () => GridDimensions.fromJson(outOfRangeJson),
         throwsA(isA<ArgumentError>()),
-      );
+        );
     });
   });
 }

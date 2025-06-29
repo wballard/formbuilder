@@ -229,7 +229,7 @@ void main() {
     testWidgets('withErrorBoundary wraps widget correctly', (tester) async {
       await tester.pumpWidget(
         MaterialApp(home: const Text('Test widget').withErrorBoundary()),
-      );
+        );
 
       expect(find.byType(FormLayoutError), findsOneWidget);
       expect(find.text('Test widget'), findsOneWidget);

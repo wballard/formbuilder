@@ -44,7 +44,7 @@ void main() {
                       width: 50,
                       height: 50,
                       color: Colors.green,
-                      child: const Text('Drag me'),
+                      child: const Text('Drag me')),
                     ),
                   ),
                 ),
@@ -84,7 +84,7 @@ void main() {
                   width: 200,
                   height: 200,
                   color: candidateData.isNotEmpty ? Colors.red : Colors.blue,
-                  child: const Text('Drop Zone'),
+                  child: const Text('Drop Zone')),
                 );
               },
             ),
@@ -152,7 +152,7 @@ void main() {
                 width: 100,
                 height: 100,
                 color: Colors.green,
-                child: const Text('Drag me'),
+                child: const Text('Drag me')),
               ),
             ),
           ),
@@ -239,12 +239,11 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: DragDropPerformanceWrapper(
+            body: feedback: DragDropPerformanceWrapper(
               child: Column(
                 children: [
                   Draggable<String>(
-                    data: 'item1',
-                    feedback: Container(
+                    data: 'item1', Container(
                       width: 50,
                       height: 50,
                       color: Colors.red,
@@ -253,7 +252,7 @@ void main() {
                       width: 100,
                       height: 50,
                       color: Colors.green,
-                      child: const Text('Item 1'),
+                      child: const Text('Item 1')),
                     ),
                   ),
                   DragTarget<String>(

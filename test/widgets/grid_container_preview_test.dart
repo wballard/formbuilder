@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formbuilder/form_layout/widgets/grid_container.dart';
 import 'package:formbuilder/form_layout/widgets/accessible_grid_widget.dart';
-import 'package:formbuilder/form_layout/widgets/placed_widget.dart';
+import 'package:formbuilder/form_layout/widgets/accessible_placed_widget.dart';
 import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
@@ -84,7 +84,7 @@ void main() {
         ),
       );
 
-      expect(find.byType(PlacedWidget), findsNWidgets(2));
+      expect(find.byType(AccessiblePlacedWidget), findsNWidgets(2));
     });
 
     testWidgets('uses simple Container in preview mode', (
@@ -100,7 +100,7 @@ void main() {
         ),
       );
 
-      expect(find.byType(PlacedWidget), findsNothing);
+      expect(find.byType(AccessiblePlacedWidget), findsNothing);
       expect(find.text('Test Widget'), findsNWidgets(2));
     });
 
@@ -185,7 +185,7 @@ void main() {
       );
 
       // No PlacedWidget means no selection indicators
-      expect(find.byType(PlacedWidget), findsNothing);
+      expect(find.byType(AccessiblePlacedWidget), findsNothing);
     });
 
     testWidgets('drag state is ignored in preview mode', (
@@ -203,7 +203,7 @@ void main() {
       );
 
       // No PlacedWidget means no drag indicators
-      expect(find.byType(PlacedWidget), findsNothing);
+      expect(find.byType(AccessiblePlacedWidget), findsNothing);
     });
 
     testWidgets('resize state is ignored in preview mode', (
@@ -221,7 +221,7 @@ void main() {
       );
 
       // No PlacedWidget means no resize indicators
-      expect(find.byType(PlacedWidget), findsNothing);
+      expect(find.byType(AccessiblePlacedWidget), findsNothing);
     });
 
     testWidgets('preserves widget content in both modes', (
