@@ -253,7 +253,6 @@ void main() {
       
       // Try to move a widget (should not work in preview mode)
       if (widgetCount > 0) {
-        final widget = controller.state.widgets.first;
         // Note: In actual implementation, this might be blocked in preview mode
         // For now, we'll just verify the state
         expect(controller.state.widgets.first.column, equals(firstWidgetPos?.$1));

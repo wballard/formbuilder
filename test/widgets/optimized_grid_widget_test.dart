@@ -7,8 +7,6 @@ import 'dart:math';
 void main() {
   group('OptimizedGridWidget', () {
     test('should support const constructor', () {
-      const dimensions = GridDimensions(columns: 4, rows: 4);
-
       // This test verifies that the widget can be created as const
       const widget = OptimizedGridWidget(
         dimensions: GridDimensions(columns: 4, rows: 4),
@@ -21,8 +19,6 @@ void main() {
     });
 
     testWidgets('should use RepaintBoundary', (tester) async {
-      const dimensions = GridDimensions(columns: 4, rows: 4);
-
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(body: OptimizedGridWidget(
@@ -149,9 +145,6 @@ void main() {
 
     testWidgets('should use efficient shouldRepaint', (tester) async {
       const dimensions = GridDimensions(columns: 4, rows: 4);
-      final highlightedCells = ValueNotifier<Set<Point<int>>>({
-        const Point(1, 1),
-      });
 
       await tester.pumpWidget(
         MaterialApp(
@@ -183,7 +176,6 @@ void main() {
         lineWidth: painter.lineWidth,
         highlightedCells: {const Point(2, 2)},
         highlightColor: painter.highlightColor,
-        debugKey: painter.debugKey,
       );
       expect(painter.shouldRepaint(newPainter), isTrue);
 
@@ -195,14 +187,11 @@ void main() {
         lineWidth: painter.lineWidth,
         highlightedCells: Set<Point<int>>.from(painter.highlightedCells),
         highlightColor: painter.highlightColor,
-        debugKey: painter.debugKey,
       );
       expect(painter.shouldRepaint(samePainter), isFalse);
     });
 
     testWidgets('should render correctly', (tester) async {
-      const dimensions = GridDimensions(columns: 2, rows: 2);
-
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(

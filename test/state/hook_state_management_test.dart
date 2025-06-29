@@ -206,14 +206,13 @@ void main() {
     });
 
     testWidgets('Hook cleanup on disposal', (tester) async {
-      late FormLayoutController controller;
       bool disposed = false;
 
       await tester.pumpWidget(
         TestWidgetBuilder.wrapWithMaterialApp(
           HookBuilder(
             builder: (context) {
-              controller = useFormLayout(LayoutState.empty());
+              useFormLayout(LayoutState.empty());
               
               useEffect(() {
                 return () {

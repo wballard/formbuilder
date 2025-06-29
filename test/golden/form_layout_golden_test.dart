@@ -74,8 +74,6 @@ void main() {
     });
 
     testWidgets('Empty form layout - light theme', (tester) async {
-      late FormLayoutController controller;
-      
       await tester.pumpWidget(
         TestWidgetBuilder.withLightTheme(
           SizedBox(
@@ -84,7 +82,7 @@ void main() {
             child: FormLayoutTestWrapper(
               toolbox: toolbox,
               initialLayout: LayoutState.empty(),
-              onControllerCreated: (c) => controller = c,
+              onControllerCreated: (c) => {},
             ),
           ),
         ),
@@ -99,8 +97,6 @@ void main() {
     });
 
     testWidgets('Empty form layout - dark theme', (tester) async {
-        late FormLayoutController controller;
-        
       await tester.pumpWidget(
         TestWidgetBuilder.withDarkTheme(
           SizedBox(
@@ -109,7 +105,7 @@ void main() {
             child: FormLayoutTestWrapper(
               toolbox: toolbox,
               initialLayout: LayoutState.empty(),
-              onControllerCreated: (c) => controller = c,
+              onControllerCreated: (c) => {},
             ),
           ),
         ),
@@ -124,8 +120,6 @@ void main() {
     });
 
     testWidgets('Form layout with basic widgets', (tester) async {
-        late FormLayoutController controller;
-        
       await tester.pumpWidget(
         TestWidgetBuilder.withLightTheme(
           SizedBox(
@@ -192,7 +186,7 @@ void main() {
                   ),
                 ],
               ),
-              onControllerCreated: (c) => controller = c,
+              onControllerCreated: (c) => {},
             ),
           ),
         ),
@@ -207,8 +201,6 @@ void main() {
     });
 
     testWidgets('Form layout with single widget', (tester) async {
-        late FormLayoutController controller;
-        
       await tester.pumpWidget(
         TestWidgetBuilder.withLightTheme(
           SizedBox(
@@ -229,7 +221,7 @@ void main() {
                   ),
                 ],
               ),
-              onControllerCreated: (c) => controller = c,
+              onControllerCreated: (c) => {},
             ),
           ),
         ),
@@ -244,8 +236,6 @@ void main() {
     });
 
     testWidgets('Form layout with multiple widgets', (tester) async {
-        late FormLayoutController controller;
-        
       await tester.pumpWidget(
         TestWidgetBuilder.withLightTheme(
           SizedBox(
@@ -282,7 +272,7 @@ void main() {
                   ),
                 ],
               ),
-              onControllerCreated: (c) => controller = c,
+              onControllerCreated: (c) => {},
             ),
           ),
         ),
@@ -297,8 +287,8 @@ void main() {
     });
 
     testWidgets('Preview mode appearance', (tester) async {
-        late FormLayoutController controller;
-        
+      late FormLayoutController controller;
+      
       await tester.pumpWidget(
         TestWidgetBuilder.withLightTheme(
           SizedBox(
@@ -348,8 +338,6 @@ void main() {
     });
 
     testWidgets('Dense layout', (tester) async {
-        late FormLayoutController controller;
-        
       await tester.pumpWidget(
         TestWidgetBuilder.withLightTheme(
           SizedBox(
@@ -405,7 +393,7 @@ void main() {
                   ),
                 ],
               ),
-              onControllerCreated: (c) => controller = c,
+              onControllerCreated: (c) => {},
             ),
           ),
         ),
@@ -420,8 +408,6 @@ void main() {
     });
 
     testWidgets('Standard layout size', (tester) async {
-        late FormLayoutController controller;
-        
       await tester.pumpWidget(
         TestWidgetBuilder.withLightTheme(
           SizedBox(
@@ -452,7 +438,7 @@ void main() {
                   ),
                 ],
               ),
-              onControllerCreated: (c) => controller = c,
+              onControllerCreated: (c) => {},
             ),
           ),
         ),
@@ -467,7 +453,6 @@ void main() {
     });
 
     testWidgets('Custom theme', (tester) async {
-        late FormLayoutController controller;
         
       final customTheme = ThemeData(
         primaryColor: Colors.purple,
@@ -494,7 +479,7 @@ void main() {
                 'checkerboard',
                 dimensions: const GridDimensions(columns: 8, rows: 8),
               ),
-              onControllerCreated: (c) => controller = c,
+              onControllerCreated: (c) => {},
             ),
           ),
           theme: customTheme,
@@ -510,8 +495,8 @@ void main() {
     });
 
     testWidgets('Error states', (tester) async {
-        late FormLayoutController controller;
-        
+      late FormLayoutController controller;
+      
       await tester.pumpWidget(
         TestWidgetBuilder.withLightTheme(
           SizedBox(
@@ -574,8 +559,6 @@ void main() {
     });
 
     testWidgets('Hover and focus states', (tester) async {
-        late FormLayoutController controller;
-        
       await tester.pumpWidget(
         TestWidgetBuilder.withLightTheme(
           SizedBox(
@@ -604,7 +587,7 @@ void main() {
                   ),
                 ],
               ),
-              onControllerCreated: (c) => controller = c,
+              onControllerCreated: (c) => {},
             ),
           ),
         ),

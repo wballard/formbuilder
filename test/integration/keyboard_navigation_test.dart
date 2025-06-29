@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:formbuilder/form_layout/form_layout.dart';
 import 'package:formbuilder/form_layout/hooks/use_form_layout.dart';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
 import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/toolbox.dart';
 import 'package:formbuilder/form_layout/models/toolbox_item.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
-import 'package:formbuilder/form_layout/widgets/accessible_placed_widget.dart';
-import 'package:formbuilder/form_layout/widgets/accessible_grid_widget.dart';
-import 'package:formbuilder/form_layout/widgets/accessible_categorized_toolbox.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import '../test_utils/test_widget_builder.dart';
-import '../test_utils/state_assertions.dart';
 import '../test_utils/form_layout_test_wrapper.dart';
 
 void main() {
@@ -343,7 +336,6 @@ void main() {
       
       final widget = controller.state.widgets.first;
       final initialColumn = widget.column;
-      final initialRow = widget.row;
       
       // Move widget right
       controller.updateWidget('widget1', widget.copyWith(column: initialColumn + 2));

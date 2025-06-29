@@ -7,7 +7,6 @@ import 'dart:math';
 
 void main() {
   group('AccessibleGridWidget', () {
-    const testDimensions = GridDimensions(columns: 3, rows: 3);
 
     testWidgets('should render with proper semantics', (tester) async {
       await tester.pumpWidget(
@@ -196,7 +195,6 @@ void main() {
     });
 
     testWidgets('should handle highlighted cells', (tester) async {
-      final highlightedCells = {const Point(1, 1), const Point(2, 2)};
 
       await tester.pumpWidget(
         MaterialApp(

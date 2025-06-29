@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
 import 'package:formbuilder/form_layout/models/toolbox_item.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
-import 'package:formbuilder/form_layout/theme/form_layout_theme.dart';
 import 'package:formbuilder/form_layout/widgets/grid_widget.dart';
 import 'package:formbuilder/form_layout/widgets/placed_widget.dart';
 import 'package:formbuilder/form_layout/widgets/toolbox_widget.dart';
@@ -39,7 +38,7 @@ void main() {
               const Point(5, 3),
               const Point(6, 3),
             },
-            highlightColor: Colors.blue.withOpacity(0.3),
+            highlightColor: Colors.blue.withValues(alpha: 0.3),
           ),
         ),
       );
@@ -129,7 +128,6 @@ void main() {
     });
 
     testWidgets('Placed widget states', (tester) async {
-      final theme = FormLayoutTheme.fromThemeData(ThemeData.light());
       
       // Normal state
       await tester.pumpWidget(
@@ -148,16 +146,16 @@ void main() {
                   height: 1,
                   properties: {'label': 'Click Me'},
                 ),
-                child: Container(
-                  color: Colors.blue,
-                  child: const Center(child: Text('Button')),
-                ),
                 isSelected: false,
                 showResizeHandles: false,
                 onDelete: () {},
                 onResizeStart: (_) {},
                 onResizeUpdate: (_, __) {},
                 onResizeEnd: () {},
+                child: Container(
+                  color: Colors.blue,
+                  child: const Center(child: Text('Button')),
+                ),
               ),
             ),
           ),
@@ -186,16 +184,16 @@ void main() {
                   height: 1,
                   properties: {'label': 'Selected'},
                 ),
-                child: Container(
-                  color: Colors.blue,
-                  child: const Center(child: Text('Selected')),
-                ),
                 isSelected: true,
                 showResizeHandles: true,
                 onDelete: () {},
                 onResizeStart: (_) {},
                 onResizeUpdate: (_, __) {},
                 onResizeEnd: () {},
+                child: Container(
+                  color: Colors.blue,
+                  child: const Center(child: Text('Selected')),
+                ),
               ),
             ),
           ),
@@ -224,13 +222,6 @@ void main() {
                   height: 1,
                   properties: {'label': 'Drop Here'},
                 ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.green.withOpacity(0.3),
-                    border: Border.all(color: Colors.green, width: 2),
-                  ),
-                  child: const Center(child: Text('Drop Here')),
-                ),
                 isSelected: false,
                 isDragging: true,
                 showResizeHandles: false,
@@ -238,6 +229,13 @@ void main() {
                 onResizeStart: (_) {},
                 onResizeUpdate: (_, __) {},
                 onResizeEnd: () {},
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.green.withValues(alpha: 0.3),
+                    border: Border.all(color: Colors.green, width: 2),
+                  ),
+                  child: const Center(child: Text('Drop Here')),
+                ),
               ),
             ),
           ),
@@ -268,7 +266,7 @@ void main() {
                   const Point(2, 2),
                   const Point(3, 3),
                 },
-                highlightColor: Colors.blue.withOpacity(0.2),
+                highlightColor: Colors.blue.withValues(alpha: 0.2),
               ),
             ),
           ),
@@ -293,7 +291,7 @@ void main() {
                   Container(
                     width: 200,
                     height: 100,
-                    color: Colors.blue.withOpacity(0.3),
+                    color: Colors.blue.withValues(alpha: 0.3),
                     child: const Center(
                       child: Text('Widget'),
                     ),
@@ -363,20 +361,20 @@ void main() {
                     height: 1,
                     properties: {'label': widgetName},
                   ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: color.withOpacity(0.2),
-                      border: Border.all(color: color),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Icon(icon, color: color),
-                  ),
                   isSelected: false,
                   showResizeHandles: false,
                   onDelete: () {},
                   onResizeStart: (_) {},
                   onResizeUpdate: (_, __) {},
                   onResizeEnd: () {},
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: color.withValues(alpha: 0.2),
+                      border: Border.all(color: color),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Icon(icon, color: color),
+                  ),
                 ),
               ),
             ),
@@ -391,7 +389,6 @@ void main() {
     });
 
     testWidgets('Dark theme widgets', (tester) async {
-      final darkTheme = FormLayoutTheme.fromThemeData(ThemeData.dark());
       
       // Grid in dark theme
       await tester.pumpWidget(

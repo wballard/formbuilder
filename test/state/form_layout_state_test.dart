@@ -559,7 +559,6 @@ void main() {
         ),
       );
 
-      final stateBefore = controller.state;
 
       // Try to add widget with duplicate ID
       try {
