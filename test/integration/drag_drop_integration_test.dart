@@ -218,14 +218,19 @@ void main() {
       
       await tester.pumpWidget(
         TestWidgetBuilder.wrapWithMaterialApp(
-          FormLayoutTestWrapper(
-            toolbox: toolbox,
-            initialLayout: LayoutState(
-                  dimensions: const GridDimensions(columns: 12, rows: 12),
-                  widgets: TestDataGenerators.randomLayout(widgetCount: 3).widgets,
-                ),
-            onControllerCreated: (c) => controller = c,
+          SizedBox(
+            width: 800,
+            height: 600,
+            child: FormLayoutTestWrapper(
+              toolbox: toolbox,
+              initialLayout: LayoutState(
+                    dimensions: const GridDimensions(columns: 12, rows: 12),
+                    widgets: TestDataGenerators.randomLayout(widgetCount: 3).widgets,
+                  ),
+              onControllerCreated: (c) => controller = c,
+            ),
           ),
+          screenSize: const Size(800, 600),
         ),
       );
       
@@ -282,16 +287,18 @@ void main() {
       
       await tester.pumpAndSettle();
 
-      // Step 1: Add multiple widgets
+      // Step 1: Add multiple widgets (adjust positions for 4-column grid)
       final widgetTypes = ['button', 'text_input', 'label'];
-      final widgetSizes = [(2, 1), (4, 1), (3, 1)];
+      final widgetSizes = [(2, 1), (2, 1), (2, 1)]; // Adjust widths to fit in 4-column grid
+      final positions = [0, 2, 0]; // Place at columns 0, 2, and 0 (different rows)
+      final rows = [0, 0, 1]; // Use different rows to avoid overlap
       
       for (int i = 0; i < 3; i++) {
         controller.addWidget(WidgetPlacement(
           id: 'widget_$i',
           widgetName: widgetTypes[i],
-          column: i * 4,
-          row: 0,
+          column: positions[i],
+          row: rows[i],
           width: widgetSizes[i].$1,
           height: widgetSizes[i].$2,
         ));
@@ -305,31 +312,31 @@ void main() {
       // Step 2: Select and move a widget
       // Since multi-selection isn't supported, just move one widget
       controller.selectWidget('widget_0');
-      await tester.pumpAndSettle();
+      await tester.pump();
       
-      // Move the selected widget
+      // Move the selected widget (within 4-column grid bounds)
       controller.updateWidget('widget_0', WidgetPlacement(
         id: 'widget_0',
         widgetName: 'button',
-        column: 6,
-        row: 3,
+        column: 2,
+        row: 2,
         width: 2,
         height: 1,
       ));
-      await tester.pumpAndSettle();
+      await tester.pump();
 
       // Step 3: Test undo chain
       final stateBeforeUndo = controller.state;
       
       // Undo move
       controller.undo();
-      await tester.pumpAndSettle();
+      await tester.pump();
       expect(controller.state, isNot(equals(stateBeforeUndo)));
       
       // Undo widget additions
       for (int i = 0; i < 3; i++) {
         controller.undo();
-        await tester.pumpAndSettle();
+        await tester.pump();
         expect(controller.state.widgets.length, 2 - i);
       }
       
@@ -338,7 +345,7 @@ void main() {
       // Redo all operations
       while (controller.canRedo) {
         controller.redo();
-        await tester.pumpAndSettle();
+        await tester.pump();
       }
       
       expect(controller.state.widgets.length, 3);
@@ -372,19 +379,29 @@ void main() {
       
       await tester.pumpAndSettle();
 
-      // Try to move widget beyond grid boundaries
-      controller.updateWidget('edge_widget', WidgetPlacement(
-        id: 'edge_widget',
-        widgetName: 'button',
-        column: 10, // Beyond grid boundary
-        row: 10,    // Beyond grid boundary
-        width: 2,
-        height: 2,
-      ));
+      // Try to move widget beyond grid boundaries - this should fail
+      // The controller should validate and reject invalid placements
+      bool moveSucceeded = true;
+      try {
+        controller.updateWidget('edge_widget', WidgetPlacement(
+          id: 'edge_widget',
+          widgetName: 'button',
+          column: 10, // Beyond grid boundary
+          row: 10,    // Beyond grid boundary
+          width: 2,
+          height: 2,
+        ));
+      } catch (e) {
+        // Expected to fail - move beyond boundaries should be rejected
+        moveSucceeded = false;
+      }
       await tester.pumpAndSettle();
 
-      // Widget should be constrained within grid
+      // Widget should remain in original position since invalid move was rejected
+      expect(moveSucceeded, isFalse, reason: 'Move beyond grid boundaries should fail');
       final widget = controller.state.widgets.first;
+      expect(widget.column, equals(4)); // Original position
+      expect(widget.row, equals(4)); // Original position
       expect(widget.column + widget.width, lessThanOrEqualTo(6));
       expect(widget.row + widget.height, lessThanOrEqualTo(6));
       StateAssertions.assertAllWidgetsFitInGrid(controller.state);

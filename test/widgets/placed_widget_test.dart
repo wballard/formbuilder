@@ -37,7 +37,7 @@ void main() {
       );
 
       expect(find.text(childText), findsOneWidget);
-      expect(find.byType(AccessiblePlacedWidget), findsOneWidget);
+      expect(find.byType(PlacedWidget), findsOneWidget);
     });
 
     testWidgets('shows border when selected', (WidgetTester tester) async {
@@ -89,7 +89,7 @@ void main() {
       // Find the Opacity widget
       final opacity = tester.widget<Opacity>(
         find.descendant(
-          of: find.byType(AccessiblePlacedWidget),
+          of: find.byType(PlacedWidget),
           matching: find.byType(Opacity),
         ),
       );
@@ -116,7 +116,7 @@ void main() {
       final paddingWidgets = tester
           .widgetList<Padding>(
             find.descendant(
-              of: find.byType(AccessiblePlacedWidget),
+              of: find.byType(PlacedWidget),
               matching: find.byType(Padding),
             ),
           )
@@ -144,7 +144,7 @@ void main() {
         ),
       );
 
-      await tester.tap(find.byType(AccessiblePlacedWidget));
+      await tester.tap(find.byType(PlacedWidget));
       await tester.pump();
 
       expect(tapped, isTrue);
@@ -166,7 +166,7 @@ void main() {
       expect(find.byType(InkWell), findsOneWidget);
 
       // Tap and verify ink response
-      await tester.tap(find.byType(AccessiblePlacedWidget));
+      await tester.tap(find.byType(PlacedWidget));
       await tester.pump(); // Start animation
       await tester.pump(const Duration(milliseconds: 100)); // Halfway
 
@@ -191,7 +191,7 @@ void main() {
         // Find MouseRegion
         final mouseRegion = tester.widget<MouseRegion>(
           find.descendant(
-            of: find.byType(AccessiblePlacedWidget),
+            of: find.byType(PlacedWidget),
             matching: find.byType(MouseRegion),
           ),
         );
@@ -209,7 +209,7 @@ void main() {
         ),
       );
 
-      final widget = tester.widget<AccessiblePlacedWidget>(find.byType(AccessiblePlacedWidget));
+      final widget = tester.widget<PlacedWidget>(find.byType(PlacedWidget));
       expect(widget.isSelected, isFalse);
       expect(widget.isDragging, isFalse);
       expect(widget.contentPadding, equals(const EdgeInsets.all(8)));
@@ -242,7 +242,7 @@ void main() {
         // Find the initial Material widget
         Material getMaterial() => tester.widget<Material>(
           find.descendant(
-            of: find.byType(AccessiblePlacedWidget),
+            of: find.byType(PlacedWidget),
             matching: find.byType(Material).first,
           ),
         );
@@ -257,7 +257,7 @@ void main() {
         await gesture.addPointer(location: Offset.zero);
         addTearDown(gesture.removePointer);
         await tester.pump();
-        await gesture.moveTo(tester.getCenter(find.byType(AccessiblePlacedWidget)));
+        await gesture.moveTo(tester.getCenter(find.byType(PlacedWidget)));
         await tester.pumpAndSettle();
 
         // Elevation should increase on hover
@@ -283,7 +283,7 @@ void main() {
       // Should have both border and opacity
       final opacity = tester.widget<Opacity>(
         find.descendant(
-          of: find.byType(AccessiblePlacedWidget),
+          of: find.byType(PlacedWidget),
           matching: find.byType(Opacity),
         ),
       );
@@ -372,7 +372,7 @@ void main() {
 
           final mouseRegion = tester.widget<MouseRegion>(
             find.descendant(
-              of: find.byType(AccessiblePlacedWidget),
+              of: find.byType(PlacedWidget),
               matching: find.byType(MouseRegion),
             ),
           );
@@ -400,7 +400,7 @@ void main() {
 
           final mouseRegion = tester.widget<MouseRegion>(
             find.descendant(
-              of: find.byType(AccessiblePlacedWidget),
+              of: find.byType(PlacedWidget),
               matching: find.byType(MouseRegion),
             ),
           );

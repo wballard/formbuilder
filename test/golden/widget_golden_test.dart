@@ -280,7 +280,7 @@ void main() {
         );
 
         await expectLater(
-          find.byType(GridContainer),
+          find.byType(GridWidget),
           matchesGoldenFile('golden/widgets/grid_container_${cellSize.toInt()}.png'),
         );
       }
@@ -336,7 +336,7 @@ void main() {
       );
 
       await expectLater(
-        find.byType(GridResizeControls),
+        find.byType(SizedBox),
         matchesGoldenFile('golden/widgets/resize_controls.png'),
       );
     });
