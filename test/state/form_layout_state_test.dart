@@ -241,14 +241,18 @@ void main() {
         ),
       ];
 
-      for (final widget in widgets) controller.addWidget(widget);
+      for (final widget in widgets) {
+        controller.addWidget(widget);
+      }
       await tester.pump();
 
       expect(controller.state.widgets.length, equals(3));
       expect(controller.canUndo, isTrue);
 
       // Remove multiple widgets
-      for (final id in ['widget1', 'widget3']) controller.removeWidget(id);
+      for (final id in ['widget1', 'widget3']) {
+        controller.removeWidget(id);
+      }
       await tester.pump();
 
       expect(controller.state.widgets.length, equals(1));
@@ -463,7 +467,9 @@ void main() {
       );
 
       // Add all widgets
-      for (final widget in layout.widgets) controller.addWidget(widget);
+      for (final widget in layout.widgets) {
+        controller.addWidget(widget);
+      }
       await tester.pump();
 
       StateAssertions.assertStateConsistency(controller.state);

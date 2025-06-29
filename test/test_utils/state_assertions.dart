@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
-import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
 
 /// Utility class for asserting state conditions in tests
 class StateAssertions {

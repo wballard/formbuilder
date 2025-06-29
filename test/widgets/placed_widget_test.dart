@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
-import 'package:formbuilder/form_layout/widgets/accessible_placed_widget.dart';
 import 'package:formbuilder/form_layout/widgets/resize_handle.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
 import 'package:formbuilder/form_layout/widgets/placed_widget.dart';

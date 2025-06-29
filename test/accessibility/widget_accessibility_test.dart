@@ -8,7 +8,6 @@ import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
 import 'package:formbuilder/form_layout/models/toolbox_item.dart';
 import 'package:formbuilder/form_layout/models/toolbox.dart';
-import 'package:formbuilder/form_layout/theme/form_layout_theme.dart';
 import '../test_utils/test_widget_builder.dart';
 
 void main() {

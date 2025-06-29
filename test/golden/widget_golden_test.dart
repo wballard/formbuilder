@@ -2,18 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'dart:math';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
-import 'package:formbuilder/form_layout/models/toolbox.dart';
 import 'package:formbuilder/form_layout/models/toolbox_item.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
 import 'package:formbuilder/form_layout/theme/form_layout_theme.dart';
 import 'package:formbuilder/form_layout/widgets/grid_widget.dart';
 import 'package:formbuilder/form_layout/widgets/placed_widget.dart';
 import 'package:formbuilder/form_layout/widgets/toolbox_widget.dart';
-import 'package:formbuilder/form_layout/widgets/grid_container.dart';
-import 'package:formbuilder/form_layout/widgets/grid_resize_controls.dart';
-import 'package:formbuilder/form_layout/widgets/resize_handle.dart';
 import '../test_utils/test_widget_builder.dart';
-import 'package:formbuilder/form_layout/models/layout_state.dart';
 
 void main() {
   group('Widget Golden Tests', () {

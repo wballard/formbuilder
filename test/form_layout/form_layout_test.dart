@@ -26,7 +26,7 @@ void main() {
                   child: const Center(child: Text('Test')),
                 ),
                 gridBuilder: (context, placement) => Container(
-                  color: Colors.blue.withOpacity(0.5),
+                  color: Colors.blue.withValues(alpha: 0.5),
                   child: Center(child: Text(placement.id)),
                 ),
                 defaultWidth: 2,

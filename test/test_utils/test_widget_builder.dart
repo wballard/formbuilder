@@ -115,6 +115,7 @@ class _FormLayoutThemeProvider extends InheritedWidget {
     return theme != oldWidget.theme;
   }
 
+  // ignore: unused_element
   static _FormLayoutThemeProvider? maybeOf(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<_FormLayoutThemeProvider>();
   }

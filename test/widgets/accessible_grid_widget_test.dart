@@ -4,7 +4,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
 import 'package:formbuilder/form_layout/widgets/accessible_grid_widget.dart';
 import 'dart:math';
-import 'package:formbuilder/form_layout/models/layout_state.dart';
 
 void main() {
   group('AccessibleGridWidget', () {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formbuilder/form_layout/form_layout.dart';
@@ -15,8 +14,6 @@ import 'package:formbuilder/form_layout/widgets/accessible_categorized_toolbox.d
 import 'package:flutter_hooks/flutter_hooks.dart';
 import '../test_utils/test_widget_builder.dart';
 import '../test_utils/form_layout_test_wrapper.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/gestures.dart';
 
 void main() {
   group('Form Layout Accessibility Tests', () {
@@ -93,13 +90,11 @@ void main() {
     });
 
     testWidgets('Keyboard navigation accessibility', (tester) async {
-        late FormLayoutController controller;
-        
       await tester.pumpWidget(
         TestWidgetBuilder.wrapWithMaterialApp(
           HookBuilder(
             builder: (context) {
-              final controller = useFormLayout(LayoutState(
+              useFormLayout(LayoutState(
                   dimensions: const GridDimensions(columns: 12, rows: 12),
                   widgets: [
                     WidgetPlacement(

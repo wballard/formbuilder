@@ -3,7 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:formbuilder/form_layout/widgets/optimized_grid_widget.dart';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
 import 'dart:math';
-import 'package:formbuilder/form_layout/models/layout_state.dart';
 
 void main() {
   group('OptimizedGridWidget', () {
@@ -205,10 +204,10 @@ void main() {
       const dimensions = GridDimensions(columns: 2, rows: 2);
 
       await tester.pumpWidget(
-        const MaterialApp(
+        MaterialApp(
           home: Scaffold(
             body: OptimizedGridWidget(
-              dimensions: const GridDimensions(columns: 12, rows: 12),
+              dimensions: GridDimensions(columns: 12, rows: 12),
             ),
           ),
         ),

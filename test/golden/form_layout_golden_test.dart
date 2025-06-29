@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:formbuilder/form_layout/form_layout.dart';
 import 'package:formbuilder/form_layout/hooks/use_form_layout.dart';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
 import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/toolbox.dart';
 import 'package:formbuilder/form_layout/models/toolbox_item.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
-import 'package:formbuilder/form_layout/widgets/accessible_placed_widget.dart';
-import 'package:formbuilder/form_layout/theme/form_layout_theme.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import '../test_utils/test_widget_builder.dart';
 import '../test_utils/form_layout_test_wrapper.dart';
 import '../test_utils/test_data_generators.dart';
-import 'package:flutter/gestures.dart';
 
 void main() {
   group('Form Layout Golden Tests', () {

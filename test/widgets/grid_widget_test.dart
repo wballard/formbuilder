@@ -4,7 +4,6 @@ import 'package:formbuilder/form_layout/widgets/accessible_grid_widget.dart';
 import 'package:formbuilder/form_layout/widgets/grid_widget.dart';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
 import 'dart:math';
-import 'package:formbuilder/form_layout/models/layout_state.dart';
 
 void main() {
   group('GridWidget', () {
@@ -139,7 +138,7 @@ void main() {
               body: AccessibleGridWidget(
                 dimensions: dimensions,
                 highlightedCells: highlightedCells,
-                highlightColor: Colors.red.withOpacity(0.3),
+                highlightColor: Colors.red.withValues(alpha: 0.3),
               ),
             ),
           ),
