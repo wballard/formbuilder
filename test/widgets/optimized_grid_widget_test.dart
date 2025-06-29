@@ -7,26 +7,23 @@ import 'dart:math';
 void main() {
   group('OptimizedGridWidget', () {
     test('should support const constructor', () {
-      const dimensions = GridDimensions(columns: 4, rows: 4);
-
       // This test verifies that the widget can be created as const
       const widget = OptimizedGridWidget(
-        dimensions: dimensions,
-        lineColor: Colors.grey,
-        backgroundColor: Colors.white,
+        dimensions: GridDimensions(columns: 4, rows: 4),
       );
 
-      expect(widget.dimensions, equals(dimensions));
+      expect(widget.dimensions.columns, equals(4));
+      expect(widget.dimensions.rows, equals(4));
       expect(widget.lineColor, equals(Colors.grey));
       expect(widget.backgroundColor, equals(Colors.white));
     });
 
     testWidgets('should use RepaintBoundary', (tester) async {
-      const dimensions = GridDimensions(columns: 4, rows: 4);
-
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(body: OptimizedGridWidget(dimensions: dimensions)),
+        MaterialApp(
+          home: Scaffold(body: OptimizedGridWidget(
+            dimensions: const GridDimensions(columns: 12, rows: 12),
+          )),
         ),
       );
 
@@ -148,16 +145,12 @@ void main() {
 
     testWidgets('should use efficient shouldRepaint', (tester) async {
       const dimensions = GridDimensions(columns: 4, rows: 4);
-      final highlightedCells = ValueNotifier<Set<Point<int>>>({
-        const Point(1, 1),
-      });
 
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: OptimizedGridWidget(
-              dimensions: dimensions,
-              highlightedCells: highlightedCells,
+              dimensions: const GridDimensions(columns: 12, rows: 12),
             ),
           ),
         ),
@@ -188,26 +181,22 @@ void main() {
 
       // Same highlighted cells should not need repaint
       final samePainter = OptimizedGridPainter(
-        dimensions: dimensions,
+        dimensions: painter.dimensions,
         lineColor: painter.lineColor,
         backgroundColor: painter.backgroundColor,
         lineWidth: painter.lineWidth,
-        highlightedCells: painter.highlightedCells,
+        highlightedCells: Set<Point<int>>.from(painter.highlightedCells),
         highlightColor: painter.highlightColor,
       );
       expect(painter.shouldRepaint(samePainter), isFalse);
     });
 
     testWidgets('should render correctly', (tester) async {
-      const dimensions = GridDimensions(columns: 2, rows: 2);
-
       await tester.pumpWidget(
-        const MaterialApp(
+        MaterialApp(
           home: Scaffold(
             body: OptimizedGridWidget(
-              dimensions: dimensions,
-              lineColor: Colors.black,
-              backgroundColor: Colors.white,
+              dimensions: GridDimensions(columns: 12, rows: 12),
             ),
           ),
         ),

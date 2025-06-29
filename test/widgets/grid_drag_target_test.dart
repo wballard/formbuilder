@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:formbuilder/form_layout/widgets/grid_drag_target.dart';
 import 'package:formbuilder/form_layout/widgets/grid_container.dart';
-import 'package:formbuilder/form_layout/widgets/placed_widget.dart';
+import 'package:formbuilder/form_layout/widgets/accessible_placed_widget.dart';
 import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
 import 'package:formbuilder/form_layout/models/toolbox_item.dart';
@@ -122,7 +122,7 @@ void main() {
 
       // Tap on the placed widget's InkWell specifically
       final placedWidgetInkWell = find.descendant(
-        of: find.byType(PlacedWidget),
+        of: find.byType(AccessiblePlacedWidget),
         matching: find.byType(InkWell),
       );
       expect(placedWidgetInkWell, findsOneWidget);

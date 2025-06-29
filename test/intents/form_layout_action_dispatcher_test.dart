@@ -19,7 +19,7 @@ LayoutState _createInitialState() {
 
 void main() {
   group('FormLayoutActionDispatcher', () {
-    late FormLayoutController controller;
+
     late ToolboxItem testItem;
 
     setUp(() {
@@ -27,13 +27,15 @@ void main() {
         name: 'test_widget',
         displayName: 'Test Widget',
         toolboxBuilder: (context) => Container(),
-        gridBuilder: (context, placement) => Container(),
+        gridBuilder: (context, placement) => const Icon(Icons.widgets),
         defaultWidth: 2,
         defaultHeight: 1,
       );
     });
 
     testWidgets('provides actions to descendants', (tester) async {
+        late FormLayoutController controller;
+        
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
@@ -77,6 +79,8 @@ void main() {
     });
 
     testWidgets('context extension methods work correctly', (tester) async {
+        late FormLayoutController controller;
+        
       bool invoked = false;
 
       await tester.pumpWidget(
@@ -128,9 +132,8 @@ void main() {
       expect(invoked, true);
     });
 
-    testWidgets('FormLayoutIntentInvoker mixin provides convenience methods', (
-      tester,
-    ) async {
+    testWidgets('FormLayoutIntentInvoker mixin provides convenience methods', (tester) async {
+      late FormLayoutController controller;
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
@@ -176,6 +179,8 @@ void main() {
     });
 
     testWidgets('all actions are available through dispatcher', (tester) async {
+        late FormLayoutController controller;
+        
       final invokedIntents = <Type>[];
 
       await tester.pumpWidget(
@@ -290,7 +295,7 @@ class _TestWidgetState extends State<_TestWidget> with FormLayoutIntentInvoker {
       name: 'test_widget',
       displayName: 'Test Widget',
       toolboxBuilder: (context) => Container(),
-      gridBuilder: (context, placement) => Container(),
+      gridBuilder: (context, placement) => const Icon(Icons.widgets),
       defaultWidth: 2,
       defaultHeight: 1,
     );

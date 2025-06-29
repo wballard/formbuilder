@@ -14,7 +14,7 @@ void main() {
         name: 'test_widget',
         displayName: 'Test Widget',
         toolboxBuilder: (context) => Container(),
-        gridBuilder: (context, placement) => Container(),
+        gridBuilder: (context, placement) => const Icon(Icons.widgets),
         defaultWidth: 2,
         defaultHeight: 1,
       );

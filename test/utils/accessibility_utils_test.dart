@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
 import 'package:formbuilder/form_layout/utils/accessibility_utils.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
+import 'package:flutter/rendering.dart';
 
 void main() {
   group('AccessibilityUtils', () {
@@ -129,7 +129,7 @@ void main() {
         MaterialApp(
           home: Scaffold(
             body: AccessibleTouchTarget(
-              onTap: () => tapped = true,
+              onTap: () { tapped = true; },
               semanticLabel: 'Test button',
               semanticHint: 'Tap to test',
               child: const Icon(Icons.add),

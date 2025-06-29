@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:formbuilder/form_layout/models/toolbox.dart';
 import 'package:formbuilder/form_layout/models/toolbox_item.dart';
+import 'package:formbuilder/form_layout/models/toolbox.dart';
 import 'package:formbuilder/form_layout/widgets/accessible_categorized_toolbox.dart';
 
 void main() {
@@ -43,7 +43,7 @@ void main() {
                 defaultWidth: 2,
                 defaultHeight: 2,
                 toolboxBuilder: (context) => const Icon(Icons.crop_square),
-                gridBuilder: (context, placement) => Container(),
+                gridBuilder: (context, placement) => const Icon(Icons.widgets),
               ),
             ],
           ),

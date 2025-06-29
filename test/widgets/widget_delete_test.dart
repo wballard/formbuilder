@@ -7,11 +7,12 @@ import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
 import 'package:formbuilder/form_layout/models/toolbox_item.dart';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
+import 'package:formbuilder/form_layout/models/toolbox.dart';
 
 void main() {
   group('Widget Delete Functionality', () {
     late LayoutState testLayoutState;
-    late Toolbox testToolbox;
+    late CategorizedToolbox testToolbox;
     late Map<String, Widget Function(BuildContext, WidgetPlacement)>
     testWidgetBuilders;
 
@@ -38,15 +39,20 @@ void main() {
         ],
       );
 
-      testToolbox = Toolbox(
-        items: [
-          ToolboxItem(
-            name: 'TestWidget',
-            displayName: 'Test Widget',
-            defaultWidth: 1,
-            defaultHeight: 1,
-            toolboxBuilder: (context) => Container(color: Colors.blue),
-            gridBuilder: (context, placement) => Container(color: Colors.blue),
+      testToolbox = CategorizedToolbox(
+        categories: [
+          ToolboxCategory(
+            name: 'Test',
+            items: [
+              ToolboxItem(
+                name: 'TestWidget',
+                displayName: 'Test Widget',
+                defaultWidth: 1,
+                defaultHeight: 1,
+                toolboxBuilder: (context) => Container(color: Colors.blue),
+                gridBuilder: (context, placement) => Container(color: Colors.blue),
+              ),
+            ],
           ),
         ],
       );
@@ -144,7 +150,7 @@ void main() {
                 child: GridDragTarget(
                   layoutState: testLayoutState,
                   widgetBuilders: testWidgetBuilders,
-                  toolbox: testToolbox,
+                  toolbox: testToolbox.toSimpleToolbox(),
                   selectedWidgetId: 'widget1',
                   onWidgetDelete: (widgetId) {
                     deleteCalled = true;
@@ -198,7 +204,7 @@ void main() {
               child: GridDragTarget(
                 layoutState: testLayoutState,
                 widgetBuilders: testWidgetBuilders,
-                toolbox: testToolbox,
+                toolbox: testToolbox.toSimpleToolbox(),
                 selectedWidgetId: 'widget1', // Only widget1 is selected
               ),
             ),
@@ -227,7 +233,7 @@ void main() {
               child: GridDragTarget(
                 layoutState: testLayoutState,
                 widgetBuilders: testWidgetBuilders,
-                toolbox: testToolbox,
+                toolbox: testToolbox.toSimpleToolbox(),
                 selectedWidgetId: 'widget1',
                 onWidgetDelete: (widgetId) {
                   deleteCalled = true;
@@ -266,7 +272,7 @@ void main() {
               child: GridDragTarget(
                 layoutState: testLayoutState,
                 widgetBuilders: testWidgetBuilders,
-                toolbox: testToolbox,
+                toolbox: testToolbox.toSimpleToolbox(),
                 selectedWidgetId: 'widget1',
                 onWidgetDelete: (widgetId) {
                   deleteCalled = true;
@@ -303,7 +309,7 @@ void main() {
               child: GridDragTarget(
                 layoutState: testLayoutState,
                 widgetBuilders: testWidgetBuilders,
-                toolbox: testToolbox,
+                toolbox: testToolbox.toSimpleToolbox(),
                 selectedWidgetId: null, // No widget selected
                 onWidgetDelete: (widgetId) {
                   deleteCalled = true;
@@ -338,7 +344,7 @@ void main() {
               child: GridDragTarget(
                 layoutState: testLayoutState,
                 widgetBuilders: testWidgetBuilders,
-                toolbox: testToolbox,
+                toolbox: testToolbox.toSimpleToolbox(),
                 selectedWidgetId: 'widget1',
                 onWidgetDelete: (widgetId) {
                   deleteCalled = true;
@@ -440,7 +446,7 @@ void main() {
                   child: GridDragTarget(
                     layoutState: testLayoutState,
                     widgetBuilders: testWidgetBuilders,
-                    toolbox: testToolbox,
+                    toolbox: testToolbox.toSimpleToolbox(),
                     selectedWidgetId: 'widget1',
                   ),
                 ),
@@ -469,7 +475,7 @@ void main() {
               body: GridDragTarget(
                 layoutState: draggingLayoutState,
                 widgetBuilders: testWidgetBuilders,
-                toolbox: testToolbox,
+                toolbox: testToolbox.toSimpleToolbox(),
                 selectedWidgetId: 'widget1',
               ),
             ),

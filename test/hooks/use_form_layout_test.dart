@@ -14,11 +14,8 @@ void main() {
       initialState = LayoutState.empty();
     });
 
-    testWidgets('creates controller with initial state', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('creates controller with initial state', (WidgetTester tester) async {
       late FormLayoutController controller;
-
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
@@ -39,6 +36,7 @@ void main() {
 
     testWidgets('adds widget successfully', (WidgetTester tester) async {
       late FormLayoutController controller;
+
       final placement = WidgetPlacement(
         id: 'widget1',
         widgetName: 'TestWidget',
@@ -66,7 +64,9 @@ void main() {
     });
 
     testWidgets('removes widget successfully', (WidgetTester tester) async {
-      late FormLayoutController controller;
+        late FormLayoutController controller;
+        
+
       final placement = WidgetPlacement(
         id: 'widget1',
         widgetName: 'TestWidget',
@@ -95,7 +95,9 @@ void main() {
     });
 
     testWidgets('updates widget successfully', (WidgetTester tester) async {
-      late FormLayoutController controller;
+        late FormLayoutController controller;
+        
+
       final placement = WidgetPlacement(
         id: 'widget1',
         widgetName: 'TestWidget',
@@ -125,7 +127,9 @@ void main() {
     });
 
     testWidgets('moves widget successfully', (WidgetTester tester) async {
-      late FormLayoutController controller;
+        late FormLayoutController controller;
+        
+
       final placement = WidgetPlacement(
         id: 'widget1',
         widgetName: 'TestWidget',
@@ -156,7 +160,9 @@ void main() {
     });
 
     testWidgets('resizes widget successfully', (WidgetTester tester) async {
-      late FormLayoutController controller;
+        late FormLayoutController controller;
+        
+
       final placement = WidgetPlacement(
         id: 'widget1',
         widgetName: 'TestWidget',
@@ -187,8 +193,8 @@ void main() {
     });
 
     testWidgets('selects widget', (WidgetTester tester) async {
-      late FormLayoutController controller;
-
+        late FormLayoutController controller;
+        
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
@@ -207,8 +213,8 @@ void main() {
     });
 
     testWidgets('clears selection', (WidgetTester tester) async {
-      late FormLayoutController controller;
-
+        late FormLayoutController controller;
+        
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
@@ -230,8 +236,8 @@ void main() {
     });
 
     testWidgets('resizes grid successfully', (WidgetTester tester) async {
-      late FormLayoutController controller;
-
+        late FormLayoutController controller;
+        
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
@@ -251,8 +257,8 @@ void main() {
     });
 
     testWidgets('manages dragging state', (WidgetTester tester) async {
-      late FormLayoutController controller;
-
+        late FormLayoutController controller;
+        
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
@@ -274,8 +280,8 @@ void main() {
     });
 
     testWidgets('manages resizing state', (WidgetTester tester) async {
-      late FormLayoutController controller;
-
+        late FormLayoutController controller;
+        
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
@@ -300,6 +306,7 @@ void main() {
       WidgetTester tester,
     ) async {
       late FormLayoutController controller;
+
       final placement1 = WidgetPlacement(
         id: 'widget1',
         widgetName: 'TestWidget',
@@ -332,13 +339,14 @@ void main() {
       expect(
         () => controller.addWidget(placement2),
         throwsA(isA<ArgumentError>()),
-      );
+        );
     });
 
     testWidgets('validates widget addition - prevents out of bounds', (
       WidgetTester tester,
     ) async {
       late FormLayoutController controller;
+
       final placement = WidgetPlacement(
         id: 'widget1',
         widgetName: 'TestWidget',
@@ -362,13 +370,14 @@ void main() {
       expect(
         () => controller.addWidget(placement),
         throwsA(isA<ArgumentError>()),
-      );
+        );
     });
 
     testWidgets('validates widget move - prevents overlaps', (
       WidgetTester tester,
     ) async {
       late FormLayoutController controller;
+
       final placement1 = WidgetPlacement(
         id: 'widget1',
         widgetName: 'TestWidget',
@@ -403,13 +412,14 @@ void main() {
       expect(
         () => controller.moveWidget('widget1', 2, 2),
         throwsA(isA<ArgumentError>()),
-      );
+        );
     });
 
     testWidgets('validates widget resize - prevents overlaps', (
       WidgetTester tester,
     ) async {
       late FormLayoutController controller;
+
       final placement1 = WidgetPlacement(
         id: 'widget1',
         widgetName: 'TestWidget',
@@ -444,14 +454,13 @@ void main() {
       expect(
         () => controller.resizeWidget('widget1', 4, 4),
         throwsA(isA<ArgumentError>()),
-      );
+        );
     });
 
     testWidgets('handles nonexistent widget operations gracefully', (
       WidgetTester tester,
     ) async {
       late FormLayoutController controller;
-
       await tester.pumpWidget(
         MaterialApp(
           home: HookBuilder(
@@ -495,6 +504,7 @@ void main() {
       WidgetTester tester,
     ) async {
       late FormLayoutController controller;
+
       int buildCount = 0;
 
       await tester.pumpWidget(

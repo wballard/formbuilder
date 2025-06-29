@@ -25,28 +25,28 @@ void main() {
       expect(
         () => GridDimensions(columns: 0, rows: 5),
         throwsA(isA<AssertionError>()),
-      );
+        );
     });
 
     test('throws AssertionError when columns is greater than 12', () {
       expect(
         () => GridDimensions(columns: 13, rows: 5),
         throwsA(isA<AssertionError>()),
-      );
+        );
     });
 
     test('throws AssertionError when rows is less than 1', () {
       expect(
         () => GridDimensions(columns: 4, rows: 0),
         throwsA(isA<AssertionError>()),
-      );
+        );
     });
 
     test('throws AssertionError when rows is greater than 20', () {
       expect(
         () => GridDimensions(columns: 4, rows: 21),
         throwsA(isA<AssertionError>()),
-      );
+        );
     });
 
     group('copyWith', () {

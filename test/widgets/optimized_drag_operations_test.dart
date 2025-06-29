@@ -233,9 +233,7 @@ void main() {
   });
 
   group('DragDropPerformanceWrapper', () {
-    testWidgets('should optimize drag performance automatically', (
-      tester,
-    ) async {
+    testWidgets('should optimize drag performance automatically', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(

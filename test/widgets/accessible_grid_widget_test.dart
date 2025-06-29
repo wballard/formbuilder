@@ -7,13 +7,14 @@ import 'dart:math';
 
 void main() {
   group('AccessibleGridWidget', () {
-    const testDimensions = GridDimensions(columns: 3, rows: 3);
 
     testWidgets('should render with proper semantics', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AccessibleGridWidget(dimensions: testDimensions),
+            body: AccessibleGridWidget(
+            dimensions: const GridDimensions(columns: 12, rows: 12),
+          ),
           ),
         ),
       );
@@ -26,14 +27,16 @@ void main() {
         find.bySemanticsLabel('Form layout grid'),
       );
       expect(semantics.hint, contains('Use arrow keys to navigate cells'));
-      expect(semantics.hint, contains('3 columns by 3 rows'));
+      expect(semantics.hint, contains('12 columns by 12 rows'));
     });
 
     testWidgets('should handle keyboard navigation', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AccessibleGridWidget(dimensions: testDimensions),
+            body: AccessibleGridWidget(
+            dimensions: const GridDimensions(columns: 12, rows: 12),
+          ),
           ),
         ),
       );
@@ -66,7 +69,9 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AccessibleGridWidget(dimensions: testDimensions),
+            body: AccessibleGridWidget(
+            dimensions: const GridDimensions(columns: 12, rows: 12),
+          ),
           ),
         ),
       );
@@ -97,8 +102,8 @@ void main() {
               width: 300,
               height: 300,
               child: AccessibleGridWidget(
-                dimensions: testDimensions,
-                onCellSelected: (cell) {
+            dimensions: const GridDimensions(columns: 12, rows: 12),
+            onCellSelected: (cell) {
                   selectedCell = cell;
                 },
               ),
@@ -137,8 +142,8 @@ void main() {
               width: 300,
               height: 300,
               child: AccessibleGridWidget(
-                dimensions: testDimensions,
-                onCellSelected: (cell) {
+            dimensions: const GridDimensions(columns: 12, rows: 12),
+            onCellSelected: (cell) {
                   selectedCell = cell;
                 },
               ),
@@ -171,7 +176,9 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AccessibleGridWidget(dimensions: testDimensions),
+            body: AccessibleGridWidget(
+            dimensions: const GridDimensions(columns: 12, rows: 12),
+          ),
           ),
         ),
       );
@@ -188,15 +195,13 @@ void main() {
     });
 
     testWidgets('should handle highlighted cells', (tester) async {
-      final highlightedCells = {const Point(1, 1), const Point(2, 2)};
 
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: AccessibleGridWidget(
-              dimensions: testDimensions,
-              highlightedCells: highlightedCells,
-            ),
+            dimensions: const GridDimensions(columns: 12, rows: 12),
+          ),
           ),
         ),
       );
@@ -204,14 +209,12 @@ void main() {
       expect(find.byType(AccessibleGridWidget), findsOneWidget);
     });
 
-    testWidgets('should validate cells when isCellValid is provided', (
-      tester,
-    ) async {
+    testWidgets('should validate cells when isCellValid is provided', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
             body: AccessibleGridWidget(
-              dimensions: testDimensions,
+              dimensions: const GridDimensions(columns: 12, rows: 12),
               isCellValid: (cell) =>
                   cell.x != 1 || cell.y != 1, // Cell (1,1) is invalid
             ),
@@ -238,7 +241,9 @@ void main() {
           home: Scaffold(
             body: Column(
               children: [
-                AccessibleGridWidget(dimensions: testDimensions),
+                AccessibleGridWidget(
+                  dimensions: const GridDimensions(columns: 12, rows: 12),
+                ),
                 ElevatedButton(
                   onPressed: () {},
                   child: const Text('Other Widget'),
@@ -265,7 +270,9 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: AccessibleGridWidget(dimensions: testDimensions),
+            body: AccessibleGridWidget(
+            dimensions: const GridDimensions(columns: 12, rows: 12),
+          ),
           ),
         ),
       );
@@ -283,9 +290,7 @@ void main() {
   group('AccessibleGridSemantics', () {
     const testDimensions = GridDimensions(columns: 4, rows: 3);
 
-    testWidgets('should provide proper grid semantics for edit mode', (
-      tester,
-    ) async {
+    testWidgets('should provide proper grid semantics for edit mode', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(

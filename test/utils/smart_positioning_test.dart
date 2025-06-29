@@ -101,11 +101,11 @@ void main() {
       expect(
         placements[2],
         equals(Point(4, 0)),
-      ); // Third widget continues right
+        ); // Third widget continues right
       expect(
         placements[3],
         equals(Point(0, 1)),
-      ); // Fourth widget wraps to next row
+        ); // Fourth widget wraps to next row
     });
 
     test('should compact layout by filling gaps', () {
