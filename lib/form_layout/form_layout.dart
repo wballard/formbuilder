@@ -14,47 +14,203 @@ import 'package:formbuilder/form_layout/widgets/accessible_toolbar.dart';
 import 'package:formbuilder/form_layout/intents/form_layout_intents.dart';
 import 'package:formbuilder/form_layout/hooks/use_form_layout.dart';
 
-/// The main FormLayout widget that provides a complete form building interface
+/// The main widget for building interactive form layouts.
+/// 
+/// FormLayout provides a complete drag-and-drop form building interface with
+/// a toolbox of available widgets, a grid-based layout system, and full support
+/// for undo/redo, preview mode, and import/export functionality.
+/// 
+/// ## Features
+/// 
+/// - **Drag-and-drop interface**: Drag widgets from the toolbox to the grid
+/// - **Grid-based layout**: Flexible grid system for responsive form design
+/// - **Undo/redo support**: Built-in history management with configurable limits
+/// - **Preview mode**: Switch between edit and preview modes
+/// - **Import/export**: Save and load layouts as JSON
+/// - **Keyboard navigation**: Full keyboard accessibility support
+/// - **Responsive design**: Adapts to different screen sizes
+/// - **Theming**: Customizable appearance with Material Design
+/// 
+/// ## Basic Usage
+/// 
+/// ```dart
+/// FormLayout(
+///   toolbox: CategorizedToolbox(
+///     categories: [
+///       ToolboxCategory(
+///         name: 'Basic Inputs',
+///         icon: Icons.input,
+///         items: [
+///           ToolboxItem(
+///             name: 'text_field',
+///             icon: Icons.text_fields,
+///             label: 'Text Field',
+///             gridBuilder: (context, placement) => 
+///               TextField(key: ValueKey(placement.id)),
+///           ),
+///         ],
+///       ),
+///     ],
+///   ),
+///   onLayoutChanged: (layout) {
+///     print('Layout updated: ${layout.widgets.length} widgets');
+///   },
+/// )
+/// ```
+/// 
+/// ## Advanced Usage
+/// 
+/// ```dart
+/// FormLayout(
+///   toolbox: myToolbox,
+///   initialLayout: savedLayout,
+///   showToolbox: true,
+///   toolboxPosition: Axis.horizontal,
+///   toolboxWidth: 300,
+///   enableUndo: true,
+///   undoLimit: 100,
+///   theme: ThemeData(
+///     primarySwatch: Colors.blue,
+///   ),
+///   animationSettings: AnimationSettings(
+///     enableAnimations: true,
+///     animationDuration: Duration(milliseconds: 200),
+///   ),
+///   onLayoutChanged: (layout) => saveLayout(layout),
+///   onExportLayout: (jsonString) => shareLayout(jsonString),
+///   onImportLayout: (layout, error) {
+///     if (error != null) {
+///       showError(error);
+///     } else {
+///       showSuccess('Layout imported');
+///     }
+///   },
+/// )
+/// ```
+/// 
+/// @see [CategorizedToolbox] for creating widget toolboxes
+/// @see [LayoutState] for the layout data model
+/// @see [FormLayoutController] for programmatic control
+/// @see [AnimationSettings] for animation configuration
 class FormLayout extends HookWidget {
-  /// The toolbox containing available widgets
+  /// The toolbox containing available widgets for drag-and-drop.
+  /// 
+  /// This defines all the widget types that users can add to their forms.
+  /// Widgets are organized into categories for better user experience.
   final CategorizedToolbox toolbox;
 
-  /// Initial layout state, if any
+  /// Initial layout state to display when the widget is first built.
+  /// 
+  /// If null, an empty 4x5 grid will be created by default.
+  /// Use this to restore previously saved layouts.
   final LayoutState? initialLayout;
 
-  /// Callback when layout changes
+  /// Callback invoked whenever the layout changes.
+  /// 
+  /// This includes adding, removing, moving, or resizing widgets.
+  /// The callback is debounced to avoid excessive calls during drag operations.
+  /// 
+  /// Use this to persist layout changes:
+  /// ```dart
+  /// onLayoutChanged: (layout) async {
+  ///   await storage.saveLayout(layout.toJson());
+  /// }
+  /// ```
   final void Function(LayoutState)? onLayoutChanged;
 
-  /// Whether to show the toolbox
+  /// Whether to show the widget toolbox.
+  /// 
+  /// Set to false to hide the toolbox and only show the grid area.
+  /// Useful for read-only or preview-only scenarios.
   final bool showToolbox;
 
-  /// Position of the toolbox (horizontal = left, vertical = top)
+  /// Position of the toolbox relative to the grid.
+  /// 
+  /// - [Axis.horizontal]: Toolbox appears on the left side
+  /// - [Axis.vertical]: Toolbox appears at the top
+  /// 
+  /// On small screens (<600px), vertical layout is forced regardless of this setting.
   final Axis toolboxPosition;
 
-  /// Width of the toolbox when in horizontal layout
+  /// Width of the toolbox when using horizontal layout.
+  /// 
+  /// Defaults to 250 pixels if not specified.
+  /// Only applies when [toolboxPosition] is [Axis.horizontal].
   final double? toolboxWidth;
 
-  /// Height of the toolbox when in vertical layout
+  /// Height of the toolbox when using vertical layout.
+  /// 
+  /// Defaults to 150 pixels if not specified.
+  /// Only applies when [toolboxPosition] is [Axis.vertical].
   final double? toolboxHeight;
 
-  /// Whether undo/redo is enabled
+  /// Whether undo/redo functionality is enabled.
+  /// 
+  /// When true, users can undo/redo layout changes using:
+  /// - Toolbar buttons
+  /// - Keyboard shortcuts (Ctrl+Z / Ctrl+Y)
+  /// - Actions/Intents system
   final bool enableUndo;
 
-  /// Maximum number of undo states to keep
+  /// Maximum number of undo states to keep in history.
+  /// 
+  /// Older states are discarded when this limit is reached.
+  /// Higher values use more memory but allow more undo steps.
   final int undoLimit;
 
-  /// Custom theme for the form layout
+  /// Custom theme for the form layout widget.
+  /// 
+  /// If provided, this theme will be applied to all child widgets.
+  /// Use this to customize colors, fonts, and other visual properties.
   final ThemeData? theme;
 
-  /// Animation settings for the form layout
+  /// Animation settings for transitions and interactions.
+  /// 
+  /// If null, settings are determined from accessibility preferences
+  /// using [AnimationSettings.fromMediaQuery].
   final AnimationSettings? animationSettings;
 
-  /// Callback when layout export is requested
+  /// Callback invoked when the user requests to export the layout.
+  /// 
+  /// The layout is provided as a JSON string that can be saved or shared.
+  /// Triggered by the export button in the toolbar.
+  /// 
+  /// Example:
+  /// ```dart
+  /// onExportLayout: (jsonString) {
+  ///   Clipboard.setData(ClipboardData(text: jsonString));
+  ///   ScaffoldMessenger.of(context).showSnackBar(
+  ///     SnackBar(content: Text('Layout copied to clipboard')),
+  ///   );
+  /// }
+  /// ```
   final void Function(String jsonString)? onExportLayout;
 
-  /// Callback when layout import is requested
+  /// Callback invoked when the user imports a layout.
+  /// 
+  /// If import succeeds, [layout] contains the imported data and [error] is null.
+  /// If import fails, [layout] is null and [error] contains the error message.
+  /// 
+  /// Example:
+  /// ```dart
+  /// onImportLayout: (layout, error) {
+  ///   if (error != null) {
+  ///     showDialog(
+  ///       context: context,
+  ///       builder: (_) => AlertDialog(
+  ///         title: Text('Import Failed'),
+  ///         content: Text(error),
+  ///       ),
+  ///     );
+  ///   }
+  /// }
+  /// ```
   final void Function(LayoutState? layout, String? error)? onImportLayout;
 
+  /// Creates a FormLayout widget.
+  /// 
+  /// The [toolbox] parameter is required and defines the available widgets.
+  /// All other parameters are optional and have sensible defaults.
   const FormLayout({
     super.key,
     required this.toolbox,

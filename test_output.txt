@@ -1,0 +1,1281 @@
+00:00 +0: loading /Users/wballard/github/formbuilder/test/integration/widget_resize_integration_test.dart
+00:00 +0: /Users/wballard/github/formbuilder/test/integration/widget_resize_integration_test.dart: Widget Resize Integration Tests Resize widget from all handles
+00:00 +1: /Users/wballard/github/formbuilder/test/integration/keyboard_navigation_test.dart: Keyboard Navigation Tests Complete keyboard navigation flow
+00:00 +2: /Users/wballard/github/formbuilder/test/integration/keyboard_navigation_test.dart: Keyboard Navigation Tests Complete keyboard navigation flow
+00:00 +3: /Users/wballard/github/formbuilder/test/integration/keyboard_navigation_test.dart: Keyboard Navigation Tests Complete keyboard navigation flow
+00:00 +4: /Users/wballard/github/formbuilder/test/integration/keyboard_navigation_test.dart: Keyboard Navigation Tests Complete keyboard navigation flow
+00:00 +5: /Users/wballard/github/formbuilder/test/integration/keyboard_navigation_test.dart: Keyboard Navigation Tests Complete keyboard navigation flow
+00:00 +6: /Users/wballard/github/formbuilder/test/integration/keyboard_navigation_test.dart: Keyboard Navigation Tests Complete keyboard navigation flow
+00:01 +7: /Users/wballard/github/formbuilder/test/integration/undo_redo_integration_test.dart: Undo/Redo Integration Tests Undo/redo widget additions
+00:01 +8: /Users/wballard/github/formbuilder/test/integration/undo_redo_integration_test.dart: Undo/Redo Integration Tests Undo/redo widget additions
+00:01 +9: /Users/wballard/github/formbuilder/test/integration/drag_drop_integration_test.dart: Drag and Drop Integration Tests Complete drag and drop workflow
+00:01 +10: /Users/wballard/github/formbuilder/test/integration/drag_drop_integration_test.dart: Drag and Drop Integration Tests Complete drag and drop workflow
+00:01 +11: /Users/wballard/github/formbuilder/test/integration/drag_drop_integration_test.dart: Drag and Drop Integration Tests Complete drag and drop workflow
+00:01 +12: /Users/wballard/github/formbuilder/test/integration/drag_drop_integration_test.dart: Drag and Drop Integration Tests Complete drag and drop workflow
+00:01 +13: /Users/wballard/github/formbuilder/test/integration/drag_drop_integration_test.dart: Drag and Drop Integration Tests Complete drag and drop workflow
+00:02 +14: /Users/wballard/github/formbuilder/test/integration/widget_interaction_test.dart: Widget Interaction Tests Mouse Interactions Mouse hover effects
+00:02 +15: /Users/wballard/github/formbuilder/test/integration/widget_interaction_test.dart: Widget Interaction Tests Mouse Interactions Mouse hover effects
+00:02 +16: /Users/wballard/github/formbuilder/test/integration/widget_interaction_test.dart: Widget Interaction Tests Mouse Interactions Mouse hover effects
+00:02 +17: /Users/wballard/github/formbuilder/test/integration/widget_interaction_test.dart: Widget Interaction Tests Mouse Interactions Mouse hover effects
+00:02 +18: /Users/wballard/github/formbuilder/test/integration/performance_integration_test.dart: Performance Integration Tests should handle large grid with optimizations
+00:02 +19: /Users/wballard/github/formbuilder/test/integration/performance_integration_test.dart: Performance Integration Tests should handle large grid with optimizations
+00:02 +19: /Users/wballard/github/formbuilder/test/integration/drag_drop_integration_test.dart: Drag and Drop Integration Tests Preview mode transitions
+══╡ EXCEPTION CAUGHT BY RENDERING LIBRARY ╞═════════════════════════════════════════════════════════
+The following assertion was thrown during layout:
+A RenderFlex overflowed by 98 pixels on the bottom.
+
+The overflowing RenderFlex has an orientation of Axis.vertical.
+The edge of the RenderFlex that is overflowing has been marked in the rendering with a yellow and
+black striped pattern. This is usually caused by the contents being too big for the RenderFlex.
+Consider applying a flex factor (e.g. using an Expanded widget) to force the children of the
+RenderFlex to fit within the available space instead of being sized to their natural size.
+This is considered an error condition because it indicates that there is content that cannot be
+seen. If the content is legitimately bigger than the available space, consider clipping it with a
+ClipRect widget before putting it in the flex, or using a scrollable container rather than a Flex,
+like a ListView.
+The specific RenderFlex in question is: RenderFlex#7cda0 DISPOSED OVERFLOWING:
+  creator: MultiChildRenderObjectElement#35948(DEFUNCT) ←
+    SingleChildRenderObjectElement#b62a9(DEFUNCT) ← SingleChildRenderObjectElement#4e9d5(DEFUNCT) ←
+    SingleChildRenderObjectElement#e5c41(DEFUNCT) ← StatelessElement#bcf4b(DEFUNCT) ←
+    SingleChildRenderObjectElement#46b78(DEFUNCT) ← SingleChildRenderObjectElement#c06d5(DEFUNCT) ←
+    SingleChildRenderObjectElement#b8194(DEFUNCT) ← StatelessElement#7b049(DEFUNCT) ←
+    SingleChildRenderObjectElement#ac3a7(DEFUNCT) ← StatefulElement#1005b(DEFUNCT) ←
+    StatelessElement#e4476(DEFUNCT) ← ⋯
+  parentData: offset=Offset(0.0, 0.0) (can use size)
+  constraints: BoxConstraints(0.0<=w<=27.8, 0.0<=h<=32.0)
+  size: Size(27.8, 32.0)
+  direction: vertical
+  mainAxisAlignment: start
+  mainAxisSize: min
+  crossAxisAlignment: center
+  verticalDirection: down
+  spacing: 0.0
+◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY RENDERING LIBRARY ╞═════════════════════════════════════════════════════════
+The following assertion was thrown during layout:
+A RenderFlex overflowed by 64 pixels on the bottom.
+
+The relevant error-causing widget was:
+  Column
+  Column:file:///Users/wballard/github/formbuilder/lib/form_layout/widgets/grid_container.dart:221:16
+
+The overflowing RenderFlex has an orientation of Axis.vertical.
+The edge of the RenderFlex that is overflowing has been marked in the rendering with a yellow and
+black striped pattern. This is usually caused by the contents being too big for the RenderFlex.
+Consider applying a flex factor (e.g. using an Expanded widget) to force the children of the
+RenderFlex to fit within the available space instead of being sized to their natural size.
+This is considered an error condition because it indicates that there is content that cannot be
+seen. If the content is legitimately bigger than the available space, consider clipping it with a
+ClipRect widget before putting it in the flex, or using a scrollable container rather than a Flex,
+like a ListView.
+The specific RenderFlex in question is: RenderFlex#e5d75 relayoutBoundary=up30 OVERFLOWING:
+  creator: Column ← Center ← Padding ← DecoratedBox ← Container ← Padding ← Padding ← DecoratedBox ←
+    Container ← Listener ← RawGestureDetector ← GestureDetector ← ⋯
+  parentData: offset=Offset(0.0, 0.0) (can use size)
+  constraints: BoxConstraints(0.0<=w<=48.3, 0.0<=h<=31.7)
+  size: Size(48.3, 31.7)
+  direction: vertical
+  mainAxisAlignment: start
+  mainAxisSize: min
+  crossAxisAlignment: center
+  verticalDirection: down
+  spacing: 0.0
+◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:02 +20: /Users/wballard/github/formbuilder/test/integration/performance_integration_test.dart: Performance Integration Tests should handle large grid with optimizations
+00:02 +20: /Users/wballard/github/formbuilder/test/integration/drag_drop_integration_test.dart: Drag and Drop Integration Tests Preview mode transitions
+══╡ EXCEPTION CAUGHT BY WIDGET INSPECTOR ╞══════════════════════════════════════════════════════════
+The following assertion was thrown:
+Looking up a deactivated widget's ancestor is unsafe.
+At this point the state of the widget's element tree is no longer stable.
+To safely refer to a widget's ancestor in its dispose() method, save a reference to the ancestor by
+calling dependOnInheritedWidgetOfExactType() in the widget's didChangeDependencies() method.
+
+When the exception was thrown, this was the stack:
+#0      Element._debugCheckStateIsActiveForAncestorLookup.<anonymous closure> (package:flutter/src/widgets/framework.dart:4945:9)
+#1      Element._debugCheckStateIsActiveForAncestorLookup (package:flutter/src/widgets/framework.dart:4959:6)
+#2      Element.visitAncestorElements (package:flutter/src/widgets/framework.dart:5071:12)
+#3      _describeRelevantUserCode (package:flutter/src/widgets/widget_inspector.dart:4119:13)
+#4      _parseDiagnosticsNode (package:flutter/src/widgets/widget_inspector.dart:4037:12)
+#5      debugTransformDebugCreator (package:flutter/src/widgets/widget_inspector.dart:4016:21)
+#6      _FlutterErrorDetailsNode.builder (package:flutter/src/foundation/assertions.dart:1311:31)
+#7      DiagnosticableNode.getProperties (package:flutter/src/foundation/diagnostics.dart:2944:68)
+#8      TextTreeRenderer._debugRender (package:flutter/src/foundation/diagnostics.dart:1270:63)
+#9      TextTreeRenderer.render (package:flutter/src/foundation/diagnostics.dart:1137:14)
+#10     FlutterError.dumpErrorToConsole (package:flutter/src/foundation/assertions.dart:1041:13)
+#11     TestWidgetsFlutterBinding._runTest.<anonymous closure> (package:flutter_test/src/binding.dart:886:24)
+#12     FlutterError.reportError (package:flutter/src/foundation/assertions.dart:1204:14)
+#13     DebugOverflowIndicatorMixin._reportOverflow (package:flutter/src/rendering/debug_overflow_indicator.dart:260:18)
+#14     DebugOverflowIndicatorMixin.paintOverflowIndicator (package:flutter/src/rendering/debug_overflow_indicator.dart:331:7)
+#15     RenderFlex.paint.<anonymous closure> (package:flutter/src/rendering/flex.dart:1362:7)
+#16     RenderFlex.paint (package:flutter/src/rendering/flex.dart:1370:6)
+#17     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#18     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#19     RenderShiftedBox.paint (package:flutter/src/rendering/shifted_box.dart:81:15)
+#20     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#21     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#22     RenderShiftedBox.paint (package:flutter/src/rendering/shifted_box.dart:81:15)
+#23     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#24     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#25     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#26     RenderDecoratedBox.paint (package:flutter/src/rendering/proxy_box.dart:2450:11)
+#27     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#28     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#29     RenderShiftedBox.paint (package:flutter/src/rendering/shifted_box.dart:81:15)
+#30     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#31     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#32     RenderShiftedBox.paint (package:flutter/src/rendering/shifted_box.dart:81:15)
+#33     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#34     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#35     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#36     RenderDecoratedBox.paint (package:flutter/src/rendering/proxy_box.dart:2450:11)
+#37     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#38     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#39     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#40     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#41     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#42     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#43     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#44     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#45     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#46     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#47     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#48     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#49     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#50     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#51     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#52     _RenderInkFeatures.paint (package:flutter/src/material/material.dart:632:11)
+#53     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#54     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#55     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#56     RenderCustomPaint.paint (package:flutter/src/rendering/custom_paint.dart:644:11)
+#57     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#58     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#59     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#60     RenderPhysicalShape.paint.<anonymous closure> (package:flutter/src/rendering/proxy_box.dart:2295:15)
+#61     PaintingContext.pushClipPath (package:flutter/src/rendering/object.dart:712:14)
+#62     RenderPhysicalShape.paint (package:flutter/src/rendering/proxy_box.dart:2282:21)
+#63     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#64     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#65     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#66     RenderTransform.paint (package:flutter/src/rendering/proxy_box.dart:2694:17)
+#67     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#68     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#69     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#70     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#71     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#72     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#73     RenderOpacity.paint (package:flutter/src/rendering/proxy_box.dart:951:11)
+#74     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#75     PaintingContext._repaintCompositedChild (package:flutter/src/rendering/object.dart:176:11)
+#76     PaintingContext.repaintCompositedChild (package:flutter/src/rendering/object.dart:121:5)
+#77     PaintingContext._compositeChild (package:flutter/src/rendering/object.dart:272:7)
+#78     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:253:7)
+#79     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#80     PaintingContext.pushLayer (package:flutter/src/rendering/object.dart:507:12)
+#81     PaintingContext.pushTransform (package:flutter/src/rendering/object.dart:787:7)
+#82     RenderTransform.paint (package:flutter/src/rendering/proxy_box.dart:2686:27)
+#83     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#84     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#85     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#86     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#87     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#88     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#89     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#90     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#91     RenderLayoutGrid.paint.<anonymous closure> (package:flutter_layout_grid/src/rendering/layout_grid.dart:893:15)
+#92     RenderLayoutGrid.visitChildrenForSemantics (package:flutter_layout_grid/src/rendering/layout_grid.dart:883:16)
+#93     RenderLayoutGrid.paint (package:flutter_layout_grid/src/rendering/layout_grid.dart:891:5)
+#94     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#95     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#96     RenderBoxContainerDefaultsMixin.defaultPaint (package:flutter/src/rendering/box.dart:3372:15)
+#97     RenderStack.paintStack (package:flutter/src/rendering/stack.dart:704:5)
+#98     RenderStack.paint (package:flutter/src/rendering/stack.dart:720:7)
+#99     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#100    PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#101    RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#102    RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#103    PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#104    RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#105    RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#106    PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#107    RenderBoxContainerDefaultsMixin.defaultPaint (package:flutter/src/rendering/box.dart:3372:15)
+#108    RenderStack.paintStack (package:flutter/src/rendering/stack.dart:704:5)
+#109    RenderStack.paint (package:flutter/src/rendering/stack.dart:720:7)
+#110    RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#111    PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#112    RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#113    RenderTransform.paint (package:flutter/src/rendering/proxy_box.dart:2694:17)
+#114    RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#115    PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#116    RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#117    RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#118    PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#119    RenderBoxContainerDefaultsMixin.defaultPaint (package:flutter/src/rendering/box.dart:3372:15)
+#120    RenderStack.paintStack (package:flutter/src/rendering/stack.dart:704:5)
+#121    PaintingContext.pushLayer (package:flutter/src/rendering/object.dart:507:12)
+#122    PaintingContext.pushClipRect (package:flutter/src/rendering/object.dart:574:7)
+#123    RenderStack.paint (package:flutter/src/rendering/stack.dart:710:38)
+#124    RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#125    PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#126    RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#127    RenderTransform.paint (package:flutter/src/rendering/proxy_box.dart:2694:17)
+#128    RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#129    PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#130    RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#131    RenderAnimatedOpacityMixin.paint (package:flutter/src/rendering/proxy_box.dart:1078:11)
+#132    RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#133    PaintingContext._repaintCompositedChild (package:flutter/src/rendering/object.dart:176:11)
+#134    PaintingContext.repaintCompositedChild (package:flutter/src/rendering/object.dart:121:5)
+#135    PipelineOwner.flushPaint (package:flutter/src/rendering/object.dart:1312:31)
+#136    PipelineOwner.flushPaint (package:flutter/src/rendering/object.dart:1322:15)
+#137    AutomatedTestWidgetsFlutterBinding.drawFrame (package:flutter_test/src/binding.dart:1521:31)
+#138    RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:495:5)
+#139    SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1438:15)
+#140    SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1351:9)
+#141    AutomatedTestWidgetsFlutterBinding.pump.<anonymous closure> (package:flutter_test/src/binding.dart:1340:9)
+#144    TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#145    AutomatedTestWidgetsFlutterBinding.pump (package:flutter_test/src/binding.dart:1329:27)
+#146    WidgetTester.pumpAndSettle.<anonymous closure> (package:flutter_test/src/widget_tester.dart:720:23)
+<asynchronous suspension>
+#147    TestAsyncUtils.guard.<anonymous closure> (package:flutter_test/src/test_async_utils.dart:130:27)
+<asynchronous suspension>
+#148    main.<anonymous closure>.<anonymous closure> (file:///Users/wballard/github/formbuilder/test/integration/drag_drop_integration_test.dart:242:7)
+<asynchronous suspension>
+#149    testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:193:15)
+<asynchronous suspension>
+#150    TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1064:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 3 frames from dart:async and package:stack_trace)
+
+This exception was caught while trying to describe the user-relevant code of another error.
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY WIDGET INSPECTOR ╞══════════════════════════════════════════════════════════
+The following assertion was thrown:
+Looking up a deactivated widget's ancestor is unsafe.
+At this point the state of the widget's element tree is no longer stable.
+To safely refer to a widget's ancestor in its dispose() method, save a reference to the ancestor by
+calling dependOnInheritedWidgetOfExactType() in the widget's didChangeDependencies() method.
+
+When the exception was thrown, this was the stack:
+#0      Element._debugCheckStateIsActiveForAncestorLookup.<anonymous closure> (package:flutter/src/widgets/framework.dart:4945:9)
+#1      Element._debugCheckStateIsActiveForAncestorLookup (package:flutter/src/widgets/framework.dart:4959:6)
+#2      Element.visitAncestorElements (package:flutter/src/widgets/framework.dart:5071:12)
+#3      _describeRelevantUserCode (package:flutter/src/widgets/widget_inspector.dart:4119:13)
+#4      _parseDiagnosticsNode (package:flutter/src/widgets/widget_inspector.dart:4037:12)
+#5      debugTransformDebugCreator (package:flutter/src/widgets/widget_inspector.dart:4016:21)
+#6      _FlutterErrorDetailsNode.builder (package:flutter/src/foundation/assertions.dart:1311:31)
+#7      DiagnosticableNode.emptyBodyDescription (package:flutter/src/foundation/diagnostics.dart:2940:45)
+#8      TextTreeRenderer._debugRender (package:flutter/src/foundation/diagnostics.dart:1307:14)
+#9      TextTreeRenderer.render (package:flutter/src/foundation/diagnostics.dart:1137:14)
+#10     FlutterError.dumpErrorToConsole (package:flutter/src/foundation/assertions.dart:1041:13)
+#11     TestWidgetsFlutterBinding._runTest.<anonymous closure> (package:flutter_test/src/binding.dart:886:24)
+#12     FlutterError.reportError (package:flutter/src/foundation/assertions.dart:1204:14)
+#13     DebugOverflowIndicatorMixin._reportOverflow (package:flutter/src/rendering/debug_overflow_indicator.dart:260:18)
+#14     DebugOverflowIndicatorMixin.paintOverflowIndicator (package:flutter/src/rendering/debug_overflow_indicator.dart:331:7)
+#15     RenderFlex.paint.<anonymous closure> (package:flutter/src/rendering/flex.dart:1362:7)
+#16     RenderFlex.paint (package:flutter/src/rendering/flex.dart:1370:6)
+#17     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#18     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#19     RenderShiftedBox.paint (package:flutter/src/rendering/shifted_box.dart:81:15)
+#20     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#21     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#22     RenderShiftedBox.paint (package:flutter/src/rendering/shifted_box.dart:81:15)
+#23     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#24     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#25     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#26     RenderDecoratedBox.paint (package:flutter/src/rendering/proxy_box.dart:2450:11)
+#27     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#28     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#29     RenderShiftedBox.paint (package:flutter/src/rendering/shifted_box.dart:81:15)
+#30     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#31     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#32     RenderShiftedBox.paint (package:flutter/src/rendering/shifted_box.dart:81:15)
+#33     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#34     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#35     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#36     RenderDecoratedBox.paint (package:flutter/src/rendering/proxy_box.dart:2450:11)
+#37     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#38     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#39     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#40     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#41     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#42     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#43     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#44     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#45     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#46     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#47     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#48     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#49     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#50     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#51     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#52     _RenderInkFeatures.paint (package:flutter/src/material/material.dart:632:11)
+#53     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#54     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#55     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#56     RenderCustomPaint.paint (package:flutter/src/rendering/custom_paint.dart:644:11)
+#57     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#58     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#59     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#60     RenderPhysicalShape.paint.<anonymous closure> (package:flutter/src/rendering/proxy_box.dart:2295:15)
+#61     PaintingContext.pushClipPath (package:flutter/src/rendering/object.dart:712:14)
+#62     RenderPhysicalShape.paint (package:flutter/src/rendering/proxy_box.dart:2282:21)
+#63     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#64     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#65     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#66     RenderTransform.paint (package:flutter/src/rendering/proxy_box.dart:2694:17)
+#67     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#68     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#69     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#70     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#71     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#72     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#73     RenderOpacity.paint (package:flutter/src/rendering/proxy_box.dart:951:11)
+#74     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#75     PaintingContext._repaintCompositedChild (package:flutter/src/rendering/object.dart:176:11)
+#76     PaintingContext.repaintCompositedChild (package:flutter/src/rendering/object.dart:121:5)
+#77     PaintingContext._compositeChild (package:flutter/src/rendering/object.dart:272:7)
+#78     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:253:7)
+#79     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#80     PaintingContext.pushLayer (package:flutter/src/rendering/object.dart:507:12)
+#81     PaintingContext.pushTransform (package:flutter/src/rendering/object.dart:787:7)
+#82     RenderTransform.paint (package:flutter/src/rendering/proxy_box.dart:2686:27)
+#83     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#84     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#85     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#86     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#87     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#88     RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#89     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#90     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#91     RenderLayoutGrid.paint.<anonymous closure> (package:flutter_layout_grid/src/rendering/layout_grid.dart:893:15)
+#92     RenderLayoutGrid.visitChildrenForSemantics (package:flutter_layout_grid/src/rendering/layout_grid.dart:883:16)
+#93     RenderLayoutGrid.paint (package:flutter_layout_grid/src/rendering/layout_grid.dart:891:5)
+#94     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#95     PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#96     RenderBoxContainerDefaultsMixin.defaultPaint (package:flutter/src/rendering/box.dart:3372:15)
+#97     RenderStack.paintStack (package:flutter/src/rendering/stack.dart:704:5)
+#98     RenderStack.paint (package:flutter/src/rendering/stack.dart:720:7)
+#99     RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#100    PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#101    RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#102    RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#103    PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#104    RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#105    RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#106    PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#107    RenderBoxContainerDefaultsMixin.defaultPaint (package:flutter/src/rendering/box.dart:3372:15)
+#108    RenderStack.paintStack (package:flutter/src/rendering/stack.dart:704:5)
+#109    RenderStack.paint (package:flutter/src/rendering/stack.dart:720:7)
+#110    RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#111    PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#112    RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#113    RenderTransform.paint (package:flutter/src/rendering/proxy_box.dart:2694:17)
+#114    RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#115    PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#116    RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#117    RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#118    PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#119    RenderBoxContainerDefaultsMixin.defaultPaint (package:flutter/src/rendering/box.dart:3372:15)
+#120    RenderStack.paintStack (package:flutter/src/rendering/stack.dart:704:5)
+#121    PaintingContext.pushLayer (package:flutter/src/rendering/object.dart:507:12)
+#122    PaintingContext.pushClipRect (package:flutter/src/rendering/object.dart:574:7)
+#123    RenderStack.paint (package:flutter/src/rendering/stack.dart:710:38)
+#124    RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#125    PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#126    RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#127    RenderTransform.paint (package:flutter/src/rendering/proxy_box.dart:2694:17)
+#128    RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#129    PaintingContext.paintChild (package:flutter/src/rendering/object.dart:261:13)
+#130    RenderProxyBoxMixin.paint (package:flutter/src/rendering/proxy_box.dart:140:13)
+#131    RenderAnimatedOpacityMixin.paint (package:flutter/src/rendering/proxy_box.dart:1078:11)
+#132    RenderObject._paintWithContext (package:flutter/src/rendering/object.dart:3483:7)
+#133    PaintingContext._repaintCompositedChild (package:flutter/src/rendering/object.dart:176:11)
+#134    PaintingContext.repaintCompositedChild (package:flutter/src/rendering/object.dart:121:5)
+#135    PipelineOwner.flushPaint (package:flutter/src/rendering/object.dart:1312:31)
+#136    PipelineOwner.flushPaint (package:flutter/src/rendering/object.dart:1322:15)
+#137    AutomatedTestWidgetsFlutterBinding.drawFrame (package:flutter_test/src/binding.dart:1521:31)
+#138    RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:495:5)
+#139    SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1438:15)
+#140    SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1351:9)
+#141    AutomatedTestWidgetsFlutterBinding.pump.<anonymous closure> (package:flutter_test/src/binding.dart:1340:9)
+#144    TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#145    AutomatedTestWidgetsFlutterBinding.pump (package:flutter_test/src/binding.dart:1329:27)
+#146    WidgetTester.pumpAndSettle.<anonymous closure> (package:flutter_test/src/widget_tester.dart:720:23)
+<asynchronous suspension>
+#147    TestAsyncUtils.guard.<anonymous closure> (package:flutter_test/src/test_async_utils.dart:130:27)
+<asynchronous suspension>
+#148    main.<anonymous closure>.<anonymous closure> (file:///Users/wballard/github/formbuilder/test/integration/drag_drop_integration_test.dart:242:7)
+<asynchronous suspension>
+#149    testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:193:15)
+<asynchronous suspension>
+#150    TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1064:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 3 frames from dart:async and package:stack_trace)
+
+This exception was caught while trying to describe the user-relevant code of another error.
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:02 +21: /Users/wballard/github/formbuilder/test/integration/performance_integration_test.dart: Performance Integration Tests should handle large grid with optimizations
+00:02 +21: /Users/wballard/github/formbuilder/test/integration/drag_drop_integration_test.dart: Drag and Drop Integration Tests Preview mode transitions
+══╡ EXCEPTION CAUGHT BY RENDERING LIBRARY ╞═════════════════════════════════════════════════════════
+The following assertion was thrown during layout:
+A RenderFlex overflowed by 98 pixels on the bottom.
+
+The relevant error-causing widget was:
+  Column
+  Column:file:///Users/wballard/github/formbuilder/lib/form_layout/widgets/grid_container.dart:221:16
+
+The overflowing RenderFlex has an orientation of Axis.vertical.
+The edge of the RenderFlex that is overflowing has been marked in the rendering with a yellow and
+black striped pattern. This is usually caused by the contents being too big for the RenderFlex.
+Consider applying a flex factor (e.g. using an Expanded widget) to force the children of the
+RenderFlex to fit within the available space instead of being sized to their natural size.
+This is considered an error condition because it indicates that there is content that cannot be
+seen. If the content is legitimately bigger than the available space, consider clipping it with a
+ClipRect widget before putting it in the flex, or using a scrollable container rather than a Flex,
+like a ListView.
+The specific RenderFlex in question is: RenderFlex#aeaa7 relayoutBoundary=up31 OVERFLOWING:
+  creator: Column ← Center ← Padding ← DecoratedBox ← Container ← Padding ← Padding ← DecoratedBox ←
+    Container ← Listener ← RawGestureDetector ← GestureDetector ← ⋯
+  parentData: offset=Offset(0.0, 0.0) (can use size)
+  constraints: BoxConstraints(0.0<=w<=27.5, 0.0<=h<=31.7)
+  size: Size(27.5, 31.7)
+  direction: vertical
+  mainAxisAlignment: start
+  mainAxisSize: min
+  crossAxisAlignment: center
+  verticalDirection: down
+  spacing: 0.0
+◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:02 +22: /Users/wballard/github/formbuilder/test/integration/performance_integration_test.dart: Performance Integration Tests should handle large grid with optimizations
+00:02 +22: /Users/wballard/github/formbuilder/test/integration/drag_drop_integration_test.dart: Drag and Drop Integration Tests Preview mode transitions
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following message was thrown:
+Multiple exceptions (5) were detected during the running of the current test, and at least one was
+unexpected.
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:02 +22 -1: /Users/wballard/github/formbuilder/test/integration/performance_integration_test.dart: Performance Integration Tests should handle large grid with optimizations
+00:02 +22 -1: /Users/wballard/github/formbuilder/test/integration/drag_drop_integration_test.dart: Drag and Drop Integration Tests Preview mode transitions [E]
+  Test failed. See exception logs above.
+  The test description was: Preview mode transitions
+  
+00:02 +23 -1: /Users/wballard/github/formbuilder/test/golden/form_layout_golden_test.dart: Form Layout Golden Tests Empty form layout - light theme
+00:02 +24 -1: /Users/wballard/github/formbuilder/test/golden/form_layout_golden_test.dart: Form Layout Golden Tests Empty form layout - light theme
+00:02 +25 -1: /Users/wballard/github/formbuilder/test/golden/form_layout_golden_test.dart: Form Layout Golden Tests Empty form layout - light theme
+00:02 +26 -1: /Users/wballard/github/formbuilder/test/golden/form_layout_golden_test.dart: Form Layout Golden Tests Empty form layout - light theme
+00:02 +27 -1: /Users/wballard/github/formbuilder/test/golden/form_layout_golden_test.dart: Form Layout Golden Tests Empty form layout - light theme
+00:02 +28 -1: /Users/wballard/github/formbuilder/test/golden/form_layout_golden_test.dart: Form Layout Golden Tests Empty form layout - light theme
+00:02 +29 -1: /Users/wballard/github/formbuilder/test/golden/form_layout_golden_test.dart: Form Layout Golden Tests Empty form layout - light theme
+00:02 +30 -1: /Users/wballard/github/formbuilder/test/golden/form_layout_golden_test.dart: Form Layout Golden Tests Empty form layout - light theme
+00:02 +31 -1: /Users/wballard/github/formbuilder/test/golden/form_layout_golden_test.dart: Form Layout Golden Tests Empty form layout - light theme
+00:02 +32 -1: /Users/wballard/github/formbuilder/test/golden/form_layout_golden_test.dart: Form Layout Golden Tests Empty form layout - light theme
+00:02 +33 -1: /Users/wballard/github/formbuilder/test/golden/form_layout_golden_test.dart: Form Layout Golden Tests Empty form layout - light theme
+00:02 +34 -1: /Users/wballard/github/formbuilder/test/golden/form_layout_golden_test.dart: Form Layout Golden Tests Empty form layout - light theme
+00:02 +35 -1: /Users/wballard/github/formbuilder/test/golden/form_layout_golden_test.dart: Form Layout Golden Tests Empty form layout - light theme
+00:02 +36 -1: /Users/wballard/github/formbuilder/test/golden/form_layout_golden_test.dart: Form Layout Golden Tests Empty form layout - light theme
+00:02 +37 -1: /Users/wballard/github/formbuilder/test/golden/form_layout_golden_test.dart: Form Layout Golden Tests Empty form layout - light theme
+00:02 +38 -1: /Users/wballard/github/formbuilder/test/golden/form_layout_golden_test.dart: Form Layout Golden Tests Empty form layout - light theme
+00:02 +39 -1: /Users/wballard/github/formbuilder/test/golden/form_layout_golden_test.dart: Form Layout Golden Tests Empty form layout - light theme
+00:02 +40 -1: /Users/wballard/github/formbuilder/test/golden/form_layout_golden_test.dart: Form Layout Golden Tests Empty form layout - light theme
+00:03 +41 -1: /Users/wballard/github/formbuilder/test/golden/form_layout_golden_test.dart: Form Layout Golden Tests Empty form layout - light theme
+00:03 +42 -1: /Users/wballard/github/formbuilder/test/golden/form_layout_golden_test.dart: Form Layout Golden Tests Empty form layout - light theme
+00:03 +43 -1: /Users/wballard/github/formbuilder/test/golden/form_layout_golden_test.dart: Form Layout Golden Tests Empty form layout - light theme
+00:03 +44 -1: /Users/wballard/github/formbuilder/test/golden/form_layout_golden_test.dart: Form Layout Golden Tests Empty form layout - light theme
+00:03 +45 -1: /Users/wballard/github/formbuilder/test/integration/undo_redo_integration_test.dart: Undo/Redo Integration Tests Undo/redo limits and history management
+00:03 +46 -1: /Users/wballard/github/formbuilder/test/integration/undo_redo_integration_test.dart: Undo/Redo Integration Tests Undo/redo limits and history management
+00:03 +47 -1: /Users/wballard/github/formbuilder/test/integration/undo_redo_integration_test.dart: Undo/Redo Integration Tests Undo/redo limits and history management
+00:03 +48 -1: /Users/wballard/github/formbuilder/test/integration/undo_redo_integration_test.dart: Undo/Redo Integration Tests Undo/redo limits and history management
+00:03 +49 -1: /Users/wballard/github/formbuilder/test/integration/undo_redo_integration_test.dart: Undo/Redo Integration Tests Undo/redo limits and history management
+00:03 +50 -1: /Users/wballard/github/formbuilder/test/integration/undo_redo_integration_test.dart: Undo/Redo Integration Tests Undo/redo limits and history management
+00:03 +51 -1: /Users/wballard/github/formbuilder/test/integration/undo_redo_integration_test.dart: Undo/Redo Integration Tests Undo/redo limits and history management
+00:03 +52 -1: /Users/wballard/github/formbuilder/test/integration/undo_redo_integration_test.dart: Undo/Redo Integration Tests Undo/redo limits and history management
+00:03 +53 -1: /Users/wballard/github/formbuilder/test/integration/undo_redo_integration_test.dart: Undo/Redo Integration Tests Undo/redo limits and history management
+00:03 +54 -1: /Users/wballard/github/formbuilder/test/integration/undo_redo_integration_test.dart: Undo/Redo Integration Tests Undo/redo limits and history management
+00:03 +55 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Toolbox widget variations
+00:03 +56 -1: /Users/wballard/github/formbuilder/test/golden/form_layout_golden_test.dart: Form Layout Golden Tests Form layout with multiple widgets
+00:03 +57 -1: /Users/wballard/github/formbuilder/test/utils/alignment_tools_test.dart: AlignmentTools align widgets should align widgets to left
+00:03 +58 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Placed widget states
+00:03 +59 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Placed widget states
+00:03 +60 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Placed widget states
+00:03 +61 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Placed widget states
+00:03 +62 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Placed widget states
+00:03 +63 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Placed widget states
+00:03 +64 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Placed widget states
+00:03 +65 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Placed widget states
+00:03 +66 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Placed widget states
+00:03 +67 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Placed widget states
+00:03 +68 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Placed widget states
+00:03 +69 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Placed widget states
+00:03 +70 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Placed widget states
+00:03 +71 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Placed widget states
+00:03 +72 -1: /Users/wballard/github/formbuilder/test/golden/form_layout_golden_test.dart: Form Layout Golden Tests Preview mode appearance
+00:03 +73 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Grid container with different cell sizes
+00:03 +74 -1: /Users/wballard/github/formbuilder/test/golden/form_layout_golden_test.dart: Form Layout Golden Tests Dense layout
+00:03 +75 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Resize controls appearance
+00:03 +76 -1: /Users/wballard/github/formbuilder/test/golden/form_layout_golden_test.dart: Form Layout Golden Tests Standard layout size
+00:03 +77 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Different widget types visualization
+00:03 +78 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Different widget types visualization
+00:03 +79 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Different widget types visualization
+00:03 +80 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Different widget types visualization
+00:03 +81 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Different widget types visualization
+00:03 +82 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Different widget types visualization
+00:03 +83 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Different widget types visualization
+00:03 +84 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Different widget types visualization
+00:03 +85 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Different widget types visualization
+00:03 +86 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Different widget types visualization
+00:03 +87 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Different widget types visualization
+00:03 +88 -1: /Users/wballard/github/formbuilder/test/golden/widget_golden_test.dart: Widget Golden Tests Different widget types visualization
+00:03 +89 -1: /Users/wballard/github/formbuilder/test/golden/form_layout_golden_test.dart: Form Layout Golden Tests Custom theme
+00:04 +90 -1: /Users/wballard/github/formbuilder/test/utils/memory_optimizer_test.dart: MemoryAwareWidget should respond to memory pressure
+00:04 +91 -1: /Users/wballard/github/formbuilder/test/utils/memory_optimizer_test.dart: MemoryAwareWidget should respond to memory pressure
+00:04 +92 -1: /Users/wballard/github/formbuilder/test/utils/memory_optimizer_test.dart: MemoryAwareWidget should respond to memory pressure
+00:04 +93 -1: /Users/wballard/github/formbuilder/test/utils/memory_optimizer_test.dart: MemoryAwareWidget should respond to memory pressure
+00:04 +94 -1: /Users/wballard/github/formbuilder/test/utils/memory_optimizer_test.dart: MemoryAwareWidget should respond to memory pressure
+00:04 +95 -1: /Users/wballard/github/formbuilder/test/utils/memory_optimizer_test.dart: MemoryAwareWidget should respond to memory pressure
+00:04 +96 -1: /Users/wballard/github/formbuilder/test/utils/memory_optimizer_test.dart: MemoryAwareWidget should respond to memory pressure
+00:04 +97 -1: /Users/wballard/github/formbuilder/test/utils/memory_optimizer_test.dart: MemoryAwareWidget should respond to memory pressure
+00:04 +98 -1: /Users/wballard/github/formbuilder/test/utils/memory_optimizer_test.dart: MemoryAwareWidget should respond to memory pressure
+00:04 +99 -1: /Users/wballard/github/formbuilder/test/utils/memory_optimizer_test.dart: MemoryAwareWidget should respond to memory pressure
+00:04 +100 -1: /Users/wballard/github/formbuilder/test/utils/memory_optimizer_test.dart: MemoryAwareWidget should respond to memory pressure
+00:04 +101 -1: /Users/wballard/github/formbuilder/test/utils/memory_optimizer_test.dart: MemoryAwareWidget should respond to memory pressure
+00:04 +102 -1: /Users/wballard/github/formbuilder/test/utils/accessibility_utils_test.dart: AccessibleTouchTarget should enforce minimum touch target size
+00:04 +103 -1: /Users/wballard/github/formbuilder/test/utils/accessibility_utils_test.dart: AccessibleTouchTarget should enforce minimum touch target size
+00:04 +104 -1: /Users/wballard/github/formbuilder/test/utils/accessibility_utils_test.dart: AccessibleTouchTarget should enforce minimum touch target size
+00:04 +105 -1: /Users/wballard/github/formbuilder/test/utils/accessibility_utils_test.dart: AccessibleTouchTarget should enforce minimum touch target size
+00:04 +106 -1: /Users/wballard/github/formbuilder/test/utils/accessibility_utils_test.dart: AccessibleTouchTarget should enforce minimum touch target size
+00:04 +107 -1: /Users/wballard/github/formbuilder/test/utils/accessibility_utils_test.dart: AccessibleTouchTarget should enforce minimum touch target size
+00:04 +108 -1: /Users/wballard/github/formbuilder/test/utils/accessibility_utils_test.dart: AccessibleTouchTarget should enforce minimum touch target size
+00:04 +109 -1: /Users/wballard/github/formbuilder/test/utils/accessibility_utils_test.dart: AccessibleTouchTarget should enforce minimum touch target size
+00:04 +110 -1: /Users/wballard/github/formbuilder/test/utils/accessibility_utils_test.dart: AccessibleTouchTarget should enforce minimum touch target size
+00:04 +111 -1: /Users/wballard/github/formbuilder/test/utils/accessibility_utils_test.dart: AccessibleTouchTarget should enforce minimum touch target size
+00:04 +112 -1: /Users/wballard/github/formbuilder/test/utils/accessibility_utils_test.dart: AccessibleTouchTarget should enforce minimum touch target size
+00:04 +113 -1: /Users/wballard/github/formbuilder/test/utils/accessibility_utils_test.dart: AccessibleTouchTarget should enforce minimum touch target size
+00:04 +114 -1: /Users/wballard/github/formbuilder/test/utils/accessibility_utils_test.dart: AccessibleTouchTarget should enforce minimum touch target size
+00:04 +115 -1: /Users/wballard/github/formbuilder/test/utils/accessibility_utils_test.dart: AccessibleTouchTarget should apply semantic properties
+00:04 +116 -1: /Users/wballard/github/formbuilder/test/utils/accessibility_utils_test.dart: AccessibleFocusIndicator should show focus indicator when focused
+00:04 +117 -1: /Users/wballard/github/formbuilder/test/utils/accessibility_utils_test.dart: AccessibleFocusIndicator should not show focus indicator when not focused
+00:04 +118 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should track frame times
+00:04 +119 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should calculate FPS correctly
+00:05 +120 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should track operations
+00:05 +121 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should track memory usage
+00:05 +122 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should limit history size
+00:05 +123 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should reset stats
+00:05 +124 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should detect performance issues
+00:05 +125 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +126 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +127 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +128 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +129 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +130 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +131 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +132 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +133 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +134 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +135 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +136 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +137 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +138 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +139 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +140 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +141 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +142 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +143 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +144 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +145 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +146 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +147 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +148 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +149 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +150 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +151 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +152 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +153 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +154 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +155 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +156 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +157 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +158 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +159 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +160 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +161 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +162 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +163 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +164 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +165 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +166 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +167 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +168 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +169 -1: /Users/wballard/github/formbuilder/test/utils/performance_monitor_test.dart: PerformanceMonitor should provide performance level
+00:05 +170 -1: /Users/wballard/github/formbuilder/test/models/toolbox_item_test.dart: ToolboxItem creates valid instance with valid values
+00:05 +171 -1: /Users/wballard/github/formbuilder/test/models/toolbox_item_test.dart: ToolboxItem creates instance with minimum dimensions
+00:05 +172 -1: /Users/wballard/github/formbuilder/test/models/toolbox_item_test.dart: ToolboxItem throws AssertionError when name is empty
+00:05 +173 -1: /Users/wballard/github/formbuilder/test/models/toolbox_item_test.dart: ToolboxItem throws AssertionError when displayName is empty
+00:05 +174 -1: /Users/wballard/github/formbuilder/test/models/toolbox_item_test.dart: ToolboxItem throws AssertionError when defaultWidth is less than 1
+00:05 +175 -1: /Users/wballard/github/formbuilder/test/models/toolbox_item_test.dart: ToolboxItem throws AssertionError when defaultHeight is less than 1
+00:05 +176 -1: /Users/wballard/github/formbuilder/test/models/toolbox_item_test.dart: ToolboxItem equality two instances with same values are equal
+00:05 +177 -1: /Users/wballard/github/formbuilder/test/models/toolbox_item_test.dart: ToolboxItem equality two instances with different names are not equal
+00:05 +178 -1: /Users/wballard/github/formbuilder/test/models/toolbox_item_test.dart: ToolboxItem toString returns readable representation
+00:05 +179 -1: /Users/wballard/github/formbuilder/test/models/toolbox_item_test.dart: Toolbox creates valid instance with empty items
+00:05 +180 -1: /Users/wballard/github/formbuilder/test/models/toolbox_item_test.dart: Toolbox creates valid instance with unique items
+00:05 +181 -1: /Users/wballard/github/formbuilder/test/models/toolbox_item_test.dart: Toolbox throws ArgumentError when items have duplicate names
+00:05 +182 -1: /Users/wballard/github/formbuilder/test/models/toolbox_item_test.dart: Toolbox getItem returns item when it exists
+00:05 +183 -1: /Users/wballard/github/formbuilder/test/models/toolbox_item_test.dart: Toolbox getItem returns null when item does not exist
+00:05 +184 -1: /Users/wballard/github/formbuilder/test/models/toolbox_item_test.dart: Toolbox items list is immutable
+00:05 +185 -1: /Users/wballard/github/formbuilder/test/models/toolbox_item_test.dart: Toolbox predefined items creates toolbox with predefined items
+00:06 +186 -1: /Users/wballard/github/formbuilder/test/models/grid_snap_settings_test.dart: GridSnapSettings should create default settings with snap to grid enabled
+00:06 +187 -1: /Users/wballard/github/formbuilder/test/models/grid_snap_settings_test.dart: GridSnapSettings should create custom settings
+00:06 +188 -1: /Users/wballard/github/formbuilder/test/models/grid_snap_settings_test.dart: GridSnapSettings should support equality comparison
+00:06 +189 -1: /Users/wballard/github/formbuilder/test/models/grid_snap_settings_test.dart: GridSnapSettings should support copyWith
+00:06 +190 -1: /Users/wballard/github/formbuilder/test/models/grid_snap_settings_test.dart: GridSnapSettings should serialize to and from JSON
+00:06 +191 -1: /Users/wballard/github/formbuilder/test/models/grid_snap_settings_test.dart: GridSubdivision should have correct subdivision values
+00:06 +192 -1: /Users/wballard/github/formbuilder/test/models/grid_snap_settings_test.dart: GridSubdivision should serialize and deserialize correctly
+00:06 +193 -1: /Users/wballard/github/formbuilder/test/models/performance_settings_test.dart: PerformanceSettings should have default values
+00:06 +194 -1: /Users/wballard/github/formbuilder/test/models/performance_settings_test.dart: PerformanceSettings should create performance preset settings
+00:06 +195 -1: /Users/wballard/github/formbuilder/test/models/performance_settings_test.dart: PerformanceSettings should copy with modifications
+00:06 +196 -1: /Users/wballard/github/formbuilder/test/models/performance_settings_test.dart: PerformanceSettings should detect auto settings
+00:06 +197 -1: /Users/wballard/github/formbuilder/test/models/performance_settings_test.dart: PerformanceSettings should calculate effective settings based on performance
+00:06 +198 -1: /Users/wballard/github/formbuilder/test/models/performance_settings_test.dart: PerformanceSettings should validate settings
+00:06 +199 -1: /Users/wballard/github/formbuilder/test/models/performance_settings_test.dart: PerformanceSettings should serialize to/from JSON
+00:06 +200 -1: /Users/wballard/github/formbuilder/test/models/performance_settings_test.dart: QualityLevel should have correct descriptions
+00:06 +201 -1: /Users/wballard/github/formbuilder/test/models/performance_settings_test.dart: QualityLevel should have correct animation durations
+00:06 +202 -1: /Users/wballard/github/formbuilder/test/models/performance_settings_test.dart: QualityLevel should have correct render scales
+00:06 +203 -1: /Users/wballard/github/formbuilder/test/models/performance_settings_test.dart: PerformanceProfiler should suggest settings based on device capability
+00:06 +204 -1: /Users/wballard/github/formbuilder/test/models/performance_settings_test.dart: PerformanceProfiler should adapt settings based on runtime performance
+00:06 +205 -1: /Users/wballard/github/formbuilder/test/models/performance_settings_test.dart: PerformanceProfiler should track performance history
+00:06 +206 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement creates valid instance with valid values
+00:06 +207 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement creates instance at origin
+00:06 +208 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement throws AssertionError when column is negative
+00:06 +209 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement throws AssertionError when row is negative
+00:06 +210 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement throws AssertionError when width is less than 1
+00:06 +211 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement throws AssertionError when height is less than 1
+00:06 +212 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement throws AssertionError when id is empty
+00:06 +213 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement throws AssertionError when widgetName is empty
+00:06 +214 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement bounds calculates bounds correctly
+00:06 +215 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement bounds calculates bounds for 1x1 widget
+00:06 +216 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement fitsInGrid fits when completely within grid
+00:06 +217 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement fitsInGrid fits when filling entire grid
+00:06 +218 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement fitsInGrid does not fit when extending beyond columns
+00:06 +219 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement fitsInGrid does not fit when extending beyond rows
+00:06 +220 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement fitsInGrid does not fit when starting beyond grid
+00:06 +221 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement overlaps overlaps when identical positions
+00:06 +222 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement overlaps overlaps when partially overlapping
+00:06 +223 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement overlaps does not overlap when adjacent horizontally
+00:06 +224 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement overlaps does not overlap when adjacent vertically
+00:06 +225 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement overlaps does not overlap when completely separate
+00:06 +226 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement overlaps overlaps when one contains the other
+00:06 +227 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement copyWith copies with new id
+00:06 +228 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement copyWith copies with new widgetName
+00:06 +229 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement copyWith copies with new position
+00:06 +230 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement copyWith copies with new size
+00:06 +231 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement copyWith returns same values when no parameters provided
+00:06 +232 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement copyWith validates new values in copyWith
+00:06 +233 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement equality two instances with same values are equal
+00:06 +234 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement equality two instances with different ids are not equal
+00:06 +235 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement equality two instances with different positions are not equal
+00:06 +236 -1: /Users/wballard/github/formbuilder/test/models/widget_placement_test.dart: WidgetPlacement toString returns readable representation
+00:07 +237 -1: /Users/wballard/github/formbuilder/test/models/grid_dimensions_serialization_test.dart: GridDimensions Serialization should serialize to JSON correctly
+00:07 +238 -1: /Users/wballard/github/formbuilder/test/models/grid_dimensions_serialization_test.dart: GridDimensions Serialization should deserialize from JSON correctly
+00:07 +239 -1: /Users/wballard/github/formbuilder/test/models/grid_dimensions_serialization_test.dart: GridDimensions Serialization should handle round-trip serialization
+00:07 +240 -1: /Users/wballard/github/formbuilder/test/models/grid_dimensions_serialization_test.dart: GridDimensions Serialization should validate dimensions when deserializing
+00:07 +241 -1: /Users/wballard/github/formbuilder/test/models/grid_dimensions_serialization_test.dart: GridDimensions Serialization should handle missing fields with validation
+00:07 +242 -1: /Users/wballard/github/formbuilder/test/models/grid_dimensions_serialization_test.dart: GridDimensions Serialization should handle out-of-range values
+00:07 +243 -1: /Users/wballard/github/formbuilder/test/models/animation_settings_test.dart: AnimationSettings should have default values
+00:07 +244 -1: /Users/wballard/github/formbuilder/test/models/animation_settings_test.dart: AnimationSettings should create no animations settings
+00:07 +245 -1: /Users/wballard/github/formbuilder/test/models/animation_settings_test.dart: AnimationSettings should get duration based on animation type
+00:07 +246 -1: /Users/wballard/github/formbuilder/test/models/animation_settings_test.dart: AnimationSettings should return zero duration when disabled
+00:07 +247 -1: /Users/wballard/github/formbuilder/test/models/animation_settings_test.dart: AnimationSettings should get curve based on animation type
+00:07 +248 -1: /Users/wballard/github/formbuilder/test/models/animation_settings_test.dart: AnimationSettings should return linear curve when disabled
+00:07 +249 -1: /Users/wballard/github/formbuilder/test/models/animation_settings_test.dart: AnimationSettings should create settings from MediaQuery
+00:07 +250 -1: /Users/wballard/github/formbuilder/test/models/animation_settings_test.dart: AnimationSettings should create settings from MediaQuery
+00:07 +251 -1: /Users/wballard/github/formbuilder/test/models/animation_settings_test.dart: AnimationSettings should create settings from MediaQuery
+00:07 +252 -1: /Users/wballard/github/formbuilder/test/models/animation_settings_test.dart: AnimationSettings should create settings from MediaQuery
+00:07 +253 -1: /Users/wballard/github/formbuilder/test/models/animation_settings_test.dart: AnimationSettings should create settings from MediaQuery
+00:07 +254 -1: /Users/wballard/github/formbuilder/test/models/animation_settings_test.dart: AnimationSettings should create settings from MediaQuery
+00:07 +255 -1: /Users/wballard/github/formbuilder/test/models/animation_settings_test.dart: AnimationSettings should create settings from MediaQuery
+00:07 +256 -1: /Users/wballard/github/formbuilder/test/models/animation_settings_test.dart: AnimationSettings should create settings from MediaQuery
+00:07 +257 -1: /Users/wballard/github/formbuilder/test/models/animation_settings_test.dart: AnimationSettings should create settings from MediaQuery
+00:07 +258 -1: /Users/wballard/github/formbuilder/test/models/layout_state_enhanced_serialization_test.dart: LayoutState Enhanced Serialization should serialize with version and metadata
+00:07 +259 -1: /Users/wballard/github/formbuilder/test/models/layout_state_enhanced_serialization_test.dart: LayoutState Enhanced Serialization should deserialize with version compatibility
+00:07 +260 -1: /Users/wballard/github/formbuilder/test/models/layout_state_enhanced_serialization_test.dart: LayoutState Enhanced Serialization should handle missing version gracefully
+00:07 +261 -1: /Users/wballard/github/formbuilder/test/models/layout_state_enhanced_serialization_test.dart: LayoutState Enhanced Serialization should handle legacy format without properties
+00:07 +262 -1: /Users/wballard/github/formbuilder/test/models/layout_state_enhanced_serialization_test.dart: LayoutState Enhanced Serialization should support unknown future version gracefully
+00:08 +263 -1: /Users/wballard/github/formbuilder/test/models/layout_state_enhanced_serialization_test.dart: LayoutState Enhanced Serialization should include metadata in serialized format
+00:08 +264 -1: /Users/wballard/github/formbuilder/test/models/layout_state_enhanced_serialization_test.dart: LayoutState Enhanced Serialization should round-trip with metadata preserved
+00:08 +265 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState construction creates valid instance with empty widgets
+00:08 +266 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState construction creates valid instance with non-overlapping widgets
+00:08 +267 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState construction throws ArgumentError when widgets overlap
+00:08 +268 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState construction throws ArgumentError when widget is outside grid
+00:08 +269 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState construction empty factory creates 4x4 grid with no widgets
+00:08 +270 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState canAddWidget returns true when widget fits and does not overlap
+00:08 +271 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState canAddWidget returns false when widget does not fit in grid
+00:08 +272 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState canAddWidget returns false when widget overlaps existing widget
+00:08 +273 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState canAddWidget returns false when widget with same id already exists
+00:08 +274 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState addWidget adds widget when valid
+00:08 +275 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState addWidget throws ArgumentError when widget cannot be added
+00:08 +276 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState removeWidget removes widget when it exists
+00:08 +277 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState removeWidget returns same state when widget does not exist
+00:08 +278 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState updateWidget updates widget when new placement is valid
+00:08 +279 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState updateWidget throws ArgumentError when widget does not exist
+00:08 +280 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState updateWidget throws ArgumentError when new placement is invalid
+00:08 +281 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState updateWidget allows updating widget to overlap its current position
+00:08 +282 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState getWidget returns widget when it exists
+00:08 +283 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState getWidget returns null when widget does not exist
+00:08 +284 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState resizeGrid resizes grid when all widgets fit
+00:08 +285 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState resizeGrid removes widgets that do not fit in smaller grid
+00:08 +286 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState getWidgetsInArea returns widgets that intersect with area
+00:08 +287 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState getWidgetsInArea returns empty list when no widgets in area
+00:08 +288 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState serialization toJson creates correct JSON representation
+00:08 +289 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState serialization fromJson creates correct instance
+00:08 +290 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState serialization toJson and fromJson are symmetric
+00:08 +291 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState copyWith copies with new dimensions
+00:08 +292 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState copyWith copies with new widgets
+00:08 +293 -1: /Users/wballard/github/formbuilder/test/models/layout_state_test.dart: LayoutState copyWith returns same instance when no changes
+00:08 +294 -1: /Users/wballard/github/formbuilder/test/models/grid_dimensions_test.dart: GridDimensions creates valid instance with valid values
+00:08 +295 -1: /Users/wballard/github/formbuilder/test/models/grid_dimensions_test.dart: GridDimensions creates instance with minimum values
+00:08 +296 -1: /Users/wballard/github/formbuilder/test/models/grid_dimensions_test.dart: GridDimensions creates instance with maximum values
+00:08 +297 -1: /Users/wballard/github/formbuilder/test/models/grid_dimensions_test.dart: GridDimensions throws AssertionError when columns is less than 1
+00:08 +298 -1: /Users/wballard/github/formbuilder/test/models/grid_dimensions_test.dart: GridDimensions throws AssertionError when columns is greater than 12
+00:08 +299 -1: /Users/wballard/github/formbuilder/test/models/grid_dimensions_test.dart: GridDimensions throws AssertionError when rows is less than 1
+00:08 +300 -1: /Users/wballard/github/formbuilder/test/models/grid_dimensions_test.dart: GridDimensions throws AssertionError when rows is greater than 20
+00:08 +301 -1: /Users/wballard/github/formbuilder/test/models/grid_dimensions_test.dart: GridDimensions copyWith copies with new columns value
+00:08 +302 -1: /Users/wballard/github/formbuilder/test/models/grid_dimensions_test.dart: GridDimensions copyWith copies with new rows value
+00:08 +303 -1: /Users/wballard/github/formbuilder/test/models/grid_dimensions_test.dart: GridDimensions copyWith copies with both values changed
+00:08 +304 -1: /Users/wballard/github/formbuilder/test/models/grid_dimensions_test.dart: GridDimensions copyWith returns same values when no parameters provided
+00:08 +305 -1: /Users/wballard/github/formbuilder/test/models/grid_dimensions_test.dart: GridDimensions copyWith validates new values in copyWith
+00:08 +306 -1: /Users/wballard/github/formbuilder/test/models/grid_dimensions_test.dart: GridDimensions equality two instances with same values are equal
+00:08 +307 -1: /Users/wballard/github/formbuilder/test/models/grid_dimensions_test.dart: GridDimensions equality two instances with different columns are not equal
+00:08 +308 -1: /Users/wballard/github/formbuilder/test/models/grid_dimensions_test.dart: GridDimensions equality two instances with different rows are not equal
+00:08 +309 -1: /Users/wballard/github/formbuilder/test/models/grid_dimensions_test.dart: GridDimensions toString returns readable representation
+00:08 +310 -1: /Users/wballard/github/formbuilder/test/models/alignment_guide_test.dart: AlignmentGuide should create horizontal guide
+00:08 +311 -1: /Users/wballard/github/formbuilder/test/models/alignment_guide_test.dart: AlignmentGuide should create vertical guide
+00:08 +312 -1: /Users/wballard/github/formbuilder/test/models/alignment_guide_test.dart: AlignmentGuide should support equality comparison
+00:08 +313 -1: /Users/wballard/github/formbuilder/test/models/alignment_guide_test.dart: AlignmentGuideDetector should detect center alignment between widgets
+00:08 +314 -1: /Users/wballard/github/formbuilder/test/models/alignment_guide_test.dart: AlignmentGuideDetector should detect edge alignment
+00:08 +315 -1: /Users/wballard/github/formbuilder/test/models/alignment_guide_test.dart: AlignmentGuideDetector should detect equal spacing
+00:08 +316 -1: /Users/wballard/github/formbuilder/test/models/alignment_guide_test.dart: AlignmentGuideDetector should not detect guides beyond threshold
+00:08 +317 -1: /Users/wballard/github/formbuilder/test/models/alignment_guide_test.dart: GuideType should have correct enum values
+00:09 +318 -1: /Users/wballard/github/formbuilder/test/models/animation_settings_serialization_test.dart: AnimationSettings Serialization should serialize default settings to JSON correctly
+00:09 +319 -1: /Users/wballard/github/formbuilder/test/models/animation_settings_serialization_test.dart: AnimationSettings Serialization should serialize disabled settings to JSON correctly
+00:09 +320 -1: /Users/wballard/github/formbuilder/test/models/animation_settings_serialization_test.dart: AnimationSettings Serialization should deserialize from JSON correctly
+00:09 +321 -1: /Users/wballard/github/formbuilder/test/models/animation_settings_serialization_test.dart: AnimationSettings Serialization should handle round-trip serialization
+00:09 +322 -1: /Users/wballard/github/formbuilder/test/models/animation_settings_serialization_test.dart: AnimationSettings Serialization should handle missing fields with defaults
+00:09 +323 -1: /Users/wballard/github/formbuilder/test/models/animation_settings_serialization_test.dart: AnimationSettings Serialization should handle unknown curve names gracefully
+00:09 +324 -1: /Users/wballard/github/formbuilder/test/models/animation_settings_serialization_test.dart: AnimationSettings Serialization should serialize and deserialize all curve types
+00:09 +325 -1: /Users/wballard/github/formbuilder/test/state/hook_state_management_test.dart: Hook State Management Tests useFormLayout hook initialization
+00:10 +326 -1: /Users/wballard/github/formbuilder/test/state/form_layout_state_test.dart: Form Layout State Management Tests Initial state
+00:10 +327 -1: /Users/wballard/github/formbuilder/test/state/form_layout_state_test.dart: Form Layout State Management Tests Initial state
+00:10 +328 -1: /Users/wballard/github/formbuilder/test/state/form_layout_state_test.dart: Form Layout State Management Tests Initial state
+00:10 +329 -1: /Users/wballard/github/formbuilder/test/state/form_layout_state_test.dart: Form Layout State Management Tests Initial state
+00:10 +330 -1: /Users/wballard/github/formbuilder/test/state/form_layout_state_test.dart: Form Layout State Management Tests Initial state
+00:10 +331 -1: /Users/wballard/github/formbuilder/test/state/form_layout_state_test.dart: Form Layout State Management Tests Initial state
+00:10 +332 -1: /Users/wballard/github/formbuilder/test/state/form_layout_state_test.dart: Form Layout State Management Tests Initial state
+00:10 +333 -1: /Users/wballard/github/formbuilder/test/widget_test.dart: FormBuilderApp smoke test
+00:10 +334 -1: /Users/wballard/github/formbuilder/test/widget_test.dart: FormBuilderApp smoke test
+00:10 +335 -1: /Users/wballard/github/formbuilder/test/widget_test.dart: FormBuilderApp smoke test
+00:10 +336 -1: /Users/wballard/github/formbuilder/test/widget_test.dart: FormBuilderApp smoke test
+00:10 +337 -1: /Users/wballard/github/formbuilder/test/widget_test.dart: FormBuilderApp smoke test
+00:10 +338 -1: /Users/wballard/github/formbuilder/test/widget_test.dart: FormBuilderApp smoke test
+00:10 +339 -1: /Users/wballard/github/formbuilder/test/widget_test.dart: FormBuilderApp smoke test
+00:10 +340 -1: /Users/wballard/github/formbuilder/test/widget_test.dart: FormBuilderApp smoke test
+00:10 +341 -1: /Users/wballard/github/formbuilder/test/widget_test.dart: FormBuilderApp smoke test
+00:10 +342 -1: /Users/wballard/github/formbuilder/test/widget_test.dart: FormBuilderApp smoke test
+00:10 +343 -1: /Users/wballard/github/formbuilder/test/widget_test.dart: FormBuilderApp smoke test
+00:10 +344 -1: /Users/wballard/github/formbuilder/test/widget_test.dart: FormBuilderApp smoke test
+00:10 +345 -1: /Users/wballard/github/formbuilder/test/widget_test.dart: FormBuilderApp smoke test
+00:10 +346 -1: /Users/wballard/github/formbuilder/test/widget_test.dart: FormBuilderApp smoke test
+00:10 +347 -1: /Users/wballard/github/formbuilder/test/widget_test.dart: FormBuilderApp smoke test
+00:10 +348 -1: /Users/wballard/github/formbuilder/test/widget_test.dart: FormBuilderApp smoke test
+00:10 +349 -1: /Users/wballard/github/formbuilder/test/theme/accessible_color_scheme_test.dart: AccessibleColorScheme lightColorScheme should create light color scheme with accessible contrast
+00:10 +350 -1: /Users/wballard/github/formbuilder/test/theme/accessible_color_scheme_test.dart: AccessibleColorScheme lightColorScheme should create light color scheme with accessible contrast
+00:10 +351 -1: /Users/wballard/github/formbuilder/test/theme/accessible_color_scheme_test.dart: AccessibleColorScheme lightColorScheme should accept custom colors and ensure contrast
+00:10 +352 -1: /Users/wballard/github/formbuilder/test/theme/accessible_color_scheme_test.dart: AccessibleColorScheme darkColorScheme should create dark color scheme with accessible contrast
+00:10 +353 -1: /Users/wballard/github/formbuilder/test/theme/accessible_color_scheme_test.dart: AccessibleColorScheme darkColorScheme should accept custom colors and ensure contrast
+00:10 +354 -1: /Users/wballard/github/formbuilder/test/theme/accessible_color_scheme_test.dart: AccessibleColorScheme highContrastLight should create high contrast light color scheme
+00:10 +355 -1: /Users/wballard/github/formbuilder/test/theme/accessible_color_scheme_test.dart: AccessibleColorScheme highContrastDark should create high contrast dark color scheme
+00:10 +356 -1: /Users/wballard/github/formbuilder/test/theme/accessible_color_scheme_test.dart: AccessibleColorScheme getColorScheme should return light color scheme for light brightness
+00:10 +357 -1: /Users/wballard/github/formbuilder/test/theme/accessible_color_scheme_test.dart: AccessibleColorScheme getColorScheme should return dark color scheme for dark brightness
+00:10 +358 -1: /Users/wballard/github/formbuilder/test/theme/accessible_color_scheme_test.dart: AccessibleColorScheme getColorScheme should return high contrast light when requested
+00:10 +359 -1: /Users/wballard/github/formbuilder/test/theme/accessible_color_scheme_test.dart: AccessibleColorScheme getColorScheme should return high contrast dark when requested
+00:10 +360 -1: /Users/wballard/github/formbuilder/test/theme/accessible_color_scheme_test.dart: AccessibleColorScheme getColorScheme should accept custom colors for non-high contrast schemes
+00:10 +361 -1: /Users/wballard/github/formbuilder/test/theme/accessible_color_scheme_test.dart: AccessibleColorScheme _ensureContrast should maintain color if contrast is sufficient
+00:10 +362 -1: /Users/wballard/github/formbuilder/test/theme/form_layout_theme_test.dart: FormLayoutTheme provides theme to descendants
+00:10 +363 -1: /Users/wballard/github/formbuilder/test/theme/form_layout_theme_test.dart: FormLayoutTheme provides theme to descendants
+00:10 +364 -1: /Users/wballard/github/formbuilder/test/theme/form_layout_theme_test.dart: FormLayoutTheme provides theme to descendants
+00:10 +365 -1: /Users/wballard/github/formbuilder/test/theme/form_layout_theme_test.dart: FormLayoutTheme provides theme to descendants
+00:11 +366 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_test.dart: useFormLayout creates controller with initial state
+00:11 +367 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_test.dart: useFormLayout creates controller with initial state
+00:11 +368 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_test.dart: useFormLayout creates controller with initial state
+00:11 +369 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_test.dart: useFormLayout creates controller with initial state
+00:11 +370 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_test.dart: useFormLayout creates controller with initial state
+00:11 +371 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_test.dart: useFormLayout creates controller with initial state
+00:11 +372 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_test.dart: useFormLayout creates controller with initial state
+00:11 +373 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_test.dart: useFormLayout creates controller with initial state
+00:11 +374 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_test.dart: useFormLayout creates controller with initial state
+00:11 +375 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_undo_test.dart: useFormLayout Undo/Redo provides undo/redo capabilities
+00:11 +376 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_undo_test.dart: useFormLayout Undo/Redo provides undo/redo capabilities
+00:11 +377 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_undo_test.dart: useFormLayout Undo/Redo provides undo/redo capabilities
+00:11 +378 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_undo_test.dart: useFormLayout Undo/Redo provides undo/redo capabilities
+00:11 +379 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_undo_test.dart: useFormLayout Undo/Redo provides undo/redo capabilities
+00:11 +380 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_undo_test.dart: useFormLayout Undo/Redo provides undo/redo capabilities
+00:11 +381 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_undo_test.dart: useFormLayout Undo/Redo provides undo/redo capabilities
+00:11 +382 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_undo_test.dart: useFormLayout Undo/Redo provides undo/redo capabilities
+00:11 +383 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_undo_test.dart: useFormLayout Undo/Redo provides undo/redo capabilities
+00:11 +384 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_undo_test.dart: useFormLayout Undo/Redo provides undo/redo capabilities
+00:11 +385 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_undo_test.dart: useFormLayout Undo/Redo provides undo/redo capabilities
+00:11 +386 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_undo_test.dart: useFormLayout Undo/Redo provides undo/redo capabilities
+00:11 +387 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_undo_test.dart: useFormLayout Undo/Redo provides undo/redo capabilities
+00:11 +388 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_undo_test.dart: useFormLayout Undo/Redo provides undo/redo capabilities
+00:11 +389 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_preview_test.dart: useFormLayout Preview Mode provides preview mode state
+00:11 +390 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_preview_test.dart: useFormLayout Preview Mode provides preview mode state
+00:11 +391 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_preview_test.dart: useFormLayout Preview Mode provides preview mode state
+00:11 +392 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_preview_test.dart: useFormLayout Preview Mode provides preview mode state
+00:11 +393 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_preview_test.dart: useFormLayout Preview Mode provides preview mode state
+00:11 +394 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_preview_test.dart: useFormLayout Preview Mode provides preview mode state
+00:11 +395 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_preview_test.dart: useFormLayout Preview Mode provides preview mode state
+00:12 +396 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_preview_test.dart: useFormLayout Preview Mode provides preview mode state
+00:12 +397 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_preview_test.dart: useFormLayout Preview Mode provides preview mode state
+00:12 +398 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_preview_test.dart: useFormLayout Preview Mode provides preview mode state
+00:12 +399 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_preview_test.dart: useFormLayout Preview Mode provides preview mode state
+00:12 +400 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_preview_test.dart: useFormLayout Preview Mode provides preview mode state
+00:12 +401 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_preview_test.dart: useFormLayout Preview Mode provides preview mode state
+00:12 +402 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_preview_test.dart: useFormLayout Preview Mode provides preview mode state
+00:12 +403 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_preview_test.dart: useFormLayout Preview Mode provides preview mode state
+00:12 +404 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_preview_test.dart: useFormLayout Preview Mode provides preview mode state
+00:12 +405 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_preview_test.dart: useFormLayout Preview Mode provides preview mode state
+00:12 +406 -1: /Users/wballard/github/formbuilder/test/hooks/use_form_layout_preview_test.dart: useFormLayout Preview Mode provides preview mode state
+00:12 +407 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions AddWidgetAction adds widget through controller
+00:12 +408 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions AddWidgetAction adds widget through controller
+00:12 +409 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions AddWidgetAction adds widget through controller
+00:12 +410 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions AddWidgetAction adds widget through controller
+00:12 +411 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions AddWidgetAction adds widget through controller
+00:12 +412 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions AddWidgetAction adds widget through controller
+00:12 +413 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions AddWidgetAction adds widget through controller
+00:12 +414 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions AddWidgetAction adds widget through controller
+00:12 +415 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions AddWidgetAction adds widget through controller
+00:12 +416 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions AddWidgetAction adds widget through controller
+00:12 +417 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions AddWidgetAction adds widget through controller
+00:12 +418 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions AddWidgetAction adds widget through controller
+00:12 +419 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions AddWidgetAction adds widget through controller
+00:12 +420 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions AddWidgetAction adds widget through controller
+00:12 +421 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions AddWidgetAction adds widget through controller
+00:12 +422 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions AddWidgetAction adds widget through controller
+00:12 +423 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions AddWidgetAction adds widget through controller
+00:12 +424 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions AddWidgetAction adds widget through controller
+00:12 +425 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions AddWidgetAction adds widget through controller
+00:12 +426 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions AddWidgetAction adds widget through controller
+00:12 +427 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions AddWidgetAction adds widget through controller
+00:12 +428 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions AddWidgetAction adds widget through controller
+00:12 +429 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions AddWidgetAction adds widget through controller
+00:12 +430 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions RemoveWidgetAction removes widget through controller
+00:12 +431 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions MoveWidgetAction moves widget through controller
+00:12 +432 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions ResizeWidgetAction resizes widget through controller
+00:12 +433 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions SelectWidgetAction selects widget through controller
+00:12 +434 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions UndoAction performs undo through controller
+00:12 +435 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions RedoAction performs redo through controller
+00:12 +436 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions TogglePreviewModeAction toggles preview mode
+00:12 +437 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher provides actions to descendants
+00:12 +438 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher provides actions to descendants
+00:12 +439 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher provides actions to descendants
+00:12 +440 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher provides actions to descendants
+00:13 +440 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_actions_test.dart: FormLayout Actions ExportLayoutAction returns false when no callback provided
+Export callback not provided
+00:13 +441 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher provides actions to descendants
+00:13 +442 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher provides actions to descendants
+00:13 +443 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher provides actions to descendants
+00:13 +444 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher provides actions to descendants
+00:13 +445 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher provides actions to descendants
+00:13 +446 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher provides actions to descendants
+00:13 +447 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher provides actions to descendants
+00:13 +448 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher provides actions to descendants
+00:13 +449 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher provides actions to descendants
+00:13 +450 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher provides actions to descendants
+00:13 +451 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher provides actions to descendants
+00:13 +452 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher provides actions to descendants
+00:13 +453 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher provides actions to descendants
+00:13 +454 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher provides actions to descendants
+00:13 +455 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher provides actions to descendants
+00:13 +456 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher provides actions to descendants
+00:13 +457 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher provides actions to descendants
+00:13 +458 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher provides actions to descendants
+00:13 +459 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher provides actions to descendants
+00:13 +460 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher provides actions to descendants
+00:13 +461 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher provides actions to descendants
+00:13 +462 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher provides actions to descendants
+00:13 +463 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher provides actions to descendants
+00:13 +464 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher context extension methods work correctly
+00:13 +465 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher FormLayoutIntentInvoker mixin provides convenience methods
+00:13 +466 -1: /Users/wballard/github/formbuilder/test/intents/form_layout_action_dispatcher_test.dart: FormLayoutActionDispatcher all actions are available through dispatcher
+00:13 +467 -1: /Users/wballard/github/formbuilder/test/form_layout/models/validation_result_test.dart: ValidationResult factory constructors success creates valid result with no message
+00:13 +468 -1: /Users/wballard/github/formbuilder/test/form_layout/models/validation_result_test.dart: ValidationResult factory constructors error creates invalid result with error severity
+00:13 +469 -1: /Users/wballard/github/formbuilder/test/form_layout/models/validation_result_test.dart: ValidationResult factory constructors warning creates valid result with warning severity
+00:13 +470 -1: /Users/wballard/github/formbuilder/test/form_layout/models/validation_result_test.dart: ValidationResult factory constructors info creates valid result with info severity
+00:13 +471 -1: /Users/wballard/github/formbuilder/test/form_layout/models/validation_result_test.dart: ValidationResult properties isError returns true only for invalid error results
+00:13 +472 -1: /Users/wballard/github/formbuilder/test/form_layout/models/validation_result_test.dart: ValidationResult properties isWarning returns true only for warning results
+00:13 +473 -1: /Users/wballard/github/formbuilder/test/form_layout/models/validation_result_test.dart: ValidationResult equality and hashCode equal results have same hashCode
+00:13 +474 -1: /Users/wballard/github/formbuilder/test/form_layout/models/validation_result_test.dart: ValidationResult equality and hashCode different results are not equal
+00:13 +475 -1: /Users/wballard/github/formbuilder/test/form_layout/models/validation_result_test.dart: ValidationResult equality and hashCode results with different contexts are not equal
+00:13 +476 -1: /Users/wballard/github/formbuilder/test/form_layout/models/validation_result_test.dart: ValidationResult toString provides readable string representation
+00:13 +477 -1: /Users/wballard/github/formbuilder/test/form_layout/models/validation_result_test.dart: ValidationResultList extension combine returns success for empty list
+00:13 +478 -1: /Users/wballard/github/formbuilder/test/form_layout/models/validation_result_test.dart: ValidationResultList extension combine returns single error when errors present
+00:13 +479 -1: /Users/wballard/github/formbuilder/test/form_layout/models/validation_result_test.dart: ValidationResultList extension combine returns warnings when no errors
+00:13 +480 -1: /Users/wballard/github/formbuilder/test/form_layout/models/validation_result_test.dart: ValidationResultList extension combine returns info when no errors or warnings
+00:13 +481 -1: /Users/wballard/github/formbuilder/test/form_layout/models/validation_result_test.dart: ValidationResultList extension combine returns success when all are success
+00:13 +482 -1: /Users/wballard/github/formbuilder/test/form_layout/form_layout_test.dart: FormLayout renders with default configuration
+00:14 +483 -1: /Users/wballard/github/formbuilder/test/form_layout/form_layout_test.dart: FormLayout renders with default configuration
+00:14 +484 -1: /Users/wballard/github/formbuilder/test/form_layout/form_layout_test.dart: FormLayout renders with default configuration
+00:14 +485 -1: /Users/wballard/github/formbuilder/test/form_layout/form_layout_test.dart: FormLayout renders with default configuration
+00:14 +486 -1: /Users/wballard/github/formbuilder/test/form_layout/form_layout_test.dart: FormLayout renders with default configuration
+00:14 +487 -1: /Users/wballard/github/formbuilder/test/form_layout/form_layout_test.dart: FormLayout renders with default configuration
+00:14 +488 -1: /Users/wballard/github/formbuilder/test/form_layout/form_layout_test.dart: FormLayout renders with default configuration
+00:14 +489 -1: /Users/wballard/github/formbuilder/test/form_layout/form_layout_test.dart: FormLayout renders with default configuration
+00:14 +490 -1: /Users/wballard/github/formbuilder/test/form_layout/form_layout_test.dart: FormLayout renders with default configuration
+00:14 +491 -1: /Users/wballard/github/formbuilder/test/form_layout/form_layout_test.dart: FormLayout renders with default configuration
+00:14 +492 -1: /Users/wballard/github/formbuilder/test/form_layout/form_layout_test.dart: FormLayout renders with default configuration
+00:14 +493 -1: /Users/wballard/github/formbuilder/test/form_layout/form_layout_test.dart: FormLayout renders with default configuration
+00:14 +494 -1: /Users/wballard/github/formbuilder/test/form_layout/form_layout_test.dart: FormLayout renders with default configuration
+00:14 +495 -1: /Users/wballard/github/formbuilder/test/form_layout/form_layout_test.dart: FormLayout renders with default configuration
+00:14 +496 -1: /Users/wballard/github/formbuilder/test/form_layout/form_layout_test.dart: FormLayout renders with default configuration
+00:14 +497 -1: /Users/wballard/github/formbuilder/test/form_layout/form_layout_test.dart: FormLayout renders with default configuration
+00:14 +498 -1: /Users/wballard/github/formbuilder/test/form_layout/form_layout_test.dart: FormLayout renders with default configuration
+00:14 +499 -1: /Users/wballard/github/formbuilder/test/form_layout/form_layout_test.dart: FormLayout renders with default configuration
+00:14 +500 -1: /Users/wballard/github/formbuilder/test/form_layout/form_layout_test.dart: FormLayout renders with default configuration
+00:14 +501 -1: /Users/wballard/github/formbuilder/test/form_layout/form_layout_test.dart: FormLayout renders with default configuration
+00:14 +502 -1: /Users/wballard/github/formbuilder/test/form_layout/form_layout_test.dart: FormLayout renders with default configuration
+00:14 +503 -1: /Users/wballard/github/formbuilder/test/form_layout/form_layout_test.dart: FormLayout renders with default configuration
+00:14 +504 -1: /Users/wballard/github/formbuilder/test/form_layout/form_layout_test.dart: FormLayout renders with default configuration
+00:14 +505 -1: /Users/wballard/github/formbuilder/test/form_layout/form_layout_test.dart: FormLayout renders with default configuration
+00:14 +506 -1: /Users/wballard/github/formbuilder/test/form_layout/form_layout_test.dart: FormLayout renders with default configuration
+00:14 +507 -1: /Users/wballard/github/formbuilder/test/form_layout/form_layout_test.dart: FormLayout renders with default configuration
+00:14 +508 -1: /Users/wballard/github/formbuilder/test/form_layout/form_layout_test.dart: FormLayout renders with default configuration
+00:14 +509 -1: /Users/wballard/github/formbuilder/test/form_layout/widgets/error_display_test.dart: ErrorDisplay show does nothing when result has no message
+00:14 +510 -1: /Users/wballard/github/formbuilder/test/form_layout/widgets/error_display_test.dart: ErrorDisplay show does nothing when result has no message
+00:14 +511 -1: /Users/wballard/github/formbuilder/test/form_layout/widgets/error_display_test.dart: ErrorDisplay show does nothing when result has no message
+00:14 +512 -1: /Users/wballard/github/formbuilder/test/form_layout/widgets/error_display_test.dart: ErrorDisplay show does nothing when result has no message
+00:14 +513 -1: /Users/wballard/github/formbuilder/test/form_layout/widgets/error_display_test.dart: ErrorDisplay show does nothing when result has no message
+00:15 +514 -1: /Users/wballard/github/formbuilder/test/form_layout/widgets/error_display_test.dart: ErrorDisplay show does nothing when result has no message
+00:15 +515 -1: /Users/wballard/github/formbuilder/test/form_layout/widgets/form_layout_error_test.dart: FormLayoutError renders child normally when no error
+00:15 +516 -1: /Users/wballard/github/formbuilder/test/form_layout/widgets/form_layout_error_test.dart: FormLayoutError renders child normally when no error
+00:15 +517 -1: /Users/wballard/github/formbuilder/test/form_layout/widgets/form_layout_error_test.dart: FormLayoutError renders child normally when no error
+00:15 +518 -1: /Users/wballard/github/formbuilder/test/form_layout/widgets/form_layout_error_test.dart: FormLayoutError renders child normally when no error
+00:15 +519 -1: /Users/wballard/github/formbuilder/test/form_layout/widgets/form_layout_error_test.dart: FormLayoutError renders child normally when no error
+00:15 +520 -1: /Users/wballard/github/formbuilder/test/form_layout/widgets/form_layout_error_test.dart: FormLayoutError renders child normally when no error
+00:15 +521 -1: /Users/wballard/github/formbuilder/test/form_layout/widgets/form_layout_error_test.dart: FormLayoutError renders child normally when no error
+00:15 +522 -1: /Users/wballard/github/formbuilder/test/accessibility/widget_accessibility_test.dart: Widget Accessibility Tests AccessibleGridWidget accessibility
+00:15 +523 -1: /Users/wballard/github/formbuilder/test/accessibility/widget_accessibility_test.dart: Widget Accessibility Tests AccessibleGridWidget accessibility
+00:15 +524 -1: /Users/wballard/github/formbuilder/test/accessibility/widget_accessibility_test.dart: Widget Accessibility Tests AccessibleGridWidget accessibility
+00:15 +525 -1: /Users/wballard/github/formbuilder/test/accessibility/widget_accessibility_test.dart: Widget Accessibility Tests AccessibleGridWidget accessibility
+00:15 +526 -1: /Users/wballard/github/formbuilder/test/accessibility/widget_accessibility_test.dart: Widget Accessibility Tests AccessibleGridWidget accessibility
+00:15 +527 -1: /Users/wballard/github/formbuilder/test/accessibility/widget_accessibility_test.dart: Widget Accessibility Tests AccessibleGridWidget accessibility
+00:15 +528 -1: /Users/wballard/github/formbuilder/test/accessibility/widget_accessibility_test.dart: Widget Accessibility Tests AccessibleGridWidget accessibility
+00:15 +529 -1: /Users/wballard/github/formbuilder/test/accessibility/widget_accessibility_test.dart: Widget Accessibility Tests AccessibleGridWidget accessibility
+00:15 +530 -1: /Users/wballard/github/formbuilder/test/accessibility/widget_accessibility_test.dart: Widget Accessibility Tests AccessibleGridWidget accessibility
+00:15 +531 -1: /Users/wballard/github/formbuilder/test/accessibility/widget_accessibility_test.dart: Widget Accessibility Tests AccessibleGridWidget accessibility
+00:15 +532 -1: /Users/wballard/github/formbuilder/test/accessibility/widget_accessibility_test.dart: Widget Accessibility Tests AccessibleGridWidget accessibility
+00:15 +533 -1: /Users/wballard/github/formbuilder/test/accessibility/widget_accessibility_test.dart: Widget Accessibility Tests AccessibleGridWidget accessibility
+00:15 +534 -1: /Users/wballard/github/formbuilder/test/accessibility/widget_accessibility_test.dart: Widget Accessibility Tests AccessibleGridWidget accessibility
+00:15 +535 -1: /Users/wballard/github/formbuilder/test/accessibility/widget_accessibility_test.dart: Widget Accessibility Tests AccessibleGridWidget accessibility
+00:15 +536 -1: /Users/wballard/github/formbuilder/test/accessibility/widget_accessibility_test.dart: Widget Accessibility Tests AccessibleGridWidget accessibility
+00:15 +537 -1: /Users/wballard/github/formbuilder/test/accessibility/widget_accessibility_test.dart: Widget Accessibility Tests AccessibleGridWidget accessibility
+00:15 +538 -1: /Users/wballard/github/formbuilder/test/accessibility/widget_accessibility_test.dart: Widget Accessibility Tests AccessibleGridWidget accessibility
+00:15 +539 -1: /Users/wballard/github/formbuilder/test/accessibility/widget_accessibility_test.dart: Widget Accessibility Tests AccessibleGridWidget accessibility
+00:15 +540 -1: /Users/wballard/github/formbuilder/test/accessibility/form_layout_accessibility_test.dart: Form Layout Accessibility Tests Semantic labels for form layout components
+00:15 +541 -1: /Users/wballard/github/formbuilder/test/accessibility/form_layout_accessibility_test.dart: Form Layout Accessibility Tests Semantic labels for form layout components
+00:15 +542 -1: /Users/wballard/github/formbuilder/test/accessibility/form_layout_accessibility_test.dart: Form Layout Accessibility Tests Semantic labels for form layout components
+00:15 +543 -1: /Users/wballard/github/formbuilder/test/accessibility/form_layout_accessibility_test.dart: Form Layout Accessibility Tests Semantic labels for form layout components
+00:15 +544 -1: /Users/wballard/github/formbuilder/test/accessibility/form_layout_accessibility_test.dart: Form Layout Accessibility Tests Semantic labels for form layout components
+00:15 +545 -1: /Users/wballard/github/formbuilder/test/accessibility/form_layout_accessibility_test.dart: Form Layout Accessibility Tests Semantic labels for form layout components
+00:15 +546 -1: /Users/wballard/github/formbuilder/test/accessibility/form_layout_accessibility_test.dart: Form Layout Accessibility Tests Semantic labels for form layout components
+00:15 +547 -1: /Users/wballard/github/formbuilder/test/accessibility/form_layout_accessibility_test.dart: Form Layout Accessibility Tests Semantic labels for form layout components
+00:15 +548 -1: /Users/wballard/github/formbuilder/test/accessibility/form_layout_accessibility_test.dart: Form Layout Accessibility Tests Semantic labels for form layout components
+00:16 +549 -1: /Users/wballard/github/formbuilder/test/accessibility/form_layout_accessibility_test.dart: Form Layout Accessibility Tests Semantic labels for form layout components
+00:16 +550 -1: /Users/wballard/github/formbuilder/test/accessibility/form_layout_accessibility_test.dart: Form Layout Accessibility Tests Semantic labels for form layout components
+00:16 +551 -1: /Users/wballard/github/formbuilder/test/accessibility/form_layout_accessibility_test.dart: Form Layout Accessibility Tests Semantic labels for form layout components
+00:16 +552 -1: /Users/wballard/github/formbuilder/test/accessibility/form_layout_accessibility_test.dart: Form Layout Accessibility Tests Semantic labels for form layout components
+00:16 +553 -1: /Users/wballard/github/formbuilder/test/accessibility/form_layout_accessibility_test.dart: Form Layout Accessibility Tests Semantic labels for form layout components
+00:16 +554 -1: /Users/wballard/github/formbuilder/test/accessibility/form_layout_accessibility_test.dart: Form Layout Accessibility Tests Semantic labels for form layout components
+00:16 +555 -1: /Users/wballard/github/formbuilder/test/accessibility/form_layout_accessibility_test.dart: Form Layout Accessibility Tests Semantic labels for form layout components
+00:16 +556 -1: /Users/wballard/github/formbuilder/test/accessibility/form_layout_accessibility_test.dart: Form Layout Accessibility Tests Semantic labels for form layout components
+00:16 +557 -1: /Users/wballard/github/formbuilder/test/accessibility/form_layout_accessibility_test.dart: Form Layout Accessibility Tests Semantic labels for form layout components
+00:16 +558 -1: /Users/wballard/github/formbuilder/test/widgets/grid_container_preview_test.dart: GridContainer Preview Mode shows grid background in edit mode (default)
+00:16 +559 -1: /Users/wballard/github/formbuilder/test/widgets/grid_container_preview_test.dart: GridContainer Preview Mode shows grid background in edit mode (default)
+00:16 +560 -1: /Users/wballard/github/formbuilder/test/widgets/widget_delete_test.dart: Widget Delete Functionality PlacedWidget shows delete button when selected
+00:16 +561 -1: /Users/wballard/github/formbuilder/test/widgets/widget_delete_test.dart: Widget Delete Functionality PlacedWidget shows delete button when selected
+00:16 +562 -1: /Users/wballard/github/formbuilder/test/widgets/widget_delete_test.dart: Widget Delete Functionality PlacedWidget shows delete button when selected
+00:16 +563 -1: /Users/wballard/github/formbuilder/test/widgets/widget_delete_test.dart: Widget Delete Functionality PlacedWidget shows delete button when selected
+00:16 +564 -1: /Users/wballard/github/formbuilder/test/widgets/widget_delete_test.dart: Widget Delete Functionality PlacedWidget shows delete button when selected
+00:16 +565 -1: /Users/wballard/github/formbuilder/test/widgets/widget_delete_test.dart: Widget Delete Functionality PlacedWidget shows delete button when selected
+00:16 +566 -1: /Users/wballard/github/formbuilder/test/widgets/widget_delete_test.dart: Widget Delete Functionality PlacedWidget shows delete button when selected
+00:16 +567 -1: /Users/wballard/github/formbuilder/test/widgets/widget_delete_test.dart: Widget Delete Functionality PlacedWidget shows delete button when selected
+00:16 +568 -1: /Users/wballard/github/formbuilder/test/widgets/widget_delete_test.dart: Widget Delete Functionality PlacedWidget shows delete button when selected
+00:16 +569 -1: /Users/wballard/github/formbuilder/test/widgets/widget_delete_test.dart: Widget Delete Functionality PlacedWidget shows delete button when selected
+00:16 +570 -1: /Users/wballard/github/formbuilder/test/widgets/widget_delete_test.dart: Widget Delete Functionality PlacedWidget shows delete button when selected
+00:16 +571 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_categorized_toolbox_test.dart: AccessibleCategorizedToolbox should render with proper semantics
+00:16 +572 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_categorized_toolbox_test.dart: AccessibleCategorizedToolbox should render with proper semantics
+00:16 +573 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_categorized_toolbox_test.dart: AccessibleCategorizedToolbox should render with proper semantics
+00:16 +574 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_categorized_toolbox_test.dart: AccessibleCategorizedToolbox should render with proper semantics
+00:16 +575 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_categorized_toolbox_test.dart: AccessibleCategorizedToolbox should render with proper semantics
+00:16 +576 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_categorized_toolbox_test.dart: AccessibleCategorizedToolbox should render with proper semantics
+00:16 +577 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_categorized_toolbox_test.dart: AccessibleCategorizedToolbox should render with proper semantics
+00:16 +578 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_categorized_toolbox_test.dart: AccessibleCategorizedToolbox should render with proper semantics
+00:17 +579 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_categorized_toolbox_test.dart: AccessibleCategorizedToolbox should render with proper semantics
+00:17 +580 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_categorized_toolbox_test.dart: AccessibleCategorizedToolbox should render with proper semantics
+00:17 +581 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_categorized_toolbox_test.dart: AccessibleCategorizedToolbox should render with proper semantics
+00:17 +582 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_categorized_toolbox_test.dart: AccessibleCategorizedToolbox should render with proper semantics
+00:17 +583 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_categorized_toolbox_test.dart: AccessibleCategorizedToolbox should render with proper semantics
+00:17 +584 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_categorized_toolbox_test.dart: AccessibleCategorizedToolbox should render with proper semantics
+00:17 +585 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_categorized_toolbox_test.dart: AccessibleCategorizedToolbox should render with proper semantics
+00:17 +586 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_categorized_toolbox_test.dart: AccessibleCategorizedToolbox should render with proper semantics
+00:17 +587 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_categorized_toolbox_test.dart: AccessibleCategorizedToolbox should render with proper semantics
+00:17 +588 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_categorized_toolbox_test.dart: AccessibleCategorizedToolbox should render with proper semantics
+00:17 +589 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_categorized_toolbox_test.dart: AccessibleCategorizedToolbox should render with proper semantics
+00:17 +590 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_categorized_toolbox_test.dart: AccessibleCategorizedToolbox should render with proper semantics
+00:17 +591 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_grid_widget_test.dart: AccessibleGridWidget should render with proper semantics
+00:17 +592 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_grid_widget_test.dart: AccessibleGridWidget should render with proper semantics
+00:17 +593 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_grid_widget_test.dart: AccessibleGridWidget should render with proper semantics
+00:17 +594 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_grid_widget_test.dart: AccessibleGridWidget should render with proper semantics
+00:17 +595 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_grid_widget_test.dart: AccessibleGridWidget should render with proper semantics
+00:17 +596 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_placed_widget_test.dart: AccessiblePlacedWidget should render with proper semantics
+00:17 +597 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_placed_widget_test.dart: AccessiblePlacedWidget should render with proper semantics
+00:17 +598 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_placed_widget_test.dart: AccessiblePlacedWidget should render with proper semantics
+00:17 +599 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_placed_widget_test.dart: AccessiblePlacedWidget should render with proper semantics
+00:17 +600 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_placed_widget_test.dart: AccessiblePlacedWidget should render with proper semantics
+00:17 +601 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_placed_widget_test.dart: AccessiblePlacedWidget should render with proper semantics
+00:17 +602 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_placed_widget_test.dart: AccessiblePlacedWidget should render with proper semantics
+00:17 +603 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_placed_widget_test.dart: AccessiblePlacedWidget should render with proper semantics
+00:17 +604 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_placed_widget_test.dart: AccessiblePlacedWidget should render with proper semantics
+00:17 +605 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_placed_widget_test.dart: AccessiblePlacedWidget should render with proper semantics
+00:17 +606 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_placed_widget_test.dart: AccessiblePlacedWidget should render with proper semantics
+00:17 +607 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_placed_widget_test.dart: AccessiblePlacedWidget should render with proper semantics
+00:17 +608 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_placed_widget_test.dart: AccessiblePlacedWidget should render with proper semantics
+00:17 +609 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_placed_widget_test.dart: AccessiblePlacedWidget should render with proper semantics
+00:17 +610 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_placed_widget_test.dart: AccessiblePlacedWidget should render with proper semantics
+00:17 +611 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_placed_widget_test.dart: AccessiblePlacedWidget should render with proper semantics
+00:17 +612 -1: /Users/wballard/github/formbuilder/test/widgets/accessible_placed_widget_test.dart: AccessiblePlacedWidget should render with proper semantics
+00:17 +613 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_drag_operations_test.dart: ThrottledDragTarget should throttle drag updates
+00:17 +614 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_drag_operations_test.dart: ThrottledDragTarget should throttle drag updates
+00:17 +615 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_drag_operations_test.dart: ThrottledDragTarget should throttle drag updates
+00:17 +616 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_drag_operations_test.dart: ThrottledDragTarget should throttle drag updates
+00:18 +617 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_drag_operations_test.dart: ThrottledDragTarget should throttle drag updates
+00:18 +618 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_drag_operations_test.dart: ThrottledDragTarget should throttle drag updates
+00:18 +619 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_drag_operations_test.dart: ThrottledDragTarget should throttle drag updates
+00:18 +620 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_drag_operations_test.dart: ThrottledDragTarget should throttle drag updates
+00:18 +621 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_drag_operations_test.dart: ThrottledDragTarget should throttle drag updates
+00:18 +622 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_drag_operations_test.dart: ThrottledDragTarget should throttle drag updates
+00:18 +623 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_drag_operations_test.dart: ThrottledDragTarget should throttle drag updates
+00:18 +624 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_drag_operations_test.dart: ThrottledDragTarget should throttle drag updates
+00:18 +625 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_drag_operations_test.dart: ThrottledDragTarget should throttle drag updates
+00:18 +626 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_drag_operations_test.dart: ThrottledDragTarget should throttle drag updates
+00:18 +627 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_drag_operations_test.dart: ThrottledDragTarget should throttle drag updates
+00:18 +628 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_drag_operations_test.dart: ThrottledDragTarget should throttle drag updates
+00:18 +629 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_drag_operations_test.dart: ThrottledDragTarget should throttle drag updates
+00:18 +630 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_drag_operations_test.dart: ThrottledDragTarget should throttle drag updates
+00:18 +631 -1: /Users/wballard/github/formbuilder/test/widgets/grid_widget_test.dart: GridWidget renders with correct dimensions
+00:18 +632 -1: /Users/wballard/github/formbuilder/test/widgets/grid_widget_test.dart: GridWidget renders with correct dimensions
+00:18 +633 -1: /Users/wballard/github/formbuilder/test/widgets/grid_widget_test.dart: GridWidget renders with correct dimensions
+00:18 +634 -1: /Users/wballard/github/formbuilder/test/widgets/grid_widget_test.dart: GridWidget renders with correct dimensions
+00:18 +635 -1: /Users/wballard/github/formbuilder/test/widgets/grid_widget_test.dart: GridWidget renders with correct dimensions
+00:18 +636 -1: /Users/wballard/github/formbuilder/test/widgets/grid_widget_test.dart: GridWidget renders with correct dimensions
+00:18 +637 -1: /Users/wballard/github/formbuilder/test/widgets/grid_widget_test.dart: GridWidget renders with correct dimensions
+00:18 +638 -1: /Users/wballard/github/formbuilder/test/widgets/grid_widget_test.dart: GridWidget renders with correct dimensions
+00:18 +639 -1: /Users/wballard/github/formbuilder/test/widgets/animated_mode_switcher_test.dart: AnimatedModeSwitcher should show edit child when not in preview mode
+00:18 +640 -1: /Users/wballard/github/formbuilder/test/widgets/animated_mode_switcher_test.dart: AnimatedModeSwitcher should show edit child when not in preview mode
+00:18 +641 -1: /Users/wballard/github/formbuilder/test/widgets/animated_mode_switcher_test.dart: AnimatedModeSwitcher should show edit child when not in preview mode
+00:18 +642 -1: /Users/wballard/github/formbuilder/test/widgets/animated_mode_switcher_test.dart: AnimatedModeSwitcher should show edit child when not in preview mode
+00:18 +643 -1: /Users/wballard/github/formbuilder/test/widgets/animated_mode_switcher_test.dart: AnimatedModeSwitcher should show edit child when not in preview mode
+00:18 +644 -1: /Users/wballard/github/formbuilder/test/widgets/animated_mode_switcher_test.dart: AnimatedModeSwitcher should show edit child when not in preview mode
+00:18 +645 -1: /Users/wballard/github/formbuilder/test/widgets/animated_mode_switcher_test.dart: AnimatedModeSwitcher should show edit child when not in preview mode
+00:18 +646 -1: /Users/wballard/github/formbuilder/test/widgets/animated_mode_switcher_test.dart: AnimatedModeSwitcher should show edit child when not in preview mode
+00:18 +647 -1: /Users/wballard/github/formbuilder/test/widgets/animated_mode_switcher_test.dart: AnimatedModeSwitcher should show edit child when not in preview mode
+00:18 +648 -1: /Users/wballard/github/formbuilder/test/widgets/animated_mode_switcher_test.dart: AnimatedModeSwitcher should show edit child when not in preview mode
+00:18 +649 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_controls_test.dart: Grid Resize Controls GridResizeControls displays current dimensions
+00:18 +650 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_controls_test.dart: Grid Resize Controls GridResizeControls displays current dimensions
+00:18 +651 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_controls_test.dart: Grid Resize Controls GridResizeControls displays current dimensions
+00:18 +652 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_controls_test.dart: Grid Resize Controls GridResizeControls displays current dimensions
+00:18 +653 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_controls_test.dart: Grid Resize Controls GridResizeControls displays current dimensions
+00:18 +654 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_controls_test.dart: Grid Resize Controls GridResizeControls displays current dimensions
+00:18 +655 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_controls_test.dart: Grid Resize Controls GridResizeControls displays current dimensions
+00:18 +656 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_controls_test.dart: Grid Resize Controls GridResizeControls displays current dimensions
+00:18 +657 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_controls_test.dart: Grid Resize Controls GridResizeControls displays current dimensions
+00:18 +658 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_controls_test.dart: Grid Resize Controls GridResizeControls displays current dimensions
+00:18 +659 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_controls_test.dart: Grid Resize Controls GridResizeControls displays current dimensions
+00:18 +660 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_controls_test.dart: Grid Resize Controls GridResizeControls displays current dimensions
+00:19 +661 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_controls_test.dart: Grid Resize Controls GridResizeControls displays current dimensions
+00:19 +662 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_controls_test.dart: Grid Resize Controls GridResizeControls displays current dimensions
+00:19 +663 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_controls_test.dart: Grid Resize Controls GridResizeControls displays current dimensions
+00:19 +664 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_controls_test.dart: Grid Resize Controls GridResizeControls displays current dimensions
+00:19 +665 -1: /Users/wballard/github/formbuilder/test/widgets/form_preview_test.dart: FormPreview creates widget with required properties
+00:19 +666 -1: /Users/wballard/github/formbuilder/test/widgets/form_preview_test.dart: FormPreview creates widget with required properties
+00:19 +667 -1: /Users/wballard/github/formbuilder/test/widgets/form_preview_test.dart: FormPreview creates widget with required properties
+00:19 +668 -1: /Users/wballard/github/formbuilder/test/widgets/form_preview_test.dart: FormPreview creates widget with required properties
+00:19 +669 -1: /Users/wballard/github/formbuilder/test/widgets/form_preview_test.dart: FormPreview creates widget with required properties
+00:19 +670 -1: /Users/wballard/github/formbuilder/test/widgets/form_preview_test.dart: FormPreview creates widget with required properties
+00:19 +671 -1: /Users/wballard/github/formbuilder/test/widgets/form_preview_test.dart: FormPreview creates widget with required properties
+00:19 +672 -1: /Users/wballard/github/formbuilder/test/widgets/form_preview_test.dart: FormPreview creates widget with required properties
+00:19 +673 -1: /Users/wballard/github/formbuilder/test/widgets/form_preview_test.dart: FormPreview creates widget with required properties
+00:19 +674 -1: /Users/wballard/github/formbuilder/test/widgets/form_preview_test.dart: FormPreview creates widget with required properties
+00:19 +675 -1: /Users/wballard/github/formbuilder/test/widgets/resize_handle_test.dart: ResizeHandle creates widget with required properties
+00:19 +676 -1: /Users/wballard/github/formbuilder/test/widgets/resize_handle_test.dart: ResizeHandle creates widget with required properties
+00:19 +677 -1: /Users/wballard/github/formbuilder/test/widgets/resize_handle_test.dart: ResizeHandle creates widget with required properties
+00:19 +678 -1: /Users/wballard/github/formbuilder/test/widgets/resize_handle_test.dart: ResizeHandle creates widget with required properties
+00:19 +679 -1: /Users/wballard/github/formbuilder/test/widgets/resize_handle_test.dart: ResizeHandle creates widget with required properties
+00:19 +680 -1: /Users/wballard/github/formbuilder/test/widgets/resize_handle_test.dart: ResizeHandle creates widget with required properties
+00:19 +681 -1: /Users/wballard/github/formbuilder/test/widgets/resize_handle_test.dart: ResizeHandle creates widget with required properties
+00:19 +682 -1: /Users/wballard/github/formbuilder/test/widgets/resize_handle_test.dart: ResizeHandle creates widget with required properties
+00:19 +683 -1: /Users/wballard/github/formbuilder/test/widgets/resize_handle_test.dart: ResizeHandle creates widget with required properties
+00:19 +684 -1: /Users/wballard/github/formbuilder/test/widgets/resize_handle_test.dart: ResizeHandle creates widget with required properties
+00:19 +685 -1: /Users/wballard/github/formbuilder/test/widgets/keyboard_handler_test.dart: KeyboardHandler creates widget with required properties
+00:20 +686 -1: /Users/wballard/github/formbuilder/test/widgets/keyboard_handler_test.dart: KeyboardHandler creates widget with required properties
+00:20 +687 -1: /Users/wballard/github/formbuilder/test/widgets/keyboard_handler_test.dart: KeyboardHandler creates widget with required properties
+00:20 +688 -1: /Users/wballard/github/formbuilder/test/widgets/keyboard_handler_test.dart: KeyboardHandler creates widget with required properties
+00:20 +689 -1: /Users/wballard/github/formbuilder/test/widgets/keyboard_handler_test.dart: KeyboardHandler creates widget with required properties
+00:20 +690 -1: /Users/wballard/github/formbuilder/test/widgets/keyboard_handler_test.dart: KeyboardHandler creates widget with required properties
+00:20 +691 -1: /Users/wballard/github/formbuilder/test/widgets/keyboard_handler_test.dart: KeyboardHandler creates widget with required properties
+00:20 +692 -1: /Users/wballard/github/formbuilder/test/widgets/keyboard_handler_test.dart: KeyboardHandler creates widget with required properties
+00:20 +693 -1: /Users/wballard/github/formbuilder/test/widgets/keyboard_handler_test.dart: KeyboardHandler creates widget with required properties
+00:20 +694 -1: /Users/wballard/github/formbuilder/test/widgets/keyboard_handler_test.dart: KeyboardHandler creates widget with required properties
+00:20 +695 -1: /Users/wballard/github/formbuilder/test/widgets/keyboard_handler_test.dart: KeyboardHandler creates widget with required properties
+00:20 +696 -1: /Users/wballard/github/formbuilder/test/widgets/keyboard_handler_test.dart: KeyboardHandler creates widget with required properties
+00:20 +697 -1: /Users/wballard/github/formbuilder/test/widgets/keyboard_handler_test.dart: KeyboardHandler creates widget with required properties
+00:20 +698 -1: /Users/wballard/github/formbuilder/test/widgets/keyboard_handler_test.dart: KeyboardHandler creates widget with required properties
+00:20 +699 -1: /Users/wballard/github/formbuilder/test/widgets/keyboard_handler_test.dart: KeyboardHandler creates widget with required properties
+00:20 +700 -1: /Users/wballard/github/formbuilder/test/widgets/keyboard_handler_test.dart: KeyboardHandler creates widget with required properties
+00:20 +701 -1: /Users/wballard/github/formbuilder/test/widgets/keyboard_handler_test.dart: KeyboardHandler creates widget with required properties
+00:20 +702 -1: /Users/wballard/github/formbuilder/test/widgets/keyboard_handler_test.dart: KeyboardHandler creates widget with required properties
+00:20 +703 -1: /Users/wballard/github/formbuilder/test/widgets/grid_drag_target_test.dart: GridDragTarget creates widget with required properties
+00:20 +704 -1: /Users/wballard/github/formbuilder/test/widgets/grid_drag_target_test.dart: GridDragTarget creates widget with required properties
+00:20 +705 -1: /Users/wballard/github/formbuilder/test/widgets/grid_drag_target_test.dart: GridDragTarget creates widget with required properties
+00:20 +706 -1: /Users/wballard/github/formbuilder/test/widgets/grid_drag_target_test.dart: GridDragTarget creates widget with required properties
+00:20 +707 -1: /Users/wballard/github/formbuilder/test/widgets/grid_drag_target_test.dart: GridDragTarget creates widget with required properties
+00:20 +708 -1: /Users/wballard/github/formbuilder/test/widgets/grid_drag_target_test.dart: GridDragTarget creates widget with required properties
+00:20 +709 -1: /Users/wballard/github/formbuilder/test/widgets/grid_drag_target_test.dart: GridDragTarget creates widget with required properties
+00:20 +710 -1: /Users/wballard/github/formbuilder/test/widgets/grid_drag_target_test.dart: GridDragTarget creates widget with required properties
+00:20 +711 -1: /Users/wballard/github/formbuilder/test/widgets/grid_drag_target_test.dart: GridDragTarget creates widget with required properties
+00:20 +712 -1: /Users/wballard/github/formbuilder/test/widgets/grid_drag_target_test.dart: GridDragTarget creates widget with required properties
+00:20 +713 -1: /Users/wballard/github/formbuilder/test/widgets/grid_drag_target_test.dart: GridDragTarget creates widget with required properties
+00:20 +714 -1: /Users/wballard/github/formbuilder/test/widgets/grid_drag_target_test.dart: GridDragTarget creates widget with required properties
+00:20 +715 -1: /Users/wballard/github/formbuilder/test/widgets/grid_drag_target_test.dart: GridDragTarget creates widget with required properties
+00:20 +716 -1: /Users/wballard/github/formbuilder/test/widgets/grid_drag_target_test.dart: GridDragTarget creates widget with required properties
+00:20 +717 -1: /Users/wballard/github/formbuilder/test/widgets/grid_drag_target_test.dart: GridDragTarget creates widget with required properties
+00:20 +718 -1: /Users/wballard/github/formbuilder/test/widgets/placed_widget_test.dart: PlacedWidget renders child widget
+00:20 +719 -1: /Users/wballard/github/formbuilder/test/widgets/placed_widget_test.dart: PlacedWidget renders child widget
+00:20 +720 -1: /Users/wballard/github/formbuilder/test/widgets/placed_widget_test.dart: PlacedWidget renders child widget
+00:20 +721 -1: /Users/wballard/github/formbuilder/test/widgets/placed_widget_test.dart: PlacedWidget renders child widget
+00:20 +722 -1: /Users/wballard/github/formbuilder/test/widgets/placed_widget_test.dart: PlacedWidget renders child widget
+00:20 +723 -1: /Users/wballard/github/formbuilder/test/widgets/placed_widget_test.dart: PlacedWidget renders child widget
+00:20 +724 -1: /Users/wballard/github/formbuilder/test/widgets/placed_widget_test.dart: PlacedWidget renders child widget
+00:20 +725 -1: /Users/wballard/github/formbuilder/test/widgets/placed_widget_test.dart: PlacedWidget renders child widget
+00:20 +726 -1: /Users/wballard/github/formbuilder/test/widgets/placed_widget_test.dart: PlacedWidget renders child widget
+00:20 +727 -1: /Users/wballard/github/formbuilder/test/widgets/placed_widget_test.dart: PlacedWidget renders child widget
+00:20 +728 -1: /Users/wballard/github/formbuilder/test/widgets/placed_widget_test.dart: PlacedWidget renders child widget
+00:20 +729 -1: /Users/wballard/github/formbuilder/test/widgets/placed_widget_test.dart: PlacedWidget renders child widget
+00:20 +730 -1: /Users/wballard/github/formbuilder/test/widgets/placed_widget_test.dart: PlacedWidget renders child widget
+00:20 +731 -1: /Users/wballard/github/formbuilder/test/widgets/placed_widget_test.dart: PlacedWidget renders child widget
+00:21 +732 -1: /Users/wballard/github/formbuilder/test/widgets/placed_widget_test.dart: PlacedWidget renders child widget
+00:21 +733 -1: /Users/wballard/github/formbuilder/test/widgets/placed_widget_test.dart: PlacedWidget renders child widget
+00:21 +734 -1: /Users/wballard/github/formbuilder/test/widgets/placed_widget_test.dart: PlacedWidget renders child widget
+00:21 +735 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_grid_widget_test.dart: OptimizedGridWidget should use RepaintBoundary
+00:21 +736 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_grid_widget_test.dart: OptimizedGridWidget should use RepaintBoundary
+00:21 +737 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_grid_widget_test.dart: OptimizedGridWidget should use RepaintBoundary
+00:21 +738 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_grid_widget_test.dart: OptimizedGridWidget should use RepaintBoundary
+00:21 +739 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_grid_widget_test.dart: OptimizedGridWidget should use RepaintBoundary
+00:21 +740 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_grid_widget_test.dart: OptimizedGridWidget should use RepaintBoundary
+00:21 +741 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_grid_widget_test.dart: OptimizedGridWidget should use RepaintBoundary
+00:21 +742 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_grid_widget_test.dart: OptimizedGridWidget should use RepaintBoundary
+00:21 +743 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_grid_widget_test.dart: OptimizedGridWidget should use RepaintBoundary
+00:21 +744 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_grid_widget_test.dart: OptimizedGridWidget should use RepaintBoundary
+00:21 +745 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_grid_widget_test.dart: OptimizedGridWidget should use RepaintBoundary
+00:21 +746 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_grid_widget_test.dart: OptimizedGridWidget should use RepaintBoundary
+00:21 +747 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_grid_widget_test.dart: OptimizedGridWidget should use RepaintBoundary
+00:21 +748 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_grid_widget_test.dart: OptimizedGridWidget should use RepaintBoundary
+00:21 +749 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_grid_widget_test.dart: OptimizedGridWidget should use RepaintBoundary
+00:21 +750 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_grid_widget_test.dart: OptimizedGridWidget should use RepaintBoundary
+00:21 +751 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_grid_widget_test.dart: OptimizedGridWidget should use RepaintBoundary
+00:21 +752 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_grid_widget_test.dart: OptimizedGridWidget should use RepaintBoundary
+00:21 +753 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_grid_widget_test.dart: OptimizedGridWidget should use RepaintBoundary
+00:21 +754 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_grid_widget_test.dart: OptimizedGridWidget should use RepaintBoundary
+00:21 +755 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_grid_widget_test.dart: OptimizedGridWidget should use RepaintBoundary
+00:21 +756 -1: /Users/wballard/github/formbuilder/test/widgets/virtual_grid_test.dart: VirtualGrid should only render visible cells
+00:21 +757 -1: /Users/wballard/github/formbuilder/test/widgets/virtual_grid_test.dart: VirtualGrid should only render visible cells
+00:21 +758 -1: /Users/wballard/github/formbuilder/test/widgets/virtual_grid_test.dart: VirtualGrid should only render visible cells
+00:21 +759 -1: /Users/wballard/github/formbuilder/test/widgets/virtual_grid_test.dart: VirtualGrid should only render visible cells
+00:21 +760 -1: /Users/wballard/github/formbuilder/test/widgets/virtual_grid_test.dart: VirtualGrid should only render visible cells
+00:21 +761 -1: /Users/wballard/github/formbuilder/test/widgets/virtual_grid_test.dart: VirtualGrid should only render visible cells
+00:21 +762 -1: /Users/wballard/github/formbuilder/test/widgets/virtual_grid_test.dart: VirtualGrid should only render visible cells
+00:21 +763 -1: /Users/wballard/github/formbuilder/test/widgets/virtual_grid_test.dart: VirtualGrid should only render visible cells
+00:21 +764 -1: /Users/wballard/github/formbuilder/test/widgets/virtual_grid_test.dart: VirtualGrid should only render visible cells
+00:21 +765 -1: /Users/wballard/github/formbuilder/test/widgets/virtual_grid_test.dart: VirtualGrid should only render visible cells
+00:21 +766 -1: /Users/wballard/github/formbuilder/test/widgets/virtual_grid_test.dart: VirtualGrid should only render visible cells
+00:21 +767 -1: /Users/wballard/github/formbuilder/test/widgets/virtual_grid_test.dart: VirtualGrid should only render visible cells
+00:21 +768 -1: /Users/wballard/github/formbuilder/test/widgets/virtual_grid_test.dart: VirtualGrid should only render visible cells
+00:21 +769 -1: /Users/wballard/github/formbuilder/test/widgets/virtual_grid_test.dart: VirtualGrid should only render visible cells
+00:21 +770 -1: /Users/wballard/github/formbuilder/test/widgets/virtual_grid_test.dart: VirtualGrid should only render visible cells
+00:21 +771 -1: /Users/wballard/github/formbuilder/test/widgets/virtual_grid_test.dart: VirtualGrid should only render visible cells
+00:21 +772 -1: /Users/wballard/github/formbuilder/test/widgets/virtual_grid_test.dart: VirtualGrid should only render visible cells
+00:21 +773 -1: /Users/wballard/github/formbuilder/test/widgets/virtual_grid_test.dart: VirtualGrid should only render visible cells
+00:21 +774 -1: /Users/wballard/github/formbuilder/test/widgets/virtual_grid_test.dart: VirtualGrid should only render visible cells
+00:21 +775 -1: /Users/wballard/github/formbuilder/test/widgets/virtual_grid_test.dart: VirtualGrid should only render visible cells
+00:21 +776 -1: /Users/wballard/github/formbuilder/test/widgets/virtual_grid_test.dart: VirtualGrid should only render visible cells
+00:21 +777 -1: /Users/wballard/github/formbuilder/test/widgets/virtual_grid_test.dart: VirtualGrid should only render visible cells
+00:21 +778 -1: /Users/wballard/github/formbuilder/test/widgets/virtual_grid_test.dart: VirtualGrid should only render visible cells
+00:21 +779 -1: /Users/wballard/github/formbuilder/test/widgets/virtual_grid_test.dart: VirtualGrid should only render visible cells
+00:21 +780 -1: /Users/wballard/github/formbuilder/test/widgets/virtual_grid_test.dart: VirtualGrid should only render visible cells
+00:21 +781 -1: /Users/wballard/github/formbuilder/test/widgets/virtual_grid_test.dart: VirtualGrid should only render visible cells
+00:21 +782 -1: /Users/wballard/github/formbuilder/test/widgets/virtual_grid_test.dart: VirtualGrid should only render visible cells
+00:21 +783 -1: /Users/wballard/github/formbuilder/test/widgets/toolbox_widget_test.dart: ToolboxWidget displays all toolbox items
+00:21 +784 -1: /Users/wballard/github/formbuilder/test/widgets/toolbox_widget_test.dart: ToolboxWidget displays all toolbox items
+00:21 +785 -1: /Users/wballard/github/formbuilder/test/widgets/toolbox_widget_test.dart: ToolboxWidget displays all toolbox items
+00:21 +786 -1: /Users/wballard/github/formbuilder/test/widgets/toolbox_widget_test.dart: ToolboxWidget displays all toolbox items
+00:21 +787 -1: /Users/wballard/github/formbuilder/test/widgets/toolbox_widget_test.dart: ToolboxWidget displays all toolbox items
+00:22 +788 -1: /Users/wballard/github/formbuilder/test/widgets/toolbox_widget_test.dart: ToolboxWidget displays all toolbox items
+00:22 +789 -1: /Users/wballard/github/formbuilder/test/widgets/toolbox_widget_test.dart: ToolboxWidget displays all toolbox items
+00:22 +790 -1: /Users/wballard/github/formbuilder/test/widgets/toolbox_widget_test.dart: ToolboxWidget displays all toolbox items
+00:22 +791 -1: /Users/wballard/github/formbuilder/test/widgets/toolbox_widget_test.dart: ToolboxWidget displays all toolbox items
+00:22 +792 -1: /Users/wballard/github/formbuilder/test/widgets/toolbox_widget_test.dart: ToolboxWidget displays all toolbox items
+00:22 +793 -1: /Users/wballard/github/formbuilder/test/widgets/toolbox_widget_test.dart: ToolboxWidget displays all toolbox items
+00:22 +794 -1: /Users/wballard/github/formbuilder/test/widgets/grid_container_test.dart: GridContainer renders grid and placed widgets
+00:22 +795 -1: /Users/wballard/github/formbuilder/test/widgets/grid_container_test.dart: GridContainer renders grid and placed widgets
+00:22 +796 -1: /Users/wballard/github/formbuilder/test/widgets/grid_container_test.dart: GridContainer renders grid and placed widgets
+00:22 +797 -1: /Users/wballard/github/formbuilder/test/widgets/grid_container_test.dart: GridContainer renders grid and placed widgets
+00:22 +798 -1: /Users/wballard/github/formbuilder/test/widgets/grid_container_test.dart: GridContainer renders grid and placed widgets
+00:22 +799 -1: /Users/wballard/github/formbuilder/test/widgets/grid_container_test.dart: GridContainer renders grid and placed widgets
+00:22 +800 -1: /Users/wballard/github/formbuilder/test/widgets/grid_container_test.dart: GridContainer renders grid and placed widgets
+00:22 +801 -1: /Users/wballard/github/formbuilder/test/widgets/grid_container_test.dart: GridContainer renders grid and placed widgets
+00:22 +802 -1: /Users/wballard/github/formbuilder/test/widgets/grid_container_test.dart: GridContainer renders grid and placed widgets
+00:22 +803 -1: /Users/wballard/github/formbuilder/test/widgets/grid_container_test.dart: GridContainer renders grid and placed widgets
+00:22 +804 -1: /Users/wballard/github/formbuilder/test/widgets/grid_container_test.dart: GridContainer renders grid and placed widgets
+00:22 +805 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_value_listenable_test.dart: OptimizedValueListenableBuilder should only rebuild when value changes
+00:22 +806 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_value_listenable_test.dart: OptimizedValueListenableBuilder should only rebuild when value changes
+00:22 +807 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_value_listenable_test.dart: OptimizedValueListenableBuilder should only rebuild when value changes
+00:22 +808 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_value_listenable_test.dart: OptimizedValueListenableBuilder should only rebuild when value changes
+00:22 +809 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_value_listenable_test.dart: OptimizedValueListenableBuilder should only rebuild when value changes
+00:22 +810 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_value_listenable_test.dart: OptimizedValueListenableBuilder should only rebuild when value changes
+00:22 +811 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_value_listenable_test.dart: OptimizedValueListenableBuilder should only rebuild when value changes
+00:22 +812 -1: /Users/wballard/github/formbuilder/test/widgets/optimized_value_listenable_test.dart: OptimizedValueListenableBuilder should only rebuild when value changes
+00:22 +813 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_test.dart: Grid Resize Functionality GridDragTarget accepts onWidgetResize callback
+00:22 +814 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_test.dart: Grid Resize Functionality GridDragTarget accepts onWidgetResize callback
+00:22 +815 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_test.dart: Grid Resize Functionality GridDragTarget accepts onWidgetResize callback
+00:22 +816 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_test.dart: Grid Resize Functionality GridDragTarget accepts onWidgetResize callback
+00:22 +817 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_test.dart: Grid Resize Functionality GridDragTarget accepts onWidgetResize callback
+00:22 +818 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_test.dart: Grid Resize Functionality GridDragTarget accepts onWidgetResize callback
+00:22 +819 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_test.dart: Grid Resize Functionality GridDragTarget accepts onWidgetResize callback
+00:22 +820 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_test.dart: Grid Resize Functionality GridDragTarget accepts onWidgetResize callback
+00:22 +821 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_test.dart: Grid Resize Functionality GridDragTarget accepts onWidgetResize callback
+00:22 +822 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_test.dart: Grid Resize Functionality GridDragTarget accepts onWidgetResize callback
+00:22 +823 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_test.dart: Grid Resize Functionality GridDragTarget accepts onWidgetResize callback
+00:22 +824 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_test.dart: Grid Resize Functionality GridDragTarget accepts onWidgetResize callback
+00:22 +825 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_test.dart: Grid Resize Functionality GridDragTarget accepts onWidgetResize callback
+00:23 +826 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_test.dart: Grid Resize Functionality GridContainer shows resize handles for selected widgets
+00:23 +827 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_test.dart: Grid Resize Functionality GridContainer does not show resize handles for non-selected widgets
+00:23 +828 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_test.dart: Grid Resize Functionality Resize calculations respect minimum dimensions
+00:23 +829 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_test.dart: Grid Resize Functionality Resize calculations respect grid boundaries
+00:23 +830 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_test.dart: Grid Resize Functionality Resize operations prevent overlaps with other widgets
+00:23 +831 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_test.dart: Grid Resize Functionality ResizeData contains correct information
+00:23 +832 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_test.dart: Grid Resize Functionality Resize handle types All 8 resize handle types are present
+00:23 +833 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_test.dart: Grid Resize Functionality Visual feedback Selected widgets show resize handles
+00:23 +834 -1: /Users/wballard/github/formbuilder/test/widgets/grid_resize_test.dart: Grid Resize Functionality Visual feedback Non-selected widgets do not show resize handles
+00:23 +835 -1: Some tests failed.
