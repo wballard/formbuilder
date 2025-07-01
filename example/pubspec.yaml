@@ -1,0 +1,28 @@
+name: formbuilder_example
+description: FormBuilder widget storybook and examples
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # FormBuilder dependency (local path)
+  formbuilder:
+    path: ../
+
+  # Storybook and example dependencies
+  storybook_flutter: ^0.14.1
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true

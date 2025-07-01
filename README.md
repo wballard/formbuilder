@@ -36,7 +36,14 @@ fvm flutter run
 
 ### Run Storybook for development
 ```bash
-fvm flutter run -t lib/storybook_app.dart
+cd example
+fvm flutter run
+```
+
+### Run simple usage example
+```bash
+cd example
+fvm flutter run -t lib/main_simple.dart
 ```
 
 ## Development
