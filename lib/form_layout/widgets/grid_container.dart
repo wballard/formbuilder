@@ -102,31 +102,35 @@ class GridContainer extends StatelessWidget {
       dimensions: layoutState.dimensions,
       placedWidgetCount: layoutState.widgets.length,
       isPreviewMode: isPreviewMode,
-      child: Stack(
-        children: [
-          // Grid background (only show in edit mode)
-          if (!isPreviewMode)
-            AccessibleGridWidget(
-              dimensions: layoutState.dimensions,
-              highlightedCells: highlightedCells,
-              highlightColor: highlightColor,
-              isCellValid: isCellValid,
-              animationSettings: animationSettings,
-              showGridLines: true,
-            ),
-          // Placed widgets overlay
-          LayoutGrid(
-            areas: _generateAreas(),
-            columnSizes: List.generate(
-              layoutState.dimensions.columns,
-              (_) => 1.fr,
-            ),
-            rowSizes: List.generate(layoutState.dimensions.rows, (_) => 1.fr),
-            columnGap: isPreviewMode ? 8 : 0,
-            rowGap: isPreviewMode ? 8 : 0,
-            children: _buildPlacedWidgets(context),
-          ),
-        ],
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // Grid background (only show in edit mode)
+              if (!isPreviewMode)
+                AccessibleGridWidget(
+                  dimensions: layoutState.dimensions,
+                  highlightedCells: highlightedCells,
+                  highlightColor: highlightColor,
+                  isCellValid: isCellValid,
+                  animationSettings: animationSettings,
+                  showGridLines: true,
+                ),
+              // Placed widgets overlay
+              LayoutGrid(
+                areas: _generateAreas(),
+                columnSizes: List.generate(
+                  layoutState.dimensions.columns,
+                  (_) => 1.fr,
+                ),
+                rowSizes: List.generate(layoutState.dimensions.rows, (_) => 1.fr),
+                columnGap: isPreviewMode ? 8 : 0,
+                rowGap: isPreviewMode ? 8 : 0,
+                children: _buildPlacedWidgets(context),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -166,19 +170,21 @@ class GridContainer extends StatelessWidget {
           child: child,
         ).inGridArea(_getAreaName(placement));
       } else {
-        return AccessiblePlacedWidget(
-          placement: placement,
-          isSelected: isSelected,
-          isDragging: isDragging,
-          canDrag: canDragWidgets,
-          showResizeHandles: isSelected && !isDragging && !isResizing,
-          showDeleteButton: isSelected && !isDragging && !isResizing,
-          animationSettings: animationSettings,
-          onTap: onWidgetTap != null ? () => onWidgetTap!(placement.id) : null,
-          onDelete: onWidgetDelete != null
-              ? () => onWidgetDelete!(placement.id)
-              : null,
-          child: child,
+        return RepaintBoundary(
+          child: AccessiblePlacedWidget(
+            placement: placement,
+            isSelected: isSelected,
+            isDragging: isDragging,
+            canDrag: canDragWidgets,
+            showResizeHandles: isSelected && !isDragging && !isResizing,
+            showDeleteButton: isSelected && !isDragging && !isResizing,
+            animationSettings: animationSettings,
+            onTap: onWidgetTap != null ? () => onWidgetTap!(placement.id) : null,
+            onDelete: onWidgetDelete != null
+                ? () => onWidgetDelete!(placement.id)
+                : null,
+            child: child,
+          ),
         ).inGridArea(_getAreaName(placement));
       }
     }).toList();

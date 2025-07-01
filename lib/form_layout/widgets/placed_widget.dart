@@ -170,7 +170,12 @@ class _PlacedWidgetState extends State<PlacedWidget>
       content = AnimatedBuilder(
         animation: _scaleAnimation,
         builder: (context, child) {
-          return Transform.scale(scale: _scaleAnimation.value, child: child);
+          return Transform.scale(
+            scale: _scaleAnimation.value,
+            alignment: Alignment.center,
+            filterQuality: FilterQuality.none,
+            child: child,
+          );
         },
         child: contentForAnimation,
       );

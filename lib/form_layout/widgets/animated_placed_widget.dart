@@ -226,6 +226,8 @@ class _AnimatedPlacedWidgetState extends State<AnimatedPlacedWidget>
           animation: _deleteController,
           builder: (context, child) => Transform.scale(
             scale: _deleteScale.value,
+            alignment: Alignment.center,
+            filterQuality: FilterQuality.none,
             child: Opacity(opacity: _deleteOpacity.value, child: child),
           ),
           child: child,
@@ -236,6 +238,8 @@ class _AnimatedPlacedWidgetState extends State<AnimatedPlacedWidget>
           animation: _entranceController,
           builder: (context, child) => Transform.scale(
             scale: _entranceScale.value,
+            alignment: Alignment.center,
+            filterQuality: FilterQuality.none,
             child: Opacity(opacity: _entranceOpacity.value, child: child),
           ),
           child: child,
@@ -252,6 +256,8 @@ class _AnimatedPlacedWidgetState extends State<AnimatedPlacedWidget>
               final pulseScale = 1.0 + (_pulseAnimation.value * 0.02);
               return Transform.scale(
                 scale: _selectionScale.value * pulseScale,
+                alignment: Alignment.center,
+                filterQuality: FilterQuality.none,
                 child: child,
               );
             },

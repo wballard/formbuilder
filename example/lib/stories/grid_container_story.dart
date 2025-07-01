@@ -5,6 +5,7 @@ import 'package:formbuilder/form_layout/widgets/grid_widget.dart';
 import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
+import 'package:formbuilder/form_layout/models/animation_settings.dart';
 import 'dart:math';
 
 List<Story> get gridContainerStories => [
@@ -324,7 +325,7 @@ class _InteractiveGridContainerDemoState
                       ElevatedButton(
                         onPressed: () {
                           setState(() {
-                            // Highlight a 2x2 area
+                            // Highlight a 2x2 area in top-right
                             _highlightedCells = GridWidget.getCellsInRectangle(
                               4,
                               0,
@@ -333,7 +334,32 @@ class _InteractiveGridContainerDemoState
                             );
                           });
                         },
-                        child: const Text('Highlight Area'),
+                        child: const Text('Highlight Top-Right'),
+                      ),
+
+                      const SizedBox(height: 8),
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            // Highlight a 3x1 area in bottom
+                            _highlightedCells = GridWidget.getCellsInRectangle(
+                              1,
+                              3,
+                              3,
+                              1,
+                            );
+                          });
+                        },
+                        child: const Text('Highlight Bottom'),
+                      ),
+                      
+                      const SizedBox(height: 8),
+                      Text(
+                        'Highlighted cells: ${_highlightedCells?.length ?? 0}',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey,
+                        ),
                       ),
                     ],
                   ),
@@ -365,6 +391,8 @@ class _InteractiveGridContainerDemoState
                       selectedWidgetId: _selectedWidgetId,
                       draggingWidgetIds: _draggingWidgetIds,
                       highlightedCells: _highlightedCells,
+                      highlightColor: Colors.blue.withValues(alpha: 0.3),
+                      animationSettings: const AnimationSettings(enabled: false),
                       onWidgetTap: (widgetId) {
                         setState(() {
                           _selectedWidgetId = _selectedWidgetId == widgetId

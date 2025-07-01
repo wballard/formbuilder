@@ -399,6 +399,7 @@ class CellHighlightingDemo extends StatelessWidget {
                               const Point(0, 1),
                               const Point(1, 1),
                             },
+                            highlightColor: Colors.blue.withValues(alpha: 0.3),
                           ),
                         ),
                       ],
@@ -449,6 +450,8 @@ class CellHighlightingDemo extends StatelessWidget {
               child: GridWidget(
                 dimensions: const GridDimensions(columns: 6, rows: 4),
                 highlightedCells: GridWidget.getCellsInRectangle(1, 1, 4, 2),
+                highlightColor: Colors.orange.withValues(alpha: 0.3),
+                invalidHighlightColor: Colors.red.withValues(alpha: 0.3),
                 isCellValid: (cell) {
                   // Make cells at (2,1) and (3,2) invalid
                   return !(cell == const Point(2, 1) ||
@@ -473,7 +476,7 @@ class InteractiveHighlightingDemo extends StatefulWidget {
 
 class _InteractiveHighlightingDemoState
     extends State<InteractiveHighlightingDemo> {
-  final Set<Point<int>> _highlightedCells = {};
+  Set<Point<int>> _highlightedCells = <Point<int>>{};
   final int _columns = 6;
   final int _rows = 6;
 
@@ -500,7 +503,7 @@ class _InteractiveHighlightingDemoState
                 ElevatedButton(
                   onPressed: () {
                     setState(() {
-                      _highlightedCells.clear();
+                      _highlightedCells = <Point<int>>{};
                     });
                   },
                   child: const Text('Clear All'),
@@ -513,9 +516,10 @@ class _InteractiveHighlightingDemoState
                       final random = Random();
                       final col = random.nextInt(_columns - 1);
                       final row = random.nextInt(_rows - 1);
-                      _highlightedCells.addAll(
-                        GridWidget.getCellsInRectangle(col, row, 2, 2),
-                      );
+                      _highlightedCells = {
+                        ..._highlightedCells,
+                        ...GridWidget.getCellsInRectangle(col, row, 2, 2),
+                      };
                     });
                   },
                   child: const Text('Add Random 2x2'),
@@ -544,9 +548,9 @@ class _InteractiveHighlightingDemoState
                         setState(() {
                           final cell = Point(col, row);
                           if (_highlightedCells.contains(cell)) {
-                            _highlightedCells.remove(cell);
+                            _highlightedCells = _highlightedCells.where((c) => c != cell).toSet();
                           } else {
-                            _highlightedCells.add(cell);
+                            _highlightedCells = {..._highlightedCells, cell};
                           }
                         });
                       }
@@ -557,6 +561,7 @@ class _InteractiveHighlightingDemoState
                         rows: _rows,
                       ),
                       highlightedCells: _highlightedCells,
+                      highlightColor: Colors.blue.withValues(alpha: 0.3),
                     ),
                   );
                 },
