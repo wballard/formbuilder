@@ -109,9 +109,14 @@ class SimpleFormBuilderDemo extends StatelessWidget {
               children: [
                 const Icon(Icons.info_outline),
                 const SizedBox(width: 8),
-                const Text('This is a simple demo. For comprehensive examples, see the '),
-                TextButton(
-                  onPressed: () {
+                Expanded(
+                  child: Wrap(
+                    alignment: WrapAlignment.start,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      const Text('This is a simple demo. For comprehensive examples, see the '),
+                      TextButton(
+                        onPressed: () {
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
@@ -133,6 +138,9 @@ class SimpleFormBuilderDemo extends StatelessWidget {
                     );
                   },
                   child: const Text('example directory'),
+                ),
+                    ],
+                  ),
                 ),
               ],
             ),

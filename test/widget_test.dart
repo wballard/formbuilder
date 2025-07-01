@@ -8,9 +8,9 @@ void main() {
     await tester.pumpWidget(const FormBuilderApp());
 
     // Verify that the app shows the title
-    expect(find.text('FormBuilder'), findsOneWidget);
+    expect(find.text('FormBuilder - Simple Demo'), findsOneWidget);
 
-    // Verify that the demo text is shown
-    expect(find.text('FormLayout Widget Demo'), findsOneWidget);
+    // Verify that the demo info text is shown
+    expect(find.text('This is a simple demo. For comprehensive examples, see the '), findsOneWidget);
   });
 }
