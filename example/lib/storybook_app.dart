@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
 // Import all story categories
-// TODO: Fix story implementations to match actual FormBuilder API
-// import 'stories/components/components_stories.dart';
-// import 'stories/features/features_stories.dart';
-// import 'stories/layouts/layouts_stories.dart';
-// import 'stories/themes/themes_stories.dart';
-// import 'stories/integration/integration_stories.dart';
-// import 'stories/playground/playground_stories.dart';
-// import 'stories/use_cases/use_cases_stories.dart';
-// import 'stories/performance/performance_stories.dart';
-// import 'stories/documentation/documentation_stories.dart';
+import 'stories/components/components_stories.dart';
+import 'stories/features/features_stories.dart';
+import 'stories/layouts/layouts_stories.dart';
+import 'stories/themes/themes_stories.dart';
+import 'stories/integration/integration_stories.dart';
+import 'stories/playground/playground_stories.dart';
+import 'stories/use_cases/use_cases_stories.dart';
+import 'stories/performance/performance_stories.dart';
+import 'stories/documentation/documentation_stories.dart';
 
 // Import legacy stories
 import 'stories/models_story.dart';
@@ -48,30 +47,16 @@ class StorybookApp extends StatelessWidget {
           builder: (context) => const WelcomePage(),
         ),
         
-        // TODO: Implement comprehensive stories once API is corrected
-        // Components Section
-        Story(
-          name: 'Components/Coming Soon',
-          builder: (context) => const Center(
-            child: Text('Component stories coming soon - API needs alignment'),
-          ),
-        ),
-        
-        // Features Section  
-        Story(
-          name: 'Features/Coming Soon',
-          builder: (context) => const Center(
-            child: Text('Feature stories coming soon - API needs alignment'),
-          ),
-        ),
-        
-        // Layouts Section
-        Story(
-          name: 'Layouts/Coming Soon',
-          builder: (context) => const Center(
-            child: Text('Layout stories coming soon - API needs alignment'),
-          ),
-        ),
+        // Comprehensive story categories
+        ...componentStories,
+        ...featureStories,
+        ...layoutStories,
+        ...themesStories,
+        ...integrationStories,
+        ...playgroundStories,
+        ...useCasesStories,
+        ...performanceStories,
+        ...documentationStories,
         
         // Legacy stories (keeping for backward compatibility)
         Story(
