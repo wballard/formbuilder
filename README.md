@@ -1,20 +1,32 @@
 # FormBuilder
 
+[![Flutter CI](https://github.com/wballard/formbuilder/actions/workflows/ci.yml/badge.svg)](https://github.com/wballard/formbuilder/actions/workflows/ci.yml)
+[![Storybook](https://img.shields.io/badge/storybook-live-ff4785)](https://wballard.github.io/formbuilder/)
+
 A Flutter widget library that provides drag-and-drop form building capabilities using a grid layout system.
+
+## 🚀 Live Demo
+
+Check out the [interactive Storybook](https://wballard.github.io/formbuilder/) to explore all components and features.
 
 ## Project Structure
 
 ```
 lib/
-├── main.dart                    # Main application entry point
-├── storybook_app.dart          # Storybook for component development
+├── main.dart                    # Simple demo application
+├── formbuilder.dart            # Package export file
 └── form_layout/                # FormLayout widget package
     ├── widgets/                # UI components
     ├── models/                 # Data models
     ├── hooks/                  # Custom Flutter hooks
     ├── intents/                # Intent/Action definitions
     └── utils/                  # Utility functions
-└── stories/                    # Storybook stories
+example/
+├── lib/
+│   ├── main.dart               # Storybook showcase
+│   ├── main_simple.dart        # Simple usage example
+│   └── stories/                # Storybook stories
+└── README.md                   # Example documentation
 ```
 
 ## Features

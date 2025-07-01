@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:storybook_flutter/storybook_flutter.dart';
-import 'package:formbuilder/form_layout/widgets/toolbox_widget.dart';
 import 'package:formbuilder/form_layout/models/toolbox_item.dart';
-import 'package:formbuilder/stories/toolbox_widget_story_drag.dart';
+import 'package:formbuilder/form_layout/widgets/toolbox_widget.dart';
+import 'package:formbuilder_example/stories/toolbox_widget_story_drag.dart';
+import 'package:storybook_flutter/storybook_flutter.dart';
 
 List<Story> get toolboxWidgetStories => [
   Story(
