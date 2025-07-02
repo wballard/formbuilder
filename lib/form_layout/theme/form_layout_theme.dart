@@ -17,6 +17,7 @@ class FormLayoutTheme {
     this.widgetBorderRadius = const BorderRadius.all(Radius.circular(4.0)),
     this.elevations = 2.0,
     this.defaultPadding = const EdgeInsets.all(8.0),
+    this.rowHeight = 56.0, // Default 4 ems (4 * 14px default font size)
   });
 
   final Color gridLineColor;
@@ -29,6 +30,7 @@ class FormLayoutTheme {
   final BorderRadius widgetBorderRadius;
   final double elevations;
   final EdgeInsets defaultPadding;
+  final double rowHeight;
 
   static FormLayoutTheme of(BuildContext context) {
     final theme = context
@@ -57,6 +59,7 @@ class FormLayoutTheme {
       widgetBorderRadius: const BorderRadius.all(Radius.circular(4.0)),
       elevations: 2.0,
       defaultPadding: const EdgeInsets.all(8.0),
+      rowHeight: 56.0, // Default 4 ems
     );
   }
 
@@ -76,6 +79,7 @@ class FormLayoutTheme {
       widgetBorderRadius: BorderRadius.all(Radius.circular(4.0)),
       elevations: 2.0,
       defaultPadding: EdgeInsets.all(8.0),
+      rowHeight: 56.0, // Default 4 ems
     );
   }
 
@@ -95,6 +99,7 @@ class FormLayoutTheme {
       widgetBorderRadius: BorderRadius.all(Radius.circular(8.0)),
       elevations: 0.0,
       defaultPadding: EdgeInsets.all(12.0),
+      rowHeight: 56.0, // Default 4 ems
     );
   }
 
@@ -114,6 +119,7 @@ class FormLayoutTheme {
       widgetBorderRadius: BorderRadius.all(Radius.circular(2.0)),
       elevations: 4.0,
       defaultPadding: EdgeInsets.all(12.0),
+      rowHeight: 56.0, // Default 4 ems
     );
   }
 
@@ -128,6 +134,7 @@ class FormLayoutTheme {
     BorderRadius? widgetBorderRadius,
     double? elevations,
     EdgeInsets? defaultPadding,
+    double? rowHeight,
   }) {
     return FormLayoutTheme(
       gridLineColor: gridLineColor ?? this.gridLineColor,
@@ -141,6 +148,7 @@ class FormLayoutTheme {
       widgetBorderRadius: widgetBorderRadius ?? this.widgetBorderRadius,
       elevations: elevations ?? this.elevations,
       defaultPadding: defaultPadding ?? this.defaultPadding,
+      rowHeight: rowHeight ?? this.rowHeight,
     );
   }
 
@@ -158,7 +166,8 @@ class FormLayoutTheme {
         other.labelStyle == labelStyle &&
         other.widgetBorderRadius == widgetBorderRadius &&
         other.elevations == elevations &&
-        other.defaultPadding == defaultPadding;
+        other.defaultPadding == defaultPadding &&
+        other.rowHeight == rowHeight;
   }
 
   @override
@@ -174,6 +183,7 @@ class FormLayoutTheme {
       widgetBorderRadius,
       elevations,
       defaultPadding,
+      rowHeight,
     );
   }
 }

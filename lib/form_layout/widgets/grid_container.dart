@@ -7,6 +7,7 @@ import 'package:formbuilder/form_layout/widgets/safe_hit_test_wrapper.dart';
 import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
 import 'package:formbuilder/form_layout/models/animation_settings.dart';
+import 'package:formbuilder/form_layout/theme/form_layout_theme.dart';
 import 'dart:math';
 
 /// Container that combines GridWidget with PlacedWidgets
@@ -99,6 +100,8 @@ class GridContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = FormLayoutTheme.of(context);
+    
     return AccessibleGridSemantics(
       dimensions: layoutState.dimensions,
       placedWidgetCount: layoutState.widgets.length,
@@ -114,7 +117,10 @@ class GridContainer extends StatelessWidget {
                   layoutState.dimensions.columns,
                   (_) => 1.fr,
                 ),
-                rowSizes: List.generate(layoutState.dimensions.rows, (_) => 1.fr),
+                rowSizes: List.generate(
+                  layoutState.dimensions.rows, 
+                  (_) => FixedTrackSize(theme.rowHeight),
+                ),
                 columnGap: isPreviewMode ? 8 : 0,
                 rowGap: isPreviewMode ? 8 : 0,
                 children: _buildPlacedWidgets(context),

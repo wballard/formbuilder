@@ -1,0 +1,1 @@
+There is no need for a main in ./lib for the widget library -- we just need a main for the storybook.

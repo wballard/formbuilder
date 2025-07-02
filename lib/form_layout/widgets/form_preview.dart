@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
+import 'package:formbuilder/form_layout/theme/form_layout_theme.dart';
 
 /// Widget that renders a form in preview mode without editing capabilities
 class FormPreview extends StatelessWidget {
@@ -28,6 +29,8 @@ class FormPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = FormLayoutTheme.of(context);
+    
     return Container(
       decoration: BoxDecoration(
         color: backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
@@ -42,7 +45,10 @@ class FormPreview extends StatelessWidget {
               layoutState.dimensions.columns,
               (_) => 1.fr,
             ),
-            rowSizes: List.generate(layoutState.dimensions.rows, (_) => 1.fr),
+            rowSizes: List.generate(
+              layoutState.dimensions.rows, 
+              (_) => FixedTrackSize(theme.rowHeight),
+            ),
             columnGap: 8,
             rowGap: 8,
             children: _buildPreviewWidgets(context),
