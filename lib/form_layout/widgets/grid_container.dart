@@ -106,17 +106,7 @@ class GridContainer extends StatelessWidget {
         builder: (context, constraints) {
           return Stack(
             children: [
-              // Grid background (only show in edit mode)
-              if (!isPreviewMode)
-                AccessibleGridWidget(
-                  dimensions: layoutState.dimensions,
-                  highlightedCells: highlightedCells,
-                  highlightColor: highlightColor,
-                  isCellValid: isCellValid,
-                  animationSettings: animationSettings,
-                  showGridLines: true,
-                ),
-              // Placed widgets overlay
+              // Placed widgets layer
               LayoutGrid(
                 areas: _generateAreas(),
                 columnSizes: List.generate(
@@ -128,6 +118,20 @@ class GridContainer extends StatelessWidget {
                 rowGap: isPreviewMode ? 8 : 0,
                 children: _buildPlacedWidgets(context),
               ),
+              // Grid lines overlay (only show in edit mode)
+              if (!isPreviewMode)
+                IgnorePointer(
+                  child: AccessibleGridWidget(
+                    dimensions: layoutState.dimensions,
+                    lineColor: Colors.black54, // Darker grid lines for better visibility
+                    lineWidth: 1.5, // Slightly thicker lines
+                    highlightedCells: highlightedCells,
+                    highlightColor: highlightColor,
+                    isCellValid: isCellValid,
+                    animationSettings: animationSettings,
+                    showGridLines: true,
+                  ),
+                ),
             ],
           );
         },
@@ -166,7 +170,7 @@ class GridContainer extends StatelessWidget {
       // Wrap in PlacedWidget (or simple container in preview mode)
       if (isPreviewMode) {
         return Container(
-          padding: const EdgeInsets.all(4),
+          padding: const EdgeInsets.all(4), // Keep simple padding for preview mode
           child: child,
         ).inGridArea(_getAreaName(placement));
       } else {

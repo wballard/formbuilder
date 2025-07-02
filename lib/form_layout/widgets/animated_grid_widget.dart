@@ -68,7 +68,9 @@ class _AnimatedGridWidgetState extends State<AnimatedGridWidget>
       vsync: this,
     );
 
-    _gridLinesOpacity = Tween<double>(begin: 0.0, end: 1.0).animate(
+    // Start with visible grid lines if showGridLines is true
+    final initialValue = widget.showGridLines ? 1.0 : 0.0;
+    _gridLinesOpacity = Tween<double>(begin: initialValue, end: 1.0).animate(
       CurvedAnimation(
         parent: _gridLinesController,
         curve: widget.animationSettings.defaultCurve,
@@ -76,7 +78,7 @@ class _AnimatedGridWidgetState extends State<AnimatedGridWidget>
     );
 
     if (widget.showGridLines) {
-      _gridLinesController.forward();
+      _gridLinesController.value = 1.0; // Set immediately to full opacity
     }
   }
 
@@ -87,9 +89,18 @@ class _AnimatedGridWidgetState extends State<AnimatedGridWidget>
     // Handle grid lines visibility change
     if (widget.showGridLines != oldWidget.showGridLines) {
       if (widget.showGridLines) {
-        _gridLinesController.forward();
+        // Immediately show grid lines if animations are disabled, otherwise animate
+        if (widget.animationSettings.enabled) {
+          _gridLinesController.forward();
+        } else {
+          _gridLinesController.value = 1.0;
+        }
       } else {
-        _gridLinesController.reverse();
+        if (widget.animationSettings.enabled) {
+          _gridLinesController.reverse();
+        } else {
+          _gridLinesController.value = 0.0;
+        }
       }
     }
 
@@ -177,9 +188,11 @@ class _AnimatedGridWidgetState extends State<AnimatedGridWidget>
           return CustomPaint(
             painter: _AnimatedGridPainter(
               dimensions: widget.dimensions,
-              lineColor: widget.lineColor.withValues(
-                alpha: _gridLinesOpacity.value,
-              ),
+              lineColor: widget.showGridLines 
+                  ? widget.lineColor.withValues(
+                      alpha: widget.lineColor.a * _gridLinesOpacity.value,
+                    )
+                  : Colors.transparent,
               lineWidth: widget.lineWidth,
               backgroundColor: widget.backgroundColor,
               highlightedCells: animatedHighlightedCells,
@@ -187,7 +200,7 @@ class _AnimatedGridWidgetState extends State<AnimatedGridWidget>
               highlightOpacities: highlightOpacities,
               isCellValid: widget.isCellValid,
             ),
-            child: child,
+            child: Container(), // Empty container as child
           );
         },
       );

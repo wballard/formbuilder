@@ -67,9 +67,9 @@ void main() {
       expect(decoration, isNotNull);
       expect(decoration!.border, isNotNull);
 
-      // Check that the border uses the primary color
+      // Check that the border uses the primary color and theme thickness
       final border = decoration.border as Border;
-      expect(border.top.width, equals(2.0));
+      expect(border.top.width, equals(1.0)); // Default divider thickness
     });
 
     testWidgets('reduces opacity when dragging', (WidgetTester tester) async {
@@ -93,7 +93,7 @@ void main() {
         ),
       );
 
-      expect(opacity.opacity, equals(0.5));
+      expect(opacity.opacity, equals(0.6)); // Updated value from our improvements
     });
 
     testWidgets('applies content padding', (WidgetTester tester) async {
@@ -211,7 +211,7 @@ void main() {
       final widget = tester.widget<PlacedWidget>(find.byType(PlacedWidget));
       expect(widget.isSelected, isFalse);
       expect(widget.isDragging, isFalse);
-      expect(widget.contentPadding, equals(const EdgeInsets.all(8)));
+      expect(widget.contentPadding, isNull); // Now defaults to null and uses theme
       expect(widget.onTap, isNull);
     });
 
@@ -286,7 +286,7 @@ void main() {
           matching: find.byType(Opacity),
         ),
       );
-      expect(opacity.opacity, equals(0.5));
+      expect(opacity.opacity, equals(0.6)); // Updated value from our improvements
 
       // Should still have border - find container inside InkWell
       final container = tester.widget<Container>(

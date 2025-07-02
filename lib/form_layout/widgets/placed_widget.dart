@@ -25,7 +25,7 @@ class PlacedWidget extends StatefulWidget {
   final bool isDragging;
 
   /// Padding around the content
-  final EdgeInsets contentPadding;
+  final EdgeInsets? contentPadding;
 
   /// Whether this widget can be dragged
   final bool canDrag;
@@ -64,7 +64,7 @@ class PlacedWidget extends StatefulWidget {
     this.onTap,
     this.isSelected = false,
     this.isDragging = false,
-    this.contentPadding = const EdgeInsets.all(8),
+    this.contentPadding,
     this.canDrag = false,
     this.onDragStarted,
     this.onDragEnd,
@@ -91,12 +91,12 @@ class _PlacedWidgetState extends State<PlacedWidget>
   void initState() {
     super.initState();
     _scaleController = AnimationController(
-      duration: const Duration(milliseconds: 150),
+      duration: const Duration(milliseconds: 150), // Keep short duration for responsiveness
       vsync: this,
     );
     _scaleAnimation = Tween<double>(
       begin: 1.0,
-      end: 1.05,
+      end: 1.025, // Slightly less scale to be more subtle
     ).animate(CurvedAnimation(parent: _scaleController, curve: Curves.easeOut));
   }
 
@@ -123,7 +123,7 @@ class _PlacedWidgetState extends State<PlacedWidget>
 
     // Build the content
     Widget content = Padding(
-      padding: widget.contentPadding,
+      padding: widget.contentPadding ?? formTheme.defaultPadding,
       child: widget.child,
     );
 
@@ -138,7 +138,10 @@ class _PlacedWidgetState extends State<PlacedWidget>
         child: Container(
           decoration: BoxDecoration(
             border: widget.isSelected
-                ? Border.all(color: formTheme.selectionBorderColor, width: 2.0)
+                ? Border.all(
+                    color: formTheme.selectionBorderColor, 
+                    width: Theme.of(context).dividerTheme.thickness ?? 1.0,
+                  )
                 : null,
             borderRadius: formTheme.widgetBorderRadius,
           ),
@@ -149,7 +152,7 @@ class _PlacedWidgetState extends State<PlacedWidget>
 
     // Apply dragging opacity
     if (widget.isDragging) {
-      content = Opacity(opacity: 0.5, child: content);
+      content = Opacity(opacity: 0.6, child: content); // Slightly more visible when dragging
     }
 
     // Add mouse region for desktop hover effects
@@ -310,15 +313,24 @@ class _PlacedWidgetState extends State<PlacedWidget>
                 RemoveWidgetIntent(widgetId: widget.placement.id),
               );
             },
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(
+              (Theme.of(context).iconTheme.size ?? 24) / 2,
+            ),
             child: Container(
-              width: 24,
-              height: 24,
+              width: Theme.of(context).iconTheme.size ?? 24,
+              height: Theme.of(context).iconTheme.size ?? 24,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 1.5),
+                border: Border.all(
+                  color: Colors.white, 
+                  width: Theme.of(context).dividerTheme.thickness ?? 1.0,
+                ),
               ),
-              child: const Icon(Icons.close, size: 16, color: Colors.white),
+              child: Icon(
+                Icons.close, 
+                size: (Theme.of(context).iconTheme.size ?? 24) * 0.67, // 2/3 of container size
+                color: Colors.white,
+              ),
             ),
           ),
         ),
@@ -336,7 +348,7 @@ class DraggingPlacedWidget extends StatelessWidget {
   final Widget child;
 
   /// Padding around the content
-  final EdgeInsets contentPadding;
+  final EdgeInsets? contentPadding;
 
   /// Animation settings
   final AnimationSettings animationSettings;
@@ -345,23 +357,28 @@ class DraggingPlacedWidget extends StatelessWidget {
     super.key,
     required this.placement,
     required this.child,
-    this.contentPadding = const EdgeInsets.all(8),
+    this.contentPadding,
     this.animationSettings = const AnimationSettings(),
   });
 
   @override
   Widget build(BuildContext context) {
+    final formTheme = FormLayoutTheme.of(context);
+    
     // Build the content
-    Widget content = Padding(padding: contentPadding, child: child);
+    Widget content = Padding(
+      padding: contentPadding ?? formTheme.defaultPadding, 
+      child: child,
+    );
 
     // Wrap in Material for elevation and shadow
     content = Material(
-      elevation: 8.0,
-      borderRadius: BorderRadius.circular(4),
-      color: Colors.white,
+      elevation: formTheme.elevations * 4, // Higher elevation for drag feedback
+      borderRadius: formTheme.widgetBorderRadius,
+      color: Theme.of(context).colorScheme.surface,
       shadowColor: Colors.black.withValues(alpha: 0.3),
       child: Container(
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(4)),
+        decoration: BoxDecoration(borderRadius: formTheme.widgetBorderRadius),
         child: content,
       ),
     );
@@ -369,7 +386,7 @@ class DraggingPlacedWidget extends StatelessWidget {
     // Wrap with animated drag feedback
     return AnimatedDragFeedback(
       animationSettings: animationSettings,
-      opacity: 0.7,
+      opacity: 0.75, // Slightly more visible
       child: content,
     );
   }
