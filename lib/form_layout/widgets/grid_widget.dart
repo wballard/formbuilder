@@ -141,30 +141,40 @@ class _GridWidgetState extends State<GridWidget> with TickerProviderStateMixin {
     final effectiveInvalidColor =
         widget.invalidHighlightColor ?? formTheme.invalidDropColor;
 
-    return Container(
-      color: effectiveBackgroundColor,
-      child: Padding(
-        padding: effectivePadding,
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: effectiveGridLineColor,
-              width: widget.gridLineWidth,
+    // Calculate the intrinsic height based on row count and row height
+    // Add border width to prevent overflow
+    final gridHeight = widget.dimensions.rows * formTheme.rowHeight + (widget.gridLineWidth * 2);
+
+    // Calculate total height including padding
+    final totalHeight = gridHeight + effectivePadding.vertical;
+    
+    return SizedBox(
+      height: totalHeight,
+      child: Container(
+        color: effectiveBackgroundColor,
+        child: Padding(
+          padding: effectivePadding,
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: effectiveGridLineColor,
+                width: widget.gridLineWidth,
+              ),
             ),
-          ),
-          child: LayoutGrid(
-            areas: _generateAreas(),
-            columnSizes: List.generate(widget.dimensions.columns, (_) => 1.fr),
-            rowSizes: List.generate(
-              widget.dimensions.rows, 
-              (_) => FixedTrackSize(formTheme.rowHeight),
-            ),
-            columnGap: 0,
-            rowGap: 0,
-            children: _generateCells(
-              effectiveHighlightColor,
-              effectiveInvalidColor,
-              effectiveGridLineColor,
+            child: LayoutGrid(
+              areas: _generateAreas(),
+              columnSizes: List.generate(widget.dimensions.columns, (_) => 1.fr),
+              rowSizes: List.generate(
+                widget.dimensions.rows, 
+                (_) => FixedTrackSize(formTheme.rowHeight),
+              ),
+              columnGap: 0,
+              rowGap: 0,
+              children: _generateCells(
+                effectiveHighlightColor,
+                effectiveInvalidColor,
+                effectiveGridLineColor,
+              ),
             ),
           ),
         ),

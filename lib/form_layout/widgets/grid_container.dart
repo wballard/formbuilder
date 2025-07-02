@@ -102,14 +102,20 @@ class GridContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = FormLayoutTheme.of(context);
     
-    return AccessibleGridSemantics(
-      dimensions: layoutState.dimensions,
-      placedWidgetCount: layoutState.widgets.length,
-      isPreviewMode: isPreviewMode,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
+    // Calculate grid height based on rows
+    final gridHeight = layoutState.dimensions.rows * theme.rowHeight;
+    
+    return SizedBox(
+      height: gridHeight,
+      child: AccessibleGridSemantics(
+        dimensions: layoutState.dimensions,
+        placedWidgetCount: layoutState.widgets.length,
+        isPreviewMode: isPreviewMode,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+          
           return Stack(
-            children: [
+              children: [
               // Placed widgets layer
               LayoutGrid(
                 areas: _generateAreas(),
@@ -139,9 +145,10 @@ class GridContainer extends StatelessWidget {
                     showGridLines: true,
                   ),
                 ),
-            ],
-          );
+              ],
+            );
         },
+      ),
       ),
     );
   }
