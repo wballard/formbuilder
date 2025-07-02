@@ -121,10 +121,10 @@ class _PlacedWidgetState extends State<PlacedWidget>
       elevation = formTheme.elevations * 2;
     }
 
-    // Build the content
+    // Build the content - wrap child with RepaintBoundary for performance
     Widget content = Padding(
       padding: widget.contentPadding ?? formTheme.defaultPadding,
-      child: widget.child,
+      child: RepaintBoundary(child: widget.child),
     );
 
     // Wrap in Material for elevation and ink effects
@@ -149,6 +149,8 @@ class _PlacedWidgetState extends State<PlacedWidget>
         ),
       ),
     );
+
+    // Don't wrap with RepaintBoundary here - it causes issues with grid layout
 
     // Apply dragging opacity
     if (widget.isDragging) {
@@ -191,7 +193,7 @@ class _PlacedWidgetState extends State<PlacedWidget>
           contentPadding: widget.contentPadding,
           child: widget.child,
         ),
-        childWhenDragging: Container(),
+        childWhenDragging: const SizedBox.shrink(),
         onDragStarted: () {
           _scaleController.forward();
           widget.onDragStarted?.call(widget.placement);

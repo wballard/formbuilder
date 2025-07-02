@@ -3,6 +3,7 @@ import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:formbuilder/form_layout/widgets/accessible_grid_widget.dart';
 import 'package:formbuilder/form_layout/widgets/accessible_placed_widget.dart';
 import 'package:formbuilder/form_layout/widgets/resize_handle.dart';
+import 'package:formbuilder/form_layout/widgets/safe_hit_test_wrapper.dart';
 import 'package:formbuilder/form_layout/models/layout_state.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
 import 'package:formbuilder/form_layout/models/animation_settings.dart';
@@ -174,7 +175,8 @@ class GridContainer extends StatelessWidget {
           child: child,
         ).inGridArea(_getAreaName(placement));
       } else {
-        return RepaintBoundary(
+        // Wrap in SafeHitTestWrapper to prevent hit test errors with multi-cell widgets
+        return SafeHitTestWrapper(
           child: AccessiblePlacedWidget(
             placement: placement,
             isSelected: isSelected,
@@ -187,6 +189,9 @@ class GridContainer extends StatelessWidget {
             onDelete: onWidgetDelete != null
                 ? () => onWidgetDelete!(placement.id)
                 : null,
+            onDragStarted: onWidgetDragStarted,
+            onDragEnd: onWidgetDragEnd,
+            onDragCompleted: onWidgetDragCompleted,
             child: child,
           ),
         ).inGridArea(_getAreaName(placement));

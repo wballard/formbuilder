@@ -515,8 +515,8 @@ void main() {
           find.byType(Draggable<WidgetPlacement>),
         );
 
-        // childWhenDragging should be empty
-        expect(draggable.childWhenDragging, isA<Container>());
+        // childWhenDragging should be a SizedBox.shrink()
+        expect(draggable.childWhenDragging, isA<SizedBox>());
       });
     });
 

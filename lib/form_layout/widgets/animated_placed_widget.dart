@@ -44,6 +44,15 @@ class AnimatedPlacedWidget extends StatefulWidget {
   /// Callback when delete animation completes
   final VoidCallback? onDeleteAnimationComplete;
 
+  /// Callback when drag starts
+  final void Function(WidgetPlacement)? onDragStarted;
+
+  /// Callback when drag ends
+  final VoidCallback? onDragEnd;
+
+  /// Callback when drag is completed
+  final void Function(DraggableDetails)? onDragCompleted;
+
   const AnimatedPlacedWidget({
     super.key,
     required this.placement,
@@ -59,6 +68,9 @@ class AnimatedPlacedWidget extends StatefulWidget {
     this.animationSettings = const AnimationSettings(),
     this.isDeleting = false,
     this.onDeleteAnimationComplete,
+    this.onDragStarted,
+    this.onDragEnd,
+    this.onDragCompleted,
   });
 
   @override
@@ -215,6 +227,9 @@ class _AnimatedPlacedWidgetState extends State<AnimatedPlacedWidget>
       onDelete: widget.onDelete,
       showDeleteButton: widget.showDeleteButton && !widget.isDeleting,
       showResizeHandles: widget.showResizeHandles,
+      onDragStarted: widget.onDragStarted,
+      onDragEnd: widget.onDragEnd,
+      onDragCompleted: widget.onDragCompleted,
       child: widget.child,
     );
 

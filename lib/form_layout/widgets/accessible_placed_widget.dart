@@ -48,6 +48,15 @@ class AccessiblePlacedWidget extends StatefulWidget {
   /// Callback when delete animation completes
   final VoidCallback? onDeleteAnimationComplete;
 
+  /// Callback when drag starts
+  final void Function(WidgetPlacement)? onDragStarted;
+
+  /// Callback when drag ends
+  final VoidCallback? onDragEnd;
+
+  /// Callback when drag is completed
+  final void Function(DraggableDetails)? onDragCompleted;
+
   const AccessiblePlacedWidget({
     super.key,
     required this.placement,
@@ -63,6 +72,9 @@ class AccessiblePlacedWidget extends StatefulWidget {
     this.animationSettings = const AnimationSettings(),
     this.isDeleting = false,
     this.onDeleteAnimationComplete,
+    this.onDragStarted,
+    this.onDragEnd,
+    this.onDragCompleted,
   });
 
   @override
@@ -183,6 +195,9 @@ class _AccessiblePlacedWidgetState extends State<AccessiblePlacedWidget> {
       animationSettings: widget.animationSettings,
       isDeleting: widget.isDeleting,
       onDeleteAnimationComplete: widget.onDeleteAnimationComplete,
+      onDragStarted: widget.onDragStarted,
+      onDragEnd: widget.onDragEnd,
+      onDragCompleted: widget.onDragCompleted,
       child: widget.child,
     );
 
