@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:formbuilder/form_layout/models/widget_placement.dart';
 import 'package:formbuilder/form_layout/models/animation_settings.dart';
 import 'package:formbuilder/form_layout/widgets/animated_placed_widget.dart';
+import 'package:formbuilder/form_layout/widgets/resize_handle.dart';
 import 'package:formbuilder/form_layout/utils/accessibility_utils.dart';
 import 'package:formbuilder/form_layout/intents/form_layout_intents.dart';
 import 'dart:math';
@@ -57,6 +58,15 @@ class AccessiblePlacedWidget extends StatefulWidget {
   /// Callback when drag is completed
   final void Function(DraggableDetails)? onDragCompleted;
 
+  /// Callback when resize starts
+  final void Function(ResizeData)? onResizeStart;
+
+  /// Callback when resize updates
+  final void Function(ResizeData, Offset delta)? onResizeUpdate;
+
+  /// Callback when resize ends
+  final VoidCallback? onResizeEnd;
+
   const AccessiblePlacedWidget({
     super.key,
     required this.placement,
@@ -75,6 +85,9 @@ class AccessiblePlacedWidget extends StatefulWidget {
     this.onDragStarted,
     this.onDragEnd,
     this.onDragCompleted,
+    this.onResizeStart,
+    this.onResizeUpdate,
+    this.onResizeEnd,
   });
 
   @override
@@ -198,6 +211,9 @@ class _AccessiblePlacedWidgetState extends State<AccessiblePlacedWidget> {
       onDragStarted: widget.onDragStarted,
       onDragEnd: widget.onDragEnd,
       onDragCompleted: widget.onDragCompleted,
+      onResizeStart: widget.onResizeStart,
+      onResizeUpdate: widget.onResizeUpdate,
+      onResizeEnd: widget.onResizeEnd,
       child: widget.child,
     );
 

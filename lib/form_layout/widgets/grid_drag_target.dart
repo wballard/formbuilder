@@ -449,6 +449,27 @@ class _GridDragTargetState extends State<GridDragTarget> {
       onWidgetDragCompleted: (details) {
         // Widget drag completed - no need to track in GridDragTarget state
       },
+      onWidgetResizeStart: (resizeData) {
+        setState(() {
+          _resizingWidget = resizeData;
+          _resizeDragStartPosition = null;
+          _resizePreview = null;
+        });
+      },
+      onWidgetResizeUpdate: (resizeData, delta) {
+        // Handle resize updates through the drag mechanism
+        // The DragTarget<ResizeData> will handle the actual updates
+      },
+      onWidgetResizeEnd: () {
+        setState(() {
+          _highlightedCells = null;
+          _isValidDrop = false;
+          _currentDragPosition = null;
+          _resizingWidget = null;
+          _resizePreview = null;
+          _resizeDragStartPosition = null;
+        });
+      },
       onWidgetResize: widget.onWidgetResize,
       onWidgetDelete: widget.onWidgetDelete,
     );

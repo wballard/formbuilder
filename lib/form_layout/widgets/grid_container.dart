@@ -205,6 +205,9 @@ class GridContainer extends StatelessWidget {
             onDragStarted: onWidgetDragStarted,
             onDragEnd: onWidgetDragEnd,
             onDragCompleted: onWidgetDragCompleted,
+            onResizeStart: onWidgetResizeStart,
+            onResizeUpdate: onWidgetResizeUpdate,
+            onResizeEnd: onWidgetResizeEnd,
             child: child,
           ),
         ).inGridArea(_getAreaName(placement));
