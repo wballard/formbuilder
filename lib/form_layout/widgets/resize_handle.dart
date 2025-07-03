@@ -94,7 +94,7 @@ class _ResizeHandleState extends State<ResizeHandle> {
 
   /// Build positioned handle based on type
   Widget _buildPositionedHandle(ThemeData theme) {
-    const handleSize = 16.0;
+    const handleSize = 24.0; // Increased hit test area
     const offset = handleSize / 2;
 
     final handleWidget = MouseRegion(
@@ -177,22 +177,31 @@ class _ResizeHandleState extends State<ResizeHandle> {
 
   /// Build the visual handle widget
   Widget _buildHandle(ThemeData theme, {required bool isActive}) {
-    return Container(
-      width: 16,
-      height: 16,
-      decoration: BoxDecoration(
-        color: isActive
-            ? theme.primaryColor
-            : theme.primaryColor.withValues(alpha: 0.7),
-        border: Border.all(color: Colors.white, width: 2),
-        borderRadius: BorderRadius.circular(8),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.2),
-            blurRadius: 2,
-            offset: const Offset(0, 1),
+    // Larger hit test area with smaller visual handle
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        width: 24,
+        height: 24,
+        alignment: Alignment.center,
+        child: Container(
+          width: 16,
+          height: 16,
+          decoration: BoxDecoration(
+            color: isActive
+                ? theme.primaryColor
+                : theme.primaryColor.withValues(alpha: 0.7),
+            border: Border.all(color: Colors.white, width: 2),
+            borderRadius: BorderRadius.circular(8),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.2),
+                blurRadius: 2,
+                offset: const Offset(0, 1),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

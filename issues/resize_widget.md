@@ -7,3 +7,9 @@ The drag handles move, but the drag box does not resize, nor does the widget.
 The drag handle hit test regions are too small.
 
 Use the Features/Resize Widgets story as the example to debug.
+
+using the top or bottom drag handles does not highlight the drag target area above or below, there is no obvious resizing
+
+when i drag and drop, the grid provides feedback but the widget is not moved to a new location
+
+when i resize, the grid provides feedback but the widget is not moved to a new location

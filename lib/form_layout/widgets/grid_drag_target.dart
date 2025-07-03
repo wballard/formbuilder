@@ -288,9 +288,13 @@ class _GridDragTargetState extends State<GridDragTarget> {
     final RenderBox? renderBox = context.findRenderObject() as RenderBox?;
     if (renderBox == null) return startPlacement;
 
-    final size = renderBox.size;
-    final cellWidth = size.width / widget.layoutState.dimensions.columns;
-    final cellHeight = size.height / widget.layoutState.dimensions.rows;
+    // Get the theme to access row height
+    final theme = FormLayoutTheme.of(context);
+    
+    // Calculate cell dimensions using actual grid dimensions
+    final gridWidth = renderBox.size.width;
+    final cellWidth = gridWidth / widget.layoutState.dimensions.columns;
+    final cellHeight = theme.rowHeight;
 
     final deltaCellsX = (delta.dx / cellWidth).round();
     final deltaCellsY = (delta.dy / cellHeight).round();
@@ -496,16 +500,41 @@ class _GridDragTargetState extends State<GridDragTarget> {
       onWidgetResizeEnd: () {
         // Apply the resize if we have a valid preview
         if (_resizePreview != null && _isValidDrop && _resizingWidget != null) {
-          Actions.maybeInvoke<ResizeWidgetIntent>(
-            context,
-            ResizeWidgetIntent(
-              widgetId: _resizingWidget!.widgetId,
-              newSize: Size(
-                _resizePreview!.width.toDouble(),
-                _resizePreview!.height.toDouble(),
+          // If position changed, we need to move the widget first
+          final originalPlacement = _resizingWidget!.startPlacement;
+          final needsMove = _resizePreview!.column != originalPlacement.column ||
+                           _resizePreview!.row != originalPlacement.row;
+          
+          if (needsMove) {
+            // Move the widget to the new position
+            Actions.maybeInvoke<MoveWidgetIntent>(
+              context,
+              MoveWidgetIntent(
+                widgetId: _resizingWidget!.widgetId,
+                newPosition: Point(_resizePreview!.column, _resizePreview!.row),
               ),
-            ),
-          );
+            );
+          }
+          
+          // Then resize it if size changed
+          final needsResize = _resizePreview!.width != originalPlacement.width ||
+                             _resizePreview!.height != originalPlacement.height;
+          
+          if (needsResize) {
+            Actions.maybeInvoke<ResizeWidgetIntent>(
+              context,
+              ResizeWidgetIntent(
+                widgetId: _resizingWidget!.widgetId,
+                newSize: Size(
+                  _resizePreview!.width.toDouble(),
+                  _resizePreview!.height.toDouble(),
+                ),
+              ),
+            );
+          }
+          
+          // Invoke the onWidgetResize callback if provided
+          widget.onWidgetResize?.call(_resizingWidget!.widgetId, _resizePreview!);
         }
         
         // Clear the preview state
