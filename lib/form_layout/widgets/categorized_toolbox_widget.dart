@@ -104,49 +104,26 @@ class _CategorizedToolboxWidgetState extends State<CategorizedToolboxWidget> {
     final theme = Theme.of(context);
 
     if (widget.scrollDirection == Axis.vertical) {
-      return Card(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            InkWell(
-              onTap: () {
-                setState(() {
-                  if (isExpanded) {
-                    _expandedCategories.remove(category.name);
-                  } else {
-                    _expandedCategories.add(category.name);
-                  }
-                });
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Row(
-                  children: [
-                    Icon(
-                      isExpanded ? Icons.expand_less : Icons.expand_more,
-                      size: 20,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(category.name, style: theme.textTheme.titleSmall),
-                  ],
-                ),
-              ),
-            ),
-            if (isExpanded) ...[
-              const Divider(height: 1),
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: Wrap(
-                  spacing: widget.itemSpacing,
-                  runSpacing: widget.itemSpacing,
-                  children: category.items
-                      .map((item) => _buildItem(context, item))
-                      .toList(),
-                ),
-              ),
-            ],
-          ],
+      return ExpansionTile(
+        initiallyExpanded: isExpanded,
+        onExpansionChanged: (expanded) {
+          setState(() {
+            if (expanded) {
+              _expandedCategories.add(category.name);
+            } else {
+              _expandedCategories.remove(category.name);
+            }
+          });
+        },
+        title: Text(
+          category.name,
+          style: theme.textTheme.titleSmall?.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
         ),
+        children: category.items
+            .map((item) => _buildListItem(context, item))
+            .toList(),
       );
     } else {
       // Horizontal layout
@@ -175,7 +152,56 @@ class _CategorizedToolboxWidgetState extends State<CategorizedToolboxWidget> {
     }
   }
 
+  Widget _buildListItem(BuildContext context, ToolboxItem item) {
+    return Draggable<ToolboxItem>(
+      data: item,
+      feedback: AnimatedDragFeedback(
+        animationSettings: widget.animationSettings,
+        child: Material(
+          elevation: 8,
+          child: Container(
+            width: 200,
+            height: 60,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surface,
+              border: Border.all(
+                color: Theme.of(context).colorScheme.primary,
+                width: 2,
+              ),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: ListTile(
+              leading: SizedBox(
+                width: 32,
+                height: 32,
+                child: item.toolboxBuilder(context),
+              ),
+              title: Text(item.displayName),
+            ),
+          ),
+        ),
+      ),
+      child: ListTile(
+        leading: SizedBox(
+          width: 32,
+          height: 32,
+          child: item.toolboxBuilder(context),
+        ),
+        title: Text(
+          item.displayName,
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+        onTap: () {
+          // Could show item details or initiate drag programmatically
+        },
+        tileColor: Theme.of(context).colorScheme.surface,
+        hoverColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+      ),
+    );
+  }
+
   Widget _buildItem(BuildContext context, ToolboxItem item) {
+    // Keep the old method for horizontal layout
     return SizedBox(
       width: 80,
       height: 80,

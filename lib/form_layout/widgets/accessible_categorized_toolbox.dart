@@ -242,9 +242,7 @@ class _AccessibleCategorizedToolboxState
           ? 'Expanded. Tab to collapse'
           : 'Collapsed. Tab to expand',
       selected: isSelected,
-      child: Card(
-        elevation: isSelected ? 4 : 1,
-        child: widget.scrollDirection == Axis.horizontal
+      child: widget.scrollDirection == Axis.horizontal
             ? SizedBox(
                 width: 200, // Fixed width for horizontal scrolling
                 child: Column(
@@ -303,7 +301,7 @@ class _AccessibleCategorizedToolboxState
                             final isItemSelected =
                                 isSelected && _selectedItemIndex == itemIndex;
 
-                            return _buildAccessibleItem(
+                            return _buildAccessibleListItem(
                               context,
                               item,
                               isItemSelected,
@@ -315,69 +313,115 @@ class _AccessibleCategorizedToolboxState
                   ],
                 ),
               )
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  // Category header
-                  AccessibleTouchTarget(
-                    onTap: () {
-                      setState(() {
-                        if (isExpanded) {
-                          _expandedCategories.remove(category.name);
-                        } else {
-                          _expandedCategories.add(category.name);
-                        }
-                      });
-                    },
-                    semanticLabel: category.name,
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Row(
-                        children: [
-                          Icon(
-                            isExpanded ? Icons.expand_less : Icons.expand_more,
-                            size: 20,
-                            semanticLabel: isExpanded ? 'Collapse' : 'Expand',
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            category.name,
-                            style: theme.textTheme.titleSmall?.copyWith(
-                              fontWeight: isSelected
-                                  ? FontWeight.bold
-                                  : FontWeight.normal,
-                            ),
-                          ),
-                        ],
-                      ),
+            : Theme(
+                data: theme.copyWith(
+                  dividerColor: Colors.transparent,
+                ),
+                child: ExpansionTile(
+                  initiallyExpanded: isExpanded,
+                  onExpansionChanged: (expanded) {
+                    setState(() {
+                      if (expanded) {
+                        _expandedCategories.add(category.name);
+                      } else {
+                        _expandedCategories.remove(category.name);
+                      }
+                    });
+                  },
+                  tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                  title: Text(
+                    category.name,
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
                     ),
                   ),
-
-                  // Category items
-                  if (isExpanded) ...[
-                    const Divider(height: 1),
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Wrap(
-                        spacing: widget.itemSpacing,
-                        runSpacing: widget.itemSpacing,
-                        children: category.items.asMap().entries.map((entry) {
-                          final itemIndex = entry.key;
-                          final item = entry.value;
-                          final isItemSelected =
-                              isSelected && _selectedItemIndex == itemIndex;
-
-                          return _buildAccessibleItem(
-                            context,
-                            item,
-                            isItemSelected,
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  ],
-                ],
+                  children: category.items.asMap().entries.map((entry) {
+                    final itemIndex = entry.key;
+                    final item = entry.value;
+                    final isItemSelected = isSelected && _selectedItemIndex == itemIndex;
+                    
+                    return _buildAccessibleListItem(
+                      context,
+                      item,
+                      isItemSelected,
+                    );
+                  }).toList(),
+                ),
               ),
+    );
+  }
+
+  Widget _buildAccessibleListItem(
+    BuildContext context,
+    ToolboxItem item,
+    bool isSelected,
+  ) {
+    final semanticLabel = AccessibilityUtils.getToolboxItemLabel(
+      item.displayName,
+      item.defaultWidth,
+      item.defaultHeight,
+    );
+
+    return Focus(
+      focusNode: _itemFocusNodes[item.name],
+      child: Semantics(
+        label: semanticLabel,
+        selected: isSelected,
+        child: Draggable<ToolboxItem>(
+          data: item,
+          feedback: AnimatedDragFeedback(
+            animationSettings: widget.animationSettings,
+            child: Material(
+              elevation: 8,
+              child: Container(
+                width: 200,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface,
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.primary,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: ListTile(
+                  leading: SizedBox(
+                    width: 32,
+                    height: 32,
+                    child: item.toolboxBuilder(context),
+                  ),
+                  title: Text(item.displayName),
+                ),
+              ),
+            ),
+          ),
+          child: Container(
+            color: isSelected
+                ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.1)
+                : null,
+            child: ListTile(
+              leading: SizedBox(
+                width: 32,
+                height: 32,
+                child: item.toolboxBuilder(context),
+              ),
+              title: Text(
+                item.displayName,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                ),
+              ),
+              onTap: () {
+                setState(() {
+                  _selectedItemIndex = widget.toolbox.categories[_selectedCategoryIndex]
+                      .items.indexOf(item);
+                });
+                // Could show item details or initiate drag programmatically
+              },
+              hoverColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.05),
+            ),
+          ),
+        ),
       ),
     );
   }

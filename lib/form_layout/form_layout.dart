@@ -261,9 +261,8 @@ class FormLayout extends HookWidget {
       return null;
     }, [controller.state]);
 
-    // Determine responsive layout
-    final isSmallScreen = MediaQuery.of(context).size.width < 600;
-    final effectivePosition = isSmallScreen ? Axis.vertical : toolboxPosition;
+    // Always use horizontal layout with vertical toolbox
+    const effectivePosition = Axis.horizontal;
 
     // Build the main content
     Widget content = FormLayoutActionDispatcher(
@@ -298,7 +297,7 @@ class FormLayout extends HookWidget {
     final toolboxWidget = showToolbox
         ? AccessibleCategorizedToolbox(
             toolbox: toolbox,
-            scrollDirection: position,
+            scrollDirection: Axis.vertical, // Always vertical as per requirements
             animationSettings: animationSettings,
             onItemActivated: (item, position) {
               // Handle keyboard activation of toolbox items
