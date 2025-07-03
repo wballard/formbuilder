@@ -1,0 +1,1 @@
+when dragging - the grid has a strange effect, like is sizes up -- the grid should just hold still and not animate anythign in size or z axis

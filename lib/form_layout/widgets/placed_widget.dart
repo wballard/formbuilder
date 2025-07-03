@@ -135,19 +135,18 @@ class _PlacedWidgetState extends State<PlacedWidget>
       child: InkWell(
         onTap: widget.onTap,
         borderRadius: formTheme.widgetBorderRadius,
-        child: SizedBox.expand(
-          child: Container(
-            decoration: BoxDecoration(
-              border: widget.isSelected
-                  ? Border.all(
-                      color: formTheme.selectionBorderColor, 
-                      width: Theme.of(context).dividerTheme.thickness ?? 1.0,
-                    )
-                  : null,
-              borderRadius: formTheme.widgetBorderRadius,
-            ),
-            child: content,
+        child: Container(
+          constraints: const BoxConstraints.expand(),
+          decoration: BoxDecoration(
+            border: widget.isSelected
+                ? Border.all(
+                    color: formTheme.selectionBorderColor, 
+                    width: Theme.of(context).dividerTheme.thickness ?? 1.0,
+                  )
+                : null,
+            borderRadius: formTheme.widgetBorderRadius,
           ),
+          child: content,
         ),
       ),
     );

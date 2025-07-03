@@ -37,15 +37,18 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: GridContainer(
-              layoutState: layoutState,
-              widgetBuilders: widgetBuilders,
-              isPreviewMode: false,
-              canDragWidgets: true,
-              animationSettings: const AnimationSettings(enabled: false),
-              onWidgetDragStarted: (placement) {
-                // Handle drag start
-              },
+            body: SizedBox(
+              height: 600, // Provide sufficient height for the grid
+              child: GridContainer(
+                layoutState: layoutState,
+                widgetBuilders: widgetBuilders,
+                isPreviewMode: false,
+                canDragWidgets: true,
+                animationSettings: const AnimationSettings(enabled: false),
+                onWidgetDragStarted: (placement) {
+                  // Handle drag start
+                },
+              ),
             ),
           ),
         ),
@@ -138,7 +141,8 @@ void main() {
                   ),
                 ),
                 // Grid container
-                Expanded(
+                SizedBox(
+                  height: 400, // Provide sufficient height for the grid
                   child: GridContainer(
                     layoutState: layoutState,
                     widgetBuilders: widgetBuilders,

@@ -42,24 +42,27 @@ void main() {
     bool dragStarted = false;
     bool dragEnded = false;
     
-    // Use GridContainer directly
+    // Use GridContainer directly with sufficient height
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
-          body: GridContainer(
-            layoutState: layoutState,
-            widgetBuilders: widgetBuilders,
-            isPreviewMode: false,
-            animationSettings: const AnimationSettings(enabled: false),
-            canDragWidgets: true,
-            onWidgetDragStarted: (placement) {
-              print('Drag started for widget: ${placement.id}');
-              dragStarted = true;
-            },
-            onWidgetDragEnd: () {
-              print('Drag ended');
-              dragEnded = true;
-            },
+          body: SizedBox(
+            height: 600, // Provide sufficient height for the grid
+            child: GridContainer(
+              layoutState: layoutState,
+              widgetBuilders: widgetBuilders,
+              isPreviewMode: false,
+              animationSettings: const AnimationSettings(enabled: false),
+              canDragWidgets: true,
+              onWidgetDragStarted: (placement) {
+                print('Drag started for widget: ${placement.id}');
+                dragStarted = true;
+              },
+              onWidgetDragEnd: () {
+                print('Drag ended');
+                dragEnded = true;
+              },
+            ),
           ),
         ),
       ),
