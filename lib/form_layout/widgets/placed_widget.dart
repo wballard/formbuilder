@@ -122,9 +122,12 @@ class _PlacedWidgetState extends State<PlacedWidget>
     }
 
     // Build the content - wrap child with RepaintBoundary for performance
-    Widget content = Padding(
-      padding: widget.contentPadding ?? formTheme.defaultPadding,
-      child: RepaintBoundary(child: widget.child),
+    // Use SizedBox.expand to ensure widgets fill their grid cells
+    Widget content = SizedBox.expand(
+      child: Padding(
+        padding: widget.contentPadding ?? formTheme.defaultPadding,
+        child: RepaintBoundary(child: widget.child),
+      ),
     );
 
     // Wrap in Material for elevation and ink effects
@@ -300,7 +303,7 @@ class _PlacedWidgetState extends State<PlacedWidget>
       right: -8,
       child: Material(
         type: MaterialType.circle,
-        color: Colors.red.withValues(alpha: 0.9),
+        color: Theme.of(context).colorScheme.error,
         elevation: 2,
         child: Tooltip(
           message: 'Delete widget',

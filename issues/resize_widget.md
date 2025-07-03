@@ -13,3 +13,8 @@ using the top or bottom drag handles does not highlight the drag target area abo
 when i drag and drop, the grid provides feedback but the widget is not moved to a new location
 
 when i resize, the grid provides feedback but the widget is not moved to a new location [FIXED - resize now properly updates both position and size]
+
+Widgets are not stretching to fill the grid cells.
+
+The 'delete widget' button should not have a hard coded color, but should pull the theme warning color.
+

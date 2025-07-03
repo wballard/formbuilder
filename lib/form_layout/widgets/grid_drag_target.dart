@@ -533,8 +533,10 @@ class _GridDragTargetState extends State<GridDragTarget> {
             );
           }
           
-          // Invoke the onWidgetResize callback if provided
-          widget.onWidgetResize?.call(_resizingWidget!.widgetId, _resizePreview!);
+          // Use callback approach if provided
+          if (widget.onWidgetResize != null) {
+            widget.onWidgetResize!(_resizingWidget!.widgetId, _resizePreview!);
+          }
         }
         
         // Clear the preview state
@@ -572,13 +574,23 @@ class _GridDragTargetState extends State<GridDragTarget> {
                 if (_currentDragPosition != null) {
                   final gridCoords = _getGridCoordinates(_currentDragPosition!);
                   if (gridCoords != null) {
-                    Actions.maybeInvoke<MoveWidgetIntent>(
-                      context,
-                      MoveWidgetIntent(
-                        widgetId: details.data.id,
-                        newPosition: Point(gridCoords.x, gridCoords.y),
-                      ),
-                    );
+                    // Use callback approach if provided
+                    if (widget.onWidgetMoved != null) {
+                      final newPlacement = details.data.copyWith(
+                        column: gridCoords.x,
+                        row: gridCoords.y,
+                      );
+                      widget.onWidgetMoved!(details.data.id, newPlacement);
+                    } else {
+                      // Fall back to Actions if no callback
+                      Actions.maybeInvoke<MoveWidgetIntent>(
+                        context,
+                        MoveWidgetIntent(
+                          widgetId: details.data.id,
+                          newPosition: Point(gridCoords.x, gridCoords.y),
+                        ),
+                      );
+                    }
                   }
                 }
 
