@@ -122,12 +122,9 @@ class _PlacedWidgetState extends State<PlacedWidget>
     }
 
     // Build the content - wrap child with RepaintBoundary for performance
-    // Use SizedBox.expand to ensure widgets fill their grid cells
-    Widget content = SizedBox.expand(
-      child: Padding(
-        padding: widget.contentPadding ?? formTheme.defaultPadding,
-        child: RepaintBoundary(child: widget.child),
-      ),
+    Widget content = Padding(
+      padding: widget.contentPadding ?? formTheme.defaultPadding,
+      child: RepaintBoundary(child: widget.child),
     );
 
     // Wrap in Material for elevation and ink effects
@@ -138,17 +135,19 @@ class _PlacedWidgetState extends State<PlacedWidget>
       child: InkWell(
         onTap: widget.onTap,
         borderRadius: formTheme.widgetBorderRadius,
-        child: Container(
-          decoration: BoxDecoration(
-            border: widget.isSelected
-                ? Border.all(
-                    color: formTheme.selectionBorderColor, 
-                    width: Theme.of(context).dividerTheme.thickness ?? 1.0,
-                  )
-                : null,
-            borderRadius: formTheme.widgetBorderRadius,
+        child: SizedBox.expand(
+          child: Container(
+            decoration: BoxDecoration(
+              border: widget.isSelected
+                  ? Border.all(
+                      color: formTheme.selectionBorderColor, 
+                      width: Theme.of(context).dividerTheme.thickness ?? 1.0,
+                    )
+                  : null,
+              borderRadius: formTheme.widgetBorderRadius,
+            ),
+            child: content,
           ),
-          child: content,
         ),
       ),
     );
