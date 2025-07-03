@@ -99,8 +99,10 @@ class FormLayoutController extends ChangeNotifier {
       throw ArgumentError('Widget with ID "$widgetId" does not exist');
     }
 
+    debugPrint('FormLayoutController.updateWidget: Moving $widgetId from (${oldWidget.column}, ${oldWidget.row}) to (${placement.column}, ${placement.row})');
     final command = UpdateWidgetCommand(widgetId, oldWidget, placement);
     _executeCommand(command);
+    debugPrint('FormLayoutController.updateWidget: State updated. Widget now at (${_state.getWidget(widgetId)?.column}, ${_state.getWidget(widgetId)?.row})');
   }
 
   /// Move a widget to a new position
@@ -296,6 +298,7 @@ class _FormLayoutHookState
   }
 
   void _onControllerChanged() {
+    debugPrint('useFormLayout: Controller changed, triggering rebuild. State has ${_controller.state.widgets.length} widgets');
     setState(() {});
   }
 

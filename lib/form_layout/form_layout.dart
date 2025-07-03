@@ -243,6 +243,9 @@ class FormLayout extends HookWidget {
           ),
       undoLimit: undoLimit,
     );
+    
+    // Log FormLayout rebuilds for debugging
+    debugPrint('FormLayout build: ${controller.state.widgets.length} widgets');
 
     // Listen to layout changes and notify callback
     useEffect(() {
@@ -333,11 +336,31 @@ class FormLayout extends HookWidget {
                 ).toSimpleToolbox(),
                 selectedWidgetId: controller.selectedWidgetId,
                 onWidgetTap: (id) => controller.selectWidget(id),
-                onWidgetDropped: (placement) => controller.addWidget(placement),
-                onWidgetMoved: (widgetId, newPlacement) => controller.updateWidget(widgetId, newPlacement),
-                onWidgetResize: (widgetId, newPlacement) => controller.updateWidget(widgetId, newPlacement),
-                onWidgetDelete: (widgetId) => controller.removeWidget(widgetId),
-                onGridResize: (dimensions) => controller.resizeGrid(dimensions),
+                onWidgetDropped: (placement) {
+                  debugPrint('FormLayout: onWidgetDropped called for ${placement.id}');
+                  controller.addWidget(placement);
+                },
+                onWidgetMoved: (widgetId, newPlacement) {
+                  debugPrint('FormLayout: onWidgetMoved called for $widgetId to (${newPlacement.column}, ${newPlacement.row})');
+                  final oldWidget = controller.state.getWidget(widgetId);
+                  debugPrint('FormLayout: old position was (${oldWidget?.column}, ${oldWidget?.row})');
+                  controller.updateWidget(widgetId, newPlacement);
+                  debugPrint('FormLayout: controller state now has ${controller.state.widgets.length} widgets');
+                  final updatedWidget = controller.state.getWidget(widgetId);
+                  debugPrint('FormLayout: new position is (${updatedWidget?.column}, ${updatedWidget?.row})');
+                },
+                onWidgetResize: (widgetId, newPlacement) {
+                  debugPrint('FormLayout: onWidgetResize called for $widgetId');
+                  controller.updateWidget(widgetId, newPlacement);
+                },
+                onWidgetDelete: (widgetId) {
+                  debugPrint('FormLayout: onWidgetDelete called for $widgetId');
+                  controller.removeWidget(widgetId);
+                },
+                onGridResize: (dimensions) {
+                  debugPrint('FormLayout: onGridResize called to ${dimensions.columns}x${dimensions.rows}');
+                  controller.resizeGrid(dimensions);
+                },
                 animationSettings: animationSettings,
               ),
               previewChild: GridDragTarget(

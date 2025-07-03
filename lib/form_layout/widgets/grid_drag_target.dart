@@ -568,11 +568,25 @@ class _GridDragTargetState extends State<GridDragTarget> {
             // DragTarget for WidgetPlacement (moving existing widgets)
             DragTarget<WidgetPlacement>(
               onWillAcceptWithDetails: (details) {
+                // Get the current drag position from details.offset
+                final gridCoords = _getGridCoordinates(details.offset);
+                if (gridCoords != null) {
+                  final isValid = _isValidPlacement(
+                    gridCoords.x,
+                    gridCoords.y,
+                    details.data.width,
+                    details.data.height,
+                    excludeWidgetId: details.data.id,
+                  );
+                  return isValid;
+                }
                 return _isValidDrop;
               },
               onAcceptWithDetails: (details) {
+                debugPrint('GridDragTarget WidgetPlacement: onAcceptWithDetails called for ${details.data.id}');
                 if (_currentDragPosition != null) {
                   final gridCoords = _getGridCoordinates(_currentDragPosition!);
+                  debugPrint('GridDragTarget WidgetPlacement: gridCoords = $gridCoords');
                   if (gridCoords != null) {
                     // Use callback approach if provided
                     if (widget.onWidgetMoved != null) {
@@ -580,9 +594,11 @@ class _GridDragTargetState extends State<GridDragTarget> {
                         column: gridCoords.x,
                         row: gridCoords.y,
                       );
+                      debugPrint('GridDragTarget WidgetPlacement: calling onWidgetMoved with newPlacement (${newPlacement.column}, ${newPlacement.row})');
                       widget.onWidgetMoved!(details.data.id, newPlacement);
                     } else {
                       // Fall back to Actions if no callback
+                      debugPrint('GridDragTarget WidgetPlacement: using Actions fallback');
                       Actions.maybeInvoke<MoveWidgetIntent>(
                         context,
                         MoveWidgetIntent(
@@ -591,7 +607,11 @@ class _GridDragTargetState extends State<GridDragTarget> {
                         ),
                       );
                     }
+                  } else {
+                    debugPrint('GridDragTarget WidgetPlacement: gridCoords is null');
                   }
+                } else {
+                  debugPrint('GridDragTarget WidgetPlacement: _currentDragPosition is null');
                 }
 
                 // Clear highlights after drop
@@ -621,7 +641,8 @@ class _GridDragTargetState extends State<GridDragTarget> {
             // DragTarget for ResizeData (resizing existing widgets)
             DragTarget<ResizeData>(
               onWillAcceptWithDetails: (details) {
-                return _isValidDrop;
+                // For resize operations, accept if we have valid resize preview
+                return _resizePreview != null && _isValidDrop;
               },
               onAcceptWithDetails: (details) {
                 if (_resizePreview != null) {
@@ -668,6 +689,17 @@ class _GridDragTargetState extends State<GridDragTarget> {
             // DragTarget for ToolboxItem (new widgets)
             DragTarget<ToolboxItem>(
               onWillAcceptWithDetails: (details) {
+                // Get the current drag position from details.offset
+                final gridCoords = _getGridCoordinates(details.offset);
+                if (gridCoords != null) {
+                  final isValid = _isValidPlacement(
+                    gridCoords.x,
+                    gridCoords.y,
+                    details.data.defaultWidth,
+                    details.data.defaultHeight,
+                  );
+                  return isValid;
+                }
                 return _isValidDrop;
               },
               onAcceptWithDetails: (details) {

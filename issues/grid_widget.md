@@ -1,0 +1,1 @@
+All the grid widget stories are missing the bottom divider line on the last row.

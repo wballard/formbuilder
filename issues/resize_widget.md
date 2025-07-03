@@ -18,3 +18,4 @@ Widgets are not stretching to fill the grid cells.
 
 The 'delete widget' button should not have a hard coded color, but should pull the theme warning color.
 
+Dragging the resize handle really does need to resize the resize selection box to outline the grid area that will be the result -- in addition to highlighting the grid.
