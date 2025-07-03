@@ -119,7 +119,7 @@ class _GridResizeControlsState extends State<GridResizeControls> {
   Widget _buildColumnResizeControl() {
     return Positioned(
       top: 0,
-      right: -20,
+      right: 0,
       bottom: 0,
       width: 40,
       child: MouseRegion(
@@ -202,7 +202,7 @@ class _GridResizeControlsState extends State<GridResizeControls> {
     return Positioned(
       left: 0,
       right: 0,
-      bottom: -20,
+      bottom: 0,
       height: 40,
       child: MouseRegion(
         cursor: SystemMouseCursors.resizeRow,
