@@ -10,6 +10,7 @@ import 'package:formbuilder/form_layout/models/toolbox_item.dart';
 import 'package:formbuilder/form_layout/models/grid_dimensions.dart';
 import 'package:formbuilder/form_layout/models/animation_settings.dart';
 import 'package:formbuilder/form_layout/intents/form_layout_intents.dart';
+import 'package:formbuilder/form_layout/theme/form_layout_theme.dart';
 import 'dart:math';
 
 /// A widget that wraps GridContainer with drag and drop functionality
@@ -97,11 +98,17 @@ class _GridDragTargetState extends State<GridDragTarget> {
     if (renderBox == null) return null;
 
     final localPosition = renderBox.globalToLocal(globalPosition);
-    final size = renderBox.size;
-
-    // Calculate cell size
-    final cellWidth = size.width / widget.layoutState.dimensions.columns;
-    final cellHeight = size.height / widget.layoutState.dimensions.rows;
+    
+    // Get the theme to access row height
+    final theme = FormLayoutTheme.of(context);
+    
+    // Calculate actual grid size based on intrinsic dimensions
+    final gridWidth = renderBox.size.width;
+    final gridHeight = widget.layoutState.dimensions.rows * theme.rowHeight;
+    
+    // Calculate cell size using actual grid dimensions
+    final cellWidth = gridWidth / widget.layoutState.dimensions.columns;
+    final cellHeight = theme.rowHeight;
 
     // Convert to grid coordinates
     final column = (localPosition.dx / cellWidth).floor();
