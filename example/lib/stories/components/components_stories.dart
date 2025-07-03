@@ -41,13 +41,16 @@ class TextFieldStoryDemo extends StatelessWidget {
       description: 'Demonstrates a basic text input field in the form builder',
       widgetName: 'text_field',
       icon: Icons.text_fields,
-      builder: (placement) => Padding(
+      builder: (placement) => Container(
+        color: Colors.white,
         padding: const EdgeInsets.all(8),
         child: TextFormField(
           decoration: InputDecoration(
             labelText: placement.properties['label'] as String? ?? 'Text Field',
             border: const OutlineInputBorder(),
             isDense: true,
+            filled: true,
+            fillColor: Colors.grey[50],
           ),
         ),
       ),
@@ -86,12 +89,14 @@ class CheckboxStoryDemo extends StatelessWidget {
       description: 'Demonstrates a checkbox widget in the form builder',
       widgetName: 'checkbox',
       icon: Icons.check_box,
-      builder: (placement) => Padding(
+      builder: (placement) => Container(
+        color: Colors.white,
         padding: const EdgeInsets.all(8),
         child: CheckboxListTile(
           title: Text(placement.properties['label'] as String? ?? 'Checkbox'),
           value: placement.properties['checked'] as bool? ?? false,
           onChanged: (value) {},
+          tileColor: Colors.grey[50],
         ),
       ),
     );
@@ -108,13 +113,16 @@ class DropdownStoryDemo extends StatelessWidget {
       description: 'Demonstrates a dropdown widget in the form builder',
       widgetName: 'dropdown',
       icon: Icons.arrow_drop_down_circle,
-      builder: (placement) => Padding(
+      builder: (placement) => Container(
+        color: Colors.white,
         padding: const EdgeInsets.all(8),
         child: DropdownButtonFormField<String>(
           decoration: InputDecoration(
             labelText: placement.properties['label'] as String? ?? 'Dropdown',
             border: const OutlineInputBorder(),
             isDense: true,
+            filled: true,
+            fillColor: Colors.grey[50],
           ),
           items: const [
             DropdownMenuItem(value: 'option1', child: Text('Option 1')),
