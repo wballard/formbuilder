@@ -464,10 +464,51 @@ class _GridDragTargetState extends State<GridDragTarget> {
         });
       },
       onWidgetResizeUpdate: (resizeData, delta) {
-        // Handle resize updates through the drag mechanism
-        // The DragTarget<ResizeData> will handle the actual updates
+        // The resize handle provides a delta from the drag start position
+        // We need to calculate the new placement based on this delta
+        final newPlacement = _calculateResizeDimensions(resizeData, delta);
+        
+        // Get the cells that would be occupied by the resized widget
+        final cells = _getOccupiedCells(
+          newPlacement.column,
+          newPlacement.row,
+          newPlacement.width,
+          newPlacement.height,
+        );
+        
+        // Check if the new placement is valid
+        final isValid = _isValidPlacement(
+          newPlacement.column,
+          newPlacement.row,
+          newPlacement.width,
+          newPlacement.height,
+          excludeWidgetId: resizeData.widgetId,
+        );
+        
+        // Update the highlighted cells to show resize preview
+        setState(() {
+          _highlightedCells = cells;
+          _isValidDrop = isValid;
+          _resizingWidget = resizeData;
+          _resizePreview = newPlacement;
+        });
       },
       onWidgetResizeEnd: () {
+        // Apply the resize if we have a valid preview
+        if (_resizePreview != null && _isValidDrop && _resizingWidget != null) {
+          Actions.maybeInvoke<ResizeWidgetIntent>(
+            context,
+            ResizeWidgetIntent(
+              widgetId: _resizingWidget!.widgetId,
+              newSize: Size(
+                _resizePreview!.width.toDouble(),
+                _resizePreview!.height.toDouble(),
+              ),
+            ),
+          );
+        }
+        
+        // Clear the preview state
         setState(() {
           _highlightedCells = null;
           _isValidDrop = false;
