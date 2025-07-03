@@ -333,6 +333,7 @@ class FormLayout extends HookWidget {
                 ).toSimpleToolbox(),
                 selectedWidgetId: controller.selectedWidgetId,
                 onWidgetTap: (id) => controller.selectWidget(id),
+                onWidgetDropped: (placement) => controller.addWidget(placement),
                 onWidgetMoved: (widgetId, newPlacement) => controller.updateWidget(widgetId, newPlacement),
                 onWidgetResize: (widgetId, newPlacement) => controller.updateWidget(widgetId, newPlacement),
                 onWidgetDelete: (widgetId) => controller.removeWidget(widgetId),

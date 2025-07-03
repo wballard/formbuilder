@@ -574,22 +574,26 @@ class _GridDragTargetState extends State<GridDragTarget> {
                 if (_currentDragPosition != null) {
                   final gridCoords = _getGridCoordinates(_currentDragPosition!);
                   if (gridCoords != null) {
+                    debugPrint('GridDragTarget: Moving widget ${details.data.id} to (${gridCoords.x}, ${gridCoords.y})');
                     // Use callback approach if provided
                     if (widget.onWidgetMoved != null) {
                       final newPlacement = details.data.copyWith(
                         column: gridCoords.x,
                         row: gridCoords.y,
                       );
+                      debugPrint('GridDragTarget: Using callback to move widget');
                       widget.onWidgetMoved!(details.data.id, newPlacement);
                     } else {
                       // Fall back to Actions if no callback
-                      Actions.maybeInvoke<MoveWidgetIntent>(
+                      debugPrint('GridDragTarget: Using Actions to move widget');
+                      final result = Actions.maybeInvoke<MoveWidgetIntent>(
                         context,
                         MoveWidgetIntent(
                           widgetId: details.data.id,
                           newPosition: Point(gridCoords.x, gridCoords.y),
                         ),
                       );
+                      debugPrint('GridDragTarget: Actions result: $result');
                     }
                   }
                 }
@@ -674,13 +678,32 @@ class _GridDragTargetState extends State<GridDragTarget> {
                 if (_currentDragPosition != null) {
                   final gridCoords = _getGridCoordinates(_currentDragPosition!);
                   if (gridCoords != null) {
-                    Actions.maybeInvoke<AddWidgetIntent>(
-                      context,
-                      AddWidgetIntent(
-                        item: details.data,
-                        position: Point(gridCoords.x, gridCoords.y),
-                      ),
-                    );
+                    debugPrint('GridDragTarget: Adding new widget ${details.data.name} at (${gridCoords.x}, ${gridCoords.y})');
+                    // Use callback approach if provided
+                    if (widget.onWidgetDropped != null) {
+                      final placement = WidgetPlacement(
+                        id: '${details.data.name}_${DateTime.now().millisecondsSinceEpoch}',
+                        widgetName: details.data.name,
+                        column: gridCoords.x,
+                        row: gridCoords.y,
+                        width: details.data.defaultWidth,
+                        height: details.data.defaultHeight,
+                        properties: {},
+                      );
+                      debugPrint('GridDragTarget: Using callback to add widget');
+                      widget.onWidgetDropped!(placement);
+                    } else {
+                      // Fall back to Actions if no callback
+                      debugPrint('GridDragTarget: Using Actions to add widget');
+                      final result = Actions.maybeInvoke<AddWidgetIntent>(
+                        context,
+                        AddWidgetIntent(
+                          item: details.data,
+                          position: Point(gridCoords.x, gridCoords.y),
+                        ),
+                      );
+                      debugPrint('GridDragTarget: Actions result: $result');
+                    }
                   }
                 }
 

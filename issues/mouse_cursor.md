@@ -1,0 +1,1 @@
+when dragging and dropping to move, the cursor should be cross arrows -- the standard move icon, not the pointer.
