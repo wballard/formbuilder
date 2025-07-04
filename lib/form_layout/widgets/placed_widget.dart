@@ -185,13 +185,26 @@ class _PlacedWidgetState extends State<PlacedWidget>
         child: contentForAnimation,
       );
 
+      // Calculate constraints for drag feedback
+      final double estimatedColumnWidth = 180.0; // Typical column width
+      final double estimatedHeight = widget.placement.height * formTheme.rowHeight + 
+          (widget.contentPadding?.vertical ?? formTheme.defaultPadding.vertical) * 2;
+      final double feedbackWidth = widget.placement.width * estimatedColumnWidth;
+      
       // Wrap with Draggable
       content = Draggable<WidgetPlacement>(
         data: widget.placement,
-        feedback: DraggingPlacedWidget(
-          placement: widget.placement,
-          contentPadding: widget.contentPadding,
-          child: widget.child,
+        feedback: Container(
+          width: feedbackWidth,
+          height: estimatedHeight,
+          child: Material(
+            color: Colors.transparent,
+            child: DraggingPlacedWidget(
+              placement: widget.placement,
+              contentPadding: widget.contentPadding,
+              child: widget.child,
+            ),
+          ),
         ),
         childWhenDragging: Opacity(
           opacity: 0.3,
@@ -370,10 +383,17 @@ class DraggingPlacedWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final formTheme = FormLayoutTheme.of(context);
     
-    // Build the content
-    Widget content = Padding(
-      padding: contentPadding ?? formTheme.defaultPadding, 
-      child: child,
+    // Ensure child has proper constraints for form fields
+    Widget content = DefaultTextStyle(
+      style: Theme.of(context).textTheme.bodyMedium!,
+      child: Container(
+        constraints: BoxConstraints(
+          minWidth: 150.0,
+          minHeight: formTheme.rowHeight,
+        ),
+        padding: contentPadding ?? formTheme.defaultPadding,
+        child: child,
+      ),
     );
 
     // Wrap in Material for elevation and shadow
