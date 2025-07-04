@@ -3,21 +3,20 @@ import 'package:storybook_flutter/storybook_flutter.dart';
 
 // Import all story categories
 import 'stories/components/components_stories.dart';
-import 'stories/features/features_stories.dart';
-import 'stories/layouts/layouts_stories.dart';
-import 'stories/themes/themes_stories.dart';
-import 'stories/integration/integration_stories.dart';
-import 'stories/playground/playground_stories.dart';
-import 'stories/use_cases/use_cases_stories.dart';
-import 'stories/performance/performance_stories.dart';
 import 'stories/documentation/documentation_stories.dart';
-
+import 'stories/features/features_stories.dart';
+import 'stories/grid_container_story.dart';
+import 'stories/grid_widget_story.dart';
+import 'stories/integration/integration_stories.dart';
+import 'stories/layouts/layouts_stories.dart';
 // Import legacy stories
 import 'stories/models_story.dart';
-import 'stories/grid_widget_story.dart';
+import 'stories/performance/performance_stories.dart';
 import 'stories/placed_widget_story.dart';
-import 'stories/grid_container_story.dart';
+import 'stories/playground/playground_stories.dart';
+import 'stories/themes/themes_stories.dart';
 import 'stories/toolbox_widget_story.dart';
+import 'stories/use_cases/use_cases_stories.dart';
 
 void main() {
   runApp(const StorybookApp());
@@ -29,24 +28,16 @@ class StorybookApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Storybook(
-      initialStory: 'Welcome',
-      plugins: [
-        DeviceFramePlugin(),
-      ],
+      initialStory: 'Overview',
+      plugins: [DeviceFramePlugin()],
       wrapperBuilder: (context, child) => MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          useMaterial3: true,
-        ),
+        theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
         home: Scaffold(body: child),
       ),
       stories: [
-        Story(
-          name: 'Welcome',
-          builder: (context) => const WelcomePage(),
-        ),
-        
+        Story(name: 'Welcome', builder: (context) => const WelcomePage()),
+
         // Comprehensive story categories
         ...componentStories,
         ...featureStories,
@@ -57,12 +48,8 @@ class StorybookApp extends StatelessWidget {
         ...useCasesStories,
         ...performanceStories,
         ...documentationStories,
-        
+
         // Legacy stories (keeping for backward compatibility)
-        Story(
-          name: 'Legacy/Divider',
-          builder: (context) => const Divider(),
-        ),
         ...modelStories,
         ...gridWidgetStories,
         ...placedWidgetStories,
@@ -84,18 +71,11 @@ class WelcomePage extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.all(32),
           children: [
-            const Icon(
-              Icons.dashboard_customize,
-              size: 80,
-              color: Colors.blue,
-            ),
+            const Icon(Icons.dashboard_customize, size: 80, color: Colors.blue),
             const SizedBox(height: 24),
             const Text(
               'FormBuilder Storybook',
-              style: TextStyle(
-                fontSize: 48,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16),
@@ -109,7 +89,8 @@ class WelcomePage extends StatelessWidget {
               context,
               icon: Icons.widgets,
               title: 'Components',
-              description: 'Explore individual form widgets and their properties',
+              description:
+                  'Explore individual form widgets and their properties',
               color: Colors.blue,
             ),
             _buildFeatureCard(
@@ -190,10 +171,7 @@ class WelcomePage extends StatelessWidget {
           backgroundColor: color.withValues(alpha: 0.1),
           child: Icon(icon, color: color),
         ),
-        title: Text(
-          title,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
+        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
         subtitle: Text(description),
         trailing: const Icon(Icons.arrow_forward_ios),
       ),
@@ -448,16 +426,18 @@ Widget _buildOverviewPage(
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
-                  ...features.map((feature) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: Row(
-                      children: [
-                        Icon(Icons.check_circle, color: color, size: 20),
-                        const SizedBox(width: 8),
-                        Expanded(child: Text(feature)),
-                      ],
+                  ...features.map(
+                    (feature) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: Row(
+                        children: [
+                          Icon(Icons.check_circle, color: color, size: 20),
+                          const SizedBox(width: 8),
+                          Expanded(child: Text(feature)),
+                        ],
+                      ),
                     ),
-                  )),
+                  ),
                 ],
               ),
             ),

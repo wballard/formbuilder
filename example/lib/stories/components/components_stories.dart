@@ -9,217 +9,199 @@ import 'package:formbuilder/form_layout/models/widget_placement.dart';
 
 final List<Story> componentStories = [
   Story(
-    name: 'Components/Text Field',
-    description: 'Basic text input field demonstration',
-    builder: (context) => const TextFieldStoryDemo(),
-  ),
-  Story(
-    name: 'Components/Button',
-    description: 'Button widget demonstration',
-    builder: (context) => const ButtonStoryDemo(),
-  ),
-  Story(
-    name: 'Components/Checkbox',
-    description: 'Checkbox widget demonstration',
-    builder: (context) => const CheckboxStoryDemo(),
-  ),
-  Story(
-    name: 'Components/Dropdown',
-    description: 'Dropdown widget demonstration',
-    builder: (context) => const DropdownStoryDemo(),
+    name: 'Overview',
+    description: 'All form components demonstration',
+    builder: (context) => const OverviewStoryDemo(),
   ),
 ];
 
-// Simple story demonstration widgets
-class TextFieldStoryDemo extends StatelessWidget {
-  const TextFieldStoryDemo({super.key});
+// Overview story demonstration widget
+class OverviewStoryDemo extends StatelessWidget {
+  const OverviewStoryDemo({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return _buildComponentDemo(
-      title: 'Text Field Component',
-      description: 'Demonstrates a basic text input field in the form builder',
-      widgetName: 'text_field',
-      icon: Icons.text_fields,
-      builder: (placement) => Container(
-        color: Colors.white,
-        padding: const EdgeInsets.all(8),
-        child: TextFormField(
-          decoration: InputDecoration(
-            labelText: placement.properties['label'] as String? ?? 'Text Field',
-            border: const OutlineInputBorder(),
-            isDense: true,
-            filled: true,
-            fillColor: Colors.grey[50],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class ButtonStoryDemo extends StatelessWidget {
-  const ButtonStoryDemo({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return _buildComponentDemo(
-      title: 'Button Component',
-      description: 'Demonstrates a button widget in the form builder',
-      widgetName: 'button',
-      icon: Icons.smart_button,
-      builder: (placement) => Padding(
-        padding: const EdgeInsets.all(8),
-        child: ElevatedButton(
-          onPressed: () {},
-          child: Text(placement.properties['label'] as String? ?? 'Button'),
-        ),
-      ),
-    );
-  }
-}
-
-class CheckboxStoryDemo extends StatelessWidget {
-  const CheckboxStoryDemo({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return _buildComponentDemo(
-      title: 'Checkbox Component',
-      description: 'Demonstrates a checkbox widget in the form builder',
-      widgetName: 'checkbox',
-      icon: Icons.check_box,
-      builder: (placement) => Container(
-        color: Colors.white,
-        padding: const EdgeInsets.all(8),
-        child: CheckboxListTile(
-          title: Text(placement.properties['label'] as String? ?? 'Checkbox'),
-          value: placement.properties['checked'] as bool? ?? false,
-          onChanged: (value) {},
-          tileColor: Colors.grey[50],
-        ),
-      ),
-    );
-  }
-}
-
-class DropdownStoryDemo extends StatelessWidget {
-  const DropdownStoryDemo({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return _buildComponentDemo(
-      title: 'Dropdown Component',
-      description: 'Demonstrates a dropdown widget in the form builder',
-      widgetName: 'dropdown',
-      icon: Icons.arrow_drop_down_circle,
-      builder: (placement) => Container(
-        color: Colors.white,
-        padding: const EdgeInsets.all(8),
-        child: DropdownButtonFormField<String>(
-          decoration: InputDecoration(
-            labelText: placement.properties['label'] as String? ?? 'Dropdown',
-            border: const OutlineInputBorder(),
-            isDense: true,
-            filled: true,
-            fillColor: Colors.grey[50],
-          ),
-          items: const [
-            DropdownMenuItem(value: 'option1', child: Text('Option 1')),
-            DropdownMenuItem(value: 'option2', child: Text('Option 2')),
-            DropdownMenuItem(value: 'option3', child: Text('Option 3')),
+    // Create a toolbox with all 4 widget types
+    final toolbox = CategorizedToolbox(
+      categories: [
+        ToolboxCategory(
+          name: 'Form Widgets',
+          items: [
+            ToolboxItem(
+              name: 'text_field',
+              displayName: 'Text Field',
+              toolboxBuilder: (context) => const Icon(Icons.text_fields, size: 32),
+              gridBuilder: (context, placement) => Container(
+                padding: const EdgeInsets.all(8),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    labelText: placement.properties['label'] as String? ?? 'Text Field',
+                    border: const OutlineInputBorder(),
+                    isDense: true,
+                    filled: true,
+                    fillColor: Colors.grey[50],
+                  ),
+                ),
+              ),
+              defaultWidth: 2,
+              defaultHeight: 1,
+            ),
+            ToolboxItem(
+              name: 'button',
+              displayName: 'Button',
+              toolboxBuilder: (context) => const Icon(Icons.smart_button, size: 32),
+              gridBuilder: (context, placement) => Padding(
+                padding: const EdgeInsets.all(8),
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: Text(placement.properties['label'] as String? ?? 'Button'),
+                ),
+              ),
+              defaultWidth: 2,
+              defaultHeight: 1,
+            ),
+            ToolboxItem(
+              name: 'checkbox',
+              displayName: 'Checkbox',
+              toolboxBuilder: (context) => const Icon(Icons.check_box, size: 32),
+              gridBuilder: (context, placement) => Container(
+                padding: const EdgeInsets.all(8),
+                child: CheckboxListTile(
+                  title: Text(placement.properties['label'] as String? ?? 'Checkbox'),
+                  value: placement.properties['checked'] as bool? ?? false,
+                  onChanged: (value) {},
+                  tileColor: Colors.grey[50],
+                ),
+              ),
+              defaultWidth: 2,
+              defaultHeight: 1,
+            ),
+            ToolboxItem(
+              name: 'dropdown',
+              displayName: 'Dropdown',
+              toolboxBuilder: (context) => const Icon(Icons.arrow_drop_down_circle, size: 32),
+              gridBuilder: (context, placement) => Container(
+                padding: const EdgeInsets.all(8),
+                child: DropdownButtonFormField<String>(
+                  decoration: InputDecoration(
+                    labelText: placement.properties['label'] as String? ?? 'Dropdown',
+                    border: const OutlineInputBorder(),
+                    isDense: true,
+                    filled: true,
+                    fillColor: Colors.grey[50],
+                  ),
+                  items: const [
+                    DropdownMenuItem(value: 'option1', child: Text('Option 1')),
+                    DropdownMenuItem(value: 'option2', child: Text('Option 2')),
+                    DropdownMenuItem(value: 'option3', child: Text('Option 3')),
+                  ],
+                  onChanged: (value) {},
+                ),
+              ),
+              defaultWidth: 2,
+              defaultHeight: 1,
+            ),
           ],
-          onChanged: (value) {},
         ),
-      ),
+      ],
     );
-  }
-}
 
-// Helper function to build component demonstrations
-Widget _buildComponentDemo({
-  required String title,
-  required String description,
-  required String widgetName,
-  required IconData icon,
-  required Widget Function(WidgetPlacement) builder,
-}) {
-  // Create a simple toolbox with the component
-  final toolbox = CategorizedToolbox(
-    categories: [
-      ToolboxCategory(
-        name: 'Demo',
-        items: [
-          ToolboxItem(
-            name: widgetName,
-            displayName: title,
-            toolboxBuilder: (context) => Icon(icon, size: 32),
-            gridBuilder: (context, placement) => builder(placement),
-            defaultWidth: 2,
-            defaultHeight: 1,
+    // Create initial layout with all 4 widget types placed on a 6x6 grid
+    final initialLayout = LayoutState(
+      dimensions: const GridDimensions(columns: 6, rows: 6),
+      widgets: [
+        WidgetPlacement(
+          id: 'text_field_1',
+          widgetName: 'text_field',
+          column: 0,
+          row: 0,
+          width: 2,
+          height: 1,
+          properties: {
+            'label': 'Name',
+          },
+        ),
+        WidgetPlacement(
+          id: 'button_1',
+          widgetName: 'button',
+          column: 3,
+          row: 0,
+          width: 2,
+          height: 1,
+          properties: {
+            'label': 'Submit',
+          },
+        ),
+        WidgetPlacement(
+          id: 'checkbox_1',
+          widgetName: 'checkbox',
+          column: 0,
+          row: 2,
+          width: 2,
+          height: 1,
+          properties: {
+            'label': 'I agree',
+            'checked': false,
+          },
+        ),
+        WidgetPlacement(
+          id: 'dropdown_1',
+          widgetName: 'dropdown',
+          column: 3,
+          row: 2,
+          width: 2,
+          height: 1,
+          properties: {
+            'label': 'Select Option',
+          },
+        ),
+      ],
+    );
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Form Builder Overview'),
+        backgroundColor: Colors.blue.withValues(alpha: 0.1),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(16),
+            color: Colors.grey.withValues(alpha: 0.1),
+            child: const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Form Builder Components Overview',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 8),
+                Text('This demonstrates all 4 widget types available in the form builder:'),
+                SizedBox(height: 4),
+                Text('• Text Field - For text input'),
+                Text('• Button - For actions'),
+                Text('• Checkbox - For boolean selections'),
+                Text('• Dropdown - For option selection'),
+                SizedBox(height: 8),
+                Text(
+                  'The grid is 6x6 and shows all 4 widget types. Drag widgets from the toolbox to add more.',
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: FormLayout(
+              toolbox: toolbox,
+              initialLayout: initialLayout,
+              onLayoutChanged: (layout) {
+                // Handle layout changes in the demo
+              },
+            ),
           ),
         ],
       ),
-    ],
-  );
-
-  // Create initial layout with the component
-  final initialLayout = LayoutState(
-    dimensions: const GridDimensions(columns: 4, rows: 3),
-    widgets: [
-      WidgetPlacement(
-        id: 'demo_widget',
-        widgetName: widgetName,
-        column: 1,
-        row: 1,
-        width: 2,
-        height: 1,
-        properties: {
-          'label': title,
-          'demo': true,
-        },
-      ),
-    ],
-  );
-
-  return Scaffold(
-    appBar: AppBar(
-      title: Text(title),
-      backgroundColor: Colors.blue.withValues(alpha: 0.1),
-    ),
-    body: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(16),
-          color: Colors.grey.withValues(alpha: 0.1),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
-              Text(description),
-              const SizedBox(height: 8),
-              const Text(
-                'This component is shown both in the toolbox and placed in the grid below.',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: FormLayout(
-            toolbox: toolbox,
-            initialLayout: initialLayout,
-            onLayoutChanged: (layout) {
-              // Handle layout changes in the demo
-            },
-          ),
-        ),
-      ],
-    ),
-  );
+    );
+  }
 }

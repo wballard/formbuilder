@@ -561,7 +561,7 @@ class _GridDragTargetState extends State<GridDragTarget> {
       child: AnimatedDropTarget(
         isActive: _highlightedCells != null,
         animationSettings: widget.animationSettings,
-        activeScale: 1.01,
+        activeScale: 1.0,
         activeColor: null,
         child: Stack(
           children: [

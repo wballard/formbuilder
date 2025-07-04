@@ -117,32 +117,36 @@ class GridContainer extends StatelessWidget {
           return Stack(
               children: [
               // Placed widgets layer
-              LayoutGrid(
-                areas: _generateAreas(),
-                columnSizes: List.generate(
-                  layoutState.dimensions.columns,
-                  (_) => 1.fr,
+              Positioned.fill(
+                child: LayoutGrid(
+                  areas: _generateAreas(),
+                  columnSizes: List.generate(
+                    layoutState.dimensions.columns,
+                    (_) => 1.fr,
+                  ),
+                  rowSizes: List.generate(
+                    layoutState.dimensions.rows, 
+                    (_) => FixedTrackSize(theme.rowHeight),
+                  ),
+                  columnGap: isPreviewMode ? 8 : 0,
+                  rowGap: isPreviewMode ? 8 : 0,
+                  children: _buildPlacedWidgets(context),
                 ),
-                rowSizes: List.generate(
-                  layoutState.dimensions.rows, 
-                  (_) => FixedTrackSize(theme.rowHeight),
-                ),
-                columnGap: isPreviewMode ? 8 : 0,
-                rowGap: isPreviewMode ? 8 : 0,
-                children: _buildPlacedWidgets(context),
               ),
               // Grid lines overlay (only show in edit mode)
               if (!isPreviewMode)
-                IgnorePointer(
-                  child: AccessibleGridWidget(
-                    dimensions: layoutState.dimensions,
-                    lineColor: Colors.black54, // Darker grid lines for better visibility
-                    lineWidth: 1.5, // Slightly thicker lines
-                    highlightedCells: highlightedCells,
-                    highlightColor: highlightColor,
-                    isCellValid: isCellValid,
-                    animationSettings: animationSettings,
-                    showGridLines: true,
+                Positioned.fill(
+                  child: IgnorePointer(
+                    child: AccessibleGridWidget(
+                      dimensions: layoutState.dimensions,
+                      lineColor: Colors.black54, // Darker grid lines for better visibility
+                      lineWidth: 1.5, // Slightly thicker lines
+                      highlightedCells: highlightedCells,
+                      highlightColor: highlightColor,
+                      isCellValid: isCellValid,
+                      animationSettings: animationSettings,
+                      showGridLines: true,
+                    ),
                   ),
                 ),
               ],

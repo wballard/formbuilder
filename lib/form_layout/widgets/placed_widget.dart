@@ -136,7 +136,6 @@ class _PlacedWidgetState extends State<PlacedWidget>
         onTap: widget.onTap,
         borderRadius: formTheme.widgetBorderRadius,
         child: Container(
-          constraints: const BoxConstraints.expand(),
           decoration: BoxDecoration(
             border: widget.isSelected
                 ? Border.all(

@@ -166,7 +166,7 @@ class _GridWidgetState extends State<GridWidget> with TickerProviderStateMixin {
               columnSizes: List.generate(widget.dimensions.columns, (_) => 1.fr),
               rowSizes: List.generate(
                 widget.dimensions.rows, 
-                (_) => FixedTrackSize(formTheme.rowHeight),
+                (_) => 1.fr, // Use fractional units to fill available space evenly
               ),
               columnGap: 0,
               rowGap: 0,
