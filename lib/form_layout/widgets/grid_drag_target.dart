@@ -214,6 +214,7 @@ class _GridDragTargetState extends State<GridDragTarget> {
       item.defaultHeight,
     );
 
+
     setState(() {
       _highlightedCells = cells;
       _isValidDrop = isValid;
@@ -556,7 +557,8 @@ class _GridDragTargetState extends State<GridDragTarget> {
             // DragTarget for WidgetPlacement (moving existing widgets)
             DragTarget<WidgetPlacement>(
               onWillAcceptWithDetails: (details) {
-                // Get the current drag position from details.offset
+                // Always return true to keep drag evaluation active
+                // Actual validation is handled in onMove and on drop
                 final gridCoords = _getGridCoordinates(details.offset);
                 if (gridCoords != null) {
                   final isValid = _isValidPlacement(
@@ -566,9 +568,10 @@ class _GridDragTargetState extends State<GridDragTarget> {
                     details.data.height,
                     excludeWidgetId: details.data.id,
                   );
-                  return isValid;
+                  debugPrint('GridDragTarget: move valid = $isValid for ${details.data.id} at (${gridCoords.x}, ${gridCoords.y})');
                 }
-                return _isValidDrop;
+                // Always return true to prevent Flutter from caching a rejection
+                return true;
               },
               onAcceptWithDetails: (details) {
                 debugPrint('GridDragTarget WidgetPlacement: onAcceptWithDetails called for ${details.data.id}');
@@ -576,24 +579,37 @@ class _GridDragTargetState extends State<GridDragTarget> {
                 final gridCoords = _getGridCoordinates(details.offset);
                 debugPrint('GridDragTarget WidgetPlacement: gridCoords = $gridCoords');
                 if (gridCoords != null) {
-                  // Use callback approach if provided
-                  if (widget.onWidgetMoved != null) {
-                    final newPlacement = details.data.copyWith(
-                      column: gridCoords.x,
-                      row: gridCoords.y,
-                    );
-                    debugPrint('GridDragTarget WidgetPlacement: calling onWidgetMoved with newPlacement (${newPlacement.column}, ${newPlacement.row})');
-                    widget.onWidgetMoved!(details.data.id, newPlacement);
+                  // Validate the move before actually performing it
+                  final isValid = _isValidPlacement(
+                    gridCoords.x,
+                    gridCoords.y,
+                    details.data.width,
+                    details.data.height,
+                    excludeWidgetId: details.data.id,
+                  );
+                  
+                  if (isValid) {
+                    // Use callback approach if provided
+                    if (widget.onWidgetMoved != null) {
+                      final newPlacement = details.data.copyWith(
+                        column: gridCoords.x,
+                        row: gridCoords.y,
+                      );
+                      debugPrint('GridDragTarget WidgetPlacement: calling onWidgetMoved with newPlacement (${newPlacement.column}, ${newPlacement.row})');
+                      widget.onWidgetMoved!(details.data.id, newPlacement);
+                    } else {
+                      // Fall back to Actions if no callback
+                      debugPrint('GridDragTarget WidgetPlacement: using Actions fallback');
+                      Actions.maybeInvoke<MoveWidgetIntent>(
+                        context,
+                        MoveWidgetIntent(
+                          widgetId: details.data.id,
+                          newPosition: Point(gridCoords.x, gridCoords.y),
+                        ),
+                      );
+                    }
                   } else {
-                    // Fall back to Actions if no callback
-                    debugPrint('GridDragTarget WidgetPlacement: using Actions fallback');
-                    Actions.maybeInvoke<MoveWidgetIntent>(
-                      context,
-                      MoveWidgetIntent(
-                        widgetId: details.data.id,
-                        newPosition: Point(gridCoords.x, gridCoords.y),
-                      ),
-                    );
+                    debugPrint('GridDragTarget: Move rejected - invalid placement at (${gridCoords.x}, ${gridCoords.y})');
                   }
                 } else {
                   debugPrint('GridDragTarget WidgetPlacement: Could not calculate grid coordinates from drop position');
@@ -670,7 +686,8 @@ class _GridDragTargetState extends State<GridDragTarget> {
             // DragTarget for ToolboxItem (new widgets)
             DragTarget<ToolboxItem>(
               onWillAcceptWithDetails: (details) {
-                // Get the current drag position from details.offset
+                // Always return true to keep drag evaluation active
+                // Actual validation is handled in onMove and visual feedback
                 final gridCoords = _getGridCoordinates(details.offset);
                 if (gridCoords != null) {
                   final isValid = _isValidPlacement(
@@ -679,35 +696,48 @@ class _GridDragTargetState extends State<GridDragTarget> {
                     details.data.defaultWidth,
                     details.data.defaultHeight,
                   );
-                  return isValid;
+                  debugPrint('GridDragTarget: placement valid = $isValid for ${details.data.name} at (${gridCoords.x}, ${gridCoords.y})');
                 }
-                return _isValidDrop;
+                // Always return true to prevent Flutter from caching a rejection
+                return true;
               },
               onAcceptWithDetails: (details) {
                 // Use details.offset directly to ensure coordinate consistency
                 final gridCoords = _getGridCoordinates(details.offset);
                 if (gridCoords != null) {
-                  // Use callback approach if provided
-                  if (widget.onWidgetDropped != null) {
-                    final placement = WidgetPlacement(
-                      id: '${details.data.name}_${DateTime.now().millisecondsSinceEpoch}',
-                      widgetName: details.data.name,
-                      column: gridCoords.x,
-                      row: gridCoords.y,
-                      width: details.data.defaultWidth,
-                      height: details.data.defaultHeight,
-                      properties: {},
-                    );
-                    widget.onWidgetDropped!(placement);
+                  // Validate the placement before actually creating the widget
+                  final isValid = _isValidPlacement(
+                    gridCoords.x,
+                    gridCoords.y,
+                    details.data.defaultWidth,
+                    details.data.defaultHeight,
+                  );
+                  
+                  if (isValid) {
+                    // Use callback approach if provided
+                    if (widget.onWidgetDropped != null) {
+                      final placement = WidgetPlacement(
+                        id: '${details.data.name}_${DateTime.now().millisecondsSinceEpoch}',
+                        widgetName: details.data.name,
+                        column: gridCoords.x,
+                        row: gridCoords.y,
+                        width: details.data.defaultWidth,
+                        height: details.data.defaultHeight,
+                        properties: {},
+                      );
+                      widget.onWidgetDropped!(placement);
+                    } else {
+                      // Fall back to Actions if no callback
+                      Actions.maybeInvoke<AddWidgetIntent>(
+                        context,
+                        AddWidgetIntent(
+                          item: details.data,
+                          position: Point(gridCoords.x, gridCoords.y),
+                        ),
+                      );
+                    }
                   } else {
-                    // Fall back to Actions if no callback
-                    Actions.maybeInvoke<AddWidgetIntent>(
-                      context,
-                      AddWidgetIntent(
-                        item: details.data,
-                        position: Point(gridCoords.x, gridCoords.y),
-                      ),
-                    );
+                    debugPrint('GridDragTarget: Drop rejected - invalid placement at (${gridCoords.x}, ${gridCoords.y})');
                   }
                 } else {
                   debugPrint('GridDragTarget: Could not calculate grid coordinates from drop position');
@@ -731,7 +761,11 @@ class _GridDragTargetState extends State<GridDragTarget> {
                 });
               },
               builder: (context, candidateData, rejectedData) {
-                return Container(); // Transparent container to allow other DragTargets to show through
+                return Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  color: Colors.transparent,
+                ); // Transparent container that can receive hit tests
               },
             ),
           ],
