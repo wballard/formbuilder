@@ -55,7 +55,7 @@ void main() {
           reason: 'Should have at least one dropdown in the grid');
     });
     
-    testWidgets('widgets should have proper size and position in grid', (WidgetTester tester) async {
+    testWidgets('widgets should be rendered in grid cells', (WidgetTester tester) async {
       // Create the Overview story
       final overviewStory = const OverviewStoryDemo();
       

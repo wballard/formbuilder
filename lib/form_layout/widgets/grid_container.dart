@@ -119,7 +119,6 @@ class GridContainer extends StatelessWidget {
               // Placed widgets layer
               Positioned.fill(
                 child: LayoutGrid(
-                  areas: _generateAreas(),
                   columnSizes: List.generate(
                     layoutState.dimensions.columns,
                     (_) => 1.fr,
@@ -190,7 +189,12 @@ class GridContainer extends StatelessWidget {
         return Container(
           padding: const EdgeInsets.all(4), // Keep simple padding for preview mode
           child: child,
-        ).inGridArea(_getAreaName(placement));
+        ).withGridPlacement(
+          columnStart: placement.column,
+          columnSpan: placement.width,
+          rowStart: placement.row,
+          rowSpan: placement.height,
+        );
       } else {
         // Wrap in SafeHitTestWrapper to prevent hit test errors with multi-cell widgets
         return SafeHitTestWrapper(
@@ -214,7 +218,12 @@ class GridContainer extends StatelessWidget {
             onResizeEnd: onWidgetResizeEnd,
             child: child,
           ),
-        ).inGridArea(_getAreaName(placement));
+        ).withGridPlacement(
+          columnStart: placement.column,
+          columnSpan: placement.width,
+          rowStart: placement.row,
+          rowSpan: placement.height,
+        );
       }
     }).toList();
   }
