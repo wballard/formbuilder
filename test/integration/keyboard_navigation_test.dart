@@ -301,13 +301,15 @@ void main() {
     testWidgets('Keyboard movement with modifiers', (tester) async {
       late FormLayoutController controller;
       
+      // Set the test window size explicitly to accommodate 12x12 grid
+      tester.view.physicalSize = const Size(800, 720);
+      tester.view.devicePixelRatio = 1.0;
+      
       await tester.pumpWidget(
         TestWidgetBuilder.wrapWithMaterialApp(
-          SizedBox(
-            width: 800,
-            height: 600,
-            child: FormLayoutTestWrapper(
-              toolbox: toolbox,
+          FormLayoutTestWrapper(
+            toolbox: toolbox,
+            showToolbox: false, // Hide toolbox to avoid space constraints
               initialLayout: LayoutState(
                     dimensions: const GridDimensions(columns: 12, rows: 12),
                     widgets: [
@@ -323,7 +325,6 @@ void main() {
                   ),
               onControllerCreated: (c) => controller = c,
             ),
-          ),
         ),
       );
 
@@ -411,13 +412,15 @@ void main() {
     testWidgets('Page navigation with multiple widgets', (tester) async {
       late FormLayoutController controller;
       
+      // Set test window size to accommodate 20 rows (20 * 56 = 1120 + padding)
+      tester.view.physicalSize = const Size(800, 1200);
+      tester.view.devicePixelRatio = 1.0;
+      
       await tester.pumpWidget(
         TestWidgetBuilder.wrapWithMaterialApp(
-          SizedBox(
-            width: 800,
-            height: 600,
-            child: FormLayoutTestWrapper(
-              toolbox: toolbox,
+          FormLayoutTestWrapper(
+            toolbox: toolbox,
+            showToolbox: false, // Hide toolbox to avoid space constraints
               initialLayout: LayoutState(
                     dimensions: const GridDimensions(columns: 12, rows: 20),
                     widgets: [
@@ -434,7 +437,6 @@ void main() {
                   ),
               onControllerCreated: (c) => controller = c,
             ),
-          ),
         ),
       );
 
@@ -459,6 +461,10 @@ void main() {
       controller.selectWidget('widget9');
       await tester.pump();
       expect(controller.selectedWidgetId, equals('widget9'));
+      
+      // Reset window size
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
     });
 
     testWidgets('Function key shortcuts', (tester) async {

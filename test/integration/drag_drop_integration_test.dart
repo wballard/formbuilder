@@ -212,21 +212,20 @@ void main() {
     testWidgets('Preview mode transitions', (tester) async {
       late FormLayoutController controller;
       
+      // Set test window size to accommodate 12x12 grid plus toolbox
+      tester.view.physicalSize = const Size(1050, 720); // Extra width for toolbox
+      tester.view.devicePixelRatio = 1.0;
+      
       await tester.pumpWidget(
         TestWidgetBuilder.wrapWithMaterialApp(
-          SizedBox(
-            width: 800,
-            height: 600,
-            child: FormLayoutTestWrapper(
-              toolbox: toolbox,
-              initialLayout: LayoutState(
+          FormLayoutTestWrapper(
+            toolbox: toolbox,
+            initialLayout: LayoutState(
                     dimensions: const GridDimensions(columns: 12, rows: 12),
                     widgets: TestDataGenerators.randomLayout(widgetCount: 3).widgets,
                   ),
               onControllerCreated: (c) => controller = c,
             ),
-          ),
-          screenSize: const Size(800, 600),
         ),
       );
       
@@ -265,6 +264,10 @@ void main() {
 
       expect(controller.isPreviewMode, false);
       expect(find.byType(AccessibleCategorizedToolbox), findsOneWidget);
+      
+      // Reset window size
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
     });
 
     testWidgets('Complex multi-step workflow', (tester) async {

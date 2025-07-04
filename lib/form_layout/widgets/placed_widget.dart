@@ -185,20 +185,16 @@ class _PlacedWidgetState extends State<PlacedWidget>
         child: contentForAnimation,
       );
 
-      // Calculate constraints for drag feedback
-      final double estimatedColumnWidth = 180.0; // Typical column width
-      final double estimatedHeight = widget.placement.height * formTheme.rowHeight + 
-          (widget.contentPadding?.vertical ?? formTheme.defaultPadding.vertical) * 2;
-      final double feedbackWidth = widget.placement.width * estimatedColumnWidth;
-      
       // Wrap with Draggable
       content = Draggable<WidgetPlacement>(
         data: widget.placement,
-        feedback: Container(
-          width: feedbackWidth,
-          height: estimatedHeight,
-          child: Material(
-            color: Colors.transparent,
+        feedback: Material(
+          color: Colors.transparent,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: 300.0, // Reasonable max width for drag feedback
+              maxHeight: 200.0, // Reasonable max height for drag feedback
+            ),
             child: DraggingPlacedWidget(
               placement: widget.placement,
               contentPadding: widget.contentPadding,
@@ -383,13 +379,13 @@ class DraggingPlacedWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final formTheme = FormLayoutTheme.of(context);
     
-    // Ensure child has proper constraints for form fields
+    // Build the content with appropriate constraints for drag feedback
     Widget content = DefaultTextStyle(
       style: Theme.of(context).textTheme.bodyMedium!,
       child: Container(
         constraints: BoxConstraints(
-          minWidth: 150.0,
-          minHeight: formTheme.rowHeight,
+          minWidth: 100.0,
+          maxWidth: 400.0, // Prevent excessive width during drag
         ),
         padding: contentPadding ?? formTheme.defaultPadding,
         child: child,

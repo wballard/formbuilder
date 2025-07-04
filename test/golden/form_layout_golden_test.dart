@@ -497,13 +497,15 @@ void main() {
     testWidgets('Error states', (tester) async {
       late FormLayoutController controller;
       
+      // Set the test window size explicitly
+      tester.view.physicalSize = const Size(800, 720);
+      tester.view.devicePixelRatio = 1.0;
+      
       await tester.pumpWidget(
         TestWidgetBuilder.withLightTheme(
-          SizedBox(
-            width: 800,
-            height: 600,
-            child: FormLayoutTestWrapper(
+          FormLayoutTestWrapper(
               toolbox: toolbox,
+              showToolbox: false, // Hide toolbox for this test to avoid space constraints
               initialLayout: LayoutState(
                 dimensions: const GridDimensions(columns: 12, rows: 12),
                 widgets: [
@@ -529,7 +531,6 @@ void main() {
               ),
               onControllerCreated: (c) => controller = c,
             ),
-          ),
         ),
       );
 

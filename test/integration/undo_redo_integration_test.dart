@@ -349,6 +349,10 @@ void main() {
     testWidgets('Undo/redo grid dimension changes', (tester) async {
       late FormLayoutController controller;
       
+      // Set test window size to accommodate 12x12 grid plus toolbox
+      tester.view.physicalSize = const Size(1050, 720);
+      tester.view.devicePixelRatio = 1.0;
+      
       await tester.pumpWidget(
         TestWidgetBuilder.wrapWithMaterialApp(
           FormLayoutTestWrapper(
@@ -413,6 +417,10 @@ void main() {
         column: 10,
         row: 10,
       );
+      
+      // Reset window size
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
     });
 
     testWidgets('Complex undo/redo scenario', (tester) async {
