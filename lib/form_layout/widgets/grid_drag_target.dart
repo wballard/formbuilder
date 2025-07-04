@@ -77,8 +77,6 @@ class _GridDragTargetState extends State<GridDragTarget> {
   /// Whether the current drag position is valid
   bool _isValidDrop = false;
 
-  /// The current drag position
-  Offset? _currentDragPosition;
 
   /// The widget currently being moved (if any)
   WidgetPlacement? _movingWidget;
@@ -104,7 +102,6 @@ class _GridDragTargetState extends State<GridDragTarget> {
     
     // Calculate actual grid size based on intrinsic dimensions
     final gridWidth = renderBox.size.width;
-    final gridHeight = widget.layoutState.dimensions.rows * theme.rowHeight;
     
     // Calculate cell size using actual grid dimensions
     final cellWidth = gridWidth / widget.layoutState.dimensions.columns;
@@ -190,7 +187,6 @@ class _GridDragTargetState extends State<GridDragTarget> {
       setState(() {
         _highlightedCells = null;
         _isValidDrop = false;
-        _currentDragPosition = null;
       });
       return;
     }
@@ -200,8 +196,7 @@ class _GridDragTargetState extends State<GridDragTarget> {
       setState(() {
         _highlightedCells = null;
         _isValidDrop = false;
-        _currentDragPosition = dragPosition;
-      });
+        });
       return;
     }
 
@@ -222,7 +217,6 @@ class _GridDragTargetState extends State<GridDragTarget> {
     setState(() {
       _highlightedCells = cells;
       _isValidDrop = isValid;
-      _currentDragPosition = dragPosition;
       _movingWidget = null; // Clear moving widget for toolbox drags
     });
   }
@@ -236,7 +230,6 @@ class _GridDragTargetState extends State<GridDragTarget> {
       setState(() {
         _highlightedCells = null;
         _isValidDrop = false;
-        _currentDragPosition = null;
         _movingWidget = null;
       });
       return;
@@ -247,8 +240,7 @@ class _GridDragTargetState extends State<GridDragTarget> {
       setState(() {
         _highlightedCells = null;
         _isValidDrop = false;
-        _currentDragPosition = dragPosition;
-        _movingWidget = widget;
+          _movingWidget = widget;
       });
       return;
     }
@@ -271,7 +263,6 @@ class _GridDragTargetState extends State<GridDragTarget> {
     setState(() {
       _highlightedCells = cells;
       _isValidDrop = isValid;
-      _currentDragPosition = dragPosition;
       _movingWidget = widget;
     });
   }
@@ -370,7 +361,6 @@ class _GridDragTargetState extends State<GridDragTarget> {
       setState(() {
         _highlightedCells = null;
         _isValidDrop = false;
-        _currentDragPosition = null;
         _resizingWidget = null;
         _resizePreview = null;
         _resizeDragStartPosition = null;
@@ -403,7 +393,6 @@ class _GridDragTargetState extends State<GridDragTarget> {
     setState(() {
       _highlightedCells = cells;
       _isValidDrop = isValid;
-      _currentDragPosition = dragPosition;
       _resizingWidget = resizeData;
       _resizePreview = newPlacement;
       _movingWidget = null; // Clear moving widget for resize operations
@@ -543,8 +532,7 @@ class _GridDragTargetState extends State<GridDragTarget> {
         setState(() {
           _highlightedCells = null;
           _isValidDrop = false;
-          _currentDragPosition = null;
-          _resizingWidget = null;
+            _resizingWidget = null;
           _resizePreview = null;
           _resizeDragStartPosition = null;
         });
@@ -584,42 +572,38 @@ class _GridDragTargetState extends State<GridDragTarget> {
               },
               onAcceptWithDetails: (details) {
                 debugPrint('GridDragTarget WidgetPlacement: onAcceptWithDetails called for ${details.data.id}');
-                if (_currentDragPosition != null) {
-                  final gridCoords = _getGridCoordinates(_currentDragPosition!);
-                  debugPrint('GridDragTarget WidgetPlacement: gridCoords = $gridCoords');
-                  if (gridCoords != null) {
-                    // Use callback approach if provided
-                    if (widget.onWidgetMoved != null) {
-                      final newPlacement = details.data.copyWith(
-                        column: gridCoords.x,
-                        row: gridCoords.y,
-                      );
-                      debugPrint('GridDragTarget WidgetPlacement: calling onWidgetMoved with newPlacement (${newPlacement.column}, ${newPlacement.row})');
-                      widget.onWidgetMoved!(details.data.id, newPlacement);
-                    } else {
-                      // Fall back to Actions if no callback
-                      debugPrint('GridDragTarget WidgetPlacement: using Actions fallback');
-                      Actions.maybeInvoke<MoveWidgetIntent>(
-                        context,
-                        MoveWidgetIntent(
-                          widgetId: details.data.id,
-                          newPosition: Point(gridCoords.x, gridCoords.y),
-                        ),
-                      );
-                    }
+                // Use details.offset directly to ensure coordinate consistency
+                final gridCoords = _getGridCoordinates(details.offset);
+                debugPrint('GridDragTarget WidgetPlacement: gridCoords = $gridCoords');
+                if (gridCoords != null) {
+                  // Use callback approach if provided
+                  if (widget.onWidgetMoved != null) {
+                    final newPlacement = details.data.copyWith(
+                      column: gridCoords.x,
+                      row: gridCoords.y,
+                    );
+                    debugPrint('GridDragTarget WidgetPlacement: calling onWidgetMoved with newPlacement (${newPlacement.column}, ${newPlacement.row})');
+                    widget.onWidgetMoved!(details.data.id, newPlacement);
                   } else {
-                    debugPrint('GridDragTarget WidgetPlacement: gridCoords is null');
+                    // Fall back to Actions if no callback
+                    debugPrint('GridDragTarget WidgetPlacement: using Actions fallback');
+                    Actions.maybeInvoke<MoveWidgetIntent>(
+                      context,
+                      MoveWidgetIntent(
+                        widgetId: details.data.id,
+                        newPosition: Point(gridCoords.x, gridCoords.y),
+                      ),
+                    );
                   }
                 } else {
-                  debugPrint('GridDragTarget WidgetPlacement: _currentDragPosition is null');
+                  debugPrint('GridDragTarget WidgetPlacement: Could not calculate grid coordinates from drop position');
                 }
 
                 // Clear highlights after drop
                 setState(() {
                   _highlightedCells = null;
                   _isValidDrop = false;
-                  _currentDragPosition = null;
-                  _movingWidget = null;
+                            _movingWidget = null;
                 });
               },
               onMove: (details) {
@@ -629,8 +613,7 @@ class _GridDragTargetState extends State<GridDragTarget> {
                 setState(() {
                   _highlightedCells = null;
                   _isValidDrop = false;
-                  _currentDragPosition = null;
-                  _movingWidget = null;
+                            _movingWidget = null;
                 });
               },
               builder: (context, candidateData, rejectedData) {
@@ -662,8 +645,7 @@ class _GridDragTargetState extends State<GridDragTarget> {
                 setState(() {
                   _highlightedCells = null;
                   _isValidDrop = false;
-                  _currentDragPosition = null;
-                  _resizingWidget = null;
+                            _resizingWidget = null;
                   _resizePreview = null;
                   _resizeDragStartPosition = null;
                 });
@@ -675,8 +657,7 @@ class _GridDragTargetState extends State<GridDragTarget> {
                 setState(() {
                   _highlightedCells = null;
                   _isValidDrop = false;
-                  _currentDragPosition = null;
-                  _resizingWidget = null;
+                            _resizingWidget = null;
                   _resizePreview = null;
                   _resizeDragStartPosition = null;
                 });
@@ -703,40 +684,40 @@ class _GridDragTargetState extends State<GridDragTarget> {
                 return _isValidDrop;
               },
               onAcceptWithDetails: (details) {
-                if (_currentDragPosition != null) {
-                  final gridCoords = _getGridCoordinates(_currentDragPosition!);
-                  if (gridCoords != null) {
-                    // Use callback approach if provided
-                    if (widget.onWidgetDropped != null) {
-                      final placement = WidgetPlacement(
-                        id: '${details.data.name}_${DateTime.now().millisecondsSinceEpoch}',
-                        widgetName: details.data.name,
-                        column: gridCoords.x,
-                        row: gridCoords.y,
-                        width: details.data.defaultWidth,
-                        height: details.data.defaultHeight,
-                        properties: {},
-                      );
-                      widget.onWidgetDropped!(placement);
-                    } else {
-                      // Fall back to Actions if no callback
-                      Actions.maybeInvoke<AddWidgetIntent>(
-                        context,
-                        AddWidgetIntent(
-                          item: details.data,
-                          position: Point(gridCoords.x, gridCoords.y),
-                        ),
-                      );
-                    }
+                // Use details.offset directly to ensure coordinate consistency
+                final gridCoords = _getGridCoordinates(details.offset);
+                if (gridCoords != null) {
+                  // Use callback approach if provided
+                  if (widget.onWidgetDropped != null) {
+                    final placement = WidgetPlacement(
+                      id: '${details.data.name}_${DateTime.now().millisecondsSinceEpoch}',
+                      widgetName: details.data.name,
+                      column: gridCoords.x,
+                      row: gridCoords.y,
+                      width: details.data.defaultWidth,
+                      height: details.data.defaultHeight,
+                      properties: {},
+                    );
+                    widget.onWidgetDropped!(placement);
+                  } else {
+                    // Fall back to Actions if no callback
+                    Actions.maybeInvoke<AddWidgetIntent>(
+                      context,
+                      AddWidgetIntent(
+                        item: details.data,
+                        position: Point(gridCoords.x, gridCoords.y),
+                      ),
+                    );
                   }
+                } else {
+                  debugPrint('GridDragTarget: Could not calculate grid coordinates from drop position');
                 }
 
                 // Clear highlights after drop
                 setState(() {
                   _highlightedCells = null;
                   _isValidDrop = false;
-                  _currentDragPosition = null;
-                  _movingWidget = null;
+                            _movingWidget = null;
                 });
               },
               onMove: (details) {
@@ -746,8 +727,7 @@ class _GridDragTargetState extends State<GridDragTarget> {
                 setState(() {
                   _highlightedCells = null;
                   _isValidDrop = false;
-                  _currentDragPosition = null;
-                  _movingWidget = null;
+                            _movingWidget = null;
                 });
               },
               builder: (context, candidateData, rejectedData) {

@@ -202,10 +202,7 @@ class _PlacedWidgetState extends State<PlacedWidget>
             ),
           ),
         ),
-        childWhenDragging: Opacity(
-          opacity: 0.3,
-          child: content,
-        ),
+        childWhenDragging: const SizedBox.shrink(),
         onDragStarted: () {
           _scaleController.forward();
           widget.onDragStarted?.call(widget.placement);
