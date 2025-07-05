@@ -36,7 +36,7 @@ class AnimatedGridWidget extends StatefulWidget {
   const AnimatedGridWidget({
     super.key,
     required this.dimensions,
-    this.lineColor = Colors.grey,
+    this.lineColor = Colors.transparent, // Will be overridden in build method with theme color
     this.lineWidth = 1.0,
     this.backgroundColor = Colors.transparent,
     this.highlightedCells,
@@ -161,6 +161,10 @@ class _AnimatedGridWidgetState extends State<AnimatedGridWidget>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final effectiveLineColor = widget.lineColor != Colors.transparent 
+        ? widget.lineColor 
+        : theme.dividerColor;
     // Build highlighted cells with animation
     final animatedHighlightedCells = <Point<int>>{};
     final highlightOpacities = <Point<int>, double>{};
@@ -189,8 +193,8 @@ class _AnimatedGridWidgetState extends State<AnimatedGridWidget>
             painter: _AnimatedGridPainter(
               dimensions: widget.dimensions,
               lineColor: widget.showGridLines 
-                  ? widget.lineColor.withValues(
-                      alpha: widget.lineColor.a * _gridLinesOpacity.value,
+                  ? effectiveLineColor.withValues(
+                      alpha: effectiveLineColor.a * _gridLinesOpacity.value,
                     )
                   : Colors.transparent,
               lineWidth: widget.lineWidth,
@@ -199,6 +203,7 @@ class _AnimatedGridWidgetState extends State<AnimatedGridWidget>
               highlightColor: widget.highlightColor,
               highlightOpacities: highlightOpacities,
               isCellValid: widget.isCellValid,
+              errorColor: theme.colorScheme.error,
             ),
             child: Container(), // Empty container as child
           );
@@ -209,7 +214,7 @@ class _AnimatedGridWidgetState extends State<AnimatedGridWidget>
       gridWidget = GridWidget(
         dimensions: widget.dimensions,
         gridLineColor: widget.showGridLines
-            ? widget.lineColor
+            ? effectiveLineColor
             : Colors.transparent,
         gridLineWidth: widget.lineWidth,
         backgroundColor: widget.backgroundColor,
@@ -238,6 +243,7 @@ class _AnimatedGridPainter extends CustomPainter {
   final Color? highlightColor;
   final Map<Point<int>, double> highlightOpacities;
   final bool Function(Point<int>)? isCellValid;
+  final Color errorColor;
 
   _AnimatedGridPainter({
     required this.dimensions,
@@ -248,10 +254,12 @@ class _AnimatedGridPainter extends CustomPainter {
     this.highlightColor,
     required this.highlightOpacities,
     this.isCellValid,
+    required this.errorColor,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
+    // We don't have direct access to context here, so we'll need to pass error color from widget
     final paint = Paint();
     final cellWidth = size.width / dimensions.columns;
     final cellHeight = size.height / dimensions.rows;
@@ -268,7 +276,7 @@ class _AnimatedGridPainter extends CustomPainter {
 
         paint.color = isValid
             ? highlightColor!.withValues(alpha: highlightColor!.a * opacity)
-            : Colors.red.withValues(alpha: 0.3 * opacity);
+            : errorColor.withValues(alpha: 0.3 * opacity);
 
         final rect = Rect.fromLTWH(
           cell.x * cellWidth,
@@ -313,6 +321,7 @@ class _AnimatedGridPainter extends CustomPainter {
         highlightedCells != oldDelegate.highlightedCells ||
         highlightColor != oldDelegate.highlightColor ||
         highlightOpacities != oldDelegate.highlightOpacities ||
-        isCellValid != oldDelegate.isCellValid;
+        isCellValid != oldDelegate.isCellValid ||
+        errorColor != oldDelegate.errorColor;
   }
 }

@@ -117,6 +117,7 @@ class _GridResizeControlsState extends State<GridResizeControls> {
 
   /// Build the column resize control on the right edge
   Widget _buildColumnResizeControl() {
+    final theme = Theme.of(context);
     return Positioned(
       top: 0,
       right: 0,
@@ -133,12 +134,12 @@ class _GridResizeControlsState extends State<GridResizeControls> {
           child: Container(
             decoration: BoxDecoration(
               color: (_isHoveringColumnResize || _isResizingColumns)
-                  ? Colors.blue.withValues(alpha: 0.3)
-                  : Colors.grey.withValues(alpha: 0.1),
+                  ? theme.colorScheme.primary.withValues(alpha: 0.3)
+                  : theme.colorScheme.outline.withValues(alpha: 0.1),
               border: Border.all(
                 color: (_isHoveringColumnResize || _isResizingColumns)
-                    ? Colors.blue
-                    : Colors.grey.withValues(alpha: 0.3),
+                    ? theme.colorScheme.primary
+                    : theme.colorScheme.outline.withValues(alpha: 0.3),
                 width: 2,
               ),
             ),
@@ -148,8 +149,8 @@ class _GridResizeControlsState extends State<GridResizeControls> {
                 Icon(
                   Icons.drag_indicator,
                   color: (_isHoveringColumnResize || _isResizingColumns)
-                      ? Colors.blue
-                      : Colors.grey,
+                      ? theme.colorScheme.primary
+                      : theme.colorScheme.onSurface,
                   size: 16,
                 ),
                 const SizedBox(height: 8),
@@ -160,8 +161,8 @@ class _GridResizeControlsState extends State<GridResizeControls> {
                     style: TextStyle(
                       fontSize: 12,
                       color: (_isHoveringColumnResize || _isResizingColumns)
-                          ? Colors.blue
-                          : Colors.grey,
+                          ? theme.colorScheme.primary
+                          : theme.colorScheme.onSurface,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -199,6 +200,7 @@ class _GridResizeControlsState extends State<GridResizeControls> {
 
   /// Build the row resize control on the bottom edge
   Widget _buildRowResizeControl() {
+    final theme = Theme.of(context);
     return Positioned(
       left: 0,
       right: 0,
@@ -215,12 +217,12 @@ class _GridResizeControlsState extends State<GridResizeControls> {
           child: Container(
             decoration: BoxDecoration(
               color: (_isHoveringRowResize || _isResizingRows)
-                  ? Colors.blue.withValues(alpha: 0.3)
-                  : Colors.grey.withValues(alpha: 0.1),
+                  ? theme.colorScheme.primary.withValues(alpha: 0.3)
+                  : theme.colorScheme.outline.withValues(alpha: 0.1),
               border: Border.all(
                 color: (_isHoveringRowResize || _isResizingRows)
-                    ? Colors.blue
-                    : Colors.grey.withValues(alpha: 0.3),
+                    ? theme.colorScheme.primary
+                    : theme.colorScheme.outline.withValues(alpha: 0.3),
                 width: 2,
               ),
             ),
@@ -232,8 +234,8 @@ class _GridResizeControlsState extends State<GridResizeControls> {
                   child: Icon(
                     Icons.drag_indicator,
                     color: (_isHoveringRowResize || _isResizingRows)
-                        ? Colors.blue
-                        : Colors.grey,
+                        ? theme.colorScheme.primary
+                        : theme.colorScheme.onSurface,
                     size: 16,
                   ),
                 ),
@@ -243,8 +245,8 @@ class _GridResizeControlsState extends State<GridResizeControls> {
                   style: TextStyle(
                     fontSize: 12,
                     color: (_isHoveringRowResize || _isResizingRows)
-                        ? Colors.blue
-                        : Colors.grey,
+                        ? theme.colorScheme.primary
+                        : theme.colorScheme.onSurface,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -284,6 +286,7 @@ class _GridResizeControlsState extends State<GridResizeControls> {
     required IconData icon,
     required VoidCallback? onPressed,
   }) {
+    final theme = Theme.of(context);
     return SizedBox(
       width: 20,
       height: 20,
@@ -291,11 +294,19 @@ class _GridResizeControlsState extends State<GridResizeControls> {
         onPressed: onPressed,
         padding: EdgeInsets.zero,
         iconSize: 14,
-        icon: Icon(icon, color: onPressed != null ? Colors.blue : Colors.grey),
+        icon: Icon(
+          icon,
+          color: onPressed != null
+              ? theme.colorScheme.primary
+              : theme.colorScheme.onSurface.withValues(alpha: 0.5),
+        ),
         style: IconButton.styleFrom(
-          backgroundColor: Colors.white.withValues(alpha: 0.8),
-          foregroundColor: Colors.blue,
-          side: BorderSide(color: Colors.grey.withValues(alpha: 0.3), width: 1),
+          backgroundColor: theme.colorScheme.surface.withValues(alpha: 0.8),
+          foregroundColor: theme.colorScheme.primary,
+          side: BorderSide(
+            color: theme.colorScheme.outline.withValues(alpha: 0.3),
+            width: 1,
+          ),
         ),
       ),
     );

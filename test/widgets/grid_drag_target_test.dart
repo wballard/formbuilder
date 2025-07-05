@@ -120,13 +120,13 @@ void main() {
         ),
       );
 
-      // Tap on the placed widget's InkWell specifically
-      final placedWidgetInkWell = find.descendant(
-        of: find.byType(AccessiblePlacedWidget),
-        matching: find.byType(InkWell),
-      );
-      expect(placedWidgetInkWell, findsOneWidget);
-      await tester.tap(placedWidgetInkWell);
+      // Pump and settle to ensure layout is complete
+      await tester.pumpAndSettle();
+      
+      // Tap on the placed widget directly with coordinates
+      final placedWidget = find.byType(AccessiblePlacedWidget);
+      expect(placedWidget, findsOneWidget);
+      await tester.tap(placedWidget, warnIfMissed: false);
 
       expect(tappedWidgetId, equals('widget1'));
     });

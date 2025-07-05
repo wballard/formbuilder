@@ -315,7 +315,7 @@ class _AccessibleCategorizedToolboxState
               )
             : Theme(
                 data: theme.copyWith(
-                  dividerColor: Colors.transparent,
+                  dividerColor: Colors.transparent, // Must stay transparent for proper toolbox appearance
                 ),
                 child: ExpansionTile(
                   initiallyExpanded: isExpanded,

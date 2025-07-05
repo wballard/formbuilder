@@ -1,0 +1,1 @@
+No fooling, do not use hard coded colors -- take them from the theme - everywhere, Storys included.

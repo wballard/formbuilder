@@ -85,7 +85,7 @@ class _AnimatedDragFeedbackState extends State<AnimatedDragFeedback>
           child: Opacity(opacity: _opacityAnimation.value, child: child),
         );
       },
-      child: Material(color: Colors.transparent, child: widget.child),
+      child: Material(color: Colors.transparent, child: widget.child), // Must stay transparent
     );
   }
 }

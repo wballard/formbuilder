@@ -38,10 +38,10 @@ class AccessibleGridWidget extends StatefulWidget {
   /// Callback when a cell is selected via keyboard
   final void Function(Point<int>)? onCellSelected;
 
-  const AccessibleGridWidget({
+  AccessibleGridWidget({
     super.key,
     required this.dimensions,
-    this.lineColor = Colors.grey,
+    Color? lineColor,
     this.lineWidth = 1.0,
     this.backgroundColor = Colors.transparent,
     this.highlightedCells,
@@ -50,7 +50,7 @@ class AccessibleGridWidget extends StatefulWidget {
     this.animationSettings = const AnimationSettings(),
     this.showGridLines = true,
     this.onCellSelected,
-  });
+  }) : lineColor = lineColor ?? Colors.transparent;
 
   @override
   State<AccessibleGridWidget> createState() => _AccessibleGridWidgetState();
@@ -154,6 +154,11 @@ class _AccessibleGridWidgetState extends State<AccessibleGridWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final effectiveLineColor = widget.lineColor != Colors.transparent 
+        ? widget.lineColor 
+        : theme.dividerColor;
+    
     // Calculate highlighted cells including focused cell
     Set<Point<int>>? allHighlightedCells = widget.highlightedCells;
     if (_isGridFocused && _focusedCell != null) {
@@ -194,7 +199,7 @@ class _AccessibleGridWidgetState extends State<AccessibleGridWidget> {
             },
             child: AnimatedGridWidget(
               dimensions: widget.dimensions,
-              lineColor: widget.lineColor,
+              lineColor: effectiveLineColor,
               lineWidth: widget.lineWidth,
               backgroundColor: widget.backgroundColor,
               highlightedCells: allHighlightedCells,

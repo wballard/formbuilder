@@ -221,7 +221,8 @@ void main() {
       await tester.pump();
 
       final scaffold = tester.widget<Scaffold>(find.byType(Scaffold));
-      expect(scaffold.backgroundColor, equals(Colors.grey.shade900));
+      final theme = Theme.of(tester.element(find.byType(Scaffold)));
+      expect(scaffold.backgroundColor, equals(theme.scaffoldBackgroundColor));
     });
   });
 

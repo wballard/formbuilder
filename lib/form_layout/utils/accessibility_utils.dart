@@ -196,7 +196,7 @@ class SkipLink extends StatelessWidget {
           label: label,
           button: true,
           child: Material(
-            color: Colors.transparent,
+            color: Colors.transparent, // Must stay transparent for accessibility
             child: InkWell(
               onTap: onSkip,
               child: Padding(

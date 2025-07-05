@@ -6,16 +6,16 @@ import 'dart:math';
 
 void main() {
   group('OptimizedGridWidget', () {
-    test('should support const constructor', () {
-      // This test verifies that the widget can be created as const
-      const widget = OptimizedGridWidget(
-        dimensions: GridDimensions(columns: 4, rows: 4),
+    test('should support constructor', () {
+      // This test verifies that the widget can be created with theme defaults
+      final widget = OptimizedGridWidget(
+        dimensions: const GridDimensions(columns: 4, rows: 4),
       );
 
       expect(widget.dimensions.columns, equals(4));
       expect(widget.dimensions.rows, equals(4));
-      expect(widget.lineColor, equals(Colors.grey));
-      expect(widget.backgroundColor, equals(Colors.white));
+      expect(widget.lineColor, equals(Colors.transparent));
+      expect(widget.backgroundColor, equals(Colors.transparent));
     });
 
     testWidgets('should use RepaintBoundary', (tester) async {
@@ -55,11 +55,11 @@ void main() {
                       return CustomPaint(
                         painter: TestableOptimizedGridPainter(
                           dimensions: dimensions,
-                          lineColor: Colors.grey,
-                          backgroundColor: Colors.white,
+                          lineColor: Theme.of(context).dividerColor,
+                          backgroundColor: Colors.transparent,
                           lineWidth: 1.0,
                           highlightedCells: cells,
-                          highlightColor: Colors.blue,
+                          highlightColor: Theme.of(context).colorScheme.primary,
                           paintCounts: testPaintCount,
                           debugKey: 'test',
                         ),
@@ -106,11 +106,11 @@ void main() {
                         return CustomPaint(
                           painter: TestableOptimizedGridPainter(
                             dimensions: dimensions,
-                            lineColor: Colors.grey,
-                            backgroundColor: Colors.white,
+                            lineColor: Theme.of(context).dividerColor,
+                            backgroundColor: Colors.transparent,
                             lineWidth: 1.0,
                             highlightedCells: cells,
-                            highlightColor: Colors.blue,
+                            highlightColor: Theme.of(context).colorScheme.primary,
                             paintCounts: testPaintCount,
                             debugKey: 'grid-test',
                           ),

@@ -97,85 +97,100 @@ class Toolbox {
         ToolboxItem(
           name: 'text_input',
           displayName: 'Text Input',
-          toolboxBuilder: (context) => Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(4),
-            ),
-            padding: const EdgeInsets.all(8),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.text_fields, size: 20),
-                const SizedBox(width: 8),
-                Text('Text Input'),
-              ],
-            ),
-          ),
-          gridBuilder: (context, placement) => Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.blue),
-              borderRadius: BorderRadius.circular(4),
-              color: Colors.blue.withValues(alpha: 0.1),
-            ),
-            child: Center(
-              child: Text('Text Input', style: TextStyle(fontSize: 12)),
-            ),
-          ),
+          toolboxBuilder: (context) {
+            final theme = Theme.of(context);
+            return Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: theme.colorScheme.outline),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              padding: const EdgeInsets.all(8),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.text_fields, size: 20),
+                  const SizedBox(width: 8),
+                  Text('Text Input'),
+                ],
+              ),
+            );
+          },
+          gridBuilder: (context, placement) {
+            final theme = Theme.of(context);
+            return Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: theme.colorScheme.primary),
+                borderRadius: BorderRadius.circular(4),
+                color: theme.colorScheme.primary.withValues(alpha: 0.1),
+              ),
+              child: Center(
+                child: Text('Text Input', style: TextStyle(fontSize: 12)),
+              ),
+            );
+          },
           defaultWidth: 2,
           defaultHeight: 1,
         ),
         ToolboxItem(
           name: 'button',
           displayName: 'Button',
-          toolboxBuilder: (context) => Container(
-            decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.circular(4),
-            ),
-            padding: const EdgeInsets.all(8),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.smart_button, size: 20, color: Colors.white),
-                const SizedBox(width: 8),
-                Text('Button', style: TextStyle(color: Colors.white)),
-              ],
-            ),
-          ),
-          gridBuilder: (context, placement) => Container(
-            decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: Center(
-              child: Text(
-                'Button',
-                style: TextStyle(color: Colors.white, fontSize: 12),
+          toolboxBuilder: (context) {
+            final theme = Theme.of(context);
+            return Container(
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primary,
+                borderRadius: BorderRadius.circular(4),
               ),
-            ),
-          ),
+              padding: const EdgeInsets.all(8),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.smart_button, size: 20, color: theme.colorScheme.onPrimary),
+                  const SizedBox(width: 8),
+                  Text('Button', style: TextStyle(color: theme.colorScheme.onPrimary)),
+                ],
+              ),
+            );
+          },
+          gridBuilder: (context, placement) {
+            final theme = Theme.of(context);
+            return Container(
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primary,
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Center(
+                child: Text(
+                  'Button',
+                  style: TextStyle(color: theme.colorScheme.onPrimary, fontSize: 12),
+                ),
+              ),
+            );
+          },
           defaultWidth: 2,
           defaultHeight: 1,
         ),
         ToolboxItem(
           name: 'label',
           displayName: 'Label',
-          toolboxBuilder: (context) => Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey.shade300),
-              borderRadius: BorderRadius.circular(4),
-            ),
-            padding: const EdgeInsets.all(8),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.label_outline, size: 20),
-                const SizedBox(width: 8),
-                Text('Label'),
-              ],
-            ),
-          ),
+          toolboxBuilder: (context) {
+            final theme = Theme.of(context);
+            return Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: theme.colorScheme.outlineVariant),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              padding: const EdgeInsets.all(8),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.label_outline, size: 20),
+                  const SizedBox(width: 8),
+                  Text('Label'),
+                ],
+              ),
+            );
+          },
           gridBuilder: (context, placement) => Container(
             padding: const EdgeInsets.all(4),
             child: Align(
@@ -189,21 +204,24 @@ class Toolbox {
         ToolboxItem(
           name: 'checkbox',
           displayName: 'Checkbox',
-          toolboxBuilder: (context) => Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(4),
-            ),
-            padding: const EdgeInsets.all(8),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.check_box_outline_blank, size: 20),
-                const SizedBox(width: 8),
-                Text('Checkbox'),
-              ],
-            ),
-          ),
+          toolboxBuilder: (context) {
+            final theme = Theme.of(context);
+            return Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: theme.colorScheme.outline),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              padding: const EdgeInsets.all(8),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.check_box_outline_blank, size: 20),
+                  const SizedBox(width: 8),
+                  Text('Checkbox'),
+                ],
+              ),
+            );
+          },
           gridBuilder: (context, placement) => Container(
             padding: const EdgeInsets.all(4),
             child: Row(
@@ -220,57 +238,66 @@ class Toolbox {
         ToolboxItem(
           name: 'dropdown',
           displayName: 'Dropdown',
-          toolboxBuilder: (context) => Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(4),
-            ),
-            padding: const EdgeInsets.all(8),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.arrow_drop_down, size: 20),
-                const SizedBox(width: 8),
-                Text('Dropdown'),
-              ],
-            ),
-          ),
-          gridBuilder: (context, placement) => Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(4),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text('Dropdown', style: TextStyle(fontSize: 12)),
-                ),
-                Icon(Icons.arrow_drop_down, size: 20),
-              ],
-            ),
-          ),
+          toolboxBuilder: (context) {
+            final theme = Theme.of(context);
+            return Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: theme.colorScheme.outline),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              padding: const EdgeInsets.all(8),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.arrow_drop_down, size: 20),
+                  const SizedBox(width: 8),
+                  Text('Dropdown'),
+                ],
+              ),
+            );
+          },
+          gridBuilder: (context, placement) {
+            final theme = Theme.of(context);
+            return Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: theme.colorScheme.outline),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text('Dropdown', style: TextStyle(fontSize: 12)),
+                  ),
+                  Icon(Icons.arrow_drop_down, size: 20),
+                ],
+              ),
+            );
+          },
           defaultWidth: 2,
           defaultHeight: 1,
         ),
         ToolboxItem(
           name: 'radio_group',
           displayName: 'Radio Group',
-          toolboxBuilder: (context) => Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(4),
-            ),
-            padding: const EdgeInsets.all(8),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.radio_button_unchecked, size: 20),
-                const SizedBox(width: 8),
-                Text('Radio Group'),
-              ],
-            ),
-          ),
+          toolboxBuilder: (context) {
+            final theme = Theme.of(context);
+            return Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: theme.colorScheme.outline),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              padding: const EdgeInsets.all(8),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.radio_button_unchecked, size: 20),
+                  const SizedBox(width: 8),
+                  Text('Radio Group'),
+                ],
+              ),
+            );
+          },
           gridBuilder: (context, placement) => Container(
             padding: const EdgeInsets.all(4),
             child: Column(
@@ -303,36 +330,42 @@ class Toolbox {
         ToolboxItem(
           name: 'textarea',
           displayName: 'Text Area',
-          toolboxBuilder: (context) => Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(4),
-            ),
-            padding: const EdgeInsets.all(8),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.notes, size: 20),
-                const SizedBox(width: 8),
-                Text('Text Area'),
-              ],
-            ),
-          ),
-          gridBuilder: (context, placement) => Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(4),
-              color: Colors.grey.withValues(alpha: 0.05),
-            ),
-            padding: const EdgeInsets.all(4),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                'Text Area',
-                style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+          toolboxBuilder: (context) {
+            final theme = Theme.of(context);
+            return Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: theme.colorScheme.outline),
+                borderRadius: BorderRadius.circular(4),
               ),
-            ),
-          ),
+              padding: const EdgeInsets.all(8),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.notes, size: 20),
+                  const SizedBox(width: 8),
+                  Text('Text Area'),
+                ],
+              ),
+            );
+          },
+          gridBuilder: (context, placement) {
+            final theme = Theme.of(context);
+            return Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: theme.colorScheme.outline),
+                borderRadius: BorderRadius.circular(4),
+                color: theme.colorScheme.surfaceContainerHighest,
+              ),
+              padding: const EdgeInsets.all(4),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Text Area',
+                  style: TextStyle(fontSize: 12, color: theme.colorScheme.onSurfaceVariant),
+                ),
+              ),
+            );
+          },
           defaultWidth: 3,
           defaultHeight: 3,
         ),

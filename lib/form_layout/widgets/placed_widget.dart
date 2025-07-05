@@ -333,14 +333,14 @@ class _PlacedWidgetState extends State<PlacedWidget>
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: Colors.white, 
+                  color: Theme.of(context).colorScheme.onError, 
                   width: Theme.of(context).dividerTheme.thickness ?? 1.0,
                 ),
               ),
               child: Icon(
                 Icons.close, 
                 size: (Theme.of(context).iconTheme.size ?? 24) * 0.67, // 2/3 of container size
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onError,
               ),
             ),
           ),
@@ -394,7 +394,7 @@ class DraggingPlacedWidget extends StatelessWidget {
       elevation: formTheme.elevations * 4, // Higher elevation for drag feedback
       borderRadius: formTheme.widgetBorderRadius,
       color: Theme.of(context).colorScheme.surface,
-      shadowColor: Colors.black.withValues(alpha: 0.3),
+      shadowColor: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.3),
       child: Container(
         decoration: BoxDecoration(borderRadius: formTheme.widgetBorderRadius),
         child: content,

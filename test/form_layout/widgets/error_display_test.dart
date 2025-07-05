@@ -61,7 +61,8 @@ void main() {
       expect(find.byIcon(Icons.error_outline), findsOneWidget);
 
       final snackBar = tester.widget<SnackBar>(find.byType(SnackBar));
-      expect(snackBar.backgroundColor, equals(Colors.red.shade600));
+      final theme = Theme.of(tester.element(find.byType(Scaffold)));
+      expect(snackBar.backgroundColor, equals(theme.colorScheme.error));
       expect(snackBar.duration, equals(const Duration(seconds: 6)));
     });
 
@@ -95,7 +96,8 @@ void main() {
       expect(find.text('Dismiss'), findsNothing);
 
       final snackBar = tester.widget<SnackBar>(find.byType(SnackBar));
-      expect(snackBar.backgroundColor, equals(Colors.orange.shade600));
+      final theme = Theme.of(tester.element(find.byType(Scaffold)));
+      expect(snackBar.backgroundColor, equals(theme.colorScheme.tertiary));
       expect(snackBar.duration, equals(const Duration(seconds: 4)));
     });
 
@@ -128,7 +130,8 @@ void main() {
       expect(find.byIcon(Icons.info_outline), findsOneWidget);
 
       final snackBar = tester.widget<SnackBar>(find.byType(SnackBar));
-      expect(snackBar.backgroundColor, equals(Colors.blue.shade600));
+      final theme = Theme.of(tester.element(find.byType(Scaffold)));
+      expect(snackBar.backgroundColor, equals(theme.colorScheme.primary));
       expect(snackBar.duration, equals(const Duration(seconds: 4)));
     });
 
@@ -269,7 +272,12 @@ void main() {
       );
 
       final decoration = container.decoration as BoxDecoration;
-      expect(decoration.border?.top.color, equals(Colors.orange));
+      expect(
+        decoration.border?.top.color,
+        equals(
+          Theme.of(tester.element(find.byType(Scaffold))).colorScheme.tertiary,
+        ),
+      );
     });
 
     testWidgets('shows tooltip with error message', (tester) async {
@@ -326,7 +334,8 @@ void main() {
             .descendant(of: errorStatusBar, matching: find.byType(Material))
             .first,
       );
-      expect(material.color, equals(Colors.red.shade100));
+      final theme = Theme.of(tester.element(find.byType(Scaffold)));
+      expect(material.color, equals(theme.colorScheme.errorContainer));
     });
 
     testWidgets('shows warning status bar with correct styling', (tester) async {
@@ -347,7 +356,8 @@ void main() {
             .descendant(of: errorStatusBar, matching: find.byType(Material))
             .first,
       );
-      expect(material.color, equals(Colors.orange.shade100));
+      final theme = Theme.of(tester.element(find.byType(Scaffold)));
+      expect(material.color, equals(theme.colorScheme.tertiaryContainer));
     });
 
     testWidgets('hides dismiss button when no callback', (tester) async {
@@ -403,7 +413,8 @@ void main() {
       
       // In dark theme, the color should be darker
       expect(material.color, isNotNull);
-      expect(material.color != Colors.red.shade100, isTrue);
+      final theme = Theme.of(tester.element(find.byType(Scaffold)));
+      expect(material.color, equals(theme.colorScheme.errorContainer));
     });
   });
 }

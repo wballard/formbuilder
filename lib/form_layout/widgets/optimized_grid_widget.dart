@@ -23,18 +23,22 @@ class OptimizedGridWidget extends StatelessWidget {
   final Color highlightColor;
 
   /// Creates an optimized grid widget
-  const OptimizedGridWidget({
+  OptimizedGridWidget({
     super.key,
     required this.dimensions,
-    this.lineColor = Colors.grey,
-    this.backgroundColor = Colors.white,
+    Color? lineColor,
+    this.backgroundColor = Colors.transparent,
     this.lineWidth = 1.0,
     this.highlightedCells,
-    this.highlightColor = Colors.blue,
-  });
+    Color? highlightColor,
+  }) : lineColor = lineColor ?? Colors.transparent,
+       highlightColor = highlightColor ?? Colors.transparent;
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final effectiveLineColor = lineColor != Colors.transparent ? lineColor : theme.dividerColor;
+    final effectiveHighlightColor = highlightColor != Colors.transparent ? highlightColor : theme.colorScheme.primary;
     // Wrap in RepaintBoundary to isolate repaints
     return RepaintBoundary(
       child: highlightedCells != null
@@ -44,11 +48,11 @@ class OptimizedGridWidget extends StatelessWidget {
                 return CustomPaint(
                   painter: OptimizedGridPainter(
                     dimensions: dimensions,
-                    lineColor: lineColor,
+                    lineColor: effectiveLineColor,
                     backgroundColor: backgroundColor,
                     lineWidth: lineWidth,
                     highlightedCells: cells,
-                    highlightColor: highlightColor,
+                    highlightColor: effectiveHighlightColor,
                   ),
                   child: const SizedBox.expand(),
                 );
@@ -57,11 +61,11 @@ class OptimizedGridWidget extends StatelessWidget {
           : CustomPaint(
               painter: OptimizedGridPainter(
                 dimensions: dimensions,
-                lineColor: lineColor,
+                lineColor: effectiveLineColor,
                 backgroundColor: backgroundColor,
                 lineWidth: lineWidth,
                 highlightedCells: const {},
-                highlightColor: highlightColor,
+                highlightColor: effectiveHighlightColor,
               ),
               child: const SizedBox.expand(),
             ),

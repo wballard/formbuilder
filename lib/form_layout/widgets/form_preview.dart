@@ -128,29 +128,34 @@ class FormPreview extends StatelessWidget {
 
   /// Build error widget for missing widget types
   Widget _buildErrorWidget(String widgetName) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.red.shade100,
-        border: Border.all(color: Colors.red),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      padding: const EdgeInsets.all(8),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.error_outline, color: Colors.red.shade700, size: 24),
-          const SizedBox(height: 4),
-          Text(
-            'Unknown widget: $widgetName',
-            style: TextStyle(
-              color: Colors.red.shade700,
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-            ),
-            textAlign: TextAlign.center,
+    return Builder(
+      builder: (context) {
+        final theme = Theme.of(context);
+        return Container(
+          decoration: BoxDecoration(
+            color: theme.colorScheme.errorContainer,
+            border: Border.all(color: theme.colorScheme.error),
+            borderRadius: BorderRadius.circular(4),
           ),
-        ],
-      ),
+          padding: const EdgeInsets.all(8),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.error_outline, color: theme.colorScheme.onErrorContainer, size: 24),
+              const SizedBox(height: 4),
+              Text(
+                'Unknown widget: $widgetName',
+                style: TextStyle(
+                  color: theme.colorScheme.onErrorContainer,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

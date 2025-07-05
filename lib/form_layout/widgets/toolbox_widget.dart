@@ -101,7 +101,7 @@ class ToolboxWidget extends StatelessWidget {
       feedback: Material(
         elevation: formTheme.elevations * 4, // Higher elevation for feedback
         borderRadius: formTheme.widgetBorderRadius,
-        color: Colors.transparent,
+        color: Colors.transparent, // Must stay transparent for toolbox drag feedback
         child: Opacity(
           opacity: 0.8,
           child: SizedBox(

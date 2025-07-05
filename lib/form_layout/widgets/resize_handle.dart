@@ -191,11 +191,11 @@ class _ResizeHandleState extends State<ResizeHandle> {
             color: isActive
                 ? theme.primaryColor
                 : theme.primaryColor.withValues(alpha: 0.7),
-            border: Border.all(color: Colors.white, width: 2),
+            border: Border.all(color: theme.colorScheme.surface, width: 2),
             borderRadius: BorderRadius.circular(8),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.2),
+                color: theme.colorScheme.shadow.withValues(alpha: 0.2),
                 blurRadius: 2,
                 offset: const Offset(0, 1),
               ),

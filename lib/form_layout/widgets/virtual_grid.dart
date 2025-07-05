@@ -167,7 +167,7 @@ class VirtualGridPainter extends CustomPainter {
     // Create a simplified cell representation for painting
     // In a real implementation, this would be more sophisticated
     final paint = Paint()
-      ..color = Colors.grey.withValues(alpha: 0.3)
+      ..color = Theme.of(context).colorScheme.outline.withValues(alpha: 0.3)
       ..style = PaintingStyle.stroke;
 
     canvas.drawRect(cellRect, paint);
@@ -176,7 +176,7 @@ class VirtualGridPainter extends CustomPainter {
     final textPainter = TextPainter(
       text: TextSpan(
         text: '$x,$y',
-        style: const TextStyle(color: Colors.black, fontSize: 12),
+        style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 12),
       ),
       textDirection: TextDirection.ltr,
     );

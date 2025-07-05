@@ -433,8 +433,8 @@ class _GridDragTargetState extends State<GridDragTarget> {
       highlightedCells: _highlightedCells,
       highlightColor: _highlightedCells != null
           ? (_isValidDrop
-                ? Colors.green.withValues(alpha: 0.3)
-                : Colors.red.withValues(alpha: 0.3))
+                ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.3)
+                : Theme.of(context).colorScheme.error.withValues(alpha: 0.3))
           : null,
       draggingWidgetIds: _movingWidget != null ? {_movingWidget!.id} : {},
       resizingWidgetIds: _resizingWidget != null
@@ -554,6 +554,9 @@ class _GridDragTargetState extends State<GridDragTarget> {
         activeColor: null,
         child: Stack(
           children: [
+            // Base grid container - must be first to receive normal events
+            gridContainer,
+            
             // DragTarget for WidgetPlacement (moving existing widgets)
             DragTarget<WidgetPlacement>(
               onWillAcceptWithDetails: (details) {
@@ -633,7 +636,12 @@ class _GridDragTargetState extends State<GridDragTarget> {
                 });
               },
               builder: (context, candidateData, rejectedData) {
-                return gridContainer;
+                // Return transparent container that doesn't interfere with hit testing
+                return IgnorePointer(
+                  child: Container(
+                    color: Colors.transparent,
+                  ),
+                );
               },
             ),
 
@@ -679,7 +687,12 @@ class _GridDragTargetState extends State<GridDragTarget> {
                 });
               },
               builder: (context, candidateData, rejectedData) {
-                return Container(); // Transparent container to allow base container to show through
+                // Return transparent container that doesn't interfere with hit testing
+                return IgnorePointer(
+                  child: Container(
+                    color: Colors.transparent,
+                  ),
+                );
               },
             ),
 
@@ -761,11 +774,14 @@ class _GridDragTargetState extends State<GridDragTarget> {
                 });
               },
               builder: (context, candidateData, rejectedData) {
-                return Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  color: Colors.transparent,
-                ); // Transparent container that can receive hit tests
+                // Return transparent container that doesn't interfere with hit testing
+                return IgnorePointer(
+                  child: Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    color: Colors.transparent,
+                  ),
+                );
               },
             ),
           ],

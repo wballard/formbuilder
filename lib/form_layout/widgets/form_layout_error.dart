@@ -84,10 +84,9 @@ class _FormLayoutErrorState extends State<FormLayoutError> {
 
   Widget _buildDefaultErrorWidget(BuildContext context) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: isDark ? Colors.grey.shade900 : Colors.grey.shade50,
+      backgroundColor: theme.colorScheme.surface,
       body: SafeArea(
         child: Center(
           child: Container(
@@ -125,9 +124,7 @@ class _FormLayoutErrorState extends State<FormLayoutError> {
                         Container(
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: isDark
-                                ? Colors.black26
-                                : Colors.grey.shade200,
+                            color: theme.colorScheme.surfaceContainerHighest,
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Column(

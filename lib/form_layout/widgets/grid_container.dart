@@ -1,14 +1,15 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
+import 'package:formbuilder/form_layout/models/animation_settings.dart';
+import 'package:formbuilder/form_layout/models/layout_state.dart';
+import 'package:formbuilder/form_layout/models/widget_placement.dart';
+import 'package:formbuilder/form_layout/theme/form_layout_theme.dart';
 import 'package:formbuilder/form_layout/widgets/accessible_grid_widget.dart';
 import 'package:formbuilder/form_layout/widgets/accessible_placed_widget.dart';
 import 'package:formbuilder/form_layout/widgets/resize_handle.dart';
 import 'package:formbuilder/form_layout/widgets/safe_hit_test_wrapper.dart';
-import 'package:formbuilder/form_layout/models/layout_state.dart';
-import 'package:formbuilder/form_layout/models/widget_placement.dart';
-import 'package:formbuilder/form_layout/models/animation_settings.dart';
-import 'package:formbuilder/form_layout/theme/form_layout_theme.dart';
-import 'dart:math';
 
 /// Container that combines GridWidget with PlacedWidgets
 class GridContainer extends StatelessWidget {
@@ -101,10 +102,11 @@ class GridContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = FormLayoutTheme.of(context);
-    
+    final materialTheme = Theme.of(context);
+
     // Calculate grid height based on rows
     final gridHeight = layoutState.dimensions.rows * theme.rowHeight;
-    
+
     return SizedBox(
       height: gridHeight,
       child: AccessibleGridSemantics(
@@ -113,60 +115,47 @@ class GridContainer extends StatelessWidget {
         isPreviewMode: isPreviewMode,
         child: LayoutBuilder(
           builder: (context, constraints) {
-          
-          return Stack(
+            return Stack(
               children: [
-              // Placed widgets layer
-              Positioned.fill(
-                child: LayoutGrid(
-                  columnSizes: List.generate(
-                    layoutState.dimensions.columns,
-                    (_) => 1.fr,
-                  ),
-                  rowSizes: List.generate(
-                    layoutState.dimensions.rows, 
-                    (_) => FixedTrackSize(theme.rowHeight),
-                  ),
-                  columnGap: isPreviewMode ? 8 : 0,
-                  rowGap: isPreviewMode ? 8 : 0,
-                  children: _buildPlacedWidgets(context),
-                ),
-              ),
-              // Grid lines overlay (only show in edit mode)
-              if (!isPreviewMode)
+                // Placed widgets layer
                 Positioned.fill(
-                  child: IgnorePointer(
-                    child: AccessibleGridWidget(
-                      dimensions: layoutState.dimensions,
-                      lineColor: Colors.black54, // Darker grid lines for better visibility
-                      lineWidth: 1.5, // Slightly thicker lines
-                      highlightedCells: highlightedCells,
-                      highlightColor: highlightColor,
-                      isCellValid: isCellValid,
-                      animationSettings: animationSettings,
-                      showGridLines: true,
+                  child: LayoutGrid(
+                    columnSizes: List.generate(
+                      layoutState.dimensions.columns,
+                      (_) => 1.fr,
+                    ),
+                    rowSizes: List.generate(
+                      layoutState.dimensions.rows,
+                      (_) => FixedTrackSize(theme.rowHeight),
+                    ),
+                    columnGap: isPreviewMode ? 8 : 0,
+                    rowGap: isPreviewMode ? 8 : 0,
+                    children: _buildPlacedWidgets(context),
+                  ),
+                ),
+                // Grid lines overlay (only show in edit mode)
+                if (!isPreviewMode)
+                  Positioned.fill(
+                    child: IgnorePointer(
+                      child: AccessibleGridWidget(
+                        dimensions: layoutState.dimensions,
+                        lineColor: materialTheme
+                            .dividerColor, // Use theme divider color for grid lines
+                        lineWidth: 1.5, // Slightly thicker lines
+                        highlightedCells: highlightedCells,
+                        highlightColor: highlightColor,
+                        isCellValid: isCellValid,
+                        animationSettings: animationSettings,
+                        showGridLines: true,
+                      ),
                     ),
                   ),
-                ),
               ],
             );
-        },
-      ),
+          },
+        ),
       ),
     );
-  }
-
-  /// Generate area names for the grid
-  String _generateAreas() {
-    final buffer = StringBuffer();
-    for (int row = 0; row < layoutState.dimensions.rows; row++) {
-      if (row > 0) buffer.write('\n');
-      for (int col = 0; col < layoutState.dimensions.columns; col++) {
-        if (col > 0) buffer.write(' ');
-        buffer.write('cell_${row}_$col');
-      }
-    }
-    return buffer.toString();
   }
 
   /// Build the placed widgets
@@ -178,7 +167,7 @@ class GridContainer extends StatelessWidget {
       // Create child widget or error widget
       final child = widgetBuilder != null
           ? widgetBuilder(context, placement)
-          : _buildErrorWidget(placement.widgetName);
+          : _buildErrorWidget(context, placement.widgetName);
 
       final isSelected = selectedWidgetId == placement.id;
       final isDragging = draggingWidgetIds.contains(placement.id);
@@ -187,7 +176,9 @@ class GridContainer extends StatelessWidget {
       // Wrap in PlacedWidget (or simple container in preview mode)
       if (isPreviewMode) {
         return Container(
-          padding: const EdgeInsets.all(4), // Keep simple padding for preview mode
+          padding: const EdgeInsets.all(
+            4,
+          ), // Keep simple padding for preview mode
           child: child,
         ).withGridPlacement(
           columnStart: placement.column,
@@ -206,7 +197,9 @@ class GridContainer extends StatelessWidget {
             showResizeHandles: isSelected && !isDragging && !isResizing,
             showDeleteButton: isSelected && !isDragging && !isResizing,
             animationSettings: animationSettings,
-            onTap: onWidgetTap != null ? () => onWidgetTap!(placement.id) : null,
+            onTap: onWidgetTap != null
+                ? () => onWidgetTap!(placement.id)
+                : null,
             onDelete: onWidgetDelete != null
                 ? () => onWidgetDelete!(placement.id)
                 : null,
@@ -254,11 +247,12 @@ class GridContainer extends StatelessWidget {
   }
 
   /// Build an error widget for missing widget builders
-  Widget _buildErrorWidget(String widgetName) {
+  Widget _buildErrorWidget(BuildContext context, String widgetName) {
+    final materialTheme = Theme.of(context);
     return Container(
       decoration: BoxDecoration(
-        color: Colors.red.shade50,
-        border: Border.all(color: Colors.red.shade300),
+        color: materialTheme.colorScheme.errorContainer,
+        border: Border.all(color: materialTheme.colorScheme.error),
         borderRadius: BorderRadius.circular(4),
       ),
       child: Center(
@@ -269,12 +263,16 @@ class GridContainer extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.error_outline, color: Colors.red.shade700, size: 24),
+                Icon(
+                  Icons.error_outline,
+                  color: materialTheme.colorScheme.onErrorContainer,
+                  size: 24,
+                ),
                 const SizedBox(height: 4),
                 Text(
                   widgetName,
                   style: TextStyle(
-                    color: Colors.red.shade700,
+                    color: materialTheme.colorScheme.onErrorContainer,
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                   ),

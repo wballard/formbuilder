@@ -49,7 +49,6 @@ class ErrorDisplay {
     VoidCallback? onDismiss,
   ) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
 
     Color backgroundColor;
     Color textColor;
@@ -57,20 +56,18 @@ class ErrorDisplay {
 
     switch (result.severity) {
       case ValidationSeverity.error:
-        backgroundColor = isDark ? Colors.red.shade800 : Colors.red.shade600;
-        textColor = Colors.white;
+        backgroundColor = theme.colorScheme.error;
+        textColor = theme.colorScheme.onError;
         icon = Icons.error_outline;
         break;
       case ValidationSeverity.warning:
-        backgroundColor = isDark
-            ? Colors.orange.shade800
-            : Colors.orange.shade600;
-        textColor = Colors.white;
+        backgroundColor = theme.colorScheme.tertiary;
+        textColor = theme.colorScheme.onTertiary;
         icon = Icons.warning_amber_outlined;
         break;
       case ValidationSeverity.info:
-        backgroundColor = isDark ? Colors.blue.shade800 : Colors.blue.shade600;
-        textColor = Colors.white;
+        backgroundColor = theme.colorScheme.primary;
+        textColor = theme.colorScheme.onPrimary;
         icon = Icons.info_outline;
         break;
     }
@@ -124,7 +121,7 @@ class ErrorDisplay {
         break;
       case ValidationSeverity.warning:
         icon = Icons.warning_amber_outlined;
-        iconColor = Colors.orange;
+        iconColor = theme.colorScheme.tertiary;
         title = 'Warning';
         break;
       case ValidationSeverity.info:
@@ -180,8 +177,8 @@ class InlineErrorDisplay extends StatelessWidget {
         icon = Icons.error_outline;
         break;
       case ValidationSeverity.warning:
-        borderColor = Colors.orange;
-        backgroundColor = Colors.orange.withValues(alpha: 0.1);
+        borderColor = theme.colorScheme.tertiary;
+        backgroundColor = theme.colorScheme.tertiary.withValues(alpha: 0.1);
         icon = Icons.warning_amber_outlined;
         break;
       case ValidationSeverity.info:
@@ -212,7 +209,15 @@ class InlineErrorDisplay extends StatelessWidget {
                 color: borderColor,
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, color: Colors.white, size: 16),
+              child: Icon(
+                icon,
+                color: result!.severity == ValidationSeverity.error
+                    ? theme.colorScheme.onError
+                    : result!.severity == ValidationSeverity.warning
+                    ? theme.colorScheme.onTertiary
+                    : theme.colorScheme.onPrimary,
+                size: 16,
+              ),
             ),
           ),
         ),
@@ -243,20 +248,18 @@ class ErrorStatusBar extends StatelessWidget {
 
     switch (result!.severity) {
       case ValidationSeverity.error:
-        backgroundColor = isDark ? Colors.red.shade900 : Colors.red.shade100;
-        textColor = isDark ? Colors.red.shade100 : Colors.red.shade900;
+        backgroundColor = theme.colorScheme.errorContainer;
+        textColor = theme.colorScheme.onErrorContainer;
         icon = Icons.error_outline;
         break;
       case ValidationSeverity.warning:
-        backgroundColor = isDark
-            ? Colors.orange.shade900
-            : Colors.orange.shade100;
-        textColor = isDark ? Colors.orange.shade100 : Colors.orange.shade900;
+        backgroundColor = theme.colorScheme.tertiaryContainer;
+        textColor = theme.colorScheme.onTertiaryContainer;
         icon = Icons.warning_amber_outlined;
         break;
       case ValidationSeverity.info:
-        backgroundColor = isDark ? Colors.blue.shade900 : Colors.blue.shade100;
-        textColor = isDark ? Colors.blue.shade100 : Colors.blue.shade900;
+        backgroundColor = theme.colorScheme.primaryContainer;
+        textColor = theme.colorScheme.onPrimaryContainer;
         icon = Icons.info_outline;
         break;
     }

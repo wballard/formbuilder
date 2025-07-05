@@ -96,7 +96,7 @@ void main() {
       );
 
       final gridWidget = tester.widget<AccessibleGridWidget>(find.byType(AccessibleGridWidget));
-      expect(gridWidget.lineColor, equals(Colors.grey));
+      expect(gridWidget.lineColor, equals(Colors.transparent));
       expect(gridWidget.lineWidth, equals(1.0));
       expect(gridWidget.backgroundColor, equals(Colors.transparent));
     });
